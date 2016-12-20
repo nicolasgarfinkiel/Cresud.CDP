@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,7 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cresud.CDP.Dtos\Cresud.CDP.Dtos.csproj">
+      <Project>{a74e3270-3328-4938-8b5a-0e6d9e7306f4}</Project>
+      <Name>Cresud.CDP.Dtos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.EFRepositories\Cresud.CDP.EFRepositories.csproj">
+      <Project>{cdec9224-81fa-4a5e-9609-aa3d11c86880}</Project>
+      <Name>Cresud.CDP.EFRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.Entities\Cresud.CDP.Entities.csproj">
+      <Project>{61593dd8-1568-49fe-b111-daae87cceb2c}</Project>
+      <Name>Cresud.CDP.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.Infrastructure\Cresud.CDP.Infrastructure.csproj">
+      <Project>{8c2238b7-b17b-47c5-b8a7-dc92b63813d0}</Project>
+      <Name>Cresud.CDP.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
