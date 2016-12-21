@@ -172,7 +172,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -181,8 +180,60 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\app.css" />
+    <Content Include="Content\css\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\css\bootstrap-datepicker.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\font.css" />
+    <Content Include="Content\css\helper.css" />
+    <Content Include="Content\css\metisMenu.min.css" />
+    <Content Include="Content\css\ng-grid.min.css" />
+    <Content Include="Content\css\pe-icon-7-stroke.css" />
+    <Content Include="Content\css\static_custom.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.svg" />
+    <Content Include="Content\images\avatar.jpg" />
+    <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\loading.gif" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angularJs\angular-dragdrop.min.js" />
+    <Content Include="Scripts\angularJs\angular-input-masks-standalone.min.js" />
+    <Content Include="Scripts\angularJs\angular-resizable.min.js" />
+    <Content Include="Scripts\angularJs\angular-resource.min.js" />
+    <Content Include="Scripts\angularJs\angular-route.min.js" />
+    <Content Include="Scripts\angularJs\angular-sanitize.js" />
+    <Content Include="Scripts\angularJs\angular-strap.min.js" />
+    <Content Include="Scripts\angularJs\angular-v1.2.2.min.js" />
+    <Content Include="Scripts\angularJs\angular.min.js" />
+    <Content Include="Scripts\angularJs\markdown.js" />
+    <Content Include="Scripts\angularJs\ng-grid-2.0.7.min.js" />
+    <Content Include="Scripts\angularJs\ng-map.min.js" />
+    <Content Include="Scripts\angularJs\quill\ng-quill.min.js" />
+    <Content Include="Scripts\angularJs\quill\quill.min.js" />
+    <Content Include="Scripts\angularJs\ui-utils.min.js" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\app\casos\casosEditCtrl.js" />
+    <Content Include="Scripts\app\casos\casosListCtrl.js" />
+    <Content Include="Scripts\app\casos\casosModule.js" />
+    <Content Include="Scripts\app\casos\navigationService.js" />
+    <Content Include="Scripts\app\shared\casosService.js" />
+    <Content Include="Scripts\app\shared\debounceDirective.js" />
+    <Content Include="Scripts\app\shared\intDirective.js" />
+    <Content Include="Scripts\app\shared\loadingDirective.js" />
+    <Content Include="Scripts\app\shared\markDownImageService.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\homer.js" />
+    <Content Include="Scripts\icheck.min.js" />
+    <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.peity.min.js" />
+    <Content Include="Scripts\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\metisMenu.min.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.ascx" />
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.ascx" />
@@ -205,11 +256,18 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Mvc.sitemap" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.eot" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.ttf" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.woff" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -222,6 +280,7 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
