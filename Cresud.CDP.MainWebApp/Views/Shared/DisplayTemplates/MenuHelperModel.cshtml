@@ -5,29 +5,31 @@
 <ul class="nav">
     @foreach (var node in Model.Nodes)
     {
-        if (node.Children.Any())
-         {
-             <a href="#">
-                 <i class="@node.Attributes["Class"]">
-                     <b class="bg-primary"></b>
-                 </i> 
-                 <span class="pull-right">
-                     <i class="fa fa-angle-down text"></i>
-                     <i class="fa fa-angle-up text-active"></i>
-                 </span>
-                 <span>@node.Title</span>
-             </a>            
-             @Html.DisplayFor(m => node.Children)
-         }
-         else
-         {
-             <a title="@node.Title" href="@Url.Action(node.Action, node.Controller)">
-                 <i class="@node.Attributes["Class"]">
-                     <b class="bg-primary"></b>
-                 </i> 
-                 <span>@node.Title</span>
-             </a>
-         }
+        <li>
+            @if (node.Children.Any())
+            {
+                <a href="#">
+                    <i class="@node.Attributes["Class"]">
+                        <b class="bg-info"></b>
+                    </i>
+                    <span class="pull-right">
+                        <i class="fa fa-angle-down text"></i>
+                        <i class="fa fa-angle-up text-active"></i>
+                    </span>
+                    <span>@node.Title</span>
+                </a>
+                @Html.DisplayFor(m => node.Children)
+            }
+            else
+            {
+                <a title="@node.Title" href="@Url.Action(node.Action, node.Controller)">
+                    <i class="@node.Attributes["Class"]">
+                        <b class="bg-primary"></b>
+                    </i>
+                    <span>@node.Title</span>
+                </a>
+            }
+        </li>
     }
 </ul>
 
