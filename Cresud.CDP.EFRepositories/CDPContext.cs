@@ -18,8 +18,8 @@ namespace Cresud.CDP.EFRepositories
             //    .ToTable("t_Department");
          
            
-        }        
+        }
 
-      //  public IDbSet<Entities.Usuario> Usuarios { get; set; }
+        public IDbSet<object> Usuarios { get; set; }
     }
 }
