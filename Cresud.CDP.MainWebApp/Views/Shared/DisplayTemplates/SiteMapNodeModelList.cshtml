@@ -1,13 +1,19 @@
 ﻿@model MvcSiteMapProvider.Web.Html.Models.SiteMapNodeModelList
 @using System.Web.Mvc.Html
 @using MvcSiteMapProvider.Web.Html.Models
+@using Cresud.CDP.MainWebApp.Models
 
-<ul>
-    @foreach (var node in Model) { 
-        <li>@Html.DisplayFor(m => node) 
-            @if (node.Children.Any()) {
+
+<ul class="nav lt" style="display: none;">
+    @foreach (var node in Model)
+    {
+        <li class="@Html.MenuItemClass(node.Action, node.Controller, node.Children.Any())">
+            @Html.DisplayFor(m => node)
+            @if (node.Children.Any())
+            {
                 @Html.DisplayFor(m => node.Children)
             }
         </li>
     }
 </ul>
+
