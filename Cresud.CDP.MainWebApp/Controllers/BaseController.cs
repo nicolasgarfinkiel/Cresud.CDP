@@ -1,29 +1,128 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using Cresud.CDP.Admin;
+using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Infrastructure;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    //public class BaseController<TD, TA> : Controller where TA : BaseAdmin, new()
-    //{
-    //    #region Properties
+    public abstract class BaseController<TA, TID,  TE, TD, TF> : Controller where TA : BaseAdmin<TID, TE, TD, TF>, new() where TF : FilterBase
+    {
+        #region Properties
 
-    //    private TA _admin;
+        private TA _admin;
 
-    //    #endregion
+        #endregion
 
-    //    protected override void Initialize(System.Web.Routing.RequestContext requestContext)
-    //    {
-    //        base.Initialize(requestContext);
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
 
-    //        _admin = new TA();
-    //    }
+            _admin = new TA();
+        }
 
-    //    public ActionResult Index()
-    //    {
-    //        return View();
-    //    }
+        public ActionResult Index()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult GetDataListInit()
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
 
-   
-    //}
+            try
+            {
+                response.Data = GetDataList();
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public ActionResult GetDataEditInit()
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = GetDataEdit();
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public ActionResult GetEntity(TID id)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = _admin.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public ActionResult CreateEntity(TD dto)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                _admin.Create(dto);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateEntity(TD dto)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                _admin.Update(dto);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+       
+        #region Abstract Methods
+
+        public abstract object GetDataList();
+        public abstract object GetDataEdit();
+
+        #endregion
+
+    }
 }

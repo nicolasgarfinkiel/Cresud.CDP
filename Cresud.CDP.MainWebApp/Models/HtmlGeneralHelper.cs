@@ -19,8 +19,6 @@ namespace Cresud.CDP.MainWebApp.Models
         {
             return node.Attributes.ContainsKey("Class") ? node.Attributes["Class"].ToString() : node.Parent != null ? node.Parent.Attributes["Class"].ToString() : string.Empty;
         }
-
      
-
     }
 }

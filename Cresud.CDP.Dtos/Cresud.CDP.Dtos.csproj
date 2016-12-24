@@ -39,11 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Request.cs" />
+    <Compile Include="Common\FilterBase.cs" />
+    <Compile Include="Common\PagedListResponse.cs" />
     <Compile Include="Common\Response.cs" />
     <Compile Include="Common\Result.cs" />
     <Compile Include="Common\ValidationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Filters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

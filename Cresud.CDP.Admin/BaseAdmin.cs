@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Collections.Generic;
 using System.Web;
 using AutoMapper;
+using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.EFRepositories;
 using System.Linq;
 
 namespace Cresud.CDP.Admin
 {
-    public abstract class BaseAdmin<TD, TE>
+    public abstract class BaseAdmin<TID, TE, TD, TF> where TF: FilterBase
     {
-        public readonly CDPContext CdpContext;      
+        public readonly CDPContext CdpContext;
         public string UsuarioLogged { get; set; }
 
         public BaseAdmin()
@@ -21,19 +22,29 @@ namespace Cresud.CDP.Admin
                 if (HttpContext.Current != null && HttpContext.Current.Request.IsAuthenticated)
                 {
                     UsuarioLogged = HttpContext.Current.User.Identity.Name;
-                }            
+                }
             }
             catch (Exception)
-            {                                    
+            {
             }
-            
+
         }
 
-        public virtual TD GetById(int id)
+        public virtual TD GetById(TID id)
         {
+            var entity = (TE)CdpContext.Set(typeof(TE)).Find(new { Key = "Id", Value = id });
+            return Mapper.Map<TE, TD>(entity);
+        }
 
-                   var dbSet = CdpContext.Set(typeof (TE)).;
-
+        public virtual PagedListResponse<TD> GetByFilter(TF filter)
+        {          
+            var query = GetQuery(filter).OfType<TE>();
+            
+            return new PagedListResponse<TD>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<TE>, IList<TD>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };
         }
 
         public virtual TD Create(TD dto)
@@ -50,14 +61,18 @@ namespace Cresud.CDP.Admin
         public virtual TD Update(TD dto)
         {
             Validate();
-            var entity = ToEntity(dto);            
+            var entity = ToEntity(dto);
             CdpContext.SaveChanges();
 
             return Mapper.Map<TE, TD>(entity);
         }
 
+        #region Abstract Methods
 
         public abstract TE ToEntity(TD dto);
         public abstract void Validate();
+        public abstract IQueryable GetQuery(TF filter);
+
+        #endregion
     }
 }
