@@ -64,13 +64,31 @@ namespace Cresud.CDP.MainWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetEntity(TID id)
+        public ActionResult GetById(TID id)
         {
             var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
 
             try
             {
                 response.Data = _admin.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public ActionResult GetByFilter(TF filter)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = _admin.GetByFilter(filter);
             }
             catch (Exception ex)
             {

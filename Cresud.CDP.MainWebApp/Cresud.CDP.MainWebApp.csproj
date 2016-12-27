@@ -220,12 +220,14 @@
     <Content Include="Scripts\app\casos\casosEditCtrl.js" />
     <Content Include="Scripts\app\casos\casosListCtrl.js" />
     <Content Include="Scripts\app\casos\casosModule.js" />
-    <Content Include="Scripts\app\casos\navigationService.js" />
+    <Content Include="Scripts\app\shared\base\baseNavigationService.js" />
+    <Content Include="Scripts\app\shared\base\baseService.js" />
+    <Content Include="Scripts\app\shared\editBootstraperService.js" />
+    <Content Include="Scripts\app\shared\listBootstraperService.js" />
     <Content Include="Scripts\app\shared\casosService.js" />
-    <Content Include="Scripts\app\shared\debounceDirective.js" />
-    <Content Include="Scripts\app\shared\intDirective.js" />
-    <Content Include="Scripts\app\shared\loadingDirective.js" />
-    <Content Include="Scripts\app\shared\markDownImageService.js" />
+    <Content Include="Scripts\app\shared\directives\debounceDirective.js" />
+    <Content Include="Scripts\app\shared\directives\intDirective.js" />
+    <Content Include="Scripts\app\shared\directives\loadingDirective.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\homer.js" />
@@ -252,7 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Mvc.sitemap" />
+    <Content Include="Mvc.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
