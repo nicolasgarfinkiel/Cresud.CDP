@@ -15,14 +15,7 @@
                            method: 'POST',
                            url: '/' + this.controller + '/GetDataEditInit'
                        });
-                   },
-                   getCasosByFilter: function (filter) {
-                       return $http({
-                           method: 'POST',
-                           url: '/Casos/Casos/GetCasosByFilter',
-                           data: { filter: filter }
-                       });
-                   },
+                   },                  
                    getById: function (id) {
                        return $http({
                            method: 'POST',

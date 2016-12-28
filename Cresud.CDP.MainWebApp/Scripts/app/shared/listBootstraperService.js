@@ -6,15 +6,15 @@
 
                var bootstrapper = {
                    list: [],
-                   columns: [],                                      
-                   filter: {},                   
+                   columns: [],
+                   filter: {},
                    result: { data: null, hasErrors: false, messages: [] },
                    create: function () {
                        data.navigation.goToCreate();
                    },
                    edit: function (id) {
                        data.navigation.goToEdit(id);
-                   },                                                                            
+                   },
                    totalItems: 0,
                    gridOptions: {
                        data: 'list',
@@ -23,20 +23,20 @@
                        useExternalSorting: true,
                        useExternalPagination: true,
                        enablePaging: true,
-                       enableRowSelection: false,                                              
+                       enableRowSelection: false,
                        totalServerItems: 'totalItems',
                        pagingOptions: {
-                           pageSizes: [10],                           
+                           pageSizes: [10],
                            currentPage: 1
                        }
-                   },                   
+                   },
                    search: function () {
-                     
-                       data.service.search(scope.filter)
+
+                       data.service.getByFilter(scope.filter)
                            .then(function (response) {
                                scope.list = response.data.list;
-                               scope.totalItems = response.data.count;                               
-                           }, function () { throw 'Error on search'; });
+                               scope.totalItems = response.data.count;
+                           }, function () { throw 'Error on getByFilter'; });
                    },
                    init: function () {
                        scope.columns = data.columns;
@@ -44,7 +44,7 @@
                        scope.$watch('gridOptions.pagingOptions', function (newVal, oldVal) {
                            if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
                            scope.search();
-                       }, true);                     
+                       }, true);
                    }
                };
 
