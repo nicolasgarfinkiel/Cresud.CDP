@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Data.Entity;
+using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.EFRepositories
 {
@@ -20,6 +21,8 @@ namespace Cresud.CDP.EFRepositories
            
         }
 
-        public IDbSet<object> Usuarios { get; set; }
+        public IDbSet<Pais> Paises { get; set; }
+        public IDbSet<Empresa> Empresas { get; set; }
+        public IDbSet<GrupoEmpresa> GrupoEmpresas { get; set; }
     }
 }

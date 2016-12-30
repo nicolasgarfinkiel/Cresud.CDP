@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CDPSession.cs" />
     <Compile Include="Common\FilterBase.cs" />
     <Compile Include="Common\PagedListResponse.cs" />
     <Compile Include="Common\Response.cs" />
@@ -48,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cresud.CDP.Infrastructure\Cresud.CDP.Infrastructure.csproj">
+      <Project>{8c2238b7-b17b-47c5-b8a7-dc92b63813d0}</Project>
+      <Name>Cresud.CDP.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

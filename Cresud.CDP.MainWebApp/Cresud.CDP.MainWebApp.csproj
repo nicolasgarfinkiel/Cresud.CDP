@@ -296,6 +296,10 @@
       <Project>{8c2238b7-b17b-47c5-b8a7-dc92b63813d0}</Project>
       <Name>Cresud.CDP.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.Security\Cresud.CDP.Security.csproj">
+      <Project>{b5a75b29-1b3e-40e0-9287-7d7d3f2f3a07}</Project>
+      <Name>Cresud.CDP.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
