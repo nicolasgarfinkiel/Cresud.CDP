@@ -32,8 +32,14 @@ namespace Cresud.CDP.Admin
 
         public virtual TD GetById(TID id)
         {
-            var entity = (TE)CdpContext.Set(typeof(TE)).Find(new { Key = "Id", Value = id });
+            var entity = (TE)CdpContext.Set(typeof(TE)).Find(id);
             return Mapper.Map<TE, TD>(entity);
+        }
+
+        public virtual IList<TD> GetAll()
+        {
+             var entities = (IList<TE>)CdpContext.Set(typeof(TE)).AsQueryable().OfType<TE>().ToList();
+             return Mapper.Map<IList<TE>, IList<TD>>(entities);
         }
 
         public virtual PagedListResponse<TD> GetByFilter(TF filter)

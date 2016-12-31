@@ -11,7 +11,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
     {
         #region Properties
 
-        private TA _admin;
+        protected TA _admin;
 
         #endregion
 
@@ -20,12 +20,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
             base.Initialize(requestContext);
 
             _admin = new TA();
-        }
-
-        public ActionResult Index()
-        {
-            return View();
-        }
+        }       
 
         [HttpPost]
         public ActionResult GetDataListInit()

@@ -33,6 +33,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +46,26 @@
     <Compile Include="CresudMembershipProvider.cs" />
     <Compile Include="CresudRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Dtos\UserLogonByNameResult.cs" />
+    <Compile Include="Service\ISecurityService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">
+      <Project>{763f2808-32fe-4686-bc39-95df3b299244}</Project>
+      <Name>Cresud.CDP.Admin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.Dtos\Cresud.CDP.Dtos.csproj">
+      <Project>{a74e3270-3328-4938-8b5a-0e6d9e7306f4}</Project>
+      <Name>Cresud.CDP.Dtos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.Entities\Cresud.CDP.Entities.csproj">
+      <Project>{61593dd8-1568-49fe-b111-daae87cceb2c}</Project>
+      <Name>Cresud.CDP.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cresud.CDP.Infrastructure\Cresud.CDP.Infrastructure.csproj">
+      <Project>{8c2238b7-b17b-47c5-b8a7-dc92b63813d0}</Project>
+      <Name>Cresud.CDP.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

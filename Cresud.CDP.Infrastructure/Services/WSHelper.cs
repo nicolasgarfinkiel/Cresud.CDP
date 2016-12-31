@@ -3,7 +3,7 @@ using System.Net;
 using System.ServiceModel;
 using System.Text;
 
-namespace Cresud.CDP.Infrastructure
+namespace Cresud.CDP.Infrastructure.Services
 {
 
 	public static class WSHelpers

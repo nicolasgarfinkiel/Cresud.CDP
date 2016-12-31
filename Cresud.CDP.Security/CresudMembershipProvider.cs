@@ -1,17 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Web.Security;
+using Cresud.CDP.Admin;
+using Cresud.CDP.Dtos;
+using Cresud.CDP.Infrastructure;
+using Cresud.CDP.Infrastructure.Services;
+using Cresud.CDP.Security.Service;
 
 namespace Cresud.CDP.Security
 {
-    public class CresudMembershipProvider: MembershipProvider
+    public class CresudMembershipProvider : MembershipProvider
     {
-        #region Properties        
-        
-        #endregion  
+        #region Properties
+
+        #endregion
 
         public CresudMembershipProvider()
         {
-        
+
         }
 
         public override string ApplicationName
@@ -32,13 +43,13 @@ namespace Cresud.CDP.Security
 
             try
             {
-                
+
             }
             catch (Exception)
             {
                 result = false;
             }
-           
+
             return result;
         }
 
@@ -87,7 +98,7 @@ namespace Cresud.CDP.Security
             var result = 0;
 
             throw new NotImplementedException();
-           
+
             return result;
         }
 
@@ -95,14 +106,14 @@ namespace Cresud.CDP.Security
         {
             var result = String.Empty;
 
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
 
             return result;
         }
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            throw new NotImplementedException();      
+            throw new NotImplementedException();
 
         }
 
@@ -173,12 +184,67 @@ namespace Cresud.CDP.Security
 
         public override void UpdateUser(MembershipUser user)
         {
-            throw new NotImplementedException();       
+            throw new NotImplementedException();
         }
 
         public override bool ValidateUser(string username, string password)
         {
-            return true;            
+            if (CDPSession.Current.Usuario == null)
+            {
+                Init(username);
+            }
+
+            return CDPSession.Current.Usuario != null && CDPSession.Current.Usuario.Empresas.Any(e => e.Roles != null && e.Roles.Any());
+        }
+
+        private void Init(string username)
+        {
+            var empresas = GetEmpresas(username);
+
+            CDPSession.Current.Usuario = new Usuario
+            {
+                Nombre = username,
+                Empresas = empresas
+            };
+        }
+
+        private IList<Empresa> GetEmpresas(string username)
+        {
+            var admin = new EmpresaAdmin();
+            var empresas = admin.GetAll().Where(e => e.GrupoEmpresa != null).ToList();
+            var result = new List<Empresa>();
+
+            empresas.ForEach(e =>
+            {
+                var usuario = GetUsuario(username, e.GrupoEmpresa.IdApp);
+
+                if (usuario == null) return;
+
+
+            });
+
+            return result;
+        }
+
+        private object GetUsuario(string username, int idApp)
+        {
+            var client = new WebServiceClient<ISecurityService>(ConfigurationManager.AppSettings["SecurityServiceUrl"], (binding, httpTransport, address, factory) =>
+             {
+                 var basicAuthBehavior = new BasicAuthBehavior(ConfigurationManager.AppSettings["SecurityServiceUser"], ConfigurationManager.AppSettings["SecurityServicePassword"]);
+                 factory.Endpoint.Behaviors.Add(basicAuthBehavior);               
+             });
+
+            try
+            {
+                var result = client.Channel.UserLogonByName(username, idApp);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return null;
         }
     }
 }
