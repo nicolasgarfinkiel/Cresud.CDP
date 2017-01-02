@@ -11,6 +11,7 @@ using Cresud.CDP.Dtos;
 using Cresud.CDP.Infrastructure;
 using Cresud.CDP.Infrastructure.Services;
 using Cresud.CDP.Security.Service;
+using Cresud.CDP.Security.Service.Dtos;
 
 namespace Cresud.CDP.Security
 {
@@ -214,37 +215,41 @@ namespace Cresud.CDP.Security
             var empresas = admin.GetAll().Where(e => e.GrupoEmpresa != null).ToList();
             var result = new List<Empresa>();
 
-            empresas.ForEach(e =>
+            var client = new WebServiceClient<ISecurityService>(ConfigurationManager.AppSettings["SecurityServiceUrl"], (binding, httpTransport, address, factory) =>
             {
+                var basicAuthBehavior = new BasicAuthBehavior(ConfigurationManager.AppSettings["SecurityServiceUser"], ConfigurationManager.AppSettings["SecurityServicePassword"]);
+                factory.Endpoint.Behaviors.Add(basicAuthBehavior);
+            });
+
+            empresas.ForEach(e =>
+            {                
                 var usuario = GetUsuario(username, e.GrupoEmpresa.IdApp);
 
                 if (usuario == null) return;
 
+                client.Channel.GroupsListPerUser(usuario, e.GrupoEmpresa.IdApp).ToList().ForEach(g =>
+                {
+                    e.Roles = client.Channel.PermissionListPerGroup(g).Select(r => r.Description).ToList();
+                });
 
+                if (e.Roles.Any())
+                {
+                    result.Add(e);
+                }
             });
 
             return result;
         }
 
-        private object GetUsuario(string username, int idApp)
-        {
+        private UserLogonByNameResult GetUsuario(string username, int idApp)
+        {        
             var client = new WebServiceClient<ISecurityService>(ConfigurationManager.AppSettings["SecurityServiceUrl"], (binding, httpTransport, address, factory) =>
              {
                  var basicAuthBehavior = new BasicAuthBehavior(ConfigurationManager.AppSettings["SecurityServiceUser"], ConfigurationManager.AppSettings["SecurityServicePassword"]);
                  factory.Endpoint.Behaviors.Add(basicAuthBehavior);               
              });
 
-            try
-            {
-                var result = client.Channel.UserLogonByName(username, idApp);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return null;
+            return client.Channel.UserLogonByName(username, idApp);            
         }
     }
 }

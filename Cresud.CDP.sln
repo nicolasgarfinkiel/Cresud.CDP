@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E3EB8F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cresud.CDP.Security", "Cresud.CDP.Security\Cresud.CDP.Security.csproj", "{B5A75B29-1B3E-40E0-9287-7D7D3F2F3A07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cresud.SecurityServiceTest", "Cresud.SecurityServiceTest\Cresud.SecurityServiceTest.csproj", "{56D9E444-CA09-475C-8046-1293ADC370AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{B5A75B29-1B3E-40E0-9287-7D7D3F2F3A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5A75B29-1B3E-40E0-9287-7D7D3F2F3A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5A75B29-1B3E-40E0-9287-7D7D3F2F3A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56D9E444-CA09-475C-8046-1293ADC370AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D9E444-CA09-475C-8046-1293ADC370AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D9E444-CA09-475C-8046-1293ADC370AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D9E444-CA09-475C-8046-1293ADC370AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,6 @@ Global
 		{CDEC9224-81FA-4A5E-9609-AA3D11C86880} = {749092AB-AF6D-4BC1-9F6B-E9A2B8511D71}
 		{F2FEEA2A-2F54-4F37-9005-23E4C76C10A6} = {1BAE1AD0-1FFC-4126-958E-05DD4B42577A}
 		{B5A75B29-1B3E-40E0-9287-7D7D3F2F3A07} = {F572E5E7-CBFD-4A23-BAC0-BF7849A3C2CD}
+		{56D9E444-CA09-475C-8046-1293ADC370AC} = {1BAE1AD0-1FFC-4126-958E-05DD4B42577A}
 	EndGlobalSection
 EndGlobal

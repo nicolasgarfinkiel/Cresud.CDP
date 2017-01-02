@@ -8,15 +8,15 @@ using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-
+    [Authorize]
     public class HomeController : BaseController<EmpresaAdmin, int, Empresa, Dtos.Empresa, FilterBase>
     {
         public ActionResult Index()
         {
             try
             {
-                Membership.ValidateUser(WindowsIdentity.GetCurrent().Name, null);
-                var empresa = _admin.GetById(22);
+                //Membership.ValidateUser(WindowsIdentity.GetCurrent().Name, null);
+              //  var empresa = _admin.GetById(22);
             }
             catch (Exception ex)
             {

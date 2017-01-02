@@ -46,6 +46,8 @@
     <Compile Include="CresudMembershipProvider.cs" />
     <Compile Include="CresudRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Dtos\Group.cs" />
+    <Compile Include="Service\Dtos\Permission.cs" />
     <Compile Include="Service\Dtos\UserLogonByNameResult.cs" />
     <Compile Include="Service\ISecurityService.cs" />
   </ItemGroup>
