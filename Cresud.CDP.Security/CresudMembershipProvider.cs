@@ -207,6 +207,11 @@ namespace Cresud.CDP.Security
                 Nombre = username,
                 Empresas = empresas
             };
+
+            if (CDPSession.Current.Usuario.Empresas.Count == 1)
+            {
+                CDPSession.Current.Usuario.CurrentEmpresa = CDPSession.Current.Usuario.Empresas[0];
+            }
         }
 
         private IList<Empresa> GetEmpresas(string username)

@@ -18,7 +18,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Login(string returnUrl)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
@@ -30,7 +30,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
                 return RedirectToLocal(returnUrl);
             }
 
-            return RedirectToAction("");
+            return RedirectToAction("NoTienePermisos");
         }
 
         [AllowAnonymous]

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Cresud.CDP.Dtos;
 
 namespace Cresud.CDP.Security
 {
@@ -60,7 +62,11 @@ namespace Cresud.CDP.Security
 
         public override string[] GetRolesForUser(string username)
         {
-            return null;
+            if (CDPSession.Current.Usuario == null ||
+                CDPSession.Current.Usuario.CurrentEmpresa == null  ||
+                CDPSession.Current.Usuario.CurrentEmpresa.Roles == null ) return null;
+
+            return CDPSession.Current.Usuario.CurrentEmpresa.Roles.ToArray();
         }
 
         public override string[] GetUsersInRole(string roleName)
@@ -74,11 +80,10 @@ namespace Cresud.CDP.Security
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            bool result;
-
-            throw new NotImplementedException();        
-
-            return result;
+            return CDPSession.Current.Usuario != null &&
+                   CDPSession.Current.Usuario.CurrentEmpresa != null &&
+                   CDPSession.Current.Usuario.CurrentEmpresa.Roles != null &&
+                   CDPSession.Current.Usuario.CurrentEmpresa.Roles.Any(r => string.Equals(r, roleName));
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
