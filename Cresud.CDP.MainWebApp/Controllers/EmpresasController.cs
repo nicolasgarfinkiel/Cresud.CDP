@@ -16,7 +16,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return PartialView();
         }
 
-        public ActionResult EmpresasCurrentUser(int empresaId)
+        public ActionResult SelectEmpresa(int empresaId)
         {
             CDPSession.Current.Usuario.CurrentEmpresa = CDPSession.Current.Usuario.Empresas.Single(e => e.Id == empresaId);
 

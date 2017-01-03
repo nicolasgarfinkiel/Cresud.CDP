@@ -1,17 +1,19 @@
 ﻿@using Cresud.CDP.Dtos
 
 
-<div class="btn-group">
-    <div class="btn-group hidden-nav-xs">
-        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            @CDPSession.Current.Usuario.CurrentEmpresaDescripcion            
+<div class="btn-group" style="width: 100%;">
+    <div class="btn-group hidden-nav-xs" style="width: 100%;">
+        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" style="width: 100%;" data-toggle="dropdown" aria-expanded="false">
+            @CDPSession.Current.Usuario.CurrentEmpresaDescripcion
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu text-left">
             @foreach (var empresa in CDPSession.Current.Usuario.Empresas)
-            {             
-                 <a href="@Url.Action("SelectEmpresa", "Empresas", new { empresaId = empresa.Id })">@empresa.Descripcion</a>
-            }                        
+            {
+                <li>
+                    <a href="@Url.Action("SelectEmpresa", "Empresas", new {empresaId = empresa.Id})">@empresa.Descripcion</a>
+                </li>
+            }
         </ul>
     </div>
 </div>

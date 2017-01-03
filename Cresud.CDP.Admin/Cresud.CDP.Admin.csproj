@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="BaseAdmin.cs" />
     <Compile Include="BootStrapper.cs" />
+    <Compile Include="ChoferesAdmin.cs" />
     <Compile Include="EmpresaAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

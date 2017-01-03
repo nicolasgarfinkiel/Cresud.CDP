@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Cresud.CDP.Dtos.Common;
-using Empresa = Cresud.CDP.Entities.Empresa;
+using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.Admin
 {
-    public class EmpresaAdmin : BaseAdmin<int, Empresa, Dtos.Empresa, FilterBase>
+    public class ChoferesAdmin : BaseAdmin<int, Entities.Chofer, Dtos.Chofer, FilterBase>
     {
-        public override Empresa ToEntity(Dtos.Empresa dto)
+        public override Chofer ToEntity(Dtos.Chofer dto)
         {
             throw new NotImplementedException();
         }

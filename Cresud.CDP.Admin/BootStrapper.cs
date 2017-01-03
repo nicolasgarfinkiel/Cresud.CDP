@@ -13,6 +13,7 @@ namespace Cresud.CDP.Admin
                 cfg.CreateMap<Empresa, Dtos.Empresa>();
                 cfg.CreateMap<GrupoEmpresa, Dtos.GrupoEmpresa>();
                 cfg.CreateMap<Pais, Dtos.Pais>();
+                cfg.CreateMap<Chofer, Dtos.Chofer>();
             });
 
          

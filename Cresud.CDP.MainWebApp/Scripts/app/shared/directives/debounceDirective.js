@@ -1,4 +1,4 @@
-﻿angular.module('contabilidad.directive.debounce', [])
+﻿angular.module('cresud.cdp.directive.debounce', [])
     .directive('ngDebounce', function ($timeout) {
         return {
             restrict: 'A',

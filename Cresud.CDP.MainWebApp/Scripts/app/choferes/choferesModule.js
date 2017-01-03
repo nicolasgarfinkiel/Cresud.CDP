@@ -1,15 +1,16 @@
-﻿angular.module('contabilidad.casos', [
-    'contabilidad.casos.ctrl.list',
-    'contabilidad.casos.ctrl.edit',
-    'contabilidad.service.casos',
-    'contabilidad.service.navigation',     
+﻿angular.module('cresud.cdp.choferes', [
+    'cresud.cdp.choferes.ctrl.list',
+    'cresud.cdp.choferes.ctrl.edit',
+    'cresud.cdp.service.choferes',
+    'cresud.cdp.navigation.base',     
+    'cresud.cdp.service.base',
+    'cresud.cdp.service.bootstraper.list',
+    'cresud.cdp.service.bootstraper.edit',
     'ngRoute',
     'ngGrid',
     '$strap.directives',
-    'contabilidad.directive.loading',
-    'btford.markdown',
-    'contabilidad.directive.debounce',
-    'contabilidad.service.markDownImage'
+    'cresud.cdp.directive.loading',    
+    'cresud.cdp.directive.debounce'    
 ]).config([
     '$routeProvider',
     '$locationProvider',
@@ -17,17 +18,17 @@
     function ($routeProvider, $locationProvider, $httpProvider) {
 
         $routeProvider.when('/', {
-            templateUrl: 'casos/list',
+            templateUrl: 'choferes/list',
             controller: 'listCtrl'
         });
               
         $routeProvider.when('/create', {
-            templateUrl: 'casos/create',
+            templateUrl: 'choferes/create',
             controller: 'editCtrl'
         });
         
         $routeProvider.when('/edit/:id', {
-            templateUrl: 'casos/edit',
+            templateUrl: 'choferes/edit',
             controller: 'editCtrl'
         });
 

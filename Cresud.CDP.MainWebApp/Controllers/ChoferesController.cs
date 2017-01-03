@@ -1,23 +1,18 @@
-﻿using System;
-using System.Security.Principal;
-using System.Web.Mvc;
-using System.Web.Security;
+﻿using System.Web.Mvc;
 using Cresud.CDP.Admin;
+using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
-using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
-    public class HomeController : BaseController<EmpresaAdmin, int, Empresa, Dtos.Empresa, FilterBase>
-    {
+    public class ChoferesController : BaseController<ChoferesAdmin, int, Entities.Chofer, Dtos.Chofer, FilterBase>
+    {        
         public ActionResult Index()
         {
-            Membership.ValidateUser(WindowsIdentity.GetCurrent().Name, null);             
-
             return View();
-        }
-
+        }       
+        
         public override object GetDataList()
         {
             return new {};

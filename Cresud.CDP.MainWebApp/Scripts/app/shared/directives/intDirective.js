@@ -1,5 +1,4 @@
-﻿
-angular.module('contabilidad.directive.int', [])
+﻿angular.module('cresud.cdp.directive.int', [])
     .directive('int', [ function ($http) {
         return {
             require: 'ngModel',

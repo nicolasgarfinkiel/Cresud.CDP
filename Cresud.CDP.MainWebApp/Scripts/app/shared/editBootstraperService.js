@@ -1,10 +1,10 @@
-﻿angular.module('contabilidad.service.bootstraper.edit',
-    [
-        '$routeParams'
+﻿angular.module('cresud.cdp.service.bootstraper.edit',
+    [        
     ]).factory('editBootstraperService', [
-           function ($routeParams) {
+           function () {
                var scope = {};
                var data = {};
+               var $routeParams = {};
 
                var bootstrapper = {
                    entity: {},
@@ -67,9 +67,10 @@
                };
 
                return {
-                   init: function (s, d) {
+                   init: function (s, rp, d) {
                        scope = s;
                        data = d;
+                       $routeParams = rp;
 
                        for (var prop in bootstrapper) {
                            scope[prop] = scope[prop] || bootstrapper[prop];

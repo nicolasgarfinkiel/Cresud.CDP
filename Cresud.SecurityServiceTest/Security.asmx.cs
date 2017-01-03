@@ -16,7 +16,6 @@ namespace Cresud.SecurityServiceTest
     // [System.Web.Script.Services.ScriptService]
     public class Security : System.Web.Services.WebService
     {
-
         [WebMethod]
         public UserLogonByNameResult UserLogonByName(string ntUserName, int idApplication)
         {

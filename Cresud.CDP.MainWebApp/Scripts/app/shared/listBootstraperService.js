@@ -1,4 +1,4 @@
-﻿angular.module('contabilidad.service.bootstraper.list', [])
+﻿angular.module('cresud.cdp.service.bootstraper.list', [])
        .factory('listBootstraperService', [
            function () {
                var scope = {};

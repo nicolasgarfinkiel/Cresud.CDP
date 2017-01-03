@@ -1,4 +1,4 @@
-﻿angular.module('contabilidad.directive.loading', [])
+﻿angular.module('cresud.cdp.directive.loading', [])
     .directive('loading', ['$http', function ($http) {
         return {
             restrict: 'E',

@@ -1,11 +1,10 @@
-﻿angular.module('contabilidad.service.casos', ['cresud.cdp.service.base'])
-       .factory('casosService', [
+﻿angular.module('cresud.cdp.service.choferes', [])
+       .factory('choferesService', [
            '$http',
            'baseService',
            function ($http, baseService) {
-
                var result = angular.extend(baseService, {});
-               result.controller = '';
+               result.controller = 'Choferes';
 
                return result;
            }]);

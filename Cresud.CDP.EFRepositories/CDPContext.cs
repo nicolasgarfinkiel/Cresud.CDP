@@ -34,15 +34,34 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapMoneda).HasColumnName("IdSapMoneda");
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapOrganizacionDeVenta).HasColumnName("IdSapOrganizacionDeVenta");
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapSector).HasColumnName("IdSapSector");
-            modelBuilder.Entity<Empresa>().Property(t => t.SapId).HasColumnName("Sap_Id");            
-            modelBuilder.Entity<Empresa>().HasOptional<GrupoEmpresa>(s => s.GrupoEmpresa);
+            modelBuilder.Entity<Empresa>().Property(t => t.SapId).HasColumnName("Sap_Id");                        
             modelBuilder.Entity<Empresa>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa")); 
             modelBuilder.Entity<Empresa>().ToTable("Empresa");
-                    
+
+            modelBuilder.Entity<Chofer>().HasKey(t => t.Id);
+            modelBuilder.Entity<Chofer>().Property(t => t.Id).HasColumnName("IdChofer");
+            modelBuilder.Entity<Chofer>().Property(t => t.Nombre).HasColumnName("Nombre");
+            modelBuilder.Entity<Chofer>().Property(t => t.Apellido).HasColumnName("Apellido");
+            modelBuilder.Entity<Chofer>().Property(t => t.Cuit).HasColumnName("Cuit");
+            modelBuilder.Entity<Chofer>().Property(t => t.Camion).HasColumnName("Camion");
+            modelBuilder.Entity<Chofer>().Property(t => t.Acoplado).HasColumnName("Acoplado");
+            modelBuilder.Entity<Chofer>().Property(t => t.FechaCreacion).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<Chofer>().Property(t => t.UsuarioCreacion).HasColumnName("UsuarioCreacion");            
+            modelBuilder.Entity<Chofer>().Property(t => t.FechaModificacion).HasColumnName("FechaModificacion");            
+            modelBuilder.Entity<Chofer>().Property(t => t.UsuarioModificacion).HasColumnName("UsuarioModificacion");            
+            modelBuilder.Entity<Chofer>().Property(t => t.Activo).HasColumnName("Activo");            
+            modelBuilder.Entity<Chofer>().Property(t => t.EsChoferTransportista).HasColumnName("EsChoferTransportista");            
+            modelBuilder.Entity<Chofer>().Property(t => t.Domicilio).HasColumnName("Domicilio");            
+            modelBuilder.Entity<Chofer>().Property(t => t.Marca).HasColumnName("Marca");                        
+            modelBuilder.Entity<Chofer>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<Chofer>().ToTable("Chofer");
+
+      
         }
 
         public IDbSet<Pais> Paises { get; set; }
         public IDbSet<Empresa> Empresas { get; set; }
         public IDbSet<GrupoEmpresa> GrupoEmpresas { get; set; }
+        public IDbSet<Chofer> Choferes { get; set; }
     }
 }

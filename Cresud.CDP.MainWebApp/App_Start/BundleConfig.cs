@@ -43,10 +43,13 @@ namespace Cresud.CDP.MainWebApp
             .Include("~/Scripts/angularJs/angular-sanitize.js")
             .Include("~/Scripts/angularJs/angular-resource.min.js")
             .Include("~/Scripts/angularJs/ui-utils.min.js")
-            .Include("~/Scripts/shared/loadingDirective.js")
-            .Include("~/Scripts/shared/debounceDirective.js")
-            .Include("~/Scripts/shared/intDirective.js")
-
+            .Include("~/Scripts/app/shared/listBootstraperService.js")
+            .Include("~/Scripts/app/shared/editBootstraperService.js")
+            .Include("~/Scripts/app/shared/directives/loadingDirective.js")
+            .Include("~/Scripts/app/shared/directives/debounceDirective.js")
+            .Include("~/Scripts/app/shared/directives/intDirective.js")
+            .Include("~/Scripts/app/shared/base/baseNavigationService.js")
+            .Include("~/Scripts/app/shared/base/baseService.js")            
             );
         }
     }
