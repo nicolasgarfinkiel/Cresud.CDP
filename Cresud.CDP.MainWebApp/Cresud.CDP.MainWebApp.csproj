@@ -236,6 +236,7 @@
     <Content Include="Scripts\homer.js" />
     <Content Include="Scripts\icheck.min.js" />
     <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.peity.min.js" />
     <Content Include="Scripts\jquery.slimscroll.min.js" />

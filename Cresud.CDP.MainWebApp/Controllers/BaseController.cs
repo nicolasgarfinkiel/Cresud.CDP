@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
+using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Infrastructure;
 
@@ -29,7 +30,13 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             try
             {
-                response.Data = GetDataList();
+                response.Data = new
+                {
+                   Data =  GetDataList(),
+                   Usuario = CDPSession.Current.Usuario
+                };
+                    
+
             }
             catch (Exception ex)
             {
@@ -47,7 +54,11 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             try
             {
-                response.Data = GetDataEdit();
+                response.Data = new
+                {
+                    Data = GetDataEdit(),
+                    Usuario = CDPSession.Current.Usuario
+                };
             }
             catch (Exception ex)
             {
@@ -79,11 +90,11 @@ namespace Cresud.CDP.MainWebApp.Controllers
         [HttpPost]
         public ActionResult GetByFilter(TF filter)
         {
-            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+            var response = new PagedListResponse<TD> ();
 
             try
             {
-                response.Data = _admin.GetByFilter(filter);
+                response = _admin.GetByFilter(filter);
             }
             catch (Exception ex)
             {

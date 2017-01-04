@@ -31,8 +31,8 @@ namespace Cresud.CDP.MainWebApp
               .Include("~/Scripts/icheck.min.js")
               .Include("~/Scripts/jquery.peity.min.js")
               .Include("~/Scripts/index.js")              
-              .Include("~/Scripts/moment.js")
-              .Include("~/Scripts/app.js")
+              .Include("~/Scripts/moment.js")              
+              .Include("~/Scripts/app.js")              
               );
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/angularScripts")
@@ -49,7 +49,8 @@ namespace Cresud.CDP.MainWebApp
             .Include("~/Scripts/app/shared/directives/debounceDirective.js")
             .Include("~/Scripts/app/shared/directives/intDirective.js")
             .Include("~/Scripts/app/shared/base/baseNavigationService.js")
-            .Include("~/Scripts/app/shared/base/baseService.js")            
+            .Include("~/Scripts/app/shared/base/baseService.js")
+            .Include("~/Scripts/jquery.blockUI.js")
             );
         }
     }

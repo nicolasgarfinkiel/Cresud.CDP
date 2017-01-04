@@ -11,8 +11,7 @@
     '$strap.directives',
     'cresud.cdp.directive.loading',    
     'cresud.cdp.directive.debounce'    
-]).constant('usuario', usuario)
-  .config([
+]).config([
     '$routeProvider',
     '$locationProvider',
     "$httpProvider",

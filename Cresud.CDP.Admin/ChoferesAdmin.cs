@@ -19,8 +19,19 @@ namespace Cresud.CDP.Admin
 
         public override IQueryable GetQuery(FilterBase filter)
         {
-            throw new NotImplementedException();
-            
+            var result = CdpContext.Choferes.OrderBy(c => c.Nombre).ThenBy(c => c.Apellido).AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
+            {
+                filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
+
+                result = result.Where(r => 
+                    (r.Nombre != null && r.Nombre.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.Apellido != null && r.Apellido.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.Cuit != null && r.Cuit.ToLower().Contains(filter.MultiColumnSearchText))).AsQueryable();
+            }
+
+            return result;
         }        
     }
 }

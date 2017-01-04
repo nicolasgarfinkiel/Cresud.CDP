@@ -43,9 +43,12 @@
                    //#region Init
                    getDataEditInit: function (entity) {
                        data.service.getDataEditInit().then(function (response) {
-                           scope.result.hasErrors = response.data.hasErrors;
-                           scope.result.messages = response.data.messages;
+                           scope.result = response.data.result;
+                           scope.data = response.data.data.data;
+                           scope.usuario = response.data.data.usuario;
                            scope.entity = entity;
+
+                           if (scope.onInitEnd) scope.onInitEnd();
                        }, function () { throw 'Error on getDataEditInit'; });
                    },
 
@@ -60,9 +63,7 @@
                            data.service.getById($routeParams.id).then(function (response) {
                                scope.getDataEditInit(response.data);
                            }, function () { throw 'Error on get'; });
-                       }
-
-                       data.validation.setValidator(scope.save);
+                       }                       
                    }
                };
 

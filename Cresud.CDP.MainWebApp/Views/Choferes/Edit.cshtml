@@ -1,1 +1,42 @@
-﻿Edit
+﻿<div class="row">    
+    <div class="col-sm-12">
+        <section class="panel panel-default">
+            <header class="panel-heading font-bold">{{operation}}</header>
+            <div class="panel-body">
+                <form class="bs-example form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Email</label>
+                        <div class="col-lg-10">
+                            <input type="email" class="form-control" placeholder="Email">
+                            <span class="help-block m-b-none">Example block-level help text here.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" class="form-control" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>                    
+                                                           
+                    <div class="alert alert-danger" ng-if="result.hasErrors">
+                        <i class="fa fa-bolt"></i>
+                        <div ng-repeat="message in resultModal.messages">{{message}}</div>
+                    </div>
+                </form>
+            </div>
+            <footer class="panel-footer font-bold text-right">
+                <button type="button" class="btn btn-sm btn-success btn-default">Aceptar</button>
+                <button type="button" class="btn btn-sm btn-default">Volver</button>
+            </footer>
+        </section>
+    </div>
+</div>

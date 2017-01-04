@@ -26,17 +26,35 @@
                        enableRowSelection: false,
                        totalServerItems: 'totalItems',
                        pagingOptions: {
-                           pageSizes: [10],
+                           pageSizes: [15],
+                           pageSize: 15,
                            currentPage: 1
                        }
                    },
                    search: function () {
+                       scope.filter.currentPage = scope.gridOptions.pagingOptions.currentPage;
+                       scope.filter.pageSize = scope.gridOptions.pagingOptions.pageSize;
 
                        data.service.getByFilter(scope.filter)
                            .then(function (response) {
-                               scope.list = response.data.list;
-                               scope.totalItems = response.data.count;
+                               scope.result = response.data.result;
+
+                               if (!scope.result.hasErrors) {
+                                   scope.list = response.data.data;
+                                   scope.totalItems = response.data.count;
+                               }
+                               
                            }, function () { throw 'Error on getByFilter'; });
+                   },                   
+                   getDataListInit: function () {
+                       data.service.getDataListInit().then(function (response) {
+                           scope.result = response.data.result;                           
+                           scope.data = response.data.data.data;
+                           scope.usuario = response.data.data.usuario;
+
+                           if (scope.onInitEnd) scope.onInitEnd();
+                           scope.search();
+                       }, function () { throw 'Error on getDataListInit'; });
                    },
                    init: function () {
                        scope.columns = data.columns;
@@ -45,6 +63,13 @@
                            if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
                            scope.search();
                        }, true);
+
+                       scope.$watch('filter.multiColumnSearchText', function () {
+                           scope.gridOptions.pagingOptions.currentPage = 1;
+                           scope.search();
+                       });
+
+                       scope.getDataListInit();
                    }
                };
 
