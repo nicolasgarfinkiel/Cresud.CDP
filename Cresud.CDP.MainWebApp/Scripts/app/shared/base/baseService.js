@@ -4,6 +4,12 @@
            function ($http) {
                return {
                    controller: 'base',
+                   getUser: function () {
+                       return $http({
+                           method: 'POST',
+                           url: '/Account/GetUser'
+                       });
+                   },
                    getDataListInit: function () {
                        return $http({
                            method: 'POST',

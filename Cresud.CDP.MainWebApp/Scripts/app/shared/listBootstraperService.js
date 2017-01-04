@@ -56,6 +56,8 @@
                        for (var prop in bootstrapper) {
                            scope[prop] = scope[prop] || bootstrapper[prop];
                        }
+
+                       scope.init();
                    }
                };
            }]);
