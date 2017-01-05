@@ -11,8 +11,8 @@ namespace Cresud.CDP.Admin
         {
             throw new NotImplementedException();
         }
-     
-        public override void Validate()
+
+        public override void Validate(Dtos.Empresa dto)
         {
             throw new NotImplementedException();            
         }

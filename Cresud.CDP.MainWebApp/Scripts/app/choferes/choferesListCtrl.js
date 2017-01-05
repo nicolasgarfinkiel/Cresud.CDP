@@ -19,7 +19,7 @@
                            displayName = 'CUIT';
                    }
 
-                   $scope.columns[2].displayName = displayName;
+                   $scope.columns[2].displayName = displayName;                   
                };
 
                listBootstraperService.init($scope, {

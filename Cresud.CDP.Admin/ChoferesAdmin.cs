@@ -9,17 +9,57 @@ namespace Cresud.CDP.Admin
     {
         public override Chofer ToEntity(Dtos.Chofer dto)
         {
-            throw new NotImplementedException();
+            var entity = default(Chofer);
+
+            if (!dto.Id.HasValue)
+            {
+                var grupoEmpresa = CdpContext.GrupoEmpresas.Single(g => g.Id == dto.GrupoEmpresaId);
+
+                entity = new Chofer
+                {
+                    Acoplado = dto.Acoplado,
+                    Apellido = dto.Apellido,
+                    Camion = dto.Camion,
+                    CreateDate = DateTime.Now,
+                    CreatedBy = UsuarioLogged,
+                    Cuit = dto.Cuit,
+                    Domicilio = dto.Domicilio,
+                    Enabled = true,
+                    EsChoferTransportista = dto.EsChoferTransportista,
+                    GrupoEmpresa = grupoEmpresa,
+                    Marca = dto.Marca,
+                    Nombre = dto.Nombre
+                };
+            }
+            else
+            {
+                entity = CdpContext.Choferes.Single(c => c.Id == dto.Id.Value);
+                entity.Acoplado = dto.Acoplado;
+                entity.Apellido = dto.Apellido;
+                entity.Camion = dto.Camion;
+                entity.Cuit = dto.Cuit;
+                entity.Domicilio = dto.Domicilio;
+                entity.EsChoferTransportista = dto.EsChoferTransportista;
+                entity.Marca = dto.Marca;
+                entity.Nombre = dto.Nombre;
+                entity.UpdateDate = DateTime.Now;
+                entity.UpdatedBy = UsuarioLogged;
+            }
+
+            return entity;
         }
-     
-        public override void Validate()
+
+        public override void Validate(Dtos.Chofer dto)
         {
-            throw new NotImplementedException();            
+            var entity = CdpContext.Choferes.FirstOrDefault(c => string.Equals(c.Cuit, dto.Cuit));
+
+            if(entity != null && entity.Id != dto.Id) 
+                throw new Exception("El cuit ya se encuentra asignado a otro chofer");
         }
 
         public override IQueryable GetQuery(FilterBase filter)
         {
-            var result = CdpContext.Choferes.OrderBy(c => c.Nombre).ThenBy(c => c.Apellido).AsQueryable();
+            var result = CdpContext.Choferes.Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Nombre).ThenBy(c => c.Apellido).AsQueryable();
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {

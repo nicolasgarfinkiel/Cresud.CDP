@@ -23,7 +23,7 @@
         });
               
         $routeProvider.when('/create', {
-            templateUrl: 'choferes/create',
+            templateUrl: 'choferes/edit',
             controller: 'editCtrl'
         });
         

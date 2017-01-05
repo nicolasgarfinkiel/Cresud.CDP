@@ -21,21 +21,17 @@
 
                        if (scope.entity.id) {
                            data.service.updateEntity(scope.entity).then(function (response) {
-                               if (!response.data.hasErrors)
+                               if (!response.data.result.hasErrors)
                                    data.navigation.goToList();
 
-                               scope.result.hasErrors = true;
-                               scope.result.messages = response.data.messages;
-
+                               scope.result = response.data.result;
                            }, function () { throw 'Error on update'; });
                        } else {
                            data.service.createEntity(scope.entity).then(function (response) {
-                               if (!response.data.hasErrors)
+                               if (!response.data.result.hasErrors)
                                    data.navigation.goToList();
 
-                               scope.result.hasErrors = true;
-                               scope.result.messages = response.data.messages;
-
+                               scope.result = response.data.result;
                            }, function () { throw 'Error on create'; });
                        }
                    },
@@ -48,6 +44,10 @@
                            scope.usuario = response.data.data.usuario;
                            scope.entity = entity;
 
+                           if (!entity.id) {
+                               scope.entity.grupoEmpresaId = scope.usuario.currentEmpresa.grupoEmpresa.id;
+                           }
+
                            if (scope.onInitEnd) scope.onInitEnd();
                        }, function () { throw 'Error on getDataEditInit'; });
                    },
@@ -56,12 +56,12 @@
                        scope.entity = data.entity;                       
 
                        if (angular.isUndefined($routeParams.id)) {
-                           scope.getDataEditInit(this.entityInit);
+                           scope.getDataEditInit({});
                            scope.operation = 'Alta';
                        } else {
                            scope.operation = 'Edición';
                            data.service.getById($routeParams.id).then(function (response) {
-                               scope.getDataEditInit(response.data);
+                               scope.getDataEditInit(response.data.data);
                            }, function () { throw 'Error on get'; });
                        }                       
                    }

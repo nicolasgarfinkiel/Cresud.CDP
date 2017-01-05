@@ -51,6 +51,7 @@
                            scope.result = response.data.result;                           
                            scope.data = response.data.data.data;
                            scope.usuario = response.data.data.usuario;
+                           scope.filter.idGrupoEmpresa = scope.usuario.currentEmpresa.grupoEmpresa.id;
 
                            if (scope.onInitEnd) scope.onInitEnd();
                            scope.search();

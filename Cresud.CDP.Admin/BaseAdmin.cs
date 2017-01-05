@@ -55,7 +55,7 @@ namespace Cresud.CDP.Admin
 
         public virtual TD Create(TD dto)
         {
-            Validate();
+            Validate(dto);
             var entity = ToEntity(dto);
 
             CdpContext.Set(typeof(TE)).Add(entity);
@@ -66,7 +66,7 @@ namespace Cresud.CDP.Admin
 
         public virtual TD Update(TD dto)
         {
-            Validate();
+            Validate(dto);
             var entity = ToEntity(dto);
             CdpContext.SaveChanges();
 
@@ -76,7 +76,7 @@ namespace Cresud.CDP.Admin
         #region Abstract Methods
 
         public abstract TE ToEntity(TD dto);
-        public abstract void Validate();
+        public abstract void Validate(TD dto);
         public abstract IQueryable GetQuery(TF filter);
 
         #endregion
