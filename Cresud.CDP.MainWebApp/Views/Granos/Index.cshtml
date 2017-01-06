@@ -1,0 +1,20 @@
+﻿@using Cresud.CDP.Infrastructure
+@{
+    ViewBag.ngApp = "cresud.cdp.granos";
+}
+<div>    
+    <script type="text/ng-template" id="granos/list">
+        @RenderPage(Url.Content("~/Views/Granos/List.cshtml"))
+    </script>
+    <script type="text/ng-template" id="granos/edit">
+        @RenderPage(Url.Content("~/Views/Granos/Edit.cshtml"))
+    </script>
+    <div ng-view></div>
+</div>
+
+@section scripts{
+    @Html.IncludeVersionedJs("Scripts/app/Granos/granosModule.js")
+    @Html.IncludeVersionedJs("Scripts/app/Granos/granosListCtrl.js")
+    @Html.IncludeVersionedJs("Scripts/app/Granos/granosEditCtrl.js")        
+    @Html.IncludeVersionedJs("Scripts/app/shared/granosService.js")
+}
