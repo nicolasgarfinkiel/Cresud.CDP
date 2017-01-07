@@ -8,11 +8,9 @@
                $scope.onInitEnd = function () {
                    $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
 
-                   if ($scope.esGrupoCresud) {
-                       $scope.columns[1].visible = false;
-                       $scope.columns[2].visible = false;
-                       $scope.columns[3].visible = false;                       
-                   }
+                   $scope.columns[1].visible = $scope.esGrupoCresud;
+                   $scope.columns[2].visible = $scope.esGrupoCresud;
+                   $scope.columns[3].visible = $scope.esGrupoCresud;
                };
 
                listBootstraperService.init($scope, {
@@ -28,5 +26,5 @@
                        { field: 'createdBy', displayName: 'Usuario creación' },
                        { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="edit(row.entity.id)"><i class="fa fa-pencil"></i></a></div>' }
                    ]
-               });                                                         
+               });
            }]);

@@ -1,4 +1,6 @@
-﻿namespace Cresud.CDP.Dtos
+﻿using System;
+
+namespace Cresud.CDP.Dtos
 {
     public class Grano
     {
@@ -13,6 +15,8 @@
         public int CosechaAfipId { get; set; }
         public string CosechaAfipDescripcion { get; set; }
         public int GrupoEmpresaId { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string CreatedBy { get; set; }            
     }
 }
 

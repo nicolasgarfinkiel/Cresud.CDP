@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -67,6 +66,7 @@ namespace Cresud.CDP.Admin
         public override IQueryable GetQuery(FilterBase filter)
         {
             var result = CdpContext.Granos.Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Descripcion).AsQueryable();
+            var cresud = filter.IdGrupoEmpresa == App.IdGrupoCresud;            
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {
@@ -75,16 +75,11 @@ namespace Cresud.CDP.Admin
                 result = result.Where(r =>
                     (r.Descripcion != null && r.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) ||
                     (r.SujetoALote != null && r.SujetoALote.ToLower().Contains(filter.MultiColumnSearchText)) ||
-                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText))).AsQueryable();
-
-                if (filter.IdGrupoEmpresa == App.IdGrupoCresud)
-                {
-                    result = result.Where(r =>
-                    (r.EspecieAfip != null && r.EspecieAfip.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) ||
-                    (r.CosechaAfip != null && r.CosechaAfip.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) ||
-                    (r.TipoGranoAfip != null && r.TipoGranoAfip.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) 
-                   ).AsQueryable();
-                }                
+                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (cresud && r.EspecieAfip != null && r.EspecieAfip.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (cresud && r.CosechaAfip != null && r.CosechaAfip.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (cresud && r.TipoGranoAfip != null && r.TipoGranoAfip.Descripcion.ToLower().Contains(filter.MultiColumnSearchText))                     
+                    ).AsQueryable();                
             }
 
             return result;

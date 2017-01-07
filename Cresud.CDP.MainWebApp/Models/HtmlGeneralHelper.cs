@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using MvcSiteMapProvider.Web.Html.Models;
 
 namespace Cresud.CDP.MainWebApp.Models
@@ -13,6 +14,26 @@ namespace Cresud.CDP.MainWebApp.Models
             var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
 
             return (string.Equals(action, currentAction) && string.Equals(controller, currentController)) ? "active" : string.Empty;
+        }
+
+        public static string MenuParentClass(this HtmlHelper htmlHelper, SiteMapNodeModel node)
+        {            
+            var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
+            var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+
+            var exists = node.Children.Any(c => (string.Equals(c.Action, currentAction) && string.Equals(c.Controller, currentController)));
+
+            return exists ? "active" : string.Empty;
+        }
+
+        public static string MenuParentDisplay(this HtmlHelper htmlHelper, SiteMapNodeModelList nodes)
+        {
+            var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
+            var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+
+            var exists = nodes.Any(c => (string.Equals(c.Action, currentAction) && string.Equals(c.Controller, currentController)));
+
+            return exists ? "block" : "none";
         }
 
         public static string GetNodeClass(this HtmlHelper htmlHelper, SiteMapNodeModel node)

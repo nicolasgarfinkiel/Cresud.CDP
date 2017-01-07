@@ -1,14 +1,15 @@
 ﻿@model MvcSiteMapProvider.Web.Html.Models.MenuHelperModel
 @using System.Web.Mvc.Html
 @using MvcSiteMapProvider.Web.Html.Models
+@using Cresud.CDP.MainWebApp.Models
 
 <ul class="nav">
     @foreach (var node in Model.Nodes)
     {
-        <li>
+        <li class="@Html.MenuParentClass(node)">
             @if (node.Children.Any())
             {
-                <a href="javascript:void(0)">
+                <a href="javascript:void(0)" class="@Html.MenuParentClass(node)">
                     <i class="@node.Attributes["Class"]">
                         <b class="bg-info"></b>
                     </i>

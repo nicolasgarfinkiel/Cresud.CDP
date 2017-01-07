@@ -99,11 +99,11 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Especie>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<Especie>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Especie>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Especie>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<Especie>().Ignore(t => t.UpdateDate);
+            modelBuilder.Entity<Especie>().Ignore(t => t.CreatedBy);
+            modelBuilder.Entity<Especie>().Ignore(t => t.UpdatedBy);
+            modelBuilder.Entity<Especie>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Especie>().ToTable("Especie");
 
             modelBuilder.Entity<TipoGrano>().HasKey(t => t.Id);
@@ -120,13 +120,13 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Cosecha>().HasKey(t => t.Id);
             modelBuilder.Entity<Cosecha>().Property(t => t.Id).HasColumnName("IdCosecha");
             modelBuilder.Entity<Cosecha>().Property(t => t.Codigo).HasColumnName("Codigo");
-            modelBuilder.Entity<Especie>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
-            modelBuilder.Entity<Especie>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Cosecha>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<Cosecha>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<Cosecha>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<Cosecha>().Ignore(t => t.UpdateDate);
+            modelBuilder.Entity<Cosecha>().Ignore(t => t.CreatedBy);
+            modelBuilder.Entity<Cosecha>().Ignore(t => t.UpdatedBy);
+            modelBuilder.Entity<Cosecha>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Cosecha>().ToTable("Cosecha");
         }
 
