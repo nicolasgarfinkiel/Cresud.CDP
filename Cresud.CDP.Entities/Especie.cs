@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Cresud.CDP.Entities
+﻿namespace Cresud.CDP.Entities
 {
     public class Especie: EntityBase
     {

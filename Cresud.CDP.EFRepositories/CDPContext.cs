@@ -16,27 +16,27 @@ namespace Cresud.CDP.EFRepositories
         {
             modelBuilder.Entity<Pais>().HasKey(t => t.Id);
             modelBuilder.Entity<Pais>().Property(t => t.Id).HasColumnName("IdPais");
-            modelBuilder.Entity<Pais>().Property(t => t.Descripcion).HasColumnName("Descripcion");
-            modelBuilder.Entity<Pais>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<Pais>().Ignore(t => t.CreateDate);
-            modelBuilder.Entity<Pais>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<Pais>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<Pais>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<Pais>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Pais>().Property(t => t.Descripcion).HasColumnName("Descripcion");          
             modelBuilder.Entity<Pais>().ToTable("Pais");
 
+            modelBuilder.Entity<Provincia>().HasKey(t => t.Id);
+            modelBuilder.Entity<Provincia>().Property(t => t.Id).HasColumnName("Codigo");
+            modelBuilder.Entity<Provincia>().Property(t => t.Descripcion).HasColumnName("Descripcion");
+            modelBuilder.Entity<Provincia>().Property(t => t.PaisId).HasColumnName("IdPais");
+            modelBuilder.Entity<Provincia>().ToTable("Provincia");
+
+            modelBuilder.Entity<Localidad>().HasKey(t => new {t.Id, t.ProvinciaId});
+            modelBuilder.Entity<Localidad>().Property(t => t.Id).HasColumnName("Codigo");
+            modelBuilder.Entity<Localidad>().Property(t => t.Descripcion).HasColumnName("Descripcion");
+            modelBuilder.Entity<Localidad>().Property(t => t.ProvinciaId).HasColumnName("IdProvincia");
+            modelBuilder.Entity<Localidad>().ToTable("Localidad");
+    
             modelBuilder.Entity<GrupoEmpresa>().HasKey(t => t.Id);
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.Id).HasColumnName("IdGrupoEmpresa");
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.Activo).HasColumnName("Activo");
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.IdApp).HasColumnName("IdApp");
-            modelBuilder.Entity<GrupoEmpresa>().HasOptional(e => e.Pais).WithMany().Map(x => x.MapKey("IdPais"));
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.CreateDate);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<GrupoEmpresa>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<GrupoEmpresa>().HasOptional(e => e.Pais).WithMany().Map(x => x.MapKey("IdPais"));         
             modelBuilder.Entity<GrupoEmpresa>().ToTable("GrupoEmpresa");
 
             modelBuilder.Entity<Empresa>().HasKey(t => t.Id);
@@ -48,13 +48,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapOrganizacionDeVenta).HasColumnName("IdSapOrganizacionDeVenta");
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapSector).HasColumnName("IdSapSector");
             modelBuilder.Entity<Empresa>().Property(t => t.SapId).HasColumnName("Sap_Id");
-            modelBuilder.Entity<Empresa>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
-            modelBuilder.Entity<Empresa>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<Empresa>().Ignore(t => t.CreateDate);
-            modelBuilder.Entity<Empresa>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<Empresa>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<Empresa>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<Empresa>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Empresa>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));          
             modelBuilder.Entity<Empresa>().ToTable("Empresa");
 
             modelBuilder.Entity<Chofer>().HasKey(t => t.Id);
@@ -71,9 +65,9 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Chofer>().Property(t => t.Enabled).HasColumnName("Activo");
             modelBuilder.Entity<Chofer>().Property(t => t.EsChoferTransportista).HasColumnName("EsChoferTransportista");
             modelBuilder.Entity<Chofer>().Property(t => t.Domicilio).HasColumnName("Domicilio");
-            modelBuilder.Entity<Chofer>().Property(t => t.Marca).HasColumnName("Marca");
-            modelBuilder.Entity<Chofer>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<Chofer>().Property(t => t.Marca).HasColumnName("Marca");            
             modelBuilder.Entity<Chofer>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Chofer>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Chofer>().ToTable("Chofer");
 
             modelBuilder.Entity<Grano>().HasKey(t => t.Id);
@@ -86,51 +80,94 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Grano>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");
             modelBuilder.Entity<Grano>().Property(t => t.UpdatedBy).HasColumnName("UsuarioModificacion");
             modelBuilder.Entity<Grano>().Property(t => t.Enabled).HasColumnName("Activo");
+            modelBuilder.Entity<Grano>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Grano>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Grano>().HasOptional(e => e.EspecieAfip).WithMany().Map(x => x.MapKey("IdEspecieAfip"));
             modelBuilder.Entity<Grano>().HasOptional(e => e.TipoGranoAfip).WithMany().Map(x => x.MapKey("IdTipoGrano"));
-            modelBuilder.Entity<Grano>().HasOptional(e => e.CosechaAfip).WithMany().Map(x => x.MapKey("IdCosechaAfip"));
-            modelBuilder.Entity<Grano>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Grano>().HasOptional(e => e.CosechaAfip).WithMany().Map(x => x.MapKey("IdCosechaAfip"));            
             modelBuilder.Entity<Grano>().ToTable("Grano");
 
             modelBuilder.Entity<Especie>().HasKey(t => t.Id);
             modelBuilder.Entity<Especie>().Property(t => t.Id).HasColumnName("IdEspecie");
             modelBuilder.Entity<Especie>().Property(t => t.Codigo).HasColumnName("Codigo");
             modelBuilder.Entity<Especie>().Property(t => t.Descripcion).HasColumnName("Descripcion");
-            modelBuilder.Entity<Especie>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
-            modelBuilder.Entity<Especie>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<Especie>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");            
             modelBuilder.Entity<Especie>().Ignore(t => t.Enabled);
             modelBuilder.Entity<Especie>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<Especie>().Ignore(t => t.CreatedBy);
             modelBuilder.Entity<Especie>().Ignore(t => t.UpdatedBy);
             modelBuilder.Entity<Especie>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Especie>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Especie>().ToTable("Especie");
 
             modelBuilder.Entity<TipoGrano>().HasKey(t => t.Id);
             modelBuilder.Entity<TipoGrano>().Property(t => t.Id).HasColumnName("IdTipoGrano");
-            modelBuilder.Entity<TipoGrano>().Property(t => t.Descripcion).HasColumnName("Descripcion");
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.CreateDate);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<TipoGrano>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<TipoGrano>().Property(t => t.Descripcion).HasColumnName("Descripcion");         
             modelBuilder.Entity<TipoGrano>().ToTable("TipoGrano");
 
             modelBuilder.Entity<Cosecha>().HasKey(t => t.Id);
             modelBuilder.Entity<Cosecha>().Property(t => t.Id).HasColumnName("IdCosecha");
             modelBuilder.Entity<Cosecha>().Property(t => t.Codigo).HasColumnName("Codigo");
-            modelBuilder.Entity<Cosecha>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
-            modelBuilder.Entity<Cosecha>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<Cosecha>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");            
             modelBuilder.Entity<Cosecha>().Ignore(t => t.Enabled);
             modelBuilder.Entity<Cosecha>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<Cosecha>().Ignore(t => t.CreatedBy);
             modelBuilder.Entity<Cosecha>().Ignore(t => t.UpdatedBy);
             modelBuilder.Entity<Cosecha>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Cosecha>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Cosecha>().ToTable("Cosecha");
+            
+            modelBuilder.Entity<Cliente>().HasKey(t => new {t.Id, t.IdSapOrganizacionDeVenta});
+            modelBuilder.Entity<Cliente>().Property(t => t.Id).HasColumnName("IdCliente");
+            modelBuilder.Entity<Cliente>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<Cliente>().Property(t => t.NombreFantasia).HasColumnName("NombreFantasia");
+            modelBuilder.Entity<Cliente>().Property(t => t.Cuit).HasColumnName("Cuit");
+            modelBuilder.Entity<Cliente>().Property(t => t.IdTipoDocumentoSap).HasColumnName("IdTipoDocumentoSAP");
+            modelBuilder.Entity<Cliente>().Property(t => t.IdClientePrincipal).HasColumnName("IdClientePrincipal");
+            modelBuilder.Entity<Cliente>().Property(t => t.Calle).HasColumnName("Calle");
+            modelBuilder.Entity<Cliente>().Property(t => t.Numero).HasColumnName("Numero");
+            modelBuilder.Entity<Cliente>().Property(t => t.Dto).HasColumnName("Dto");
+            modelBuilder.Entity<Cliente>().Property(t => t.Piso).HasColumnName("Piso");
+            modelBuilder.Entity<Cliente>().Property(t => t.Cp).HasColumnName("Cp");
+            modelBuilder.Entity<Cliente>().Property(t => t.Poblacion).HasColumnName("Poblacion");
+            modelBuilder.Entity<Cliente>().Property(t => t.Enabled).HasColumnName("Activo");
+            modelBuilder.Entity<Cliente>().Property(t => t.GrupoComercial).HasColumnName("GrupoComercial");
+            modelBuilder.Entity<Cliente>().Property(t => t.ClaveGrupo).HasColumnName("ClaveGrupo");
+            modelBuilder.Entity<Cliente>().Property(t => t.Tratamiento).HasColumnName("Tratamiento");
+            modelBuilder.Entity<Cliente>().Property(t => t.DescripcionGe).HasColumnName("DescripcionGe");
+            modelBuilder.Entity<Cliente>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<Cliente>().Property(t => t.EsProspecto).HasColumnName("EsProspecto");
+            modelBuilder.Entity<Cliente>().Property(t => t.IdSapOrganizacionDeVenta).HasColumnName("IdSapOrganizacionDeVenta");
+            modelBuilder.Entity<Cliente>().ToTable("Cliente");
+
+            modelBuilder.Entity<Establecimiento>().HasKey(t => t.Id);
+            modelBuilder.Entity<Establecimiento>().Property(t => t.Id).HasColumnName("IdEstablecimiento");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.Descripcion).HasColumnName("Descripcion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.Direccion).HasColumnName("Direccion");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdAlmacenSap).HasColumnName("IDAlmacenSAP");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdCentroSap).HasColumnName("IDCentroSAP");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.RecorridoEstablecimiento).HasColumnName("RecorridoEstablecimiento");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdCEBE).HasColumnName("IDCEBE");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdExpedicion).HasColumnName("IDExpedicion");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.EstablecimientoAfip).HasColumnName("EstablecimientoAfip");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.AsociaCartaDePorte).HasColumnName("AsociaCartaDePorte");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.LocalidadId).HasColumnName("Localidad");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.InterlocutorDestinatarioId).HasColumnName("IdInterlocutorDestinatario");                        
+            modelBuilder.Entity<Establecimiento>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.UpdatedBy).HasColumnName("UsuarioModificacion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.Enabled).HasColumnName("Activo");                                    
+            modelBuilder.Entity<Establecimiento>().Ignore(t => t.DeletedBy);            
+            modelBuilder.Entity<Establecimiento>().HasOptional(e => e.Provincia).WithMany().Map(x => x.MapKey("Provincia"));            
+            modelBuilder.Entity<Establecimiento>().ToTable("Establecimiento");
+    	            
         }
 
         public IDbSet<Pais> Paises { get; set; }
+        public IDbSet<Provincia> Provincias { get; set; }
+        public IDbSet<Localidad> Localidades { get; set; }
         public IDbSet<Empresa> Empresas { get; set; }
         public IDbSet<GrupoEmpresa> GrupoEmpresas { get; set; }
         public IDbSet<Chofer> Choferes { get; set; }
@@ -138,5 +175,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<Especie> Especies { get; set; }
         public IDbSet<TipoGrano> TiposGrano { get; set; }
         public IDbSet<Cosecha> Cosechas { get; set; }
+        public IDbSet<Establecimiento> Establecimientos { get; set; }
+        public IDbSet<Cliente> Clientes { get; set; }        
     }
 }

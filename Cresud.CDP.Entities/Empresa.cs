@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cresud.CDP.Entities
+﻿namespace Cresud.CDP.Entities
 {
-    public class Empresa : EntityBase
+    public class Empresa 
     {
+        public int Id { get; set; }
         public int IdCliente { get; set; }
         public string Descripcion { get; set; }
         public string IdSapOrganizacionDeVenta { get; set; }

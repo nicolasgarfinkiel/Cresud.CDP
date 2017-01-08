@@ -1,0 +1,135 @@
+﻿<div class="row">    
+    <div class="col-sm-12">
+        <section class="panel panel-default">
+            <header class="panel-heading font-bold">{{operation}}</header>
+            <div class="panel-body">
+                <form class="bs-example form-horizontal">                                                                                                                                         
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Descripción</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.descripcion">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Dirección</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.direccion">
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Provincia</label>
+                        <div class="col-lg-10">                            
+                            <select ng-model="entity.provinciaId" ng-options="provincia.id as provincia.descripcion for provincia in data.provincias" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Localidad</label>
+                        <div class="col-lg-10">                            
+                            <select ng-model="entity.localidadId" ng-options="localidad.id as localidad.descripcion for localidad in localidadesFiltered" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>                   
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Almacen SAP</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.idAlmacenSap">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Centro SAP</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.idCentroSap">
+                        </div>
+                    </div>    
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Interlocutor Destinatario</label>
+                        <div class="col-lg-10">
+                            <i class="fa fa-search" style="position: relative; top: 8px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
+                            <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                        </div>
+                    </div>     
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Tipo Origen Destino</label>
+                        <div class="col-lg-10">
+                            <select ng-model="entity.recorridoEstablecimiento" ng-options="recorridoEstablecimiento for recorridoEstablecimiento in data.recorridoEstablecimientoList" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>   
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">CEBE</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.idCEBE">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Expedición</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.idExpedicion">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Establecimiento AFIP</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.establecimientoAfip">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"></label>
+                        <div class="col-lg-10">
+                            <input type="checkbox" ng-model="entity.asociaCartaDePorte">
+                            <span>Debe utilizar unicamente Lotes de Carta de porte asignados a este establecimiento</span>
+                        </div>
+                    </div>    
+                    <div class="alert alert-danger" ng-if="result.hasErrors">
+                        <i class="fa fa-bolt"></i>
+                        <div ng-repeat="message in result.messages">{{message}}</div>
+                    </div>                    
+                </form>
+            </div>
+            <footer class="panel-footer font-bold text-right">
+                <button type="button" class="btn btn-sm btn-success btn-default" ng-click="save()">Aceptar</button>
+                <button type="button" class="btn btn-sm btn-default" ng-click="list()">Volver</button>
+            </footer>
+        </section>
+    </div>
+</div>
+
+<div class="modal" id="clientesModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">            
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Búsqueda de clientes
+                    </header>
+                    <div class="row wrapper">
+                        <div class="col-sm-12">
+                            <div class="input-group m-b">
+                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterClientes.multiColumnSearchText" ng-debounce="1200">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>                      
+                        @*<div class="col-sm-12">
+                            <div class="alert alert-danger" ng-if="result.hasErrors">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <i class="fa fa-ban-circle"></i> {{result.messages[0]}}
+                            </div>
+                        </div>*@
+                    </div>
+                    <div style="margin: 0 15px 15px 15px">
+                        <div class="gridStyleDefault" ng-grid="gridClientes"></div>
+                    </div>
+                </section>        
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                
+            </div>
+        </div>
+    </div>
+</div>

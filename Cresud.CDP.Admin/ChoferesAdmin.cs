@@ -7,6 +7,8 @@ namespace Cresud.CDP.Admin
 {
     public class ChoferesAdmin : BaseAdmin<int, Entities.Chofer, Dtos.Chofer, FilterBase>
     {
+        #region Base
+
         public override Chofer ToEntity(Dtos.Chofer dto)
         {
             var entity = default(Chofer);
@@ -72,6 +74,8 @@ namespace Cresud.CDP.Admin
             }
 
             return result;
-        }        
+        }
+
+        #endregion
     }
 }

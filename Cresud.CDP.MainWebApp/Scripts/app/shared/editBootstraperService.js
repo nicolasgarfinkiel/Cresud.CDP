@@ -46,6 +46,7 @@
 
                            if (!entity.id) {
                                scope.entity.grupoEmpresaId = scope.usuario.currentEmpresa.grupoEmpresa.id;
+                               scope.entity.empresaId = scope.usuario.currentEmpresa.id;
                            }
 
                            if (scope.onInitEnd) scope.onInitEnd();

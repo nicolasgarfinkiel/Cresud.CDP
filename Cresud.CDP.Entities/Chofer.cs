@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Cresud.CDP.Entities
+﻿namespace Cresud.CDP.Entities
 {
     public class Chofer : EntityBase
     {        

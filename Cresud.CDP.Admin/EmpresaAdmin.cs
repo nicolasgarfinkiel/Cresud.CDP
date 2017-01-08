@@ -7,6 +7,8 @@ namespace Cresud.CDP.Admin
 {
     public class EmpresaAdmin : BaseAdmin<int, Empresa, Dtos.Empresa, FilterBase>
     {
+        #region Base
+
         public override Empresa ToEntity(Dtos.Empresa dto)
         {
             throw new NotImplementedException();
@@ -20,7 +22,9 @@ namespace Cresud.CDP.Admin
         public override IQueryable GetQuery(FilterBase filter)
         {
             throw new NotImplementedException();
-            
-        }        
+
+        }
+
+        #endregion
     }
 }

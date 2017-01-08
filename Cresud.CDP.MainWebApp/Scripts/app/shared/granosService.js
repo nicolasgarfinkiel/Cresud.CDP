@@ -3,7 +3,7 @@
            '$http',
            'baseService',
            function ($http, baseService) {
-               var result = angular.extend(baseService, {});
+               var result = angular.extend({}, baseService);
                result.controller = 'Granos';
 
                return result;

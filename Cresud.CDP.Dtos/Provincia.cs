@@ -1,8 +1,10 @@
-﻿namespace Cresud.CDP.Entities
+﻿namespace Cresud.CDP.Dtos
 {
-    public class Pais
+    public class Provincia
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }
+        public int PaisId { get; set; }
     }
 }
+

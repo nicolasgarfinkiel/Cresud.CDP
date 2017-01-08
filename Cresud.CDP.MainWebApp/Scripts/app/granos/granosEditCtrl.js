@@ -7,7 +7,7 @@
            'editBootstraperService',
            function ($scope, $routeParams, granosService, baseNavigationService, editBootstraperService) {
                $scope.onInitEnd = function () {
-                   $scope.operation = $routeParams.id ? 'Nuevo grano' : 'Edición de grano';   
+                   $scope.operation = !$routeParams.id ? 'Nuevo grano' : 'Edición de grano';   
                    $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
                };
 

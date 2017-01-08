@@ -8,7 +8,7 @@
            function ($scope, $routeParams, choferesService, baseNavigationService, editBootstraperService) {
 
                $scope.onInitEnd = function () {
-                   $scope.operation = $routeParams.id ? 'Nuevo chofer' : 'Edición de chofer';
+                   $scope.operation = !$routeParams.id ? 'Nuevo chofer' : 'Edición de chofer';
                    $scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'PARAGUAY';
                    $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
                };
