@@ -50,6 +50,7 @@
     <Compile Include="EntityBase.cs" />
     <Compile Include="GrupoEmpresa.cs" />
     <Compile Include="Localidad.cs" />
+    <Compile Include="OrganizacionVenta.cs" />
     <Compile Include="Pais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provincia.cs" />

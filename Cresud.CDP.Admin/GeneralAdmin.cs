@@ -47,6 +47,11 @@ namespace Cresud.CDP.Admin
             return Enum.GetNames(typeof(RecorridoEstablecimiento)).OrderBy(t => t);
         }
 
+        public IEnumerable<string> GetOrganizacionVentaList()
+        {
+            return Enum.GetNames(typeof(OrganizacionVenta)).OrderBy(t => t);
+        }
+
         public PagedListResponse<Dtos.Cliente> GetClientesByFilter(FilterBase filter)
         {
             var empresa = CdpContext.Empresas.Single(e => e.Id == filter.EmpresaId);

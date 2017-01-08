@@ -223,6 +223,9 @@
     <Content Include="Scripts\angularJs\quill\quill.min.js" />
     <Content Include="Scripts\angularJs\ui-utils.min.js" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\app\empresas\empresasEditCtrl.js" />
+    <Content Include="Scripts\app\empresas\empresasListCtrl.js" />
+    <Content Include="Scripts\app\empresas\empresasModule.js" />
     <Content Include="Scripts\app\establecimientos\establecimientosEditCtrl.js" />
     <Content Include="Scripts\app\establecimientos\establecimientosListCtrl.js" />
     <Content Include="Scripts\app\establecimientos\establecimientosModule.js" />
@@ -234,6 +237,7 @@
     <Content Include="Scripts\app\choferes\choferesModule.js" />
     <Content Include="Scripts\app\shared\base\baseNavigationService.js" />
     <Content Include="Scripts\app\shared\base\baseService.js" />
+    <Content Include="Scripts\app\shared\empresasService.js" />
     <Content Include="Scripts\app\shared\establecimientosService.js" />
     <Content Include="Scripts\app\shared\generalService.js" />
     <Content Include="Scripts\app\shared\granosService.js" />
@@ -307,6 +311,9 @@
     <Content Include="Views\Establecimientos\Edit.cshtml" />
     <Content Include="Views\Establecimientos\Index.cshtml" />
     <Content Include="Views\Establecimientos\List.cshtml" />
+    <Content Include="Views\Empresas\Edit.cshtml" />
+    <Content Include="Views\Empresas\Index.cshtml" />
+    <Content Include="Views\Empresas\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

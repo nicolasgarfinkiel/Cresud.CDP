@@ -10,6 +10,11 @@ namespace Cresud.CDP.MainWebApp.Controllers
     [Authorize]
     public class EmpresasController : BaseController<EmpresaAdmin, int, Empresa, Dtos.Empresa, FilterBase>
     {
+        public ActionResult Index()
+        {
+            return View();
+        }    
+
         [ChildActionOnly]
         public ActionResult EmpresasCurrentUser()
         {
@@ -30,7 +35,12 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
         public override object GetDataEdit()
         {
-            return new { };
+            var generalAdmin = new GeneralAdmin();
+
+            return new
+            {
+               OrganizacionVentaList = generalAdmin.GetOrganizacionVentaList()
+            };
         }
     }
 }

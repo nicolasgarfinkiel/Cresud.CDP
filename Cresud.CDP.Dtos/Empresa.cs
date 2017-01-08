@@ -4,8 +4,9 @@ namespace Cresud.CDP.Dtos
 {
     public class Empresa
     {
+        public int? Id { get; set; }
         public GrupoEmpresa GrupoEmpresa { get; set; }
-        public int Id { get; set; }
+        public int GrupoEmpresaId { get; set; }
         public int IdCliente { get; set; }
         public string Descripcion { get; set; }
         public string IdSapOrganizacionDeVenta { get; set; }
