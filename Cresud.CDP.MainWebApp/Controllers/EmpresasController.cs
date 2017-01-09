@@ -36,9 +36,11 @@ namespace Cresud.CDP.MainWebApp.Controllers
         public override object GetDataEdit()
         {
             var generalAdmin = new GeneralAdmin();
+            var grupoEmpresaAdmin = new GrupoEmpresaAdmin();
 
             return new
             {
+               GrupoEmpresaList = grupoEmpresaAdmin.GetAll().OrderBy(g => g.Descripcion),
                OrganizacionVentaList = generalAdmin.GetOrganizacionVentaList()
             };
         }

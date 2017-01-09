@@ -11,6 +11,13 @@
                            data: { filter: filter }
                        });
                    },
+                   getClientesConProveedorByFilter: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/General/GetClientesConProveedorByFilter',
+                           data: { filter: filter }
+                       });
+                   },
                }, baseService);
                result.controller = 'General';
 

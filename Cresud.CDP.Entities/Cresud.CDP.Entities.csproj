@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Proveedor.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Cosecha.cs" />
     <Compile Include="Establecimiento.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provincia.cs" />
     <Compile Include="RecorridoEstablecimiento.cs" />
+    <Compile Include="TipoDocumentoSap.cs" />
     <Compile Include="TipoGrano.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,10 +8,12 @@
            'editBootstraperService',
            function ($scope, $routeParams, empresasService, generalService, baseNavigationService, editBootstraperService) {
                //#region Base
+               $scope.loading = true;
 
                $scope.onInitEnd = function () {
                    $scope.operation = !$routeParams.id ? 'Nueva empresa' : 'Edición de empresa';
                    $scope.filterClientes.empresaId = $scope.usuario.currentEmpresa.id;
+                   $scope.loading = false;
                };
                
                editBootstraperService.init($scope, $routeParams,  {
@@ -22,35 +24,51 @@
                $scope.isValid = function() {
                    $scope.result = { hasErrors: false, messages: [] };
 
-                   if (!$scope.entity.descripcion) {
-                       $scope.result.messages.push('Ingrese la descripción');
+                   if (!$scope.entity.idSapOrganizacionDeVenta) {
+                       $scope.result.messages.push('Seleccione una organización');
                    }
 
-                   if (!$scope.entity.direccion) {
-                       $scope.result.messages.push('Ingrese la dirección');
+                   if (!$scope.entity.idCliente) {
+                       $scope.result.messages.push('Seleccione un cliente');
                    }
-
-                   if (!$scope.entity.provinciaId) {
-                       $scope.result.messages.push('Seleccione una provincia');
-                   }
-
-                   if (!$scope.entity.localidadId) {
-                       $scope.result.messages.push('Seleccione una localidad');
-                   }
-
-                   if (!$scope.entity.interlocutorDestinatarioId) {
-                       $scope.result.messages.push('Seleccione un locutor destinatario');
-                   }
-
-                   if (!$scope.entity.idExpedicion) {
-                       $scope.result.messages.push('Ingrese el id expedición');
-                   }
-                  
+                   
                    $scope.result.hasErrors = $scope.result.messages.length;
                    return !$scope.result.hasErrors;
                };
 
                //#endregion                                     
+
+               $scope.getGrupoEmpresaById = function(id) {
+                   var result = null;
+
+                   for (var i = 0; i < $scope.data.grupoEmpresaList.length; i++) {
+                       if ($scope.data.grupoEmpresaList[i].id == id) {
+                           result = $scope.data.grupoEmpresaList[i];
+                           break;
+                       }
+                   }
+
+                   return result;
+               };
+
+               $scope.$watch('entity.grupoEmpresaId', function (newVal, oldVal) {
+                   if (!$scope.entity) return;
+
+                   $scope.entity.grupoEmpresa = null;
+
+                   if (!newVal) return;
+
+                   $scope.entity.grupoEmpresa = $scope.getGrupoEmpresaById(newVal);
+
+               }, true);
+
+               $scope.$watch('entity.idSapOrganizacionDeVenta', function (newValue) {
+                   $scope.filterClientes.idSapOrganizacionDeVenta = idSapOrganizacionDeVenta;
+
+                   if (!$scope.loading) {
+                       $scope.entity.idCliente = null;
+                   }
+               });
 
                //#region Clientes
 
@@ -59,7 +77,7 @@
                $scope.filterClientes = {};
 
                $scope.setCliente = function(cliente) {
-                   $scope.entity.interlocutorDestinatarioId = cliente.id;
+                   $scope.entity.idCliente = cliente.id;
                    $('#clientesModal').modal('hide');
                };
 
@@ -92,10 +110,10 @@
                    $scope.filterClientes.currentPage = $scope.gridClientes.pagingOptions.currentPage;
                    $scope.filterClientes.pageSize = $scope.gridClientes.pagingOptions.pageSize;
 
-                   generalService.getClientesByFilter($scope.filterClientes).then(function (response) {
+                   generalService.getClientesConProveedorByFilter($scope.filterClientes).then(function (response) {
                        $scope.clientes = response.data.data;
                        $scope.clientesCount = response.data.count;                     
-                   }, function () { throw 'Error on getClientesByFilter'; });
+                   }, function () { throw 'Error on getClientesConProveedorByFilter'; });
                };
 
                $scope.$watch('gridClientes.pagingOptions', function (newVal, oldVal) {
@@ -106,8 +124,7 @@
                $scope.$watch('filterClientes.multiColumnSearchText', function () {
                    $scope.gridClientes.pagingOptions.currentPage = 1;
                    $scope.findClientes();
-               });
-
+               });              
 
                //#endregion
            }]);

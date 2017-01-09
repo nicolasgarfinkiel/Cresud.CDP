@@ -52,6 +52,7 @@
     <Compile Include="Empresa.cs" />
     <Compile Include="Especie.cs" />
     <Compile Include="Establecimiento.cs" />
+    <Compile Include="Filters\FilterClientesConProveedor.cs" />
     <Compile Include="Grano.cs" />
     <Compile Include="GrupoEmpresa.cs" />
     <Compile Include="Localidad.cs" />
@@ -61,9 +62,7 @@
     <Compile Include="TipoGrano.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Infrastructure\Cresud.CDP.Infrastructure.csproj">
       <Project>{8c2238b7-b17b-47c5-b8a7-dc92b63813d0}</Project>

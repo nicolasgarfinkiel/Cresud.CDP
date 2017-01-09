@@ -79,5 +79,31 @@ namespace Cresud.CDP.Admin
                 Data = Mapper.Map<IList<Cliente>, IList<Dtos.Cliente>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };                                   
         }
+
+        public PagedListResponse<Dtos.Cliente> GetClientesConProveedorByFilter(Dtos.Filters.FilterClientesConProveedor filter)
+        {                        
+            var query = CdpContext.Clientes
+                        .Join(CdpContext.Proveedores, c => c.Cuit, p => p.NumeroDocumento, (c, p) => c)
+                        .Where(c => c.IdSapOrganizacionDeVenta == filter.IdSapOrganizacionDeVenta).AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
+            {
+                filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
+
+                query = query.Where(r =>
+                    (r.RazonSocial != null && r.RazonSocial.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.Cuit != null && r.Cuit.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.Id != null && r.Id.ToLower().Contains(filter.MultiColumnSearchText))
+                    ).AsQueryable();
+            }
+
+            query = query.OrderBy(c => c.RazonSocial).AsQueryable();
+
+            return new PagedListResponse<Dtos.Cliente>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<Cliente>, IList<Dtos.Cliente>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };                              
+        }
     }
 }
