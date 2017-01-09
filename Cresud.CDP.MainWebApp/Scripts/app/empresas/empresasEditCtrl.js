@@ -15,13 +15,13 @@
                    $scope.filterClientes.empresaId = $scope.usuario.currentEmpresa.id;
                    $scope.loading = false;
                };
-               
-               editBootstraperService.init($scope, $routeParams,  {
+
+               editBootstraperService.init($scope, $routeParams, {
                    service: empresasService,
                    navigation: baseNavigationService
                });
-              
-               $scope.isValid = function() {
+
+               $scope.isValid = function () {
                    $scope.result = { hasErrors: false, messages: [] };
 
                    if (!$scope.entity.idSapOrganizacionDeVenta) {
@@ -31,14 +31,14 @@
                    if (!$scope.entity.idCliente) {
                        $scope.result.messages.push('Seleccione un cliente');
                    }
-                   
+
                    $scope.result.hasErrors = $scope.result.messages.length;
                    return !$scope.result.hasErrors;
                };
 
                //#endregion                                     
 
-               $scope.getGrupoEmpresaById = function(id) {
+               $scope.getGrupoEmpresaById = function (id) {
                    var result = null;
 
                    for (var i = 0; i < $scope.data.grupoEmpresaList.length; i++) {
@@ -63,9 +63,8 @@
                }, true);
 
                $scope.$watch('entity.idSapOrganizacionDeVenta', function (newValue) {
-                   $scope.filterClientes.idSapOrganizacionDeVenta = idSapOrganizacionDeVenta;
-
                    if (!$scope.loading) {
+                       $scope.filterClientes.idSapOrganizacionDeVenta = newValue;
                        $scope.entity.idCliente = null;
                    }
                });
@@ -76,7 +75,7 @@
                $scope.clientesCount = 0;
                $scope.filterClientes = {};
 
-               $scope.setCliente = function(cliente) {
+               $scope.setCliente = function (cliente) {
                    $scope.entity.idCliente = cliente.id;
                    $('#clientesModal').modal('hide');
                };
@@ -88,11 +87,11 @@
                                 { field: 'cuit', displayName: 'Cuit' },
                                 { field: 'id', displayName: 'Id Cliente', width: 100 },
                                 { field: 'cuit', displayName: 'Seleccionar', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="setCliente(row.entity)"><i class="fa fa-thumbs-o-up"></i></a></div>' }
-                                
+
                    ],
                    showFooter: true,
                    enablePaging: true,
-                   multiSelect: false,                  
+                   multiSelect: false,
                    totalServerItems: 'clientesCount',
                    pagingOptions: {
                        pageSizes: [10],
@@ -102,7 +101,7 @@
                    filterOptions: { useExternalFilter: true }
                };
 
-               $scope.findClientes = function () {                   
+               $scope.findClientes = function () {
                    $scope.clientes = [];
 
                    if (!$scope.filterClientes.empresaId) return;
@@ -112,7 +111,7 @@
 
                    generalService.getClientesConProveedorByFilter($scope.filterClientes).then(function (response) {
                        $scope.clientes = response.data.data;
-                       $scope.clientesCount = response.data.count;                     
+                       $scope.clientesCount = response.data.count;
                    }, function () { throw 'Error on getClientesConProveedorByFilter'; });
                };
 
@@ -124,7 +123,7 @@
                $scope.$watch('filterClientes.multiColumnSearchText', function () {
                    $scope.gridClientes.pagingOptions.currentPage = 1;
                    $scope.findClientes();
-               });              
+               });
 
-               //#endregion
+               //#endregion             
            }]);
