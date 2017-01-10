@@ -81,10 +81,16 @@ namespace Cresud.CDP.Admin
         }
 
         public PagedListResponse<Dtos.Cliente> GetClientesConProveedorByFilter(Dtos.Filters.FilterClientesConProveedor filter)
-        {                        
+        {
+            var organizacion = (OrganizacionVenta)Enum.Parse(typeof(OrganizacionVenta), filter.IdSapOrganizacionDeVenta);
+            var idSapOrganizacionDeVenta = (int)organizacion;
+
             var query = CdpContext.Clientes
-                        .Join(CdpContext.Proveedores, c => c.Cuit, p => p.NumeroDocumento, (c, p) => c)
-                        .Where(c => c.IdSapOrganizacionDeVenta == filter.IdSapOrganizacionDeVenta).AsQueryable();
+                        .Join(CdpContext.Proveedores, 
+                        c => new {c.Cuit, c.IdSapOrganizacionDeVenta }, 
+                        p => new {Cuit = p.NumeroDocumento, p.IdSapOrganizacionDeVenta}, 
+                        (c, p) => c)
+                        .Where(c => c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta).AsQueryable();
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {

@@ -9,7 +9,7 @@ namespace Cresud.CDP.Entities
         public string RazonSocial { get; set; }
         public string NombreFantasia { get; set; }
         public string Cuit { get; set; }
-        public int IdTipoDocumentoSap { get; set; }
+        public int? IdTipoDocumentoSap { get; set; }
         public int? IdClientePrincipal { get; set; }
         public string Calle { get; set; }
         public string Numero { get; set; }

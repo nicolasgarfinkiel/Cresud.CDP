@@ -12,14 +12,13 @@ namespace Cresud.CDP.Admin
         public override Entities.Establecimiento ToEntity(Dtos.Establecimiento dto)
         {
             var entity = default(Entities.Establecimiento);
+            var provincia = CdpContext.Provincias.Single(g => g.Id == dto.ProvinciaId);
+            var recorridoEstablecimiento = !string.IsNullOrEmpty(dto.RecorridoEstablecimiento) ?
+                                           (RecorridoEstablecimiento)Enum.Parse(typeof(RecorridoEstablecimiento), dto.RecorridoEstablecimiento) :
+                                           default(RecorridoEstablecimiento?);    
 
             if (!dto.Id.HasValue)
-            {                                
-                var provincia = CdpContext.Provincias.Single(g => g.Id == dto.ProvinciaId);
-                var recorridoEstablecimiento = !string.IsNullOrEmpty(dto.RecorridoEstablecimiento) ? 
-                                               (RecorridoEstablecimiento)Enum.Parse(typeof(RecorridoEstablecimiento), dto.RecorridoEstablecimiento) :
-                                               default(RecorridoEstablecimiento?);    
-
+            {                                               
                 entity = new Entities.Establecimiento
                 {
                     CreateDate = DateTime.Now,
@@ -43,11 +42,7 @@ namespace Cresud.CDP.Admin
             else
             {
                 entity = CdpContext.Establecimientos.Single(c => c.Id == dto.Id.Value);                                
-                var provincia = CdpContext.Provincias.Single(g => g.Id == dto.ProvinciaId);
-                var recorridoEstablecimiento = !string.IsNullOrEmpty(dto.RecorridoEstablecimiento) ?
-                                               (RecorridoEstablecimiento)Enum.Parse(typeof(RecorridoEstablecimiento), dto.RecorridoEstablecimiento) :
-                                               default(RecorridoEstablecimiento?);   
-             
+                             
                 entity.UpdateDate = DateTime.Now;                
                 entity.UpdatedBy = UsuarioLogged;            
                 entity.Descripcion = dto.Descripcion;

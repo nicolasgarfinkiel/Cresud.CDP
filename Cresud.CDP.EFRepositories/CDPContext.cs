@@ -187,7 +187,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Proveedor>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Proveedor>().Property(t => t.Enabled).HasColumnName("Activo");                        
             modelBuilder.Entity<Proveedor>().Ignore(t => t.CreatedBy);
-            modelBuilder.Entity<Proveedor>().Ignore(t => t.UpdatedBy);
+            modelBuilder.Entity<Proveedor>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<Proveedor>().Ignore(t => t.UpdatedBy);
             modelBuilder.Entity<Proveedor>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Proveedor>().HasOptional(e => e.TipoDocumento).WithMany().Map(x => x.MapKey("IdTipoDocumentoSAP"));

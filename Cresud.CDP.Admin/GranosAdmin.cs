@@ -16,14 +16,14 @@ namespace Cresud.CDP.Admin
         public override Grano ToEntity(Dtos.Grano dto)
         {
             var entity = default(Grano);
+            var cosecha = CdpContext.Cosechas.Single(g => g.Id == dto.CosechaAfipId);
+            var especie = CdpContext.Especies.Single(g => g.Id == dto.EspecieAfipId);
+            var tipoGrano = CdpContext.TiposGrano.Single(g => g.Id == dto.TipoGranoAfipId);
 
             if (!dto.Id.HasValue)
             {
                 var grupoEmpresa = CdpContext.GrupoEmpresas.Single(g => g.Id == dto.GrupoEmpresaId);
-                var cosecha = CdpContext.Cosechas.Single(g => g.Id == dto.CosechaAfipId);
-                var especie = CdpContext.Especies.Single(g => g.Id == dto.EspecieAfipId);
-                var tipoGrano = CdpContext.TiposGrano.Single(g => g.Id == dto.TipoGranoAfipId);
-
+             
                 entity = new Grano
                 {                    
                     CreateDate = DateTime.Now,
@@ -41,10 +41,7 @@ namespace Cresud.CDP.Admin
             else
             {
                 entity = CdpContext.Granos.Single(c => c.Id == dto.Id.Value);
-                var cosecha = CdpContext.Cosechas.Single(g => g.Id == dto.CosechaAfipId);
-                var especie = CdpContext.Especies.Single(g => g.Id == dto.EspecieAfipId);
-                var tipoGrano = CdpContext.TiposGrano.Single(g => g.Id == dto.TipoGranoAfipId);
-
+             
                 entity.UpdateDate = DateTime.Now;
                 entity.UpdatedBy = UsuarioLogged;
                 entity.UpdatedBy = UsuarioLogged;

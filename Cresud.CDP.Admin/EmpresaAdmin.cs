@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Entities;
 using Empresa = Cresud.CDP.Entities.Empresa;
 
 namespace Cresud.CDP.Admin
@@ -12,11 +13,15 @@ namespace Cresud.CDP.Admin
         public override Empresa ToEntity(Dtos.Empresa dto)
         {
             var entity = default(Empresa);
+            var organizacion = (OrganizacionVenta) Enum.Parse(typeof (OrganizacionVenta), dto.IdSapOrganizacionDeVenta);
+            var idSapOrganizacionDeVenta = (int)organizacion;
+            var idCliente = dto.IdCliente.ToString();
+            var grupoEmpresa = CdpContext.GrupoEmpresas.Single(g => g.Id == dto.GrupoEmpresaId);
+            var cliente = CdpContext.Clientes.Single(g => string.Equals(g.Id, idCliente) && g.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta);
+            var proveedor = CdpContext.Proveedores.Single(g => string.Equals(g.NumeroDocumento, cliente.Cuit) && g.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta);
 
             if (!dto.Id.HasValue)
-            {
-                var grupoEmpresa = CdpContext.GrupoEmpresas.Single(g => g.Id == dto.GrupoEmpresaId);
-
+            {                                              
                 entity = new Empresa
                 {                  
                     GrupoEmpresa = grupoEmpresa,
@@ -25,33 +30,30 @@ namespace Cresud.CDP.Admin
                     IdSapCanalExpor = dto.IdSapCanalExpor,
                     IdSapCanalLocal = dto.IdSapCanalLocal,
                     IdSapMoneda = dto.IdSapMoneda,
-                    IdSapOrganizacionDeVenta = dto.IdSapOrganizacionDeVenta,
+                    IdSapOrganizacionDeVenta = idSapOrganizacionDeVenta.ToString(),
                     IdSapSector = dto.IdSapSector,
-                    SapId = dto.SapId
+                    SapId = proveedor.SapId
                 };
             }
             else
             {
-                entity = CdpContext.Empresas.Single(c => c.Id == dto.Id.Value);                
+                entity = CdpContext.Empresas.Single(c => c.Id == dto.Id.Value); 
+               
                 entity.Descripcion = dto.Descripcion;
                 entity.IdCliente = dto.IdCliente;
                 entity.IdSapCanalExpor = dto.IdSapCanalExpor;
                 entity.IdSapCanalLocal = dto.IdSapCanalLocal;
                 entity.IdSapMoneda = dto.IdSapMoneda;
-                entity.IdSapOrganizacionDeVenta = dto.IdSapOrganizacionDeVenta;
+                entity.IdSapOrganizacionDeVenta = idSapOrganizacionDeVenta.ToString();
                 entity.IdSapSector = dto.IdSapSector;
-                entity.SapId = dto.SapId;
+                entity.SapId = proveedor.SapId;
             }
 
             return entity;
         }
 
         public override void Validate(Dtos.Empresa dto)
-        {
-            var entity = CdpContext.Empresas.FirstOrDefault(c => string.Equals(c.Descripcion.ToLower(), dto.Descripcion.ToLower()));
-
-            if (entity != null && entity.Id != dto.Id)
-                throw new Exception("Ya existe otra empresa con la misma descripción");
+        {          
         }
 
         public override IQueryable GetQuery(FilterBase filter)

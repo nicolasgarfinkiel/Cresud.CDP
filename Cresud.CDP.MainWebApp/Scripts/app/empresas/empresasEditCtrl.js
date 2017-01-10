@@ -6,14 +6,17 @@
            'generalService',
            'baseNavigationService',
            'editBootstraperService',
-           function ($scope, $routeParams, empresasService, generalService, baseNavigationService, editBootstraperService) {
+           '$timeout',
+           function ($scope, $routeParams, empresasService, generalService, baseNavigationService, editBootstraperService, $timeout) {
                //#region Base
                $scope.loading = true;
 
                $scope.onInitEnd = function () {
                    $scope.operation = !$routeParams.id ? 'Nueva empresa' : 'Edición de empresa';
                    $scope.filterClientes.empresaId = $scope.usuario.currentEmpresa.id;
-                   $scope.loading = false;
+                   $timeout(function() {
+                       $scope.loading = false;
+                   }, 100);               
                };
 
                editBootstraperService.init($scope, $routeParams, {
@@ -28,6 +31,10 @@
                        $scope.result.messages.push('Seleccione una organización');
                    }
 
+                   if (!$scope.entity.idSapOrganizacionDeVenta) {
+                       $scope.result.messages.push('Seleccione una organización');
+                   }
+
                    if (!$scope.entity.idCliente) {
                        $scope.result.messages.push('Seleccione un cliente');
                    }
@@ -36,7 +43,13 @@
                    return !$scope.result.hasErrors;
                };
 
-               //#endregion                                     
+               //#endregion    
+
+               $scope.moneda = {
+                   1: 'ARS',
+                   2: 'BOB',
+                   3: 'PYG'
+               };
 
                $scope.getGrupoEmpresaById = function (id) {
                    var result = null;
@@ -59,15 +72,19 @@
                    if (!newVal) return;
 
                    $scope.entity.grupoEmpresa = $scope.getGrupoEmpresaById(newVal);
+                   $scope.entity.grupoEmpresaId = newVal;
+                   $scope.entity.idSapMoneda = $scope.moneda[newVal];
 
                }, true);
 
-               $scope.$watch('entity.idSapOrganizacionDeVenta', function (newValue) {
+               $scope.$watch('entity.idSapOrganizacionDeVenta', function (newValue, oldValue) {
                    if (!$scope.loading) {
                        $scope.filterClientes.idSapOrganizacionDeVenta = newValue;
                        $scope.entity.idCliente = null;
+                       $scope.clientes = [];
                    }
                });
+
 
                //#region Clientes
 
@@ -77,6 +94,7 @@
 
                $scope.setCliente = function (cliente) {
                    $scope.entity.idCliente = cliente.id;
+                   $scope.entity.descripcion = cliente.razonSocial;
                    $('#clientesModal').modal('hide');
                };
 
