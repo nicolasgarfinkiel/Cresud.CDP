@@ -16,6 +16,7 @@ namespace Cresud.CDP.Dtos
         public string SapId { get; set; }
         public string IdSapMoneda { get; set; }      
         public IList<string> Roles { get; set; }
+        public bool SolicitudesAsociadas { get; set; }
         
     }
 }

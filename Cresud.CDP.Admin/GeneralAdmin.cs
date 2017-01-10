@@ -28,6 +28,13 @@ namespace Cresud.CDP.Admin
 
         #endregion
 
+        public object GetPaises()
+        {
+            var data = CdpContext.Paises.OrderBy(c => c.Descripcion).ToList();
+
+            return Mapper.Map<IList<Pais>, IList<Dtos.Pais>>(data);
+        }
+
         public object GetProvincias(int paisId)
         {
             var data = CdpContext.Provincias.Where(p => p.PaisId == paisId).OrderBy(c => c.Descripcion).ToList();
@@ -90,7 +97,7 @@ namespace Cresud.CDP.Admin
                         c => new {c.Cuit, c.IdSapOrganizacionDeVenta }, 
                         p => new {Cuit = p.NumeroDocumento, p.IdSapOrganizacionDeVenta}, 
                         (c, p) => c)
-                        .Where(c => c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta).AsQueryable();
+                        .Where(c => c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta && !string.IsNullOrEmpty(c.Cuit)).AsQueryable();
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {

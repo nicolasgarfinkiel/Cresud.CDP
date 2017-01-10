@@ -1,0 +1,20 @@
+﻿@using Cresud.CDP.Infrastructure
+@{
+    ViewBag.ngApp = "cresud.cdp.gruposEmpresa";
+}
+<div>    
+    <script type="text/ng-template" id="gruposEmpresa/list">
+        @RenderPage(Url.Content("~/Views/GruposEmpresa/List.cshtml"))
+    </script>
+    <script type="text/ng-template" id="gruposEmpresa/edit">
+        @RenderPage(Url.Content("~/Views/GruposEmpresa/Edit.cshtml"))
+    </script>
+    <div ng-view></div>
+</div>
+
+@section scripts{
+    @Html.IncludeVersionedJs("Scripts/app/GruposEmpresa/gruposEmpresaModule.js")
+    @Html.IncludeVersionedJs("Scripts/app/GruposEmpresa/gruposEmpresaListCtrl.js")
+    @Html.IncludeVersionedJs("Scripts/app/GruposEmpresa/gruposEmpresaEditCtrl.js")        
+    @Html.IncludeVersionedJs("Scripts/app/shared/gruposEmpresaService.js")
+}

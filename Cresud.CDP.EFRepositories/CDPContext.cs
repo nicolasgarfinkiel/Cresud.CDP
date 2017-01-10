@@ -16,7 +16,7 @@ namespace Cresud.CDP.EFRepositories
         {
             modelBuilder.Entity<Pais>().HasKey(t => t.Id);
             modelBuilder.Entity<Pais>().Property(t => t.Id).HasColumnName("IdPais");
-            modelBuilder.Entity<Pais>().Property(t => t.Descripcion).HasColumnName("Descripcion");          
+            modelBuilder.Entity<Pais>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<Pais>().ToTable("Pais");
 
             modelBuilder.Entity<Provincia>().HasKey(t => t.Id);
@@ -25,18 +25,18 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Provincia>().Property(t => t.PaisId).HasColumnName("IdPais");
             modelBuilder.Entity<Provincia>().ToTable("Provincia");
 
-            modelBuilder.Entity<Localidad>().HasKey(t => new {t.Id, t.ProvinciaId});
+            modelBuilder.Entity<Localidad>().HasKey(t => new { t.Id, t.ProvinciaId });
             modelBuilder.Entity<Localidad>().Property(t => t.Id).HasColumnName("Codigo");
             modelBuilder.Entity<Localidad>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<Localidad>().Property(t => t.ProvinciaId).HasColumnName("IdProvincia");
             modelBuilder.Entity<Localidad>().ToTable("Localidad");
-    
+
             modelBuilder.Entity<GrupoEmpresa>().HasKey(t => t.Id);
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.Id).HasColumnName("IdGrupoEmpresa");
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.Activo).HasColumnName("Activo");
             modelBuilder.Entity<GrupoEmpresa>().Property(t => t.IdApp).HasColumnName("IdApp");
-            modelBuilder.Entity<GrupoEmpresa>().HasOptional(e => e.Pais).WithMany().Map(x => x.MapKey("IdPais"));         
+            modelBuilder.Entity<GrupoEmpresa>().HasOptional(e => e.Pais).WithMany().Map(x => x.MapKey("IdPais"));
             modelBuilder.Entity<GrupoEmpresa>().ToTable("GrupoEmpresa");
 
             modelBuilder.Entity<TipoDocumentoSap>().HasKey(t => t.Id);
@@ -54,7 +54,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapOrganizacionDeVenta).HasColumnName("IdSapOrganizacionDeVenta");
             modelBuilder.Entity<Empresa>().Property(t => t.IdSapSector).HasColumnName("IdSapSector");
             modelBuilder.Entity<Empresa>().Property(t => t.SapId).HasColumnName("Sap_Id");
-            modelBuilder.Entity<Empresa>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));          
+            modelBuilder.Entity<Empresa>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Empresa>().ToTable("Empresa");
 
             modelBuilder.Entity<Chofer>().HasKey(t => t.Id);
@@ -71,7 +71,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Chofer>().Property(t => t.Enabled).HasColumnName("Activo");
             modelBuilder.Entity<Chofer>().Property(t => t.EsChoferTransportista).HasColumnName("EsChoferTransportista");
             modelBuilder.Entity<Chofer>().Property(t => t.Domicilio).HasColumnName("Domicilio");
-            modelBuilder.Entity<Chofer>().Property(t => t.Marca).HasColumnName("Marca");            
+            modelBuilder.Entity<Chofer>().Property(t => t.Marca).HasColumnName("Marca");
             modelBuilder.Entity<Chofer>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Chofer>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Chofer>().ToTable("Chofer");
@@ -90,14 +90,14 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Grano>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Grano>().HasOptional(e => e.EspecieAfip).WithMany().Map(x => x.MapKey("IdEspecieAfip"));
             modelBuilder.Entity<Grano>().HasOptional(e => e.TipoGranoAfip).WithMany().Map(x => x.MapKey("IdTipoGrano"));
-            modelBuilder.Entity<Grano>().HasOptional(e => e.CosechaAfip).WithMany().Map(x => x.MapKey("IdCosechaAfip"));            
+            modelBuilder.Entity<Grano>().HasOptional(e => e.CosechaAfip).WithMany().Map(x => x.MapKey("IdCosechaAfip"));
             modelBuilder.Entity<Grano>().ToTable("Grano");
 
             modelBuilder.Entity<Especie>().HasKey(t => t.Id);
             modelBuilder.Entity<Especie>().Property(t => t.Id).HasColumnName("IdEspecie");
             modelBuilder.Entity<Especie>().Property(t => t.Codigo).HasColumnName("Codigo");
             modelBuilder.Entity<Especie>().Property(t => t.Descripcion).HasColumnName("Descripcion");
-            modelBuilder.Entity<Especie>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");            
+            modelBuilder.Entity<Especie>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Especie>().Ignore(t => t.Enabled);
             modelBuilder.Entity<Especie>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<Especie>().Ignore(t => t.CreatedBy);
@@ -108,13 +108,13 @@ namespace Cresud.CDP.EFRepositories
 
             modelBuilder.Entity<TipoGrano>().HasKey(t => t.Id);
             modelBuilder.Entity<TipoGrano>().Property(t => t.Id).HasColumnName("IdTipoGrano");
-            modelBuilder.Entity<TipoGrano>().Property(t => t.Descripcion).HasColumnName("Descripcion");         
+            modelBuilder.Entity<TipoGrano>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<TipoGrano>().ToTable("TipoGrano");
 
             modelBuilder.Entity<Cosecha>().HasKey(t => t.Id);
             modelBuilder.Entity<Cosecha>().Property(t => t.Id).HasColumnName("IdCosecha");
             modelBuilder.Entity<Cosecha>().Property(t => t.Codigo).HasColumnName("Codigo");
-            modelBuilder.Entity<Cosecha>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");            
+            modelBuilder.Entity<Cosecha>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Cosecha>().Ignore(t => t.Enabled);
             modelBuilder.Entity<Cosecha>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<Cosecha>().Ignore(t => t.CreatedBy);
@@ -122,8 +122,8 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Cosecha>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Cosecha>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<Cosecha>().ToTable("Cosecha");
-            
-            modelBuilder.Entity<Cliente>().HasKey(t => new {t.Id, t.IdSapOrganizacionDeVenta});
+
+            modelBuilder.Entity<Cliente>().HasKey(t => new { t.Id, t.IdSapOrganizacionDeVenta });
             modelBuilder.Entity<Cliente>().Property(t => t.Id).HasColumnName("IdCliente");
             modelBuilder.Entity<Cliente>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
             modelBuilder.Entity<Cliente>().Property(t => t.NombreFantasia).HasColumnName("NombreFantasia");
@@ -149,24 +149,24 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Establecimiento>().HasKey(t => t.Id);
             modelBuilder.Entity<Establecimiento>().Property(t => t.Id).HasColumnName("IdEstablecimiento");
             modelBuilder.Entity<Establecimiento>().Property(t => t.Descripcion).HasColumnName("Descripcion");
-            modelBuilder.Entity<Establecimiento>().Property(t => t.Direccion).HasColumnName("Direccion");            
-            modelBuilder.Entity<Establecimiento>().Property(t => t.IdAlmacenSap).HasColumnName("IDAlmacenSAP");            
-            modelBuilder.Entity<Establecimiento>().Property(t => t.IdCentroSap).HasColumnName("IDCentroSAP");            
-            modelBuilder.Entity<Establecimiento>().Property(t => t.RecorridoEstablecimiento).HasColumnName("RecorridoEstablecimiento");            
-            modelBuilder.Entity<Establecimiento>().Property(t => t.IdCEBE).HasColumnName("IDCEBE");            
-            modelBuilder.Entity<Establecimiento>().Property(t => t.IdExpedicion).HasColumnName("IDExpedicion");            
-            modelBuilder.Entity<Establecimiento>().Property(t => t.EstablecimientoAfip).HasColumnName("EstablecimientoAfip");            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.Direccion).HasColumnName("Direccion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdAlmacenSap).HasColumnName("IDAlmacenSAP");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdCentroSap).HasColumnName("IDCentroSAP");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.RecorridoEstablecimiento).HasColumnName("RecorridoEstablecimiento");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdCEBE).HasColumnName("IDCEBE");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.IdExpedicion).HasColumnName("IDExpedicion");
+            modelBuilder.Entity<Establecimiento>().Property(t => t.EstablecimientoAfip).HasColumnName("EstablecimientoAfip");
             modelBuilder.Entity<Establecimiento>().Property(t => t.AsociaCartaDePorte).HasColumnName("AsociaCartaDePorte");
             modelBuilder.Entity<Establecimiento>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
             modelBuilder.Entity<Establecimiento>().Property(t => t.LocalidadId).HasColumnName("Localidad");
-            modelBuilder.Entity<Establecimiento>().Property(t => t.InterlocutorDestinatarioId).HasColumnName("IdInterlocutorDestinatario");                        
+            modelBuilder.Entity<Establecimiento>().Property(t => t.InterlocutorDestinatarioId).HasColumnName("IdInterlocutorDestinatario");
             modelBuilder.Entity<Establecimiento>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<Establecimiento>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
             modelBuilder.Entity<Establecimiento>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");
             modelBuilder.Entity<Establecimiento>().Property(t => t.UpdatedBy).HasColumnName("UsuarioModificacion");
-            modelBuilder.Entity<Establecimiento>().Property(t => t.Enabled).HasColumnName("Activo");                                    
-            modelBuilder.Entity<Establecimiento>().Ignore(t => t.DeletedBy);            
-            modelBuilder.Entity<Establecimiento>().HasOptional(e => e.Provincia).WithMany().Map(x => x.MapKey("Provincia"));            
+            modelBuilder.Entity<Establecimiento>().Property(t => t.Enabled).HasColumnName("Activo");
+            modelBuilder.Entity<Establecimiento>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Establecimiento>().HasOptional(e => e.Provincia).WithMany().Map(x => x.MapKey("Provincia"));
             modelBuilder.Entity<Establecimiento>().ToTable("Establecimiento");
 
             modelBuilder.Entity<Proveedor>().HasKey(t => t.Id);
@@ -183,15 +183,27 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Proveedor>().Property(t => t.Pais).HasColumnName("Pais");
             modelBuilder.Entity<Proveedor>().Property(t => t.Domicilio).HasColumnName("Domicilio");
             modelBuilder.Entity<Proveedor>().Property(t => t.EsProspecto).HasColumnName("EsProspecto");
-            modelBuilder.Entity<Proveedor>().Property(t => t.IdSapOrganizacionDeVenta).HasColumnName("IdSapOrganizacionDeVenta");            
+            modelBuilder.Entity<Proveedor>().Property(t => t.IdSapOrganizacionDeVenta).HasColumnName("IdSapOrganizacionDeVenta");
             modelBuilder.Entity<Proveedor>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
-            modelBuilder.Entity<Proveedor>().Property(t => t.Enabled).HasColumnName("Activo");                        
+            modelBuilder.Entity<Proveedor>().Property(t => t.Enabled).HasColumnName("Activo");
             modelBuilder.Entity<Proveedor>().Ignore(t => t.CreatedBy);
             modelBuilder.Entity<Proveedor>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<Proveedor>().Ignore(t => t.UpdatedBy);
             modelBuilder.Entity<Proveedor>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Proveedor>().HasOptional(e => e.TipoDocumento).WithMany().Map(x => x.MapKey("IdTipoDocumentoSAP"));
-            modelBuilder.Entity<Proveedor>().ToTable("Proveedor");         
+            modelBuilder.Entity<Proveedor>().ToTable("Proveedor");
+
+            modelBuilder.Entity<Solicitud>().HasKey(t => t.Id);
+            modelBuilder.Entity<Solicitud>().Property(t => t.Id).HasColumnName("IdSolicitud");
+            modelBuilder.Entity<Solicitud>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<Solicitud>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<Solicitud>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
+            modelBuilder.Entity<Solicitud>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");
+            modelBuilder.Entity<Solicitud>().Property(t => t.UpdatedBy).HasColumnName("UsuarioModificacion");
+            modelBuilder.Entity<Solicitud>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<Solicitud>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<Solicitud>().ToTable("Solicitudes");
+
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -206,7 +218,8 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<Cosecha> Cosechas { get; set; }
         public IDbSet<Establecimiento> Establecimientos { get; set; }
         public IDbSet<Cliente> Clientes { get; set; }
-        public IDbSet<Proveedor> Proveedores { get; set; }        
+        public IDbSet<Proveedor> Proveedores { get; set; }
+        public IDbSet<Solicitud> Solicitudes { get; set; }
     }
 }
 

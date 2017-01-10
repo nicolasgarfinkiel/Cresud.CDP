@@ -146,8 +146,9 @@ Date.now = Date.now || function () { return +new Date; };
         }
         $(document).on('click.dropdown-menu', '.dropdown-select > li > a', $.fn.dropdown.Constructor.prototype.change);
 
-        // tooltip
-        $("[data-toggle=tooltip]").tooltip();
+        // tooltip    
+        $('[data-toggle="tooltip"]').tooltip();
+        
 
         // class
         $(document).on('click', '[data-toggle^="class"]', function (e) {
