@@ -174,6 +174,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CartasDePorteController.cs" />
     <Compile Include="Controllers\GruposEmpresaController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\EstablecimientosController.cs" />
@@ -224,6 +225,9 @@
     <Content Include="Scripts\angularJs\quill\quill.min.js" />
     <Content Include="Scripts\angularJs\ui-utils.min.js" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\app\cartasDePorte\CartasDePorteEditCtrl.js" />
+    <Content Include="Scripts\app\cartasDePorte\CartasDePorteListCtrl.js" />
+    <Content Include="Scripts\app\cartasDePorte\CartasDePorteModule.js" />
     <Content Include="Scripts\app\gruposEmpresa\gruposEmpresaEditCtrl.js" />
     <Content Include="Scripts\app\gruposEmpresa\gruposEmpresaListCtrl.js" />
     <Content Include="Scripts\app\gruposEmpresa\gruposEmpresaModule.js" />
@@ -241,6 +245,7 @@
     <Content Include="Scripts\app\choferes\choferesModule.js" />
     <Content Include="Scripts\app\shared\base\baseNavigationService.js" />
     <Content Include="Scripts\app\shared\base\baseService.js" />
+    <Content Include="Scripts\app\shared\cartasDePorteService.js" />
     <Content Include="Scripts\app\shared\gruposEmpresaService.js" />
     <Content Include="Scripts\app\shared\empresasService.js" />
     <Content Include="Scripts\app\shared\establecimientosService.js" />
@@ -322,6 +327,9 @@
     <Content Include="Views\GruposEmpresa\Edit.cshtml" />
     <Content Include="Views\GruposEmpresa\Index.cshtml" />
     <Content Include="Views\GruposEmpresa\List.cshtml" />
+    <Content Include="Views\CartasDePorte\Edit.cshtml" />
+    <Content Include="Views\CartasDePorte\Index.cshtml" />
+    <Content Include="Views\CartasDePorte\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

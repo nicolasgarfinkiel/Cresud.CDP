@@ -12,7 +12,7 @@
       <mvcSiteMapNode title="Rango CDP"                             controller="CartaDePorte"             action="Rangos"                                        roles=""/>
       <mvcSiteMapNode title="Grupo Empresa"                         controller="GruposEmpresa"            action="Index"                                         roles=""/>
       <mvcSiteMapNode title="Empresa"                               controller="Empresas"                 action="Index"                                         roles=""/>
-      <mvcSiteMapNode title="Consulta Rango de CDP"                 controller="CartaDePorte"             action="Consulta"                                      roles=""/>
+      <mvcSiteMapNode title="Consulta Rangos de CDP"                 controller="CartasDePorte"             action="Index"                                      roles=""/>
       <mvcSiteMapNode title="Asociación Formulario 1116A"           controller="Formularios"              action="Formulario1116A"                               roles=""/>
       <mvcSiteMapNode title="Reserva de CDP"                        controller="CartaDePorte"             action="Reversa"                                       roles=""/>
       <mvcSiteMapNode title="Reservas Pendientes"                   controller="CartaDePorte"             action="ReversaPendientes"                             roles=""/>

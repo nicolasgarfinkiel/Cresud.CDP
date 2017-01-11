@@ -204,6 +204,31 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Solicitud>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<Solicitud>().ToTable("Solicitudes");
 
+            modelBuilder.Entity<LoteCartaPorte>().HasKey(t => t.Id);
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Id).HasColumnName("IdLoteCartasDePorte");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Desde).HasColumnName("Desde");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Hasta).HasColumnName("Hasta");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Cee).HasColumnName("Cee");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.EstablecimientoOrigen).HasColumnName("EstablecimientoOrigen");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.FechaVencimiento).HasColumnName("FechaVencimiento");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Sucursal).HasColumnName("Sucursal");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.PuntoEmision).HasColumnName("PuntoEmision");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.FechaDesde).HasColumnName("FechaDesde");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.FechaHasta).HasColumnName("FechaHasta");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.HabilitacionNumero ).HasColumnName("HabilitacionNum");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");            
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdateDate);            
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdatedBy);
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<LoteCartaPorte>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<LoteCartaPorte>().ToTable("LoteCartasDePorte");
+
+
+
+
+
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -220,6 +245,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<Cliente> Clientes { get; set; }
         public IDbSet<Proveedor> Proveedores { get; set; }
         public IDbSet<Solicitud> Solicitudes { get; set; }
+        public IDbSet<LoteCartaPorte> LotesCartaPorte { get; set; }
     }
 }
 
