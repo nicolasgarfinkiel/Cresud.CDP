@@ -3,15 +3,14 @@
         Listado de lotes
     </header>
     <div class="row wrapper">
-        <div class="col-sm-10">
-            <div class="input-group m-b">
-                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filter.multiColumnSearchText" ng-debounce="1200">
-                <span class="input-group-addon">
-                    <i class="fa fa-search"></i>
-                </span>
-            </div>
+        <div class="col-sm-2">            
+            <input type="text" class="input-sm form-control" placeholder="Número lote desde" ng-model="filter.desde" >                           
         </div>
-        <div class="col-sm-2 text-right" >
+        <div class="col-sm-4">
+            <input type="checkbox" ng-model="filter.tieneDisponibilidad"> Solo con números disponibles
+        </div>
+        <div class="col-sm-6 text-right" >
+            <a href="javascript:void(0)" class="btn btn-info " ng-click="search()"><i class="fa fa-search"></i> Buscar</a>
             <a href="javascript:void(0)" class="btn btn-success " ng-click="create()"><i class="fa fa-plus"></i> Nuevo</a>
         </div>
         
@@ -26,3 +25,26 @@
         <div class="gridStyleLarge" ng-grid="gridOptions"></div>
     </div>    
 </section>
+
+<div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <div class="well m-t">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Baja de lote</strong>                           
+                            <p>
+                                {{confirmDeleteMessage}}
+                            </p>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="deleteLoteConfirm()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

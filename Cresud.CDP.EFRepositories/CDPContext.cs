@@ -222,13 +222,33 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdatedBy);
             modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<LoteCartaPorte>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
+            modelBuilder.Entity<LoteCartaPorte>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));            
             modelBuilder.Entity<LoteCartaPorte>().ToTable("LoteCartasDePorte");
 
+            modelBuilder.Entity<CartaDePorte>().HasKey(t => t.Id);
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.Id).HasColumnName("IdCartaDePorte");
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.NumeroCartaDePorte).HasColumnName("NumeroCartaDePorte");
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.NumeroCee).HasColumnName("NumeroCee");            
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.Estado).HasColumnName("Estado");
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.FechaReserva).HasColumnName("FechaReserva");
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.UsuarioReserva).HasColumnName("UsuarioReserva");
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.GrupoEmpresaId).HasColumnName("IdGrupoEmpresa");
+            modelBuilder.Entity<CartaDePorte>().HasRequired(e => e.Lote).WithMany(d => d.CartasDePorte).Map(x => x.MapKey("IdLoteLoteCartasDePorte"));
+            modelBuilder.Entity<CartaDePorte>().ToTable("CartasDePorte");
 
-
-
-
+            modelBuilder.Entity<LogOperacion>().HasKey(t => t.Id);
+            modelBuilder.Entity<LogOperacion>().Property(t => t.Id).HasColumnName("IdLogOperaciones");
+            modelBuilder.Entity<LogOperacion>().Property(t => t.Tabla).HasColumnName("Tabla");
+            modelBuilder.Entity<LogOperacion>().Property(t => t.Accion).HasColumnName("Accion");
+            modelBuilder.Entity<LogOperacion>().Property(t => t.ReferenciaId).HasColumnName("Id");
+            modelBuilder.Entity<LogOperacion>().Property(t => t.CreateDate).HasColumnName("Fecha");
+            modelBuilder.Entity<LogOperacion>().Property(t => t.CreatedBy).HasColumnName("Usuario");
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdateDate);
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdatedBy);
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<LogOperacion>().ToTable("LogOperaciones");
+            
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -246,6 +266,8 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<Proveedor> Proveedores { get; set; }
         public IDbSet<Solicitud> Solicitudes { get; set; }
         public IDbSet<LoteCartaPorte> LotesCartaPorte { get; set; }
+        public IDbSet<CartaDePorte> CartaDePortes { get; set; }
+        public IDbSet<LogOperacion> LogOperaciones { get; set; }
     }
 }
 

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CartaDePorte.cs" />
+    <Compile Include="LogOperacion.cs" />
     <Compile Include="LoteCartaPorte.cs" />
     <Compile Include="Solicitud.cs" />
     <Compile Include="Proveedor.cs" />

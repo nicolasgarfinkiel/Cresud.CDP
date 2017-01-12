@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Entities;
@@ -60,15 +62,29 @@ namespace Cresud.CDP.Admin
         {            
         }
 
+        public override PagedListResponse<Dtos.LoteCartaPorte> GetByFilter(FilterLotesCartaPorte filter)
+        {
+            var query = GetQuery(filter).OfType<LoteCartaPorte>();            
+            var dtos = Mapper.Map<IList<LoteCartaPorte>, IList<Dtos.LoteCartaPorte>>(query.Skip(filter.PageSize*(filter.CurrentPage - 1)).Take(filter.PageSize).ToList());
+
+            dtos.ToList().ForEach(d => d.Disponibles = CdpContext.CartaDePortes.Count(c => c.Estado == 0 && c.Lote.Id == d.Id) );
+
+            return new PagedListResponse<Dtos.LoteCartaPorte>
+            {
+                Count = query.Count(),
+                Data = dtos
+            };
+        }
+
         public override IQueryable GetQuery(FilterLotesCartaPorte filter)
         {
-            var result = CdpContext.LotesCartaPorte.Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa && c.Desde >= filter.Desde).OrderBy(c => c.Desde).AsQueryable();
+            var result = CdpContext.LotesCartaPorte
+                        .Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa && c.Desde >= filter.Desde)
+                        .OrderBy(c => c.Desde).AsQueryable();
 
             if (filter.TieneDisponibilidad)
             {
-                //result = (from l in result
-                //          where (from c in CDP.ca)
-                //              );
+                result = result.Where(r => r.CartasDePorte.Any(c => c.Estado == 0)).AsQueryable();
             }
 
             return result;

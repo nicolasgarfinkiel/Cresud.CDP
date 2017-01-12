@@ -15,6 +15,13 @@ namespace Cresud.CDP.Dtos
         public DateTime? FechaVencimiento { get; set; }
         public DateTime? FechaDesde { get; set; }
         public DateTime? FechaHasta { get; set; }
-        public long HabilitacionNumero { get; set; }
+        public decimal? HabilitacionNumero { get; set; }
+        public string CreatedBy { get; set; }
+        public int Disponibles { get; set; }
+
+        public int? Cantidad
+        {
+            get { return Hasta - Desde + 1; }
+        }
     }
 }

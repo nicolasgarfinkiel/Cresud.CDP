@@ -6,20 +6,40 @@
            'listBootstraperService',
            function ($scope, cartasDePorteService, baseNavigationService, listBootstraperService) {
                $scope.onInitEnd = function () {
-                   $scope.columns;
+                   $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'argentina';
+                   $scope.columns[3].displayName = $scope.esArgentina ? 'Cee' : 'Timbrado';                   
+               };
+
+               $scope.deleteLote = function (lote) {
+                   $scope.currentLote = lote;
+                   $scope.confirmDeleteMessage = lote.cantidad == lote.disopnibles ?
+                       'El lote ' + lote.id + ' no fue utilizado por lo tanto sera eliminado. Items no utilizados desde el número ' + lote.desde + ' hasta el número ' + lote.hasta :
+                       'Se eliminarán ' + lote.disponibles + ' items no utilizados del lote ' + lote.id;
+
+                   $('#deleteModal').modal('show');
+               };
+
+               $scope.deleteLoteConfirm = function () {
+
+                   $('#deleteModal').modal('hide');
                };
 
                listBootstraperService.init($scope, {
                    service: cartasDePorteService,
                    navigation: baseNavigationService,
                    columns: [
-                       { field: 'nombre', displayName: 'Nombre' },
-                       { field: 'apellido', displayName: 'Apellido' },
-                       { field: 'cuit', displayName: 'Cuit', width: 100 },
-                       { field: 'esChoferTransportista ? "Si" : "No" ', displayName: 'Transportista', width: 110 },
-                       { field: 'createDate', displayName: 'Fecha creación', width: 120 },
-                       { field: 'createdBy', displayName: 'Usuario creación' },
-                       { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="edit(row.entity.id)"><i class="fa fa-pencil"></i></a></div>' }
+                       { field: 'id', displayName: 'Lote', width: 60 },
+                       { field: 'desde', displayName: 'Desde', width: 100 },
+                       { field: 'hasta', displayName: 'Hasta', width: 100 },
+                       { field: 'cee', displayName: 'Cee', width: 120 },
+                       { field: 'establecimientoOrigen', displayName: 'Establecimiento Origen'},
+                       { field: 'fechaVencimiento', displayName: 'Fecha Vencimiento' },
+                       { field: 'disponibles', displayName: 'Cantidad Disponible' },
+                       { field: 'createdBy', displayName: 'Usuario Creación' },
+                       { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-if="row.entity.disponibles" ng-click="deleteLote(row.entity)"><i class="fa fa-remove"></i></a></div>' }
                    ]
                });
            }]);
+
+
+
