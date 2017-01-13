@@ -52,6 +52,7 @@
     <Compile Include="Empresa.cs" />
     <Compile Include="Especie.cs" />
     <Compile Include="Establecimiento.cs" />
+    <Compile Include="Filters\FilterEstablecimientos.cs" />
     <Compile Include="Filters\FilterLotesCartaPorte.cs" />
     <Compile Include="Filters\FilterClientesConProveedor.cs" />
     <Compile Include="Grano.cs" />

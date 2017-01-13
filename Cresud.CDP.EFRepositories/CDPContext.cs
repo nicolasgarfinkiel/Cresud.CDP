@@ -209,7 +209,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Desde).HasColumnName("Desde");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Hasta).HasColumnName("Hasta");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Cee).HasColumnName("Cee");
-            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.EstablecimientoOrigen).HasColumnName("EstablecimientoOrigen");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.EstablecimientoOrigenId).HasColumnName("EstablecimientoOrigen");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.FechaVencimiento).HasColumnName("FechaVencimiento");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Sucursal).HasColumnName("Sucursal");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.PuntoEmision).HasColumnName("PuntoEmision");

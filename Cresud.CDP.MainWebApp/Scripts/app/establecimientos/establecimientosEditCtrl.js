@@ -122,6 +122,5 @@
                    $scope.findClientes();
                });
 
-
                //#endregion
            }]);

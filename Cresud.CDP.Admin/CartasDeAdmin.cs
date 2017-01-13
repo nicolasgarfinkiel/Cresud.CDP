@@ -14,12 +14,12 @@ namespace Cresud.CDP.Admin
 
         public override LoteCartaPorte ToEntity(Dtos.LoteCartaPorte dto)
         {
-            var entity = default(LoteCartaPorte);
+            var entity = default(LoteCartaPorte);                        
 
             if (!dto.Id.HasValue)
             {
                 var grupoEmpresa = CdpContext.GrupoEmpresas.Single(g => g.Id == dto.GrupoEmpresaId);
-
+                
                 entity = new LoteCartaPorte
                 {                   
                     CreateDate = DateTime.Now,
@@ -28,7 +28,7 @@ namespace Cresud.CDP.Admin
                     GrupoEmpresa = grupoEmpresa,
                     Cee = dto.Cee,
                     Desde = dto.Desde,
-                    EstablecimientoOrigen = dto.EstablecimientoOrigen,
+                    EstablecimientoOrigenId = dto.EstablecimientoOrigenId,
                     FechaDesde = dto.FechaDesde,
                     FechaHasta = dto.FechaHasta,
                     FechaVencimiento = dto.FechaVencimiento,
@@ -45,7 +45,7 @@ namespace Cresud.CDP.Admin
                 entity.UpdatedBy = UsuarioLogged;
                 entity.Cee = dto.Cee;
                 entity.Desde = dto.Desde;
-                entity.EstablecimientoOrigen = dto.EstablecimientoOrigen;
+                entity.EstablecimientoOrigenId = dto.EstablecimientoOrigenId;
                 entity.FechaDesde = dto.FechaDesde;
                 entity.FechaHasta = dto.FechaHasta;
                 entity.FechaVencimiento = dto.FechaVencimiento;
@@ -85,6 +85,11 @@ namespace Cresud.CDP.Admin
             if (filter.TieneDisponibilidad)
             {
                 result = result.Where(r => r.CartasDePorte.Any(c => c.Estado == 0)).AsQueryable();
+            }
+
+            if (filter.Vigente)
+            {
+                result = result.Where(r =>r.FechaVencimiento >= DateTime.Now ).AsQueryable();
             }
 
             return result;
@@ -145,7 +150,21 @@ namespace Cresud.CDP.Admin
 
             CdpContext.SaveChanges();
         }
-        
+
+        public override Dtos.LoteCartaPorte GetById(int id)
+        {
+            var entity = CdpContext.LotesCartaPorte.Single(d => d.Id == id);
+            var dto = Mapper.Map<LoteCartaPorte, Dtos.LoteCartaPorte>(entity);
+
+            if (!string.IsNullOrEmpty(dto.EstablecimientoOrigenId))
+            {
+                var establecimientoId = int.Parse(dto.EstablecimientoOrigenId);
+                var establecimiento = CdpContext.Establecimientos.Single(e => e.Id == establecimientoId);
+                dto.EstablecimientoOrigenDescripcion = establecimiento.Descripcion;
+            }
+                        
+            return dto;
+        }
 
         #endregion
     }

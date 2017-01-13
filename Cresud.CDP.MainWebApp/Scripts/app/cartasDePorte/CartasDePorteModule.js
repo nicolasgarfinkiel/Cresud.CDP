@@ -1,7 +1,8 @@
 ﻿angular.module('cresud.cdp.cartasDePorte', [
     'cresud.cdp.cartasDePorte.ctrl.list',
     'cresud.cdp.cartasDePorte.ctrl.edit',
-    'cresud.cdp.service.cartasDePorte',     
+    'cresud.cdp.service.cartasDePorte',
+    'cresud.cdp.service.establecimientos',
     'cresud.cdp.navigation.base',     
     'cresud.cdp.service.base',
     'cresud.cdp.service.bootstraper.list',
@@ -10,7 +11,9 @@
     'ngGrid',
     '$strap.directives',
     'cresud.cdp.directive.loading',    
-    'cresud.cdp.directive.debounce'    
+    'cresud.cdp.directive.debounce',
+    'cresud.cdp.directive.int',
+    'cdp.service.singleFile'
 ]).config([
     '$routeProvider',
     '$locationProvider',

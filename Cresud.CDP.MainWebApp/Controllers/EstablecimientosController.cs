@@ -2,11 +2,12 @@
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Dtos.Filters;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
-    public class EstablecimientosController : BaseController<EstablecimientosAdmin, int, Entities.Establecimiento, Dtos.Establecimiento, FilterBase>
+    public class EstablecimientosController : BaseController<EstablecimientosAdmin, int, Entities.Establecimiento, Dtos.Establecimiento, FilterEstablecimientos>
     {        
         public ActionResult Index()
         {

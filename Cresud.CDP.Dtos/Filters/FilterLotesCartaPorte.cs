@@ -6,5 +6,6 @@ namespace Cresud.CDP.Dtos.Filters
     {
         public int Desde { get; set; }
         public bool TieneDisponibilidad { get; set; }
+        public bool Vigente { get; set; }
     }
 }

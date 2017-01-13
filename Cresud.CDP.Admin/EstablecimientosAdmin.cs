@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.Admin
 {
-    public class EstablecimientosAdmin : BaseAdmin<int, Entities.Establecimiento, Dtos.Establecimiento, FilterBase>
+    public class EstablecimientosAdmin : BaseAdmin<int, Entities.Establecimiento, Dtos.Establecimiento, FilterEstablecimientos>
     {
         #region Base
 
@@ -67,9 +68,16 @@ namespace Cresud.CDP.Admin
         {          
         }
 
-        public override IQueryable GetQuery(FilterBase filter)
+        public override IQueryable GetQuery(FilterEstablecimientos filter)
         {
-            var result = CdpContext.Establecimientos.Where(c => c.EmpresaId == filter.EmpresaId).OrderBy(c => c.Descripcion).AsQueryable();            
+            var result = CdpContext.Establecimientos.Where(c => c.EmpresaId == filter.EmpresaId).OrderBy(c => c.Descripcion).AsQueryable();
+
+            if (filter.Origen)
+            {
+                result = result.Where(e => e.RecorridoEstablecimiento.HasValue &&
+                                           (e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.SoloOrigen ||
+                                            e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.OrigenYDestino)).AsQueryable();
+            }
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {

@@ -4037,3 +4037,13 @@ body.container {
     position: relative;
     top: 4px;
 }
+
+fieldset legend {
+    color: #cccccc;
+    border-style: dashed;
+}
+
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
