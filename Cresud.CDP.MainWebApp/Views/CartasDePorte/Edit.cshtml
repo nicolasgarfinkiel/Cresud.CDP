@@ -3,55 +3,66 @@
         <section class="panel panel-default">
             <header class="panel-heading font-bold">{{operation}}</header>
             <div class="panel-body">
-                <form class="bs-example form-horizontal">                                                         
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Es transportista</label>
+                <form class="bs-example form-horizontal">
+                    
+                    public int? Desde { get; set; }
+                    public int? Hasta { get; set; }
+                    public string Cee { get; set; }
+                    public string EstablecimientoOrigen { get; set; }
+                    public int GrupoEmpresaId { get; set; }
+                    public string Sucursal { get; set; }
+                    public string PuntoEmision { get; set; }
+                    public DateTime? FechaVencimiento { get; set; }
+                    public DateTime? FechaDesde { get; set; }
+                    public DateTime? FechaHasta { get; set; }
+                    public decimal? HabilitacionNumero { get; set; }
+                    
+                    
+                                                                                                                  
+                    <div class="form-group" >
+                        <label class="col-lg-2 control-label">Sucursal Nro.</label>
                         <div class="col-lg-10">
-                            <input type="checkbox" ng-model="entity.esChoferTransportista"> 
-                        </div>
-                    </div>   
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">{{entity.esChoferTransportista ? 'Descripción' : 'Nombre'}}</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.nombre">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista">
-                        <label class="col-lg-2 control-label">Apellido</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.apellido">
+                            <input type="text" class="form-control" ng-model="entity.sucursal" maxlength="3">
                         </div>
                     </div>                    
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">Cuit</label>
+                        <label class="col-lg-2 control-label">Punto Emisión</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.cuit">                            
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista && esParaguay">
-                        <label class="col-lg-2 control-label">Domicilio</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.domicilio">
+                            <input type="text" class="form-control" ng-model="entity.puntoEmision" maxlength="3">                            
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">Marca</label>
+                        <label class="col-lg-2 control-label">Timbrado de Habilitacion Nro.</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.marca">
+                            <input type="text" class="form-control" ng-model="entity.habilitacionNumero" maxlength="13" int>
                         </div>
                     </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista">
-                        <label class="col-lg-2 control-label">Patente camión</label>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Rango desde</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.camion">
+                            <input type="text" class="form-control" ng-model="entity.desde" int>
                         </div>
                     </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista">
-                        <label class="col-lg-2 control-label">Patente acoplado</label>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Rango hasta</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.acoplado">
+                            <input type="text" class="form-control" ng-model="entity.hasta" int>
                         </div>
-                    </div>                                                                                                              
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Numero de CEE</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" ng-model="entity.cee">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Establecimiento Origen</label>
+                        <div class="col-lg-10">
+                            <select ng-model="entity.establecimientoOrigen" ng-options="establecimiento.id as establecimiento.descripcion for establecimiento in data.establecimiento" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="alert alert-danger" ng-if="result.hasErrors">
                         <i class="fa fa-bolt"></i>
                         <div ng-repeat="message in result.messages">{{message}}</div>

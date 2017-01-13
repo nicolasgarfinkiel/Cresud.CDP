@@ -6,9 +6,8 @@
            'baseNavigationService',
            'editBootstraperService',
            function ($scope, $routeParams, cartasDePorteService, baseNavigationService, editBootstraperService) {
-
                $scope.onInitEnd = function () {
-                   $scope.operation = !$routeParams.id ? 'Nuevo lote' : 'Edición de lote';                  
+                   $scope.operation = 'Alta de Rango de Cartas de Porte solicitadas a la AFIP';
                };
 
                editBootstraperService.init($scope, $routeParams,  {
