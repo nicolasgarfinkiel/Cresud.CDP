@@ -7,21 +7,24 @@
            function ($scope, cartasDePorteService, baseNavigationService, listBootstraperService) {
                $scope.onInitEnd = function () {
                    $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'argentina';
-                   $scope.columns[3].displayName = $scope.esArgentina ? 'Cee' : 'Timbrado';                   
+                   $scope.columns[3].displayName = $scope.esArgentina ? 'Cee' : 'Timbrado';
                };
 
                $scope.deleteLote = function (lote) {
                    $scope.currentLote = lote;
-                   $scope.confirmDeleteMessage = lote.cantidad == lote.disopnibles ?
-                       'El lote ' + lote.id + ' no fue utilizado por lo tanto sera eliminado. Items no utilizados desde el número ' + lote.desde + ' hasta el número ' + lote.hasta :
+                   $scope.confirmDeleteMessage = lote.cantidad == lote.disponibles ?
+                       'El lote ' + lote.id + ' no fue utilizado por lo tanto sera eliminado. Items no utilizados desde el número ' + lote.desde + ' hasta el número ' + lote.hasta + '.' :
                        'Se eliminarán ' + lote.disponibles + ' items no utilizados del lote ' + lote.id;
 
                    $('#deleteModal').modal('show');
                };
 
                $scope.deleteLoteConfirm = function () {
-
-                   $('#deleteModal').modal('hide');
+                   cartasDePorteService.deleteEntity($scope.currentLote.id).then(function (response) {
+                       $('#deleteModal').modal('hide');
+                       $scope.currentLote = null;
+                       $scope.search();
+                   }, function () { throw 'Error on getByFilter'; });
                };
 
                listBootstraperService.init($scope, {
@@ -32,7 +35,7 @@
                        { field: 'desde', displayName: 'Desde', width: 100 },
                        { field: 'hasta', displayName: 'Hasta', width: 100 },
                        { field: 'cee', displayName: 'Cee', width: 120 },
-                       { field: 'establecimientoOrigen', displayName: 'Establecimiento Origen'},
+                       { field: 'establecimientoOrigen', displayName: 'Establecimiento Origen' },
                        { field: 'fechaVencimiento', displayName: 'Fecha Vencimiento' },
                        { field: 'disponibles', displayName: 'Cantidad Disponible' },
                        { field: 'createdBy', displayName: 'Usuario Creación' },

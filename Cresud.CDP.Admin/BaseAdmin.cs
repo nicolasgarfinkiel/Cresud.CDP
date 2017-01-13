@@ -73,6 +73,14 @@ namespace Cresud.CDP.Admin
             return Mapper.Map<TE, TD>(entity);
         }
 
+        public virtual void Delete(TID id)
+        {
+            var entity = (TE)CdpContext.Set(typeof(TE)).Find(id);
+            CdpContext.Set(typeof (TE)).Remove(entity);
+
+            CdpContext.SaveChanges();            
+        }
+
         #region Abstract Methods
 
         public abstract TE ToEntity(TD dto);

@@ -90,6 +90,63 @@ namespace Cresud.CDP.Admin
             return result;
         }
 
+        public override void Delete(int id)
+        {
+            var dto = GetById(id);
+            var entity = CdpContext.LotesCartaPorte.Single(l => l.Id == id);
+            dto.Disponibles = CdpContext.CartaDePortes.Count(c => c.Estado == 0 && c.Lote.Id == id);
+
+            if (dto.Cantidad == dto.Disponibles)
+            {
+                var cdpIds = entity.CartasDePorte.Select(c => c.Id).ToList();
+
+                cdpIds.ForEach(c =>
+                {
+                    var cdp = entity.CartasDePorte.Single(cc => cc.Id == c);
+                    CdpContext.CartaDePortes.Remove(cdp);
+                });
+
+                CdpContext.LotesCartaPorte.Remove(entity);
+            }
+            else
+            {
+                var maxNroCartaPorte = entity.CartasDePorte.Where(c => c.Estado == 1).Select(c => int.Parse(c.NumeroCartaDePorte)).Max();
+                var cdpIds = entity.CartasDePorte.Where(c => c.Estado == 0).Select(c => c.Id).ToList();
+
+                cdpIds.ForEach(c =>
+                {
+                    var cdp = entity.CartasDePorte.Single(cc => cc.Id == c);
+                    CdpContext.CartaDePortes.Remove(cdp);
+                });
+
+                entity.Hasta = maxNroCartaPorte;
+
+                var log1 = new LogOperacion
+                {
+                   Tabla = "CartasDePorte",
+                   Accion = "DELETE DISP",
+                   ReferenciaId = id,
+                   CreateDate = DateTime.Now,
+                   CreatedBy = UsuarioLogged
+                };
+
+                var log2 = new LogOperacion
+                {
+                   Tabla = "LoteCartasDePorte",
+                   Accion = "DELETE DISP",
+                   ReferenciaId = id,
+                   CreateDate = DateTime.Now,
+                   CreatedBy = UsuarioLogged
+                };
+
+                CdpContext.LogOperaciones.Add(log1);
+                CdpContext.LogOperaciones.Add(log2);
+            }
+
+            CdpContext.SaveChanges();
+        }
+        
+
         #endregion
     }
 }

@@ -243,10 +243,10 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LogOperacion>().Property(t => t.ReferenciaId).HasColumnName("Id");
             modelBuilder.Entity<LogOperacion>().Property(t => t.CreateDate).HasColumnName("Fecha");
             modelBuilder.Entity<LogOperacion>().Property(t => t.CreatedBy).HasColumnName("Usuario");
-            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdateDate);
-            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdatedBy);
-            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.DeletedBy);
-            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<LogOperacion>().Ignore(t => t.UpdateDate);
+            modelBuilder.Entity<LogOperacion>().Ignore(t => t.UpdatedBy);
+            modelBuilder.Entity<LogOperacion>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<LogOperacion>().Ignore(t => t.Enabled);
             modelBuilder.Entity<LogOperacion>().ToTable("LogOperaciones");
             
         }
