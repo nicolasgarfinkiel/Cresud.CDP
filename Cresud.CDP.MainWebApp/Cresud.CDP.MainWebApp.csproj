@@ -41,6 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MvcSiteMapProvider, Version=4.6.22.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
       <HintPath>..\packages\MvcSiteMapProvider.MVC5.Core.4.6.22\lib\net45\MvcSiteMapProvider.dll</HintPath>
@@ -198,6 +202,7 @@
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\font.css" />
     <Content Include="Content\css\helper.css" />
+    <Content Include="Content\css\jquery.fileupload.css" />
     <Content Include="Content\css\metisMenu.min.css" />
     <Content Include="Content\css\ng-grid.min.css" />
     <Content Include="Content\css\pe-icon-7-stroke.css" />

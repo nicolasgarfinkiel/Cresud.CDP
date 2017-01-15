@@ -42,7 +42,11 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -54,7 +58,7 @@
   <ItemGroup>
     <Compile Include="BaseAdmin.cs" />
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="CartasDeAdmin.cs" />
+    <Compile Include="CartasDePorteAdmin.cs" />
     <Compile Include="GrupoEmpresaAdmin.cs" />
     <Compile Include="GeneralAdmin.cs" />
     <Compile Include="EstablecimientosAdmin.cs" />

@@ -20,6 +20,7 @@ namespace Cresud.CDP.MainWebApp
               .Include("~/Content/css/ng-grid.min.css")
               .Include("~/Content/css/app.css")
               .Include("~/Content/css/animate.min.css")
+              .Include("~/Content/css/jquery.fileupload.css")
               );
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/basicScripts")

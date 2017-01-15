@@ -18,7 +18,7 @@ namespace Cresud.CDP.Dtos
         public DateTime? FechaHasta { get; set; }
         public decimal? HabilitacionNumero { get; set; }
         public string CreatedBy { get; set; }
-        public int Disponibles { get; set; }
+        public int Disponibles { get; set; }        
 
         public int? Cantidad
         {

@@ -106,12 +106,12 @@ namespace Cresud.CDP.MainWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateEntity(TD dto)
+        public virtual ActionResult CreateEntity(TD dto)
         {
             var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
 
             try
-            {
+            {                
                 _admin.Create(dto);
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateEntity(TD dto)
+        public virtual ActionResult UpdateEntity(TD dto)
         {
             var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
 

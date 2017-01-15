@@ -1,4 +1,4 @@
-﻿angular.module('cresud.cdp.cartasDePorte.ctrl.edit', [])
+﻿-angular.module('cresud.cdp.cartasDePorte.ctrl.edit', [])
        .controller('editCtrl', [
            '$scope',
            '$routeParams',
@@ -10,7 +10,7 @@
            function ($scope, $routeParams, cartasDePorteService, establecimientosService, baseNavigationService, editBootstraperService, singleFileService) {
                //#region Base
 
-               $scope.onInitEnd = function () {                   
+               $scope.onInitEnd = function () {
                    $scope.filterEstablecimientos.empresaId = $scope.usuario.currentEmpresa.id;
                    $scope.filterLotes.idGrupoEmpresa = $scope.usuario.currentEmpresa.grupoEmpresa.id;
                    $scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'paraguay';
@@ -21,10 +21,7 @@
                        onError: $scope.onErrorFileCallBack,
                        onSuccess: $scope.onSuccessFileCallBack,
                        controlId: 'fileupload',
-                       controlPasteId: 'fotografia',
-                       imageDest: 'fotografiaView',
-                       urlFromClipboard: 'Relacionados/UploadFotografiaFromClipboard',
-                       urlFile: 'Relacionados/UploadFotografia'
+                       urlFile: 'CartasDePorte/UploadPdf'
                    });
                };
 
@@ -59,7 +56,7 @@
                        var fecha = moment(moment($scope.entity.fechaVencimiento).format('DD/MM/YYYY'), 'DD/MM/YYYY').add(1, 'days');
 
                        if (fechaActual >= fecha) {
-                           $scope.resultModal.messages.push('La fecha de vencimiento debe ser mayor a la fecha actual');
+                           $scope.result.messages.push('La fecha de vencimiento debe ser mayor a la fecha actual');
                        }
                    }
 
@@ -79,11 +76,30 @@
                        $scope.result.messages.push('Ingrese la fecha desde');
                    }
 
+                   if (!$scope.fileLoaded) {
+                       $scope.result.messages.push('Seleccione un archivo de tipo pdf');
+                   }
+
                    $scope.result.hasErrors = $scope.result.messages.length;
                    return !$scope.result.hasErrors;
                };
 
                //#endregion
+
+               $scope.onErrorFileCallBack = function (message) {
+                   $scope.$apply(function () {
+                       $scope.fileLoaded = false;
+                       $scope.result.hasErrors = true;
+                       $scope.result.messages = [message || 'Se produjo un error al intentar subir el archivo'];
+                   });
+               };
+
+               $scope.onSuccessFileCallBack = function () {
+                   $scope.$apply(function () {
+                       $scope.fileLoaded = true;
+                       $scope.result.hasErrors = false;
+                   });
+               };
 
                //#region Establecimientos
 
@@ -101,7 +117,7 @@
                    data: 'establecimientos',
                    columnDefs: [
                                 { field: 'descripcion', displayName: 'Descripción' },
-                                { field: 'direccion', displayName: 'Dirección' },                                
+                                { field: 'direccion', displayName: 'Dirección' },
                                 { field: 'cuit', displayName: 'Seleccionar', width: 120, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="setEstablecimiento(row.entity)"><i class="fa fa-thumbs-o-up"></i></a></div>' }
 
                    ],
@@ -147,11 +163,23 @@
 
                $scope.lotes = [];
                $scope.lotesCount = 0;
-               $scope.filterLotes = { vigente: true};
-               
-               $scope.gridLotes= {
-                   data: 'lotes',
-                   columnDefs: [
+               $scope.filterLotes = { vigente: true };
+               $scope.lotesColumns = $scope.esParaguay ?
+                   [
+                       { field: 'sucursal', displayName: 'Sucursal', width: 60 },
+                       { field: 'puntoEmision', displayName: 'Punto de Venta', width: 60 },
+                       { field: 'id', displayName: 'Lote', width: 60 },
+                       { field: 'desde', displayName: 'Desde', width: 100 },
+                       { field: 'hasta', displayName: 'Hasta', width: 100 },
+                       { field: 'cee', displayName: 'Timbrado', width: 120 },
+                       { field: 'establecimientoOrigen', displayName: 'Establecimiento Origen' },
+                       { field: 'fechaDesde', displayName: 'Fecha Desde', width: 100 },
+                       { field: 'fechaVencimiento', displayName: 'Fecha Vencimiento', width: 100 },
+                       { field: 'disponibles', displayName: 'Cantidad Disponible', width: 100 },
+                       { field: 'createdBy', displayName: 'Usuario Creación' }
+                   ]
+                   :
+                   [
                        { field: 'id', displayName: 'Lote', width: 60 },
                        { field: 'desde', displayName: 'Desde', width: 100 },
                        { field: 'hasta', displayName: 'Hasta', width: 100 },
@@ -160,7 +188,11 @@
                        { field: 'fechaVencimiento', displayName: 'Fecha Vencimiento' },
                        { field: 'disponibles', displayName: 'Cantidad Disponible' },
                        { field: 'createdBy', displayName: 'Usuario Creación' }
-                   ],
+                   ];
+
+               $scope.gridLotes = {
+                   data: 'lotes',
+                   columnDefs: 'lotesColumns',
                    showFooter: true,
                    enablePaging: true,
                    multiSelect: false,
@@ -173,7 +205,7 @@
                    filterOptions: { useExternalFilter: true }
                };
 
-               $scope.findLotes = function () {                   
+               $scope.findLotes = function () {
                    if (!$scope.filterLotes.idGrupoEmpresa) return;
 
                    $scope.filterLotes.currentPage = $scope.gridLotes.pagingOptions.currentPage;
@@ -188,9 +220,7 @@
                $scope.$watch('gridLotes.pagingOptions', function (newVal, oldVal) {
                    if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
                    $scope.findLotes();
-               }, true);              
+               }, true);
 
-               //#endregion
-
-               
+               //#endregion               
            }]);
