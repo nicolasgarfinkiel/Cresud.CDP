@@ -27,6 +27,14 @@
                    }, function () { throw 'Error on getByFilter'; });
                };
 
+               $scope.getFechaDesde = function() {
+                   return moment($scope.filter.fechaDesde).format('YYYY/MM/DD');
+               };
+
+               $scope.getFechaHasta = function () {
+                   return moment($scope.filter.fechaHasta).format('YYYY/MM/DD');
+               };
+
                listBootstraperService.init($scope, {
                    service: cartasDePorteService,
                    navigation: baseNavigationService,

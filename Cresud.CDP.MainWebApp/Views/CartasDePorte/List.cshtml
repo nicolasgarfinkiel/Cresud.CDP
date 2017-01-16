@@ -3,27 +3,48 @@
         Listado de lotes
     </header>
     <div class="row wrapper">
-        <div class="col-sm-2">            
-            <input type="text" class="input-sm form-control" placeholder="Número lote desde" ng-model="filter.desde" >                           
+        <div class="col-sm-2">
+            <input type="text" class="input-sm form-control" placeholder="Número lote desde" ng-model="filter.desde">
+        </div>      
+        <div class="col-sm-2">
+            <div class="input-group input-append">
+                <input type="text" ng-model="filter.fechaDesde" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" placeholder="Fecha desde" />
+                <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+            </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
+            <div class="input-group input-append">
+                <input type="text" ng-model="filter.fechaHasta" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" placeholder="Fecha hasta" />
+                <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+            </div>
+        </div>
+        <div class="col-sm-2">
             <input type="checkbox" ng-model="filter.tieneDisponibilidad"> Solo con números disponibles
         </div>
-        <div class="col-sm-6 text-right" >
+        <div class="col-sm-4 text-right">
             <a href="javascript:void(0)" class="btn btn-info " ng-click="search()"><i class="fa fa-search"></i> Buscar</a>
             <a href="javascript:void(0)" class="btn btn-success " ng-click="create()"><i class="fa fa-plus"></i> Nuevo</a>
+            <form method="POST" action="/CartasDeporte/Export" style="display: inline;">                
+                <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
+                <input type="hidden" name="empresaId" value="{{filter.empresaId}}" /> 
+                <input type="hidden" name="desde" value="{{filter.desde}}" />
+                <input type="hidden" name="fechaDesde" value="{{getFechaDesde()}}" />
+                <input type="hidden" name="fechaHasta" value="{{moment(filter.fechaHasta).format('YYYY/MM/DD')}}" />
+                <input type="hidden" name="tieneDisponibilidad" value="{{filter.tieneDisponibilidad}}" />
+                <button type="submit" class="btn btn-dark" ><i class="fa fa-file"></i> Exportar</button>    
+            </form>
+            
         </div>
-        
         <div class="col-sm-12">
             <div class="alert alert-danger" ng-if="result.hasErrors">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <i class="fa fa-ban-circle"></i> {{result.messages[0]}}
             </div>
         </div>
-    </div>
+    </div>   
     <div style="margin: 0 15px 15px 15px">
         <div class="gridStyleLarge" ng-grid="gridOptions"></div>
-    </div>    
+    </div>
 </section>
 
 <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -33,11 +54,11 @@
                 <div class="well m-t">
                     <div class="row">
                         <div class="col-xs-6">
-                            <strong>Baja de lote</strong>                           
+                            <strong>Baja de lote</strong>
                             <p>
                                 {{confirmDeleteMessage}}
                             </p>
-                        </div>                       
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,20 @@
+﻿@using Cresud.CDP.Infrastructure
+@{
+    ViewBag.ngApp = "cresud.cdp.choferes";
+}
+<div>    
+    <script type="text/ng-template" id="choferes/list">
+        @RenderPage(Url.Content("~/Views/Choferes/List.cshtml"))
+    </script>
+    <script type="text/ng-template" id="choferes/edit">
+        @RenderPage(Url.Content("~/Views/Choferes/Edit.cshtml"))
+    </script>
+    <div ng-view></div>
+</div>
+
+@section scripts{
+    @Html.IncludeVersionedJs("Scripts/app/Choferes/choferesModule.js")
+    @Html.IncludeVersionedJs("Scripts/app/Choferes/choferesListCtrl.js")
+    @Html.IncludeVersionedJs("Scripts/app/Choferes/choferesEditCtrl.js")        
+    @Html.IncludeVersionedJs("Scripts/app/shared/choferesService.js")
+}

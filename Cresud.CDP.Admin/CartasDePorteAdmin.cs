@@ -8,6 +8,7 @@ using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Entities;
+using OfficeOpenXml;
 using LoteCartaPorte = Cresud.CDP.Entities.LoteCartaPorte;
 
 namespace Cresud.CDP.Admin
@@ -61,6 +62,17 @@ namespace Cresud.CDP.Admin
             if (filter.Vigente)
             {
                 result = result.Where(r => r.FechaVencimiento >= DateTime.Now).AsQueryable();
+            }
+
+            if (filter.FechaDesde.HasValue)
+            {
+                result = result.Where(r => r.CreateDate >= filter.FechaDesde.Value).AsQueryable();
+            }
+
+            if (filter.FechaHasta.HasValue)
+            {
+                filter.FechaHasta = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+                result = result.Where(r => r.CreateDate <= filter.FechaHasta.Value).AsQueryable();
             }
 
             return result;
@@ -184,7 +196,6 @@ namespace Cresud.CDP.Admin
             CdpContext.SaveChanges();
         }
 
-
         public override void Validate(Dtos.LoteCartaPorte dto)
         {
             var pageCount = GetPageCount();
@@ -253,6 +264,41 @@ namespace Cresud.CDP.Admin
 
                 reader.Close();
             }         
+        }
+
+        public  ExcelPackage Export(FilterLotesCartaPorte filter)
+        {
+            var data = GetQuery(filter).OfType<LoteCartaPorte>().ToList();
+            var template = new FileInfo(String.Format(@"{0}\Reports\RangosCartaDePorte.xlsx", AppDomain.CurrentDomain.BaseDirectory));
+            var pck = new ExcelPackage(template, true);
+            var ws = pck.Workbook.Worksheets[1];
+            var row = 4;
+            var establecimientosId = data.Where(d => !string.IsNullOrEmpty(d.EstablecimientoOrigenId))
+                                    .Select(d => d.EstablecimientoOrigenId)
+                                    .Distinct()
+                                    .ToList()
+                                    .Select(int.Parse)
+                                    .ToList();
+
+            var establecimientos = CdpContext.Establecimientos.Where(e => establecimientosId.Contains(e.Id)).ToList();
+
+            foreach (var lote in data)
+            {
+                row++;
+                var establecimiento = string.IsNullOrEmpty(lote.EstablecimientoOrigenId) ? string.Empty : 
+                                      establecimientos.Single(e => e.Id == int.Parse(lote.EstablecimientoOrigenId)).Descripcion;
+
+                ws.Cells[row, 1].Value  = lote.Id;
+                ws.Cells[row, 2].Value = lote.Desde;
+                ws.Cells[row, 3].Value = lote.Hasta;
+                ws.Cells[row, 4].Value = lote.Cee;
+                ws.Cells[row, 5].Value = lote.CreateDate.HasValue ? lote.CreateDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+                ws.Cells[row, 6].Value = lote.FechaVencimiento.HasValue ? lote.FechaVencimiento.Value.ToString("dd/MM/yyyy") : string.Empty;
+                ws.Cells[row, 7].Value = lote.CreatedBy;
+                ws.Cells[row, 8].Value = establecimiento;
+            }
+
+            return pck;
         }
     }
 }

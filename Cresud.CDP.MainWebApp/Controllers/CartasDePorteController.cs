@@ -8,12 +8,15 @@ using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Infrastructure;
+using Cresud.CDP.Infrastructure.ActionResults;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
     public class CartasDePorteController : BaseController<CartasDePorteAdmin, int, Entities.LoteCartaPorte, Dtos.LoteCartaPorte, FilterLotesCartaPorte>
-    {        
+    {
+        #region Base
+
         public ActionResult Index()
         {
             return View();
@@ -30,7 +33,20 @@ namespace Cresud.CDP.MainWebApp.Controllers
             {
                 CartasDePorteDisponibles = _admin.GetCartasDePorteDisponibles(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.Id.Value)
             };
-        }    
+        }
+
+        #endregion
+
+        public ActionResult Export(FilterLotesCartaPorte filter)
+        {
+            var excelPackage = _admin.Export(filter);
+
+            return new ExcelResult
+            {
+                ExcelPackage = excelPackage,
+                FileName = string.Format("RangosCartaDePorte_{0}.xlsx", DateTime.Now.ToString("ddMMyyyy"))
+            };
+        }
 
         [HttpPost]
         public ActionResult UploadPdf()

@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace Cresud.CDP.Entities
+namespace Cresud.CDP.Dtos
 {
-    public class Solicitud : EntityBase
+    public class Solicitud 
     {
+        public int? Id { get; set; }
         public int EmpresaId { get; set; }
         public string ObservacionAfip { get; set; }
         public string NumeroCartaDePorte { get; set; }
