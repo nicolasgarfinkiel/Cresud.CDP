@@ -28,8 +28,8 @@
                 <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
                 <input type="hidden" name="empresaId" value="{{filter.empresaId}}" /> 
                 <input type="hidden" name="desde" value="{{filter.desde}}" />
-                <input type="hidden" name="fechaDesde" value="{{getFechaDesde()}}" />
-                <input type="hidden" name="fechaHasta" value="{{moment(filter.fechaHasta).format('YYYY/MM/DD')}}" />
+                <input type="hidden" name="fechaDesde" value="{{fechaDesde}}" />
+                <input type="hidden" name="fechaHasta" value="{{fechaHasta}}" />
                 <input type="hidden" name="tieneDisponibilidad" value="{{filter.tieneDisponibilidad}}" />
                 <button type="submit" class="btn btn-dark" ><i class="fa fa-file"></i> Exportar</button>    
             </form>

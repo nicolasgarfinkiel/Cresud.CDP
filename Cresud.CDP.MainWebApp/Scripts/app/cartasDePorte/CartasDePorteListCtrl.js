@@ -25,15 +25,15 @@
                        $scope.currentLote = null;
                        $scope.search();
                    }, function () { throw 'Error on getByFilter'; });
-               };
+               };             
 
-               $scope.getFechaDesde = function() {
-                   return moment($scope.filter.fechaDesde).format('YYYY/MM/DD');
-               };
+               $scope.$watch('filter.fechaDesde', function(newValue) {
+                   $scope.fechaDesde = moment($scope.filter.fechaDesde).add(1, 'days').format('YYYY/MM/DD');
+               });
 
-               $scope.getFechaHasta = function () {
-                   return moment($scope.filter.fechaHasta).format('YYYY/MM/DD');
-               };
+               $scope.$watch('filter.fechaHasta', function (newValue) {
+                   $scope.fechaHasta = moment($scope.filter.fechaHasta).add(1, 'days').format('YYYY/MM/DD');
+               });
 
                listBootstraperService.init($scope, {
                    service: cartasDePorteService,
