@@ -6,7 +6,7 @@ using Cresud.CDP.Entities;
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
-    public class ReservasController : BaseController<ReservasAdmin, int, Solicitud, Dtos.Solicitud, FilterBase>
+    public class ReservasController : BaseController<SolicitudesAdmin, int, Solicitud, Dtos.Solicitud, FilterBase>
     {
         #region Base
         public ActionResult Index()
@@ -23,7 +23,6 @@ namespace Cresud.CDP.MainWebApp.Controllers
         {
             return new { };
         }
-        #endregion
-     
+        #endregion        
     }
 }

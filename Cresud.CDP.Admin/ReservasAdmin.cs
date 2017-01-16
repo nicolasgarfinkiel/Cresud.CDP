@@ -11,7 +11,44 @@ namespace Cresud.CDP.Admin
 
         public override Solicitud ToEntity(Dtos.Solicitud dto)
         {
-            return null;
+            var entity = default(Solicitud);
+
+            //if (!dto.Id.HasValue)
+            //{
+            //    var grupoEmpresa = CdpContext.GrupoEmpresas.Single(g => g.Id == dto.GrupoEmpresaId);
+
+            //    entity = new Chofer
+            //    {
+            //        Acoplado = dto.Acoplado,
+            //        Apellido = dto.Apellido,
+            //        Camion = dto.Camion,
+            //        CreateDate = DateTime.Now,
+            //        CreatedBy = UsuarioLogged,
+            //        Cuit = dto.Cuit,
+            //        Domicilio = dto.Domicilio,
+            //        Enabled = true,
+            //        EsChoferTransportista = dto.EsChoferTransportista,
+            //        GrupoEmpresa = grupoEmpresa,
+            //        Marca = dto.Marca,
+            //        Nombre = dto.Nombre
+            //    };
+            //}
+            //else
+            //{
+            //    entity = CdpContext.Choferes.Single(c => c.Id == dto.Id.Value);
+            //    entity.Acoplado = dto.Acoplado;
+            //    entity.Apellido = dto.Apellido;
+            //    entity.Camion = dto.Camion;
+            //    entity.Cuit = dto.Cuit;
+            //    entity.Domicilio = dto.Domicilio;
+            //    entity.EsChoferTransportista = dto.EsChoferTransportista;
+            //    entity.Marca = dto.Marca;
+            //    entity.Nombre = dto.Nombre;
+            //    entity.UpdateDate = DateTime.Now;
+            //    entity.UpdatedBy = UsuarioLogged;
+            //}
+
+            return entity;
         }
 
         public override void Validate(Dtos.Solicitud dto)

@@ -239,6 +239,9 @@
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteEditCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteListCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteModule.js" />
+    <Content Include="Scripts\app\reservas\reservasEditCtrl.js" />
+    <Content Include="Scripts\app\reservas\reservasListCtrl.js" />
+    <Content Include="Scripts\app\reservas\reservasModule.js" />
     <Content Include="Scripts\app\gruposEmpresa\gruposEmpresaEditCtrl.js" />
     <Content Include="Scripts\app\gruposEmpresa\gruposEmpresaListCtrl.js" />
     <Content Include="Scripts\app\gruposEmpresa\gruposEmpresaModule.js" />
@@ -257,6 +260,7 @@
     <Content Include="Scripts\app\shared\base\baseNavigationService.js" />
     <Content Include="Scripts\app\shared\base\baseService.js" />
     <Content Include="Scripts\app\shared\cartasDePorteService.js" />
+    <Content Include="Scripts\app\shared\reservasService.js" />
     <Content Include="Scripts\app\shared\gruposEmpresaService.js" />
     <Content Include="Scripts\app\shared\empresasService.js" />
     <Content Include="Scripts\app\shared\establecimientosService.js" />
