@@ -1,20 +1,21 @@
 ﻿@using Cresud.CDP.Infrastructure
 @{
-    ViewBag.ngApp = "cresud.cdp.choferes";
+    ViewBag.ngApp = "cresud.cdp.reservas";
 }
 <div>    
-    <script type="text/ng-template" id="choferes/list">
-        @RenderPage(Url.Content("~/Views/Choferes/List.cshtml"))
+    <script type="text/ng-template" id="reservas/list">
+        @RenderPage(Url.Content("~/Views/Reservas/List.cshtml"))
     </script>
-    <script type="text/ng-template" id="choferes/edit">
-        @RenderPage(Url.Content("~/Views/Choferes/Edit.cshtml"))
+    <script type="text/ng-template" id="reservas/edit">
+        @RenderPage(Url.Content("~/Views/Reservas/Edit.cshtml"))
     </script>
     <div ng-view></div>
 </div>
 
 @section scripts{
-    @Html.IncludeVersionedJs("Scripts/app/Choferes/choferesModule.js")
-    @Html.IncludeVersionedJs("Scripts/app/Choferes/choferesListCtrl.js")
-    @Html.IncludeVersionedJs("Scripts/app/Choferes/choferesEditCtrl.js")        
-    @Html.IncludeVersionedJs("Scripts/app/shared/choferesService.js")
+    @Html.IncludeVersionedJs("Scripts/app/Reservas/reservasModule.js")
+    @Html.IncludeVersionedJs("Scripts/app/Reservas/reservasListCtrl.js")
+    @Html.IncludeVersionedJs("Scripts/app/Reservas/reservasEditCtrl.js")        
+    @Html.IncludeVersionedJs("Scripts/app/shared/reservasService.js")
+    @Html.IncludeVersionedJs("Scripts/app/shared/establecimientosService.js")    
 }

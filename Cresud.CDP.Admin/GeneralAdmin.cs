@@ -59,6 +59,13 @@ namespace Cresud.CDP.Admin
             return Enum.GetNames(typeof(OrganizacionVenta)).OrderBy(t => t);
         }
 
+        public IList<Dtos.TipoCarta> GetTipoCartaList()
+        {
+            var data = CdpContext.TipoCartas.OrderBy(t => t.Descripcion).ToList();
+
+            return Mapper.Map<IList<TipoCarta>, IList<Dtos.TipoCarta>>(data);
+        }
+
         public PagedListResponse<Dtos.Cliente> GetClientesByFilter(FilterBase filter)
         {
             var empresa = CdpContext.Empresas.Single(e => e.Id == filter.EmpresaId);

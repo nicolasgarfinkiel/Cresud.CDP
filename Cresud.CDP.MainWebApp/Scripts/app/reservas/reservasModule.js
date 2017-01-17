@@ -2,6 +2,7 @@
     'cresud.cdp.reservas.ctrl.list',
     'cresud.cdp.reservas.ctrl.edit',
     'cresud.cdp.service.reservas',
+    'cresud.cdp.service.establecimientos',
     'cresud.cdp.navigation.base',     
     'cresud.cdp.service.base',
     'cresud.cdp.service.bootstraper.list',
@@ -21,15 +22,19 @@
             templateUrl: 'reservas/list',
             controller: 'listCtrl'
         });
-              
+
         $routeProvider.when('/create', {
             templateUrl: 'reservas/edit',
             controller: 'editCtrl'
         });
-        
+
         $routeProvider.when('/edit/:id', {
             templateUrl: 'reservas/edit',
             controller: 'editCtrl'
+        });
+
+        $routeProvider.otherwise({
+            redirectTo: '/'
         });
 
         $httpProvider.interceptors.push(function ($q, $rootScope) {
@@ -55,11 +60,7 @@
                     return rejection;
                 }
             };
-        });
-        
-        $routeProvider.otherwise({
-            redirectTo: '/'
-        });
+        });                
 
         var regexIso8601 = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
         

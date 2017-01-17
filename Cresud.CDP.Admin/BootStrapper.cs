@@ -23,6 +23,8 @@ namespace Cresud.CDP.Admin
                 cfg.CreateMap<Establecimiento, Dtos.Establecimiento>();
                 cfg.CreateMap<Cliente, Dtos.Cliente>();
                 cfg.CreateMap<LoteCartaPorte, Dtos.LoteCartaPorte>();
+                cfg.CreateMap<Solicitud, Dtos.Solicitud>();
+                cfg.CreateMap<TipoCarta, Dtos.TipoCarta>();
             });
 
          

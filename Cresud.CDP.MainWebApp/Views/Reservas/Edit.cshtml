@@ -3,55 +3,23 @@
         <section class="panel panel-default">
             <header class="panel-heading font-bold">{{operation}}</header>
             <div class="panel-body">
-                <form class="bs-example form-horizontal">                                                         
+                <form class="bs-example form-horizontal">
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">Es transportista</label>
+                        <label class="col-lg-2 control-label">Tipo Carta de Porte</label>
                         <div class="col-lg-10">
-                            <input type="checkbox" ng-model="entity.esChoferTransportista"> 
+                            <select ng-model="entity.tipoDeCartaId" ng-options="tipoCarta.id as tipoCarta.descripcion for tipoCarta in data.tipoCartaList" class="form-control">
+                                <option value=""></option>
+                            </select>
                         </div>
-                    </div>   
+                    </div>                                                                            
                     <div class="form-group">
-                        <label class="col-lg-2 control-label">{{entity.esChoferTransportista ? 'Descripción' : 'Nombre'}}</label>
+                        <label class="col-lg-2 control-label">Establecimiento Procedencia</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.nombre">
+                            <i class="fa fa-search" style="position: relative; top: 8px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#establecimientosModal"></i>
+                            <span style="position: relative; top: 8px;left: 10px;">{{entity.establecimientoProcedenciaDescripcion}}</span>
                         </div>
                     </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista">
-                        <label class="col-lg-2 control-label">Apellido</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.apellido">
-                        </div>
-                    </div>                    
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Cuit</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.cuit">                            
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista && esParaguay">
-                        <label class="col-lg-2 control-label">Domicilio</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.domicilio">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Marca</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.marca">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista">
-                        <label class="col-lg-2 control-label">Patente camión</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.camion">
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista">
-                        <label class="col-lg-2 control-label">Patente acoplado</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" ng-model="entity.acoplado">
-                        </div>
-                    </div>                                                                                                              
+                                                                                                                                                                                        
                     <div class="alert alert-danger" ng-if="result.hasErrors">
                         <i class="fa fa-bolt"></i>
                         <div ng-repeat="message in result.messages">{{message}}</div>
@@ -63,5 +31,35 @@
                 <button type="button" class="btn btn-sm btn-default" ng-click="list()">Volver</button>
             </footer>
         </section>
+    </div>
+</div>
+
+<div class="modal" id="establecimientosModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Búsqueda de establecimientos
+                    </header>
+                    <div class="row wrapper">
+                        <div class="col-sm-12">
+                            <div class="input-group m-b">
+                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterEstablecimientos.multiColumnSearchText" ng-debounce="1200">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin: 0 15px 15px 15px">
+                        <div class="gridStyleDefault" ng-grid="gridEstablecimientos"></div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>

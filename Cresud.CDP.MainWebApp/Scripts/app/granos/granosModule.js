@@ -32,6 +32,10 @@
             controller: 'editCtrl'
         });
 
+        $routeProvider.otherwise({
+            redirectTo: '/'
+        });
+
         $httpProvider.interceptors.push(function ($q, $rootScope) {
             if ($rootScope.activeCalls == undefined) {
                 $rootScope.activeCalls = 0;
@@ -55,11 +59,7 @@
                     return rejection;
                 }
             };
-        });
-        
-        $routeProvider.otherwise({
-            redirectTo: '/'
-        });
+        });               
 
         var regexIso8601 = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
         

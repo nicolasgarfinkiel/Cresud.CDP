@@ -111,6 +111,12 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<TipoGrano>().Property(t => t.Descripcion).HasColumnName("Descripcion");
             modelBuilder.Entity<TipoGrano>().ToTable("TipoGrano");
 
+            modelBuilder.Entity<TipoCarta>().HasKey(t => t.Id);
+            modelBuilder.Entity<TipoCarta>().Property(t => t.Id).HasColumnName("IdTipoDeCarta");
+            modelBuilder.Entity<TipoCarta>().Property(t => t.Descripcion).HasColumnName("Descripcion");
+            modelBuilder.Entity<TipoCarta>().Property(t => t.Activo).HasColumnName("Activo");
+            modelBuilder.Entity<TipoCarta>().ToTable("TipoDeCarta");
+
             modelBuilder.Entity<Cosecha>().HasKey(t => t.Id);
             modelBuilder.Entity<Cosecha>().Property(t => t.Id).HasColumnName("IdCosecha");
             modelBuilder.Entity<Cosecha>().Property(t => t.Codigo).HasColumnName("Codigo");
@@ -328,6 +334,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<LoteCartaPorte> LotesCartaPorte { get; set; }
         public IDbSet<CartaDePorte> CartaDePortes { get; set; }
         public IDbSet<LogOperacion> LogOperaciones { get; set; }
+        public IDbSet<TipoCarta> TipoCartas { get; set; }
     }
 }
 

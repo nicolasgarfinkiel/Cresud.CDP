@@ -79,6 +79,13 @@ namespace Cresud.CDP.Admin
                                             e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.OrigenYDestino)).AsQueryable();
             }
 
+            if (filter.Destino)
+            {
+                result = result.Where(e => e.RecorridoEstablecimiento.HasValue &&
+                                           (e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.SoloDestino ||
+                                            e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.OrigenYDestino)).AsQueryable();
+            }
+
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {
                 filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();

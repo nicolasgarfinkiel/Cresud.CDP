@@ -66,7 +66,9 @@
                            scope.search();
                        }, true);
 
-                       scope.$watch('filter.multiColumnSearchText', function () {
+                       scope.$watch('filter.multiColumnSearchText', function (newValue, oldValue) {
+                           if (typeof newValue == 'undefined' || newValue == oldValue) return;
+
                            scope.gridOptions.pagingOptions.currentPage = 1;
                            scope.search();
                        });
