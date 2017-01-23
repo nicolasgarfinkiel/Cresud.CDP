@@ -43,6 +43,7 @@
     <Compile Include="CartaDePorte.cs" />
     <Compile Include="LogOperacion.cs" />
     <Compile Include="LoteCartaPorte.cs" />
+    <Compile Include="SolicitudReport.cs" />
     <Compile Include="Solicitud.cs" />
     <Compile Include="Proveedor.cs" />
     <Compile Include="Cliente.cs" />

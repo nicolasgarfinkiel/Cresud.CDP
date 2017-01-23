@@ -29,8 +29,8 @@
       <mvcSiteMapNode title="Cambio Destino y Destinatario"         controller="CartaDePorte"             action="CambioDestino"                                 roles=""/>    
     </mvcSiteMapNode>
     
-    <mvcSiteMapNode   title="Reporting"                             controller="Reporting"                action="Index"               Class="fa fa-bookmark-o"  roles="" >
-      <mvcSiteMapNode title="CDP"                                   controller="Reporting"                action="CDP"                                           roles=""/>
+    <mvcSiteMapNode   title="Reporting"                             controller="Reports"                action="Index"               Class="fa fa-bookmark-o"  roles="" >
+      <mvcSiteMapNode title="Exportar CDP"                          controller="Reportes"                   action="Index"                                           roles=""/>
       <mvcSiteMapNode title="CDP Emitidas"                          controller="Reporting"                action="CDPEmitidas"                                   roles=""/>
       <mvcSiteMapNode title="CDP Recibidas"                         controller="Reporting"                action="CDRecibidas"                                   roles=""/>
       <mvcSiteMapNode title="Actividad"                             controller="Reporting"                action="Actividad"                                     roles=""/> 

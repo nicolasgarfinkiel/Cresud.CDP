@@ -1,0 +1,17 @@
+﻿@using Cresud.CDP.Infrastructure
+@{
+    ViewBag.ngApp = "cresud.cdp.reportes";
+}
+<div>    
+    <script type="text/ng-template" id="reportes/export">
+        @RenderPage(Url.Content("~/Views/Reportes/Export.cshtml"))
+    </script>    
+    <div ng-view></div>
+</div>
+
+@section scripts{
+    @Html.IncludeVersionedJs("Scripts/app/Reportes/reportesModule.js")
+    @Html.IncludeVersionedJs("Scripts/app/Reportes/exportCtrl.js")
+    @Html.IncludeVersionedJs("Scripts/app/Reportes/reportesNavigationService.js")        
+    @Html.IncludeVersionedJs("Scripts/app/shared/reportesService.js")
+}

@@ -63,6 +63,7 @@
     <Compile Include="BootStrapper.cs" />
     <Compile Include="CartasDePorteAdmin.cs" />
     <Compile Include="ReservasAdmin.cs" />
+    <Compile Include="ReportesAdmin.cs" />
     <Compile Include="SolicitudesAdmin.cs" />
     <Compile Include="GrupoEmpresaAdmin.cs" />
     <Compile Include="GeneralAdmin.cs" />

@@ -184,6 +184,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartasDePorteController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\GruposEmpresaController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
@@ -239,6 +240,10 @@
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteEditCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteListCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteModule.js" />
+    <Content Include="Scripts\app\shared\reportesService.js" />
+    <Content Include="Scripts\app\reportes\reportesNavigationService.js" />
+    <Content Include="Scripts\app\reportes\exportCtrl.js" />
+    <Content Include="Scripts\app\reportes\reportesModule.js" />
     <Content Include="Scripts\app\reservas\reservasEditCtrl.js" />
     <Content Include="Scripts\app\reservas\reservasListCtrl.js" />
     <Content Include="Scripts\app\reservas\reservasModule.js" />
@@ -353,6 +358,8 @@
     <Content Include="Views\Reservas\Index.cshtml" />
     <Content Include="Views\Reservas\List.cshtml" />
     <Content Include="Reports\RangosCartaDePorte.xlsx" />
+    <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\Reportes\Export.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">
