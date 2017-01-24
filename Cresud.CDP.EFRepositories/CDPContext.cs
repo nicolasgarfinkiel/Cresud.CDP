@@ -386,6 +386,37 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LogOperacion>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<LogOperacion>().Ignore(t => t.Enabled);
             modelBuilder.Entity<LogOperacion>().ToTable("LogOperaciones");
+
+           
+            modelBuilder.Entity<ClienteRemitenteComercial>().HasKey(t => t.Id);
+            modelBuilder.Entity<ClienteRemitenteComercial>().Property(t => t.Id).HasColumnName("IdCliente");
+            modelBuilder.Entity<ClienteRemitenteComercial>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<ClienteRemitenteComercial>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<ClienteRemitenteComercial>().ToTable("vClienteRemitenteComercial");
+
+            modelBuilder.Entity<ClienteCorredor>().HasKey(t => t.Id);
+            modelBuilder.Entity<ClienteCorredor>().Property(t => t.Id).HasColumnName("IdCliente");
+            modelBuilder.Entity<ClienteCorredor>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<ClienteCorredor>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<ClienteCorredor>().ToTable("vClienteCorredor");
+
+            modelBuilder.Entity<ClienteEntregador>().HasKey(t => t.Id);
+            modelBuilder.Entity<ClienteEntregador>().Property(t => t.Id).HasColumnName("IdCliente");
+            modelBuilder.Entity<ClienteEntregador>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<ClienteEntregador>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<ClienteEntregador>().ToTable("vClienteEntregador");
+
+            modelBuilder.Entity<ClienteDestinatario>().HasKey(t => t.Id);
+            modelBuilder.Entity<ClienteDestinatario>().Property(t => t.Id).HasColumnName("IdCliente");
+            modelBuilder.Entity<ClienteDestinatario>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<ClienteDestinatario>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<ClienteDestinatario>().ToTable("vClienteDestinatario");
+
+            modelBuilder.Entity<ClienteIntermediario>().HasKey(t => t.Id);
+            modelBuilder.Entity<ClienteIntermediario>().Property(t => t.Id).HasColumnName("IdCliente");
+            modelBuilder.Entity<ClienteIntermediario>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<ClienteIntermediario>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<ClienteIntermediario>().ToTable("vClienteIntermediario");
             
         }
 
@@ -407,6 +438,11 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<CartaDePorte> CartaDePortes { get; set; }
         public IDbSet<LogOperacion> LogOperaciones { get; set; }
         public IDbSet<TipoCarta> TipoCartas { get; set; }
+        public IDbSet<ClienteRemitenteComercial> ClientesRemitenteComercial { get; set; }
+        public IDbSet<ClienteCorredor> ClientesCorredor { get; set; }
+        public IDbSet<ClienteEntregador> ClientesEntregador { get; set; }
+        public IDbSet<ClienteDestinatario> ClientesDestinatario { get; set; }
+        public IDbSet<ClienteIntermediario> ClientesIntermediarios { get; set; }
     }
 }
 

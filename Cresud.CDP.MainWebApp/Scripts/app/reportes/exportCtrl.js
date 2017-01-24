@@ -4,5 +4,7 @@
            'reportesService',
            'reportesNavigationService',
            function ($scope, reportesService, reportesNavigationService) {
-              
+               reportesService.getDataListExport().then(function(response) {
+                   $scope.data = response.data.data;
+               });
            }]);

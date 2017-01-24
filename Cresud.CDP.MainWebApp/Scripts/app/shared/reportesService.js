@@ -3,10 +3,10 @@
            '$http',
            function ($http ) {
                return {
-                   getDataListInit: function () {
+                   getDataListExport: function () {
                        return $http({
                            method: 'POST',
-                           url: '/' + this.controller + '/GetDataListInit'
+                           url: '/Reportes/GetDataListExport'
                        });
                    },
                };

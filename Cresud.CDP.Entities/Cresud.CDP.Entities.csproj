@@ -41,6 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CartaDePorte.cs" />
+    <Compile Include="ClienteDestinatario.cs" />
+    <Compile Include="ClienteEntregador.cs" />
+    <Compile Include="ClienteCorredor.cs" />
+    <Compile Include="ClienteIntermediario.cs" />
+    <Compile Include="ClienteRemitenteComercial.cs" />
     <Compile Include="LogOperacion.cs" />
     <Compile Include="LoteCartaPorte.cs" />
     <Compile Include="SolicitudReport.cs" />

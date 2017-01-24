@@ -125,5 +125,55 @@ namespace Cresud.CDP.Admin
                 Data = Mapper.Map<IList<Cliente>, IList<Dtos.Cliente>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };                              
         }
+
+        public IList<Dtos.ClienteRemitenteComercial> GetClientesRemitenteComercial(int empresaId)
+        {
+            var data = CdpContext.ClientesRemitenteComercial
+                        .Where(c => c.EmpresaId == empresaId)
+                        .OrderBy(c => c.RazonSocial)
+                        .ToList();
+
+            return Mapper.Map<IList<ClienteRemitenteComercial>, IList<Dtos.ClienteRemitenteComercial>>(data);
+        }
+
+        public IList<Dtos.ClienteCorredor> GetClientesCorredor(int empresaId)
+        {
+            var data = CdpContext.ClientesCorredor
+                        .Where(c => c.EmpresaId == empresaId)
+                        .OrderBy(c => c.RazonSocial)
+                        .ToList();
+
+            return Mapper.Map<IList<ClienteCorredor>, IList<Dtos.ClienteCorredor>>(data);
+        }
+
+        public IList<Dtos.ClienteEntregador> GetClientesEntregador(int empresaId)
+        {
+            var data = CdpContext.ClientesEntregador
+                        .Where(c => c.EmpresaId == empresaId)
+                        .OrderBy(c => c.RazonSocial)
+                        .ToList();
+
+            return Mapper.Map<IList<ClienteEntregador>, IList<Dtos.ClienteEntregador>>(data);
+        }
+
+        public IList<Dtos.ClienteDestinatario> GetClientesDestinatario(int empresaId)
+        {
+            var data = CdpContext.ClientesDestinatario
+                        .Where(c => c.EmpresaId == empresaId)
+                        .OrderBy(c => c.RazonSocial)
+                        .ToList();
+
+            return Mapper.Map<IList<ClienteDestinatario>, IList<Dtos.ClienteDestinatario>>(data);
+        }
+
+        public IList<Dtos.ClienteIntermediario> GetClientesIntermediarios(int empresaId)
+        {
+            var data = CdpContext.ClientesIntermediarios
+                        .Where(c => c.EmpresaId == empresaId)
+                        .OrderBy(c => c.RazonSocial)
+                        .ToList();
+
+            return Mapper.Map<IList<ClienteIntermediario>, IList<Dtos.ClienteIntermediario>>(data);
+        }
     }
 }

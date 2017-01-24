@@ -82,11 +82,18 @@ namespace Cresud.CDP.Admin
             return result;
         }
 
+        public object GetGranosByGrupoEmpresaId(int grupoEmpresaId)
+        {
+            var data = CdpContext.Granos.Where(g => g.GrupoEmpresa.Id == grupoEmpresaId).OrderBy(c => c.Descripcion).ToList();
+
+            return Mapper.Map<IList<Entities.Grano>, IList<Dtos.Grano>>(data);
+        }
+
         #endregion
 
         public object GetCosechas()
         {
-            var data = CdpContext.Cosechas.OrderBy(c => c.Descripcion).ToList();
+            var data = CdpContext.Cosechas.Where(c => c.GrupoEmpresa.Id == App.IdGrupoCresud).OrderBy(c => c.Descripcion).ToList();
 
             return Mapper.Map<IList<Cosecha>, IList<Dtos.Cosecha>>(data);
         }
