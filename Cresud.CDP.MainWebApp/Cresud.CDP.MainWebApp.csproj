@@ -219,6 +219,8 @@
     <Content Include="Content\images\avatar.jpg" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\logos\LogoCresca.png" />
+    <Content Include="Content\images\logos\LogoCresud.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angularJs\angular-dragdrop.min.js" />
@@ -360,6 +362,7 @@
     <Content Include="Reports\RangosCartaDePorte.xlsx" />
     <Content Include="Views\Reportes\Index.cshtml" />
     <Content Include="Views\Reportes\Export.cshtml" />
+    <Content Include="Reports\CartasDePorte.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

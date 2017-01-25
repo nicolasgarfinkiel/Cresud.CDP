@@ -46,6 +46,24 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             return this.JsonNet(response);
         }
+
+        [HttpPost]
+        public ActionResult GetProveedoresByFilter(FilterBase filter)
+        {
+            var response = new PagedListResponse<Proveedor>();
+
+            try
+            {
+                response = _admin.GetProveedoresByFilter(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
         
         public override object GetDataList()
         {

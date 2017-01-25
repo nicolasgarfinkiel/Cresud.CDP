@@ -18,6 +18,13 @@
                            data: { filter: filter }
                        });
                    },
+                   getProveedoresByFilter: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/General/GetProveedoresByFilter',
+                           data: { filter: filter }
+                       });
+                   }
                }, baseService);
                result.controller = 'General';
 

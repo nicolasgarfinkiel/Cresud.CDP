@@ -31,9 +31,8 @@ namespace Cresud.CDP.Admin
                 cfg.CreateMap<ClienteEntregador, Dtos.ClienteEntregador>();
                 cfg.CreateMap<ClienteDestinatario, Dtos.ClienteDestinatario>();
                 cfg.CreateMap<ClienteIntermediario, Dtos.ClienteIntermediario>();
-            });
-
-         
+                cfg.CreateMap<Proveedor, Dtos.Proveedor>();
+            });         
         }
     }
 }

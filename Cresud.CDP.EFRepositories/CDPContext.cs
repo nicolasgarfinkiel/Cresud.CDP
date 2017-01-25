@@ -434,6 +434,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<Cliente> Clientes { get; set; }
         public IDbSet<Proveedor> Proveedores { get; set; }
         public IDbSet<Solicitud> Solicitudes { get; set; }
+        public IDbSet<SolicitudReport> SolicitudesReport { get; set; }
         public IDbSet<LoteCartaPorte> LotesCartaPorte { get; set; }
         public IDbSet<CartaDePorte> CartaDePortes { get; set; }
         public IDbSet<LogOperacion> LogOperaciones { get; set; }

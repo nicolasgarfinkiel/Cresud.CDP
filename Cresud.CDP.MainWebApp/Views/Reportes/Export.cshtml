@@ -89,7 +89,7 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Grano</label>
                 <div class="col-lg-8">
-                    <select ng-model="entity.granoId" ng-options="grano.id as grano.descripcion for grano in data.granos" class="form-control">
+                    <select ng-model="filter.granoId" ng-options="grano.id as grano.descripcion for grano in data.granos" class="form-control">
                         <option value=""></option>
                     </select>
                 </div>
@@ -102,7 +102,7 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Intermediario</label>
                 <div class="col-lg-8">
-                    <select ng-model="entity.intermediarioId" ng-options="cliente.id as cliente.razonSocial for cliente in data.clientesIntermediarios " class="form-control">
+                    <select ng-model="filter.intermediarioId" ng-options="cliente.id as cliente.razonSocial for cliente in data.clientesIntermediarios " class="form-control">
                         <option value=""></option>
                     </select>
                 </div>
@@ -112,8 +112,8 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Titular CDP</label>
                 <div class="col-lg-8">
-                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
-                    <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#proveedoresModal" ng-click="filter.type='Titular'"></i>
+                    <span style="position: relative; top: 0px;left: 10px;">{{filter.proveedorTitularCartaDePorteDescripcion}}</span>
                 </div>
             </div>
         </div>
@@ -124,8 +124,8 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Transportista</label>
                 <div class="col-lg-8">
-                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
-                    <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#proveedoresModal" ng-click="filter.type='Transportista'"></i>
+                    <span style="position: relative; top: 0px;left: 10px;">{{filter.proveedorTransportistaDescripcion}}</span>
                 </div>
             </div>
         </div>
@@ -133,8 +133,8 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Chofer</label>
                 <div class="col-lg-8">
-                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
-                    <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#choferesModal"></i>
+                    <span style="position: relative; top: 0px;left: 10px;">{{filter.choferDescripcion}}</span>
                 </div>
             </div>
         </div>
@@ -145,8 +145,8 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Procedencia</label>
                 <div class="col-lg-8">
-                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
-                    <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" ng-click="openEstablecimientosModal(true)"></i>
+                    <span style="position: relative; top: 0px;left: 10px;">{{filter.establecimientoProcedenciaDescripcion}}</span>
                 </div>
             </div>
         </div>
@@ -154,8 +154,8 @@
             <div class="form-group">
                 <label class="col-lg-4 control-label text-right">Destino</label>
                 <div class="col-lg-8">
-                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
-                    <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                    <i class="fa fa-search" style="position: relative; top: 0px; font-weight: bold; cursor: pointer;" ng-click="openEstablecimientosModal(false)"></i>
+                    <span style="position: relative; top: 0px;left: 10px;">{{filter.establecimientoDestinoDescripcion}}</span>
                 </div>
             </div>
         </div>
@@ -170,15 +170,27 @@
         </div>
     </div>
 
-    <div class="row wrapper" ng-if="filter.fechaDesde && filter.fechaHasta">
+    <div class="row wrapper" >
         <div class="col-sm-12 text-right">
-            <form method="POST" action="/CartasDeporte/Export" style="display: inline;">
+            <button type="button" class="btn btn-default" ng-click="clearFilter()">Limpiar</button>
+            <form method="POST" action="/Reportes/Export" style="display: inline;" ng-show="filter.fechaDesde && filter.fechaHasta">
                 <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
-                <input type="hidden" name="empresaId" value="{{filter.empresaId}}" />
-                <input type="hidden" name="desde" value="{{filter.desde}}" />
-                <input type="hidden" name="fechaDesde" value="{{fechaDesde}}" />
-                <input type="hidden" name="fechaHasta" value="{{fechaHasta}}" />
-                <input type="hidden" name="tieneDisponibilidad" value="{{filter.tieneDisponibilidad}}" />
+                <input type="hidden" name="empresaId" value="{{filter.empresaId}}" />                
+                <input type="hidden" name="fechaDesde" value="{{filter.fechaDesde}}" />
+                <input type="hidden" name="fechaHasta" value="{{filter.fechaHasta}}" />
+                <input type="hidden" name="clienteRemitenteComercialId" value="{{filter.clienteRemitenteComercialId}}" />
+                <input type="hidden" name="clienteCorredorId" value="{{filter.clienteCorredorId}}" />
+                <input type="hidden" name="clienteEntregadorId" value="{{filter.clienteEntregadorId}}" />
+                <input type="hidden" name="clienteDestinatarioId" value="{{filter.clienteDestinatarioId}}" />
+                <input type="hidden" name="cosechaId" value="{{filter.cosechaId}}" />
+                <input type="hidden" name="granoId" value="{{filter.granoId}}" />
+                <input type="hidden" name="intermediarioId" value="{{filter.intermediarioId}}" />
+                <input type="hidden" name="proveedorTitularCartaDePorteId" value="{{filter.proveedorTitularCartaDePorteId}}" />
+                <input type="hidden" name="proveedorTransportistaId" value="{{filter.proveedorTransportistaId}}" />
+                <input type="hidden" name="choferId" value="{{filter.choferId}}" />
+                <input type="hidden" name="establecimientoProcedenciaId" value="{{filter.establecimientoProcedenciaId}}" />
+                <input type="hidden" name="establecimientoDestinoId" value="{{filter.establecimientoDestinoId}}" />
+                      
                 <button type="submit" class="btn btn-dark"><i class="fa fa-file"></i> Exportar</button>
             </form>
         </div>
@@ -187,3 +199,93 @@
     <div style="margin: 0 15px 15px 15px">
     </div>
 </section>
+
+<div class="modal" id="proveedoresModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Búsqueda de proveedores
+                    </header>
+                    <div class="row wrapper">
+                        <div class="col-sm-12">
+                            <div class="input-group m-b">
+                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterProveedores.multiColumnSearchText" ng-debounce="1200">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin: 0 15px 15px 15px">
+                        <div class="gridStyleDefault" ng-grid="gridProveedores"></div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="choferesModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Búsqueda de choferes
+                    </header>
+                    <div class="row wrapper">
+                        <div class="col-sm-12">
+                            <div class="input-group m-b">
+                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterChoferes.multiColumnSearchText" ng-debounce="1200">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin: 0 15px 15px 15px">
+                        <div class="gridStyleDefault" ng-grid="gridChoferes"></div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="establecimientosModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Búsqueda de establecimientos
+                    </header>
+                    <div class="row wrapper">
+                        <div class="col-sm-12">
+                            <div class="input-group m-b">
+                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterEstablecimientos.multiColumnSearchText" ng-debounce="1200">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin: 0 15px 15px 15px">
+                        <div class="gridStyleDefault" ng-grid="gridEstablecimientos"></div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

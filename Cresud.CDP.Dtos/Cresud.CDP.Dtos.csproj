@@ -60,6 +60,7 @@
     <Compile Include="Especie.cs" />
     <Compile Include="Establecimiento.cs" />
     <Compile Include="Filters\FilterEstablecimientos.cs" />
+    <Compile Include="Filters\FilterCartasDePorteExport.cs" />
     <Compile Include="Filters\FilterReservas.cs" />
     <Compile Include="Filters\FilterLotesCartaPorte.cs" />
     <Compile Include="Filters\FilterClientesConProveedor.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="LoteCartaPorte.cs" />
     <Compile Include="Pais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proveedor.cs" />
     <Compile Include="Provincia.cs" />
     <Compile Include="Solicitud.cs" />
     <Compile Include="SolicitudReport.cs" />

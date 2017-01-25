@@ -68,6 +68,11 @@ namespace Cresud.CDP.Entities
         public string CteDestinatarioCambio { get; set; }
         public string CosechaDescripcion { get; set; }
         public string TitularCDP { get; set; }
+
+        public decimal? PesoNeto
+        {
+            get { return PesoBruto - PesoTara; }
+        }
     }
 }
 

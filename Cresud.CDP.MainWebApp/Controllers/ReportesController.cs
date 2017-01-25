@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Infrastructure;
+using Cresud.CDP.Infrastructure.ActionResults;
 using SolicitudReport = Cresud.CDP.Entities.SolicitudReport;
 
 namespace Cresud.CDP.MainWebApp.Controllers
@@ -49,6 +52,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
             {
                 response.Data = new
                 {
+                    Usuario = CDPSession.Current.Usuario,
                     RemitentesComerciales = _generalAdmin.GetClientesRemitenteComercial(empresaId),
                     ClientesCorredor = _generalAdmin.GetClientesCorredor(empresaId),
                     ClientesEntregador = _generalAdmin.GetClientesEntregador(empresaId),
@@ -67,6 +71,18 @@ namespace Cresud.CDP.MainWebApp.Controllers
             }
 
             return this.JsonNet(response);                           
+        }
+
+        public ActionResult Export(FilterCartasDePorteExport filter)
+        {
+            var excelPackage = _admin.Export(filter);
+            var fileName = App.IdGrupoCresud == filter.IdGrupoEmpresa ? "Lote_CDP_{0}.xlsx" : "Lote_CDP_Cresca_{0}.xlsx";
+
+            return new ExcelResult
+            {
+                ExcelPackage = excelPackage,
+                FileName = string.Format(fileName, DateTime.Now.ToString("dd/MM/yyyy"))
+            };
         }
     }
 }

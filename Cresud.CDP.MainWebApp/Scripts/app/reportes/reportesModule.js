@@ -1,6 +1,10 @@
 ﻿angular.module('cresud.cdp.reportes', [
     'cresud.cdp.reportes.ctrl.export',    
     'cresud.cdp.service.reportes',
+    'cresud.cdp.service.base',
+    'cresud.cdp.service.general',
+    'cresud.cdp.service.choferes',
+    'cresud.cdp.service.establecimientos',
     'cresud.cdp.navigation.reportes',         
     'ngRoute',
     'ngGrid',
