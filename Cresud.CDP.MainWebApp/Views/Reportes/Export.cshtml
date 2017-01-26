@@ -176,8 +176,8 @@
             <form method="POST" action="/Reportes/Export" style="display: inline;" ng-show="filter.fechaDesde && filter.fechaHasta">
                 <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
                 <input type="hidden" name="empresaId" value="{{filter.empresaId}}" />                
-                <input type="hidden" name="fechaDesde" value="{{filter.fechaDesde}}" />
-                <input type="hidden" name="fechaHasta" value="{{filter.fechaHasta}}" />
+                <input type="hidden" name="fechaDesde" value="{{fechaDesde}}" />
+                <input type="hidden" name="fechaHasta" value="{{fechaHasta}}" />
                 <input type="hidden" name="clienteRemitenteComercialId" value="{{filter.clienteRemitenteComercialId}}" />
                 <input type="hidden" name="clienteCorredorId" value="{{filter.clienteCorredorId}}" />
                 <input type="hidden" name="clienteEntregadorId" value="{{filter.clienteEntregadorId}}" />

@@ -106,12 +106,16 @@ namespace Cresud.CDP.Admin
             var template = new FileInfo(String.Format(@"{0}\Reports\CartasDePorte.xlsx", AppDomain.CurrentDomain.BaseDirectory));
             var pck = new ExcelPackage(template, true);
             var ws = pck.Workbook.Worksheets[1];
-            var row = 3;
+            var row = 2;
 
             #region Header
 
+            var logoName = string.Empty;
+            
             if (App.IdGrupoCresud == filter.IdGrupoEmpresa)
             {
+                logoName = "LogoCresud";
+
                 ws.Cells[row, 1].Value = "ClienteDestinatario";
                 ws.Cells[row, 2].Value = "ClienteDestino";
                 ws.Cells[row, 3].Value = "ProveedorTransportista";
@@ -152,6 +156,8 @@ namespace Cresud.CDP.Admin
             }
             else
             {
+                logoName = "LogoCresca";
+
                 ws.Cells[row, 1].Value = "IdSolicitud";
                 ws.Cells[row, 2].Value = "TipoDeCarta";
                 ws.Cells[row, 3].Value = "NumeroCartaDePorte";
@@ -202,6 +208,10 @@ namespace Cresud.CDP.Admin
                 ws.Cells[row, 48].Value = "FechaModificacion";
                 ws.Cells[row, 49].Value = "UsuarioModificacion";
             }
+
+            var logo = new FileInfo(String.Format(@"{0}Content\images\logos\{1}.png", AppDomain.CurrentDomain.BaseDirectory, logoName));
+            var picture = ws.Drawings.AddPicture("Logo", logo);
+            picture.SetPosition(0, 0);
 
             #endregion
 

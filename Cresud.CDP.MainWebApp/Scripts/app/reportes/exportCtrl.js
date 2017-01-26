@@ -34,6 +34,14 @@
                    $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;
                };
 
+               $scope.$watch('filter.fechaDesde', function (newValue) {
+                   $scope.fechaDesde = moment($scope.filter.fechaDesde).add(1, 'days').format('YYYY/MM/DD');
+               });
+
+               $scope.$watch('filter.fechaHasta', function (newValue) {
+                   $scope.fechaHasta = moment($scope.filter.fechaHasta).add(1, 'days').format('YYYY/MM/DD');
+               });
+
                //#region Proveedores
 
                $scope.proveedores = [];
