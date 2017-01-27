@@ -1,0 +1,49 @@
+﻿<section class="panel panel-default">
+    <header class="panel-heading">
+        Cartas de Porte {{reportName}}
+    </header>
+
+    <div class="row wrapper">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-lg-4 control-label text-right">Fecha desde</label>
+                <div class="col-lg-8">
+                    <div class="input-group input-append">
+                        <input type="text" ng-model="filter.fechaDesde" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
+                        <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-lg-4 control-label text-right">Fecha hasta</label>
+                <div class="col-lg-8">
+                    <div class="input-group input-append">
+                        <input type="text" ng-model="filter.fechaHasta" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
+                        <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+
+    <div class="row wrapper" >
+        <div class="col-sm-12 text-right">
+            <button type="button" class="btn btn-default" ng-click="find()">Buscar</button>
+            <form method="POST" action="/Reportes/Export" style="display: inline;" ng-show="filter.fechaDesde && filter.fechaHasta">
+                <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
+                <input type="hidden" name="empresaId" value="{{filter.empresaId}}" />                
+                <input type="hidden" name="fechaDesde" value="{{fechaDesde}}" />
+                <input type="hidden" name="fechaHasta" value="{{fechaHasta}}" />
+                <input type="hidden" name="emitidas" value="{{filter.emitidas}}" />
+                                   
+                <button type="submit" class="btn btn-dark"><i class="fa fa-file"></i> Exportar</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="margin: 0 15px 15px 15px">
+        <div class="gridStyleLarge" ng-grid="gridOptions"></div>
+    </div>
+</section>

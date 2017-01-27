@@ -41,7 +41,9 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return new { };
         }
 
-        #endregion        
+        #endregion 
+       
+        #region Export
 
         public ActionResult GetDataListExport()
         {
@@ -84,5 +86,34 @@ namespace Cresud.CDP.MainWebApp.Controllers
                 FileName = string.Format(fileName, DateTime.Now.ToString("dd/MM/yyyy"))
             };
         }
+
+        #endregion
+
+        #region EmitidasRecibidas
+
+        public ActionResult GetDataListCdp()
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+            
+            try
+            {
+                response.Data = new
+                {
+                    Usuario = CDPSession.Current.Usuario                  
+                };
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+       
+
+        #endregion
+
+
     }
 }

@@ -48,6 +48,7 @@
     <Compile Include="ClienteRemitenteComercial.cs" />
     <Compile Include="LogOperacion.cs" />
     <Compile Include="LoteCartaPorte.cs" />
+    <Compile Include="SolicitudRecibida.cs" />
     <Compile Include="SolicitudReport.cs" />
     <Compile Include="Solicitud.cs" />
     <Compile Include="Proveedor.cs" />

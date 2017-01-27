@@ -11,8 +11,9 @@
     }
     else
     {
-        <a href="@Model.Url" title="@Model.Description">@Model.Title</a>
+        var route = Model.Attributes.ContainsKey("aroute") ? string.Format("#/{0}", Model.Attributes["aroute"]) : String.Empty;
+        <a href="@(Model.Url + route)" title="@(Model.Description)">@Model.Title</a>
     }
-} else { 
+} else {
     <text>@Model.Title</text>
 }

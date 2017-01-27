@@ -9,5 +9,25 @@
                            url: '/Reportes/GetDataListExport'
                        });
                    },
+                   getDataListCdp: function () {
+                       return $http({
+                           method: 'POST',
+                           url: '/Reportes/GetDataListCdp'
+                       });
+                   },
+                   getCdpsEmitidasByFilter: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Reportes/GetCdpsEmitidasByFilter',
+                           data: { filter: filter }
+                       });
+                   },
+                   getCdpsRecibidasByFilter: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Reportes/getCdpsRecibidasByFilter',
+                           data: { filter: filter }
+                       });
+                   },
                };
            }]);

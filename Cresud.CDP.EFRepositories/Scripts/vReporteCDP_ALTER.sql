@@ -79,7 +79,22 @@ Cosecha.IdCosecha,
 Cosecha.Descripcion CosechaDescripcion,
 /*NUEVOS CAMPOS*/
 EstProcedencia.asociacartadeporte,
-
+ProvTitularCDP.NumeroDocumento as ProvTitularCDPNumeroDocumento,
+CteIntermediario.Cuit as CteIntermediarioCuit,
+CteRemitenteComecial.Cuit as CteRemitenteComecialCuit,
+CteCorredor.Cuit as CteCorredorCuit,
+CteEntregador.Cuit as CteEntregadorCuit,
+CteDestinatario.Cuit as CteDestinatarioCuit,
+CteDestino.Cuit as CteDestinoCuit,
+Transportista.NumeroDocumento as  TransportistaNumeroDocumento,
+CTransportista.Cuit as CTransportistaCuit,
+Chofer.Cuit as ChoferCuit,
+Especie.Codigo as EspecieCodigo,
+Grano.IdTipoGrano,
+EstProcedencia.EstablecimientoAfip as EstProcedenciaEstablecimientoAfip,
+EstProcedencia.Localidad as EstProcedenciaLocalidad,
+EstDestino.EstablecimientoAfip as EstDestinoEstablecimientoAfip,
+EstDestino.Localidad as EstDestinoLocalidad
 From Solicitudes Sol
 Left Join TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
 Left Join Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
@@ -94,6 +109,7 @@ Left join Chofer CTransportista On Sol.IdChoferTransportista = CTransportista.Id
 Left join Chofer Chofer On Sol.IdChofer = Chofer.IdChofer
 Left Join Grano Grano On Sol.IdGrano = Grano.IdGrano
 Left Join Cosecha Cosecha On Grano.IdCosechaAfip = Cosecha.IdCosecha
+Left Join Especie Especie On Grano.IdEspecieAfip = Especie.IdEspecie
 Left Join Establecimiento EstProcedencia On Sol.IdEstablecimientoProcedencia = EstProcedencia.IdEstablecimiento
 Left Join Establecimiento EstDestino On Sol.IdEstablecimientoDestino = EstDestino.IdEstablecimiento
 Left Join Cliente CtePagador On Sol.IdClientePagadorDelFlete = CtePagador.IdCliente

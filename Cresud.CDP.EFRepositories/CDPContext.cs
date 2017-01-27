@@ -336,12 +336,30 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoCambio).HasColumnName("EstDestinoCambio");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.CteDestinatarioCambio).HasColumnName("CteDestinatarioCambio");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.CosechaDescripcion).HasColumnName("CosechaDescripcion");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.Asociacartadeporte).HasColumnName("asociacartadeporte");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ProvTitularCDPNumeroDocumento).HasColumnName("ProvTitularCDPNumeroDocumento");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CteIntermediarioCuit).HasColumnName("CteIntermediarioCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CteRemitenteComecialCuit).HasColumnName("CteRemitenteComecialCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CteCorredorCuit).HasColumnName("CteCorredorCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CteEntregadorCuit).HasColumnName("CteEntregadorCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CteDestinatarioCuit).HasColumnName("CteDestinatarioCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CteDestinoCuit).HasColumnName("CteDestinoCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.TransportistaNumeroDocumento).HasColumnName("TransportistaNumeroDocumento");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.CTransportistaCuit).HasColumnName("CTransportistaCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ChoferCuit).HasColumnName("ChoferCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.EspecieCodigo).HasColumnName("EspecieCodigo");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.IdTipoGrano).HasColumnName("IdTipoGrano");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.EstProcedenciaEstablecimientoAfip).HasColumnName("EstProcedenciaEstablecimientoAfip");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.EstProcedenciaLocalidad).HasColumnName("EstProcedenciaLocalidad");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoEstablecimientoAfip).HasColumnName("EstDestinoEstablecimientoAfip");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoLocalidad).HasColumnName("EstDestinoLocalidad");
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.Enabled);
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);           
-            modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");   			
+            modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");   	
+		
+
 
 	
-
             modelBuilder.Entity<LoteCartaPorte>().HasKey(t => t.Id);
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Id).HasColumnName("IdLoteCartasDePorte");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Desde).HasColumnName("Desde");

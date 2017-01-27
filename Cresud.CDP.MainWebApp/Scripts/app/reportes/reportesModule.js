@@ -1,5 +1,6 @@
 ﻿angular.module('cresud.cdp.reportes', [
-    'cresud.cdp.reportes.ctrl.export',    
+    'cresud.cdp.reportes.ctrl.export',
+    'cresud.cdp.reportes.ctrl.emitidasRecibidas',
     'cresud.cdp.service.reportes',
     'cresud.cdp.service.base',
     'cresud.cdp.service.general',
@@ -20,7 +21,17 @@
         $routeProvider.when('/', {
             templateUrl: 'reportes/export',
             controller: 'exportCtrl'
-        });                   
+        });
+
+        $routeProvider.when('/emitidas', {
+            templateUrl: 'reportes/emitidasRecibidas',
+            controller: 'emitidasRecibidasCtrl'
+        });
+
+        $routeProvider.when('/recibidas', {
+            templateUrl: 'reportes/emitidasRecibidas',
+            controller: 'emitidasRecibidasCtrl'
+        });
 
         $routeProvider.otherwise({
             redirectTo: '/'

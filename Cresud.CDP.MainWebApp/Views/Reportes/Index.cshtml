@@ -5,6 +5,9 @@
 <div>    
     <script type="text/ng-template" id="reportes/export">
         @RenderPage(Url.Content("~/Views/Reportes/Export.cshtml"))
+    </script>
+    <script type="text/ng-template" id="reportes/emitidasRecibidas">
+        @RenderPage(Url.Content("~/Views/Reportes/EmitidasRecibidas.cshtml"))
     </script>    
     <div ng-view></div>
 </div>
@@ -12,6 +15,7 @@
 @section scripts{
     @Html.IncludeVersionedJs("Scripts/app/Reportes/reportesModule.js")
     @Html.IncludeVersionedJs("Scripts/app/Reportes/exportCtrl.js")
+    @Html.IncludeVersionedJs("Scripts/app/Reportes/emitidasRecibidasCtrl.js")
     @Html.IncludeVersionedJs("Scripts/app/Reportes/reportesNavigationService.js")        
     @Html.IncludeVersionedJs("Scripts/app/shared/reportesService.js")
     @Html.IncludeVersionedJs("Scripts/app/shared/generalService.js")
