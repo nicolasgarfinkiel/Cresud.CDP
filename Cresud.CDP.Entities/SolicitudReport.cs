@@ -84,6 +84,7 @@ namespace Cresud.CDP.Entities
         public string EstProcedenciaEstablecimientoAfip { get; set; }
         public int? EstDestinoLocalidad { get; set; }
         public string EstDestinoEstablecimientoAfip { get; set; }
+        public string ClientePagadorIdSapOrganizacionDeVenta { get; set; }
 
         public decimal? PesoNeto
         {

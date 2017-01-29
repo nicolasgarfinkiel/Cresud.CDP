@@ -389,8 +389,9 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.FchaDescarga).HasColumnName("FechaDeDescarga");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.FechaArribo).HasColumnName("FechaDeArribo");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.PesoNetoDescarga).HasColumnName("PesoNetoDescarga");
-            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoDestinoCambioCuit).HasColumnName("CodigoEstablecimientoDestinoCambio");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoDestinoCambioCuit).HasColumnName("CuitEstablecimientoDestinoCambio");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoDestinoCambioLocalidadId).HasColumnName("IdLocalidadEstablecimientoDestinoCambio");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoDestinoCambioCodigo).HasColumnName("CodigoEstablecimientoDestinoCambio");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.TarifaReferencia).HasColumnName("TarifaReferencia");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");

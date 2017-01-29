@@ -94,7 +94,8 @@ Grano.IdTipoGrano,
 EstProcedencia.EstablecimientoAfip as EstProcedenciaEstablecimientoAfip,
 EstProcedencia.Localidad as EstProcedenciaLocalidad,
 EstDestino.EstablecimientoAfip as EstDestinoEstablecimientoAfip,
-EstDestino.Localidad as EstDestinoLocalidad
+EstDestino.Localidad as EstDestinoLocalidad,
+EmpresaClientePagadorFlete.IdSapOrganizacionDeVenta as ClientePagadorIdSapOrganizacionDeVenta
 From Solicitudes Sol
 Left Join TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
 Left Join Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
@@ -115,6 +116,7 @@ Left Join Establecimiento EstDestino On Sol.IdEstablecimientoDestino = EstDestin
 Left Join Cliente CtePagador On Sol.IdClientePagadorDelFlete = CtePagador.IdCliente
 Left Join Establecimiento EstDestinoCambio On Sol.IdEstablecimientoDestinoCambio = EstDestinoCambio.IdEstablecimiento
 Left Join Cliente CteDestinatarioCambio On Sol.IdClienteDestinatarioCambio = CteDestinatarioCambio.IdCliente
+Left Join Empresa EmpresaClientePagadorFlete On empresaClientePagadorFlete.IdCliente = CtePagador.IdCliente
 
 
 

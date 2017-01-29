@@ -37,6 +37,7 @@ namespace Cresud.CDP.Entities
         public DateTime? FechaArribo { get; set; }
         public decimal? PesoNetoDescarga { get; set; }
         public string EstablecimientoDestinoCambioCuit { get; set; }
+        public string EstablecimientoDestinoCambioCodigo { get; set; }
         public int? EstablecimientoDestinoCambioLocalidadId { get; set; }
         public decimal? TarifaReferencia { get; set; }
 

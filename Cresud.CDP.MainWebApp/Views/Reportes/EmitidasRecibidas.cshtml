@@ -28,12 +28,11 @@
         </div>
         <div class="col-sm-4 text-right">
             <button type="button" class="btn btn-default" ng-click="find()">Buscar</button>
-            <form method="POST" action="/Reportes/Export" style="display: inline;" ng-show="filter.fechaDesde && filter.fechaHasta">
+            <form method="POST" action="{{'/Reportes/' + reportName + 'Export'}}" style="display: inline;" ng-show="filter.fechaDesde && filter.fechaHasta">
                 <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
                 <input type="hidden" name="empresaId" value="{{filter.empresaId}}" />
                 <input type="hidden" name="fechaDesde" value="{{fechaDesde}}" />
                 <input type="hidden" name="fechaHasta" value="{{fechaHasta}}" />
-                <input type="hidden" name="emitidas" value="{{filter.emitidas}}" />
 
                 <button type="submit" class="btn btn-dark"><i class="fa fa-file"></i> Exportar</button>
             </form>

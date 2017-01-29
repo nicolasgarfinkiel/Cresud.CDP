@@ -147,7 +147,31 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             return this.JsonNet(response);
         }
-       
+
+
+        public ActionResult EmitidasExport(FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var txt = _admin.GetEmitidasExport(filter);
+            var fileName = "CartasDePorteEmitidas_{0}.txt";
+
+            return new TxtResult
+            {
+                Txt = txt,
+                FileName = string.Format(fileName, DateTime.Now.ToString("dd/MM/yyyy"))
+            };
+        }
+
+        public ActionResult RecibidasExport(FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var txt = _admin.GetRecibidasExport(filter);
+            var fileName = "CartasDePorteRecibidas_{0}.txt";
+
+            return new TxtResult
+            {
+                Txt = txt,
+                FileName = string.Format(fileName, DateTime.Now.ToString("dd/MM/yyyy"))
+            };
+        }
 
         #endregion
 

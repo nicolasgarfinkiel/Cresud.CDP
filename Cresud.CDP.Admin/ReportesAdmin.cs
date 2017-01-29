@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.UI.WebControls.WebParts;
 using AutoMapper;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Infrastructure;
 using OfficeOpenXml;
 using SolicitudReport = Cresud.CDP.Entities.SolicitudReport;
 
@@ -370,6 +372,164 @@ namespace Cresud.CDP.Admin
                 Count = query.Count(),
                 Data = Mapper.Map<IList<Entities.SolicitudRecibida>, IList<Dtos.SolicitudRecibida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };            
+        }
+
+        public string GetEmitidasExport(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var sb = new StringBuilder();
+            var sbItem = new StringBuilder();
+
+            #region Data
+
+            var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId && s.Asociacartadeporte.HasValue && s.Asociacartadeporte.Value)
+               .OrderBy(s => s.Id)
+               .AsQueryable();
+
+            if (filter.FechaDesde.HasValue)
+            {
+                query = query.Where(s => s.FechaDeEmision >= filter.FechaDesde.Value).AsQueryable();
+            }
+
+            if (filter.FechaHasta.HasValue)
+            {
+                var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+                query = query.Where(s => s.FechaDeEmision <= fh).AsQueryable();
+            }
+
+            var data = query.ToList();
+
+            #endregion
+
+            foreach (var item in data)
+            {
+                sbItem = new StringBuilder();
+
+                sbItem.Append("1");
+                sbItem.Append("5");
+                sbItem.Append(item.NumeroCartaDePorte.ReplicatePadLeft('0', 12));
+                sbItem.Append(item.Cee.ReplicatePadLeft(' ', 14));
+                sbItem.Append(item.Ctg.ReplicatePadLeft(' ', 8));
+                sbItem.Append(item.FechaDeEmision.ReplicatePadLeft(' ', 8));
+                sbItem.Append(item.ProvTitularCDPNumeroDocumento.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.CteIntermediarioCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.CteRemitenteComecialCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.CteCorredorCuit.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.CteEntregadorCuit.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.CteDestinatarioCuit.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.CteDestinoCuit.ReplicatePadLeft(' ', 11));
+
+                var cuitTransportista = !string.IsNullOrEmpty(item.ClientePagadorIdSapOrganizacionDeVenta) ?
+                    item.TransportistaNumeroDocumento : item.CTransportistaCuit ;
+
+                sbItem.Append(cuitTransportista.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.ChoferCuit.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.CosechaDescripcion.ReplicatePadLeft(' ', 5));
+                sbItem.Append(item.EspecieCodigo.ReplicatePadLeft('0', 3));
+                sbItem.Append(item.IdTipoGrano.ReplicatePadLeft('0', 2));
+                sbItem.Append(item.NumeroContrato.ReplicatePadLeft(' ', 20));
+                sbItem.Append(item.CargaPesadaDestino.HasValue && item.CargaPesadaDestino.Value ? "2" : "1");
+
+
+                var peso = item.CargaPesadaDestino.HasValue && item.CargaPesadaDestino.Value
+                    ? Convert.ToDecimal(item.KilogramosEstimados)*1.00M
+                    : Convert.ToDecimal(item.PesoNeto) * 1.00M;
+
+                sbItem.Append(peso.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.EstProcedenciaEstablecimientoAfip.ReplicatePadLeft('0', 6));
+                sbItem.Append(item.EstProcedenciaLocalidad.ReplicatePadLeft('0', 5));
+                sbItem.Append(item.EstDestinoEstablecimientoAfip.ReplicatePadLeft('0', 6));
+                sbItem.Append(item.EstDestinoLocalidad.ReplicatePadLeft('0', 5));
+                sbItem.Append(item.KmRecorridos.ReplicatePadLeft('0', 4));
+                sbItem.Append(item.PatenteCamion.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.PatenteAcoplado.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.TarifaReal.ReplicatePadLeft('0', 8));
+                sbItem.Append(item.TarifaReferencia.ReplicatePadLeft('0', 8));                                                                                                                                                                
+
+                sb.AppendLine(sbItem.ToString());
+            }
+
+            return sb.ToString();
+        }
+
+        public string GetRecibidasExport(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var sb = new StringBuilder();
+            var sbItem = new StringBuilder();
+
+            #region Data
+
+            var query = CdpContext.SolicitudesRecibidas.Where(s => s.EmpresaId == filter.EmpresaId)
+               .OrderBy(s => s.Id)
+               .AsQueryable();
+
+            if (filter.FechaDesde.HasValue)
+            {
+                query = query.Where(s => s.FechaDeEmision >= filter.FechaDesde.Value).AsQueryable();
+            }
+
+            if (filter.FechaHasta.HasValue)
+            {
+                var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+                query = query.Where(s => s.FechaDeEmision <= fh).AsQueryable();
+            }
+
+            var data = query.ToList();
+
+            #endregion
+
+            foreach (var item in data)
+            {
+                sbItem = new StringBuilder();
+
+                sbItem.Append("1");                
+                sbItem.Append(item.TipoCartaId);
+                sbItem.Append(item.NumeroCartaDePorte.ReplicatePadLeft('0', 12));
+                sbItem.Append(item.Cee.ReplicatePadLeft(' ', 14));
+                sbItem.Append(item.Ctg.ReplicatePadLeft(' ', 8));
+                sbItem.Append(item.FechaDeEmision.ReplicatePadLeft(' ', 8));
+                sbItem.Append(item.ProveedorTitularCartaDePorteCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ClienteIntermediarioCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ClienteRemitenteComercialCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ClienteCorredorCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ClienteEntregadorCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ClienteDestinatarioCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ProveedorTransportistaCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.ChoferCuit.ReplicatePadLeft('0', 11));
+
+                sbItem.Append(item.Grano.CosechaAfip.Descripcion.ReplicatePadLeft(' ', 5));
+                sbItem.Append(item.Grano.EspecieAfip.Codigo.ReplicatePadLeft('0', 3));
+                sbItem.Append(item.Grano.TipoGranoAfip.Id.ReplicatePadLeft('0', 2));
+                sbItem.Append(item.NumeroContrato.ReplicatePadLeft(' ', 20));
+                sbItem.Append(item.CargaPesadaDestino.HasValue && item.CargaPesadaDestino.Value ? "2" : "1");
+
+                var peso = item.CargaPesadaDestino.HasValue && item.CargaPesadaDestino.Value
+                                 ? Convert.ToDecimal(item.KilogramosEstimados) * 1.00M
+                                 : Convert.ToDecimal(item.PesoNeto) * 1.00M;
+
+                sbItem.Append(peso.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.EstablecimientoProcedenciaCodigo.ReplicatePadLeft('0', 6));
+                sbItem.Append(item.EstablecimientoProcedenciaLocalidadId.ReplicatePadLeft('0', 5));
+                sbItem.Append("0".ReplicatePadLeft('0', 6));// establecimientodestinoCodigo -- VER ESTE CAMPO!!!! - Responsabilidad de sposzalski
+                sbItem.Append("17693".ReplicatePadLeft('0', 5));
+                sbItem.Append(item.KmRecorridos.ReplicatePadLeft('0', 4));
+                sbItem.Append(item.PatenteCamion.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.PatenteAcoplado.ReplicatePadLeft(' ', 11));
+                sbItem.Append(item.TarifaReal.ReplicatePadLeft('0', 8));
+                sbItem.Append(item.FechaDeCarga.ReplicatePadLeft(' ', 8));
+                sbItem.Append(item.FechaArribo.ReplicatePadLeft(' ', 8));
+                                                                                                              
+                var pesoNetoDescarga = Convert.ToDecimal(item.PesoNetoDescarga) * 1.00M;
+
+                sbItem.Append(pesoNetoDescarga.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.EstablecimientoDestinoCambioCuit.ReplicatePadLeft('0', 11));
+                sbItem.Append(item.EstablecimientoDestinoCambioLocalidadId.ReplicatePadLeft('0', 5));
+                sbItem.Append(item.EstablecimientoDestinoCambioCodigo.ReplicatePadLeft('0', 6));
+                sbItem.Append(item.TarifaReferencia.ReplicatePadLeft('0', 8));                                                                
+                
+                sb.AppendLine(sbItem.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 }
