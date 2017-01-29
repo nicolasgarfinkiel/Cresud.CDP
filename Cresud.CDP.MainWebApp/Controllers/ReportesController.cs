@@ -110,6 +110,43 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             return this.JsonNet(response);
         }
+
+        [HttpPost]
+        public ActionResult GetCdpsEmitidasByFilter(FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var response = new PagedListResponse<Dtos.SolicitudReport>();
+
+            try
+            {
+                response = _admin.GetCdpsEmitidasByFilter(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+
+        [HttpPost]
+        public ActionResult GetCdpsRecibidasByFilter(FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var response = new PagedListResponse<Dtos.SolicitudRecibida>();
+
+            try
+            {
+                response = _admin.GetCdpsRecibidasByFilter(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
        
 
         #endregion

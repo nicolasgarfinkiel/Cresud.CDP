@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.Admin
@@ -32,6 +31,7 @@ namespace Cresud.CDP.Admin
                 cfg.CreateMap<ClienteDestinatario, Dtos.ClienteDestinatario>();
                 cfg.CreateMap<ClienteIntermediario, Dtos.ClienteIntermediario>();
                 cfg.CreateMap<Proveedor, Dtos.Proveedor>();
+                cfg.CreateMap<SolicitudRecibida, Dtos.SolicitudRecibida>();
             });         
         }
     }

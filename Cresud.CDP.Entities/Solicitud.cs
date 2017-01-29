@@ -60,6 +60,11 @@ namespace Cresud.CDP.Entities
         public decimal? PHumedad { get; set; }
         public decimal? POtros { get; set; }
         public int? TipoDeCartaId { get; set; }
+
+        public decimal? PesoNeto
+        {
+            get { return PesoBruto - PesoTara; }
+        }
     }
 }
 

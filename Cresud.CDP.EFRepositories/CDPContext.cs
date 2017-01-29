@@ -354,12 +354,55 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoEstablecimientoAfip).HasColumnName("EstDestinoEstablecimientoAfip");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoLocalidad).HasColumnName("EstDestinoLocalidad");
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);           
-            modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");   	
-		
+            modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");
 
 
-	
+            modelBuilder.Entity<SolicitudRecibida>().HasKey(t => t.Id);
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Id).HasColumnName("IdSolicitudRecibida");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.TipoCartaId).HasColumnName("IdTipoDeCarta");                                                                                                 
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.NumeroCartaDePorte).HasColumnName("NumeroCartaDePorte");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Cee).HasColumnName("Cee");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Ctg).HasColumnName("Ctg");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.FechaDeCarga).HasColumnName("FechaDeCarga");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ProveedorTitularCartaDePorteCuit).HasColumnName("idProveedorTitularCartaDePorte");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ClienteIntermediarioCuit).HasColumnName("IdClienteIntermediario");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ClienteRemitenteComercialCuit).HasColumnName("IdClienteRemitenteComercial");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ClienteCorredorCuit).HasColumnName("IdClienteCorredor");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ClienteEntregadorCuit).HasColumnName("IdClienteEntregador");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ClienteDestinatarioCuit).HasColumnName("IdClienteDestinatario");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ClienteDestinoCuit).HasColumnName("IdClienteDestino");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ProveedorTransportistaCuit).HasColumnName("IdProveedorTransportista");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.ChoferCuit).HasColumnName("IdChofer");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.NumeroContrato).HasColumnName("NumeroContrato");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.CargaPesadaDestino).HasColumnName("CargaPesadaDestino");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.KilogramosEstimados).HasColumnName("KilogramosEstimados");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.PesoBruto).HasColumnName("PesoBruto");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.PesoTara).HasColumnName("PesoTara");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoProcedenciaCodigo).HasColumnName("CodigoEstablecimientoProcedencia");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoProcedenciaLocalidadId).HasColumnName("IdLocalidadEstablecimientoProcedencia");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.KmRecorridos).HasColumnName("KmRecorridos");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.PatenteCamion).HasColumnName("PatenteCamion");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.PatenteAcoplado).HasColumnName("PatenteAcoplado");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.TarifaReal).HasColumnName("TarifaReal");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.FchaDescarga).HasColumnName("FechaDeDescarga");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.FechaArribo).HasColumnName("FechaDeArribo");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.PesoNetoDescarga).HasColumnName("PesoNetoDescarga");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoDestinoCambioCuit).HasColumnName("CodigoEstablecimientoDestinoCambio");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EstablecimientoDestinoCambioLocalidadId).HasColumnName("IdLocalidadEstablecimientoDestinoCambio");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.TarifaReferencia).HasColumnName("TarifaReferencia");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.UpdatedBy).HasColumnName("UsuarioModificacion");
+            modelBuilder.Entity<SolicitudRecibida>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<SolicitudRecibida>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<SolicitudRecibida>().HasOptional(e => e.Grano).WithMany().Map(x => x.MapKey("IdGrano"));
+            modelBuilder.Entity<SolicitudRecibida>().ToTable("SolicitudesRecibidas");
+
+
+
             modelBuilder.Entity<LoteCartaPorte>().HasKey(t => t.Id);
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Id).HasColumnName("IdLoteCartasDePorte");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.Desde).HasColumnName("Desde");
@@ -371,20 +414,20 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.PuntoEmision).HasColumnName("PuntoEmision");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.FechaDesde).HasColumnName("FechaDesde");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.FechaHasta).HasColumnName("FechaHasta");
-            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.HabilitacionNumero ).HasColumnName("HabilitacionNum");
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.HabilitacionNumero).HasColumnName("HabilitacionNum");
             modelBuilder.Entity<LoteCartaPorte>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
-            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");            
-            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdateDate);            
+            modelBuilder.Entity<LoteCartaPorte>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
+            modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdateDate);
             modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.UpdatedBy);
             modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<LoteCartaPorte>().Ignore(t => t.Enabled);
-            modelBuilder.Entity<LoteCartaPorte>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));            
+            modelBuilder.Entity<LoteCartaPorte>().HasOptional(e => e.GrupoEmpresa).WithMany().Map(x => x.MapKey("IdGrupoEmpresa"));
             modelBuilder.Entity<LoteCartaPorte>().ToTable("LoteCartasDePorte");
 
             modelBuilder.Entity<CartaDePorte>().HasKey(t => t.Id);
             modelBuilder.Entity<CartaDePorte>().Property(t => t.Id).HasColumnName("IdCartaDePorte");
             modelBuilder.Entity<CartaDePorte>().Property(t => t.NumeroCartaDePorte).HasColumnName("NumeroCartaDePorte");
-            modelBuilder.Entity<CartaDePorte>().Property(t => t.NumeroCee).HasColumnName("NumeroCee");            
+            modelBuilder.Entity<CartaDePorte>().Property(t => t.NumeroCee).HasColumnName("NumeroCee");
             modelBuilder.Entity<CartaDePorte>().Property(t => t.Estado).HasColumnName("Estado");
             modelBuilder.Entity<CartaDePorte>().Property(t => t.FechaReserva).HasColumnName("FechaReserva");
             modelBuilder.Entity<CartaDePorte>().Property(t => t.UsuarioReserva).HasColumnName("UsuarioReserva");
@@ -405,7 +448,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LogOperacion>().Ignore(t => t.Enabled);
             modelBuilder.Entity<LogOperacion>().ToTable("LogOperaciones");
 
-           
+
             modelBuilder.Entity<ClienteRemitenteComercial>().HasKey(t => t.Id);
             modelBuilder.Entity<ClienteRemitenteComercial>().Property(t => t.Id).HasColumnName("IdCliente");
             modelBuilder.Entity<ClienteRemitenteComercial>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
@@ -435,7 +478,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<ClienteIntermediario>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
             modelBuilder.Entity<ClienteIntermediario>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
             modelBuilder.Entity<ClienteIntermediario>().ToTable("vClienteIntermediario");
-            
+
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -462,6 +505,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<ClienteEntregador> ClientesEntregador { get; set; }
         public IDbSet<ClienteDestinatario> ClientesDestinatario { get; set; }
         public IDbSet<ClienteIntermediario> ClientesIntermediarios { get; set; }
+        public IDbSet<SolicitudRecibida> SolicitudesRecibidas { get; set; }
     }
 }
 

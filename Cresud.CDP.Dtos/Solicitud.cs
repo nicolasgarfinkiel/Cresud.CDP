@@ -60,6 +60,7 @@ namespace Cresud.CDP.Dtos
         public decimal? PHumedad { get; set; }
         public decimal? POtros { get; set; }
         public int? TipoDeCartaId { get; set; }
+        public decimal? PesoNeto { get; set; }
     }
 }
 

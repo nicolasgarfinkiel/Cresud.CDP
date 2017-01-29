@@ -67,7 +67,7 @@ namespace Cresud.CDP.Entities
         public string CosechaDescripcion { get; set; }
         public string TitularCDP { get; set; }
 
-        public bool Asociacartadeporte { get; set; }
+        public bool? Asociacartadeporte { get; set; }
         public string ProvTitularCDPNumeroDocumento { get; set; }
         public string CteIntermediarioCuit { get; set; }
         public string CteRemitenteComecialCuit { get; set; }
@@ -78,11 +78,11 @@ namespace Cresud.CDP.Entities
         public string TransportistaNumeroDocumento { get; set; }
         public string CTransportistaCuit { get; set; }
         public string ChoferCuit { get; set; }
-        public int EspecieCodigo { get; set; }
-        public int IdTipoGrano { get; set; }
+        public int? EspecieCodigo { get; set; }
+        public int? IdTipoGrano { get; set; }
         public int EstProcedenciaLocalidad { get; set; }
         public string EstProcedenciaEstablecimientoAfip { get; set; }
-        public int EstDestinoLocalidad { get; set; }
+        public int? EstDestinoLocalidad { get; set; }
         public string EstDestinoEstablecimientoAfip { get; set; }
 
         public decimal? PesoNeto

@@ -59,6 +59,7 @@
     <Compile Include="Empresa.cs" />
     <Compile Include="Especie.cs" />
     <Compile Include="Establecimiento.cs" />
+    <Compile Include="Filters\FilterCartasDePorteEmitidasRecibidas.cs" />
     <Compile Include="Filters\FilterEstablecimientos.cs" />
     <Compile Include="Filters\FilterCartasDePorteExport.cs" />
     <Compile Include="Filters\FilterReservas.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Proveedor.cs" />
     <Compile Include="Provincia.cs" />
     <Compile Include="Solicitud.cs" />
+    <Compile Include="SolicitudRecibida.cs" />
     <Compile Include="SolicitudReport.cs" />
     <Compile Include="TipoCarta.cs" />
     <Compile Include="TipoGrano.cs" />

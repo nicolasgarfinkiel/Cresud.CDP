@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.UI.WebControls.WebParts;
+using AutoMapper;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using OfficeOpenXml;
@@ -318,6 +320,56 @@ namespace Cresud.CDP.Admin
             #endregion
 
             return pck;
+        }
+
+
+
+        public PagedListResponse<Dtos.SolicitudReport> GetCdpsEmitidasByFilter(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId && s.Asociacartadeporte.HasValue && s.Asociacartadeporte.Value)
+                .OrderBy(s => s.Id)
+                .AsQueryable();
+
+            if (filter.FechaDesde.HasValue)
+            {
+                query = query.Where(s => s.FechaDeEmision >= filter.FechaDesde.Value).AsQueryable();
+            }
+
+            if (filter.FechaHasta.HasValue)
+            {
+                var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+                query = query.Where(s => s.FechaDeEmision <= fh).AsQueryable();
+            }
+
+            return new PagedListResponse<Dtos.SolicitudReport>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };               
+        }
+
+        public PagedListResponse<Dtos.SolicitudRecibida> GetCdpsRecibidasByFilter(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var query = CdpContext.SolicitudesRecibidas.Where(s => s.EmpresaId == filter.EmpresaId)
+                .OrderBy(s => s.Id)
+                .AsQueryable();
+
+            if (filter.FechaDesde.HasValue)
+            {
+                query = query.Where(s => s.FechaDeEmision >= filter.FechaDesde.Value).AsQueryable();
+            }
+
+            if (filter.FechaHasta.HasValue)
+            {
+                var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+                query = query.Where(s => s.FechaDeEmision <= fh).AsQueryable();
+            }
+
+            return new PagedListResponse<Dtos.SolicitudRecibida>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<Entities.SolicitudRecibida>, IList<Dtos.SolicitudRecibida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };            
         }
     }
 }
