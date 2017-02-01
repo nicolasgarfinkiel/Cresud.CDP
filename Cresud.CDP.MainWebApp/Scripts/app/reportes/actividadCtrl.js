@@ -15,11 +15,14 @@
 
                $scope.find = function () {
                    reportesService.getReporteActividad($scope.filter).then(function (response) {
-                       $scope.values.push(['Fecha', 'CantidadAfip', 'CantidadSap']);
+                       $scope.values = [];
+                       $scope.values.push(['Fecha', 'Aprobadas Afip', 'Aprobadas Sap']);
 
                        response.data.data.forEach(function(item) {
                            $scope.values.push([item.fecha, item.cantidadAfip, item.cantidadSap]);
                        });
+
+                       if ($scope.values.length == 1) return;
 
                        google.charts.load('visualization', '1', { packages: ['corechart'] });
                        google.charts.setOnLoadCallback($scope.drawVisualization);
@@ -28,21 +31,9 @@
 
                $scope.drawVisualization = function () {
                    var options = {
-                       annotations: {
-                           boxStyle: {
-                               stroke: '#888',
-                               strokeWidth: 1,
-                               rx: 10,
-                               ry: 10,
-                               gradient: {
-                                   color1: '#fbf6a7',
-                                   color2: '#33b679',
-                                   x1: '0%', y1: '0%',
-                                   x2: '100%', y2: '100%',
-                                   useObjectBoundingBoxUnits: true
-                               }
-                           }
-                       }
+                       width: $('#visualization').width(),
+                       height: $('#visualization').height(),
+                       colors: ['#9db1c5', '#4cc0c1'],
                    };
 
                    var data = google.visualization.arrayToDataTable($scope.values);
