@@ -294,6 +294,7 @@
     <Content Include="Scripts\jquery.peity.min.js" />
     <Content Include="Scripts\jquery.slimscroll.min.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\jsapi.js" />
     <Content Include="Scripts\metisMenu.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Web.config" />

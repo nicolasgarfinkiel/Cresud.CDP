@@ -16,22 +16,22 @@ AS
 	ISNULL(afip.cntAfip,0) CantidadAfip,
 	ISNULL(sap.cntSap,0) CantidadSap 
 	FROM 
-		(
-			select Convert(varchar,FechaDeEmision,111) Fecha,
+		(			
+ 		    select DATEADD(dd, DATEDIFF(dd, 0, FechaDeEmision), 0) Fecha,
 			IdEmpresa,
 			count(*) cntAfip 
 			from solicitudes 
 			where  ctg <> '' and ctg is not null and EstadoEnAFIP in (1,4,5,6,8,9) 
-			group by IdEmpresa, Convert(varchar,FechaDeEmision,111)
+			group by IdEmpresa, DATEADD(dd, DATEDIFF(dd, 0, FechaDeEmision), 0) 
 		) afip full 
 	OUTER JOIN
 		(
-			select Convert(varchar,FechaDeEmision,111) Fecha, 
+			select DATEADD(dd, DATEDIFF(dd, 0, FechaDeEmision), 0) Fecha,
 			IdEmpresa,
 			count(*) cntSap 
 			from solicitudes 
 			where  ctg <> '' and ctg is not null and EstadoEnSAP in (2) 
-			group by IdEmpresa, Convert(varchar,FechaDeEmision,111)
+			group by IdEmpresa, DATEADD(dd, DATEDIFF(dd, 0, FechaDeEmision), 0) 
 		) sap 
 	ON afip.Fecha = sap.Fecha AND afip.IdEmpresa = sap.IdEmpresa
 		

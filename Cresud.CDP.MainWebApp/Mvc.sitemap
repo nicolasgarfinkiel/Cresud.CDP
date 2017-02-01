@@ -30,11 +30,10 @@
     </mvcSiteMapNode>
     
     <mvcSiteMapNode   title="Reporting"                             controller="Reports"                action="Index"               Class="fa fa-bookmark-o"  roles="" >
-      <mvcSiteMapNode title="Exportar CDP"                          controller="Reportes"                   action="Index"                                           roles=""/>
-      <mvcSiteMapNode title="CDP Emitidas"                          controller="Reportes"                action="Index"       aroute="emitidas"                            roles=""/>
-      <mvcSiteMapNode title="CDP Recibidas"                         controller="Reportes"                action="Index"       aroute="recibidas"                            roles=""/>
-      <mvcSiteMapNode title="Actividad"                             controller="Reporting"                action="Actividad"                                     roles=""/> 
-      <mvcSiteMapNode title="Consulta 1116A"                        controller="Reporting"                action="Consulta1116A"                                 roles=""/> 
+      <mvcSiteMapNode title="Exportar CDP"                          controller="Reportes"                   action="Index"                                     roles=""/>
+      <mvcSiteMapNode title="CDP Emitidas"                          controller="Reportes"                action="Index"       aroute="emitidas"                roles=""/>
+      <mvcSiteMapNode title="CDP Recibidas"                         controller="Reportes"                action="Index"       aroute="recibidas"               roles=""/>
+      <mvcSiteMapNode title="Actividad"                             controller="Reportes"                action="Index"   aroute="actividad"              roles=""/>       
     </mvcSiteMapNode>
                      
   </mvcSiteMapNode>
