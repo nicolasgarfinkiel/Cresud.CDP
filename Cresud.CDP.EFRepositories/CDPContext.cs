@@ -480,6 +480,13 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<ClienteIntermediario>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
             modelBuilder.Entity<ClienteIntermediario>().ToTable("vClienteIntermediario");
 
+            modelBuilder.Entity<CartaDePorteGraficoItem>().HasKey(t => t.Id);
+            modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.Id).HasColumnName("Id");
+            modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.Fecha).HasColumnName("Fecha");
+            modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.CantidadAfip).HasColumnName("CantidadAfip");
+            modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.CantidadSap).HasColumnName("CantidadSap");
+            modelBuilder.Entity<CartaDePorteGraficoItem>().ToTable("vGraficoItemCDP");
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -507,6 +514,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<ClienteDestinatario> ClientesDestinatario { get; set; }
         public IDbSet<ClienteIntermediario> ClientesIntermediarios { get; set; }
         public IDbSet<SolicitudRecibida> SolicitudesRecibidas { get; set; }
+        public IDbSet<CartaDePorteGraficoItem> ItemsGrafico { get; set; }
     }
 }
 

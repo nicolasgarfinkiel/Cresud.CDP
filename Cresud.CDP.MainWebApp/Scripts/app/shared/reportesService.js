@@ -29,5 +29,12 @@
                            data: { filter: filter }
                        });
                    },
+                   getReporteActividad: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Reportes/GetReporteActividad',
+                           data: { filter: filter }
+                       });
+                   },
                };
            }]);

@@ -118,8 +118,6 @@ Left Join Establecimiento EstDestinoCambio On Sol.IdEstablecimientoDestinoCambio
 Left Join Cliente CteDestinatarioCambio On Sol.IdClienteDestinatarioCambio = CteDestinatarioCambio.IdCliente
 Left Join Empresa EmpresaClientePagadorFlete On empresaClientePagadorFlete.IdCliente = CtePagador.IdCliente
 
-
-
 GO
 
 

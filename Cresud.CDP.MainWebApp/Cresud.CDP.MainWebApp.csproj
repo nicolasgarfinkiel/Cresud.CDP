@@ -242,6 +242,7 @@
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteEditCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteListCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteModule.js" />
+    <Content Include="Scripts\app\reportes\actividadCtrl.js" />
     <Content Include="Scripts\app\reportes\emitidasRecibidasCtrl.js" />
     <Content Include="Scripts\app\shared\reportesService.js" />
     <Content Include="Scripts\app\reportes\reportesNavigationService.js" />
@@ -365,6 +366,7 @@
     <Content Include="Views\Reportes\Export.cshtml" />
     <Content Include="Reports\CartasDePorte.xlsx" />
     <Content Include="Views\Reportes\EmitidasRecibidas.cshtml" />
+    <Content Include="Views\Reportes\Actividad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

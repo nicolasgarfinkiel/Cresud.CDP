@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
@@ -175,6 +174,26 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
         #endregion
 
+        #region Actividad
 
+        [HttpPost]
+        public ActionResult GetReporteActividad(FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var response = new Response<IList<CartaDePorteGraficoItem>>();
+
+            try
+            {
+                response.Data = _admin.GetReporteActividad(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        #endregion
     }
 }

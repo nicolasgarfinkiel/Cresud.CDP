@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web.UI.WebControls.WebParts;
 using AutoMapper;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
@@ -324,8 +323,6 @@ namespace Cresud.CDP.Admin
             return pck;
         }
 
-
-
         public PagedListResponse<Dtos.SolicitudReport> GetCdpsEmitidasByFilter(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
         {
             var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId && s.Asociacartadeporte.HasValue && s.Asociacartadeporte.Value)
@@ -530,6 +527,24 @@ namespace Cresud.CDP.Admin
             }
 
             return sb.ToString();
+        }
+
+        public IList<Dtos.CartaDePorteGraficoItem> GetReporteActividad(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
+        {
+            var query = CdpContext.ItemsGrafico.Where(s => s.EmpresaId == filter.EmpresaId).AsQueryable();
+
+            if (filter.FechaDesde.HasValue)
+            {
+                query = query.Where(s => s.Fecha >= filter.FechaDesde.Value).AsQueryable();
+            }
+
+            if (filter.FechaHasta.HasValue)
+            {
+                var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+                query = query.Where(s => s.Fecha <= fh).AsQueryable();
+            }
+
+            return Mapper.Map<IList<Entities.CartaDePorteGraficoItem>, IList<Dtos.CartaDePorteGraficoItem>>(query.ToList());
         }
     }
 }

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CartaDePorte.cs" />
+    <Compile Include="CartaDePorteGraficoItem.cs" />
     <Compile Include="ClienteDestinatario.cs" />
     <Compile Include="ClienteEntregador.cs" />
     <Compile Include="ClienteCorredor.cs" />
