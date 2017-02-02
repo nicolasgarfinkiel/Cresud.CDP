@@ -546,5 +546,29 @@ namespace Cresud.CDP.Admin
 
             return Mapper.Map<IList<Entities.CartaDePorteGraficoItem>, IList<Dtos.CartaDePorteGraficoItem>>(query.ToList());
         }
+
+        public PagedListResponse<Dtos.SolicitudReport> GetSolicitadasByFilter(Dtos.Filters.FilterSolicitudes filter)
+        {
+            var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId && s.Asociacartadeporte.HasValue && s.Asociacartadeporte.Value)
+              .OrderBy(s => s.Id)
+              .AsQueryable();
+
+            //if (filter.FechaDesde.HasValue)
+            //{
+            //    query = query.Where(s => s.FechaDeEmision >= filter.FechaDesde.Value).AsQueryable();
+            //}
+
+            //if (filter.FechaHasta.HasValue)
+            //{
+            //    var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
+            //    query = query.Where(s => s.FechaDeEmision <= fh).AsQueryable();
+            //}
+
+            return new PagedListResponse<Dtos.SolicitudReport>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };     
+        }
     }
 }

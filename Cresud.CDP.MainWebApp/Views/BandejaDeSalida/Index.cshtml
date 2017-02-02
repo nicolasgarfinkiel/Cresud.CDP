@@ -1,0 +1,16 @@
+﻿@using Cresud.CDP.Infrastructure
+@{
+    ViewBag.ngApp = "cresud.cdp.bandejaDeSalida";
+}
+<div>    
+    <script type="text/ng-template" id="bandejaDeSalida/solicitadas">
+        @RenderPage(Url.Content("~/Views/BandejaDeSalida/Solicitadas.cshtml"))
+    </script>    
+    <div ng-view></div>
+</div>
+
+@section scripts{    
+    @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/reportesModule.js")
+    @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/solicitadasCtrl.js")    
+    @Html.IncludeVersionedJs("Scripts/app/shared/bandejaDeSalidaService.js")    
+}

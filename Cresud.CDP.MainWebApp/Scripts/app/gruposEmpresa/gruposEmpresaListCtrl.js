@@ -5,7 +5,7 @@
            'baseNavigationService',
            'listBootstraperService',
            function ($scope, gruposEmpresaService, baseNavigationService, listBootstraperService) {
-               $scope.onInitEnd = function () {                                      
+               $scope.onInitEnd = function () {                   
                };
               
 

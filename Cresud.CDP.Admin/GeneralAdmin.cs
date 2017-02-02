@@ -66,6 +66,16 @@ namespace Cresud.CDP.Admin
             return Mapper.Map<IList<TipoCarta>, IList<Dtos.TipoCarta>>(data);
         }
 
+        public object GetEstadosAfip()
+        {
+             return  Cresud.CDP.Infrastructure.Enum<EstadoAfip>.ToKeyValue();
+        }
+
+        public IEnumerable<string> GetEstadosSap()
+        {
+            return Cresud.CDP.Infrastructure.Enum<EstadoSap>.ToKeyValue();
+        }
+
         #region Clientes
 
         public PagedListResponse<Dtos.Cliente> GetClientesByFilter(FilterBase filter)
@@ -210,5 +220,7 @@ namespace Cresud.CDP.Admin
 
         #endregion
 
+
+      
     }
 }
