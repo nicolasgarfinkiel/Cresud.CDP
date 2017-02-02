@@ -4,6 +4,9 @@ namespace Cresud.CDP.Dtos
 {
     public class SolicitudReport
     {
+        public int Id { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public string CreatedBy { get; set; }
         public int EmpresaId { get; set; }
         public string ObservacionAfip { get; set; }
         public string NumeroCartaDePorte { get; set; }
@@ -84,6 +87,7 @@ namespace Cresud.CDP.Dtos
         public string EstProcedenciaEstablecimientoAfip { get; set; }
         public int? EstDestinoLocalidad { get; set; }
         public string EstDestinoEstablecimientoAfip { get; set; }
+        public decimal? PesoNeto { get; set; }
     }
 }
 

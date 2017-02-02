@@ -353,6 +353,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstProcedenciaLocalidad).HasColumnName("EstProcedenciaLocalidad");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoEstablecimientoAfip).HasColumnName("EstDestinoEstablecimientoAfip");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoLocalidad).HasColumnName("EstDestinoLocalidad");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ClientePagadorIdSapOrganizacionDeVenta).HasColumnName("ClientePagadorIdSapOrganizacionDeVenta");
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.Enabled);
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");

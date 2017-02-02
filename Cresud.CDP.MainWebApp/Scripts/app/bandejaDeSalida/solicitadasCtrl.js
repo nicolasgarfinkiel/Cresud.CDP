@@ -1,64 +1,77 @@
 ﻿angular.module('cresud.cdp.bandejaDeSalida.ctrl.solicitadas', [])
        .controller('solicitadasCtrl', [
            '$scope',
-           'bandejaDeSalidaService',           
+           'bandejaDeSalidaService',
            function ($scope, bandejaDeSalidaService) {
                $scope.filter = {};
                $scope.columns = [];
-               $scope.columnsArg = [                    
-                    { field: 'id', displayName: 'Id', width: 80 },
+               $scope.columnsArg = [
+                    { field: 'id', displayName: 'Id', width: 50 },
                     { field: 'numeroCartaDePorte', displayName: 'Nro.Carta Porte' },
-                    { field: 'ctg', displayName: 'Ctg' },
-                    { field: 'tipoCartaId', displayName: 'Tipo' },
+                    { field: 'ctg', displayName: 'Ctg', width: 80 },
+                    { field: 'tipoCarta', displayName: 'Tipo' },
                     { field: 'titularCDP', displayName: 'Titular' },
                     { field: 'estProcedencia', displayName: 'Est.Procedencia' },
-                    { field: 'estadoEnAFIP', displayName: 'Afip' },
-                    { field: 'estadoEnSAP', displayName: 'SAP' },
+                    { field: 'asd', displayName: 'Afip', cellTemplate: '<div>{{getEstadoAfipDescripcion(row.entity.estadoEnAFIP)}}</div>' },
+                    { field: 'asd', displayName: 'SAP', cellTemplate: '<div>{{getEstadoSapDescripcion(row.entity.estadoEnSAP)}}</div>' },
                     { field: 'observacionAfip', displayName: 'Observaciones AFIP' },
                     { field: 'fechaDeEmision', displayName: 'Fecha' },
                     { field: 'createdBy', displayName: 'Usuario Creación' },
                     { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="edit(row.entity.id)"><i class="fa fa-pencil"></i></a></div>' }
-                               
-               ];
-                                                                                                         
-               
-               
-               row.Cells.Add(AddTitleCell("Re AFIP", 5, "Acción de Reenvio de la solicitud a AFIP"));
-               row.Cells.Add(AddTitleCell("Re SAP", 5, "Acción de Reenvio de la solicitud a SAP"));
-               row.Cells.Add(AddTitleCell("Log Sap", 5, "Log de respuestas de SAP"));
-               
-                                                                                                                                                                                                                                                                                                    
-               $scope.columnsOtros = [
-                   { field: 'tipoCartaId', displayName: 'Tipo' },
-                    { field: 'numeroCartaDePorte', displayName: 'Nro.Carta Porte' },
-                    { field: 'cee', displayName: 'Cee' },
-                    { field: 'ctg', displayName: 'Ctg' },
-                    { field: 'fechaDeCarga', displayName: 'Fecha Carga' },
-                    { field: 'choferCuit', displayName: 'Chofer/Conductor' },
-                    { field: 'grano.cosechaAfipDescripcion', displayName: 'Cosecha' },
-                    { field: 'grano.especieAfipId', displayName: 'Cod.Especie' },
-                    { field: 'grano.tipoGranoAfipId', displayName: 'Tipo Grano' },
-                    { field: 'pesoNeto', displayName: 'Peso Neto' },
-                    { field: 'kmRecorridos', displayName: 'Km Recorrer' },
-                    { field: 'patenteCamion', displayName: 'Patente camión' },
-                    { field: 'patenteAcoplado', displayName: 'Patente acoplado' },
-                    { field: 'fchaDescarga', displayName: 'Fecha Descarga' }                      
                ];
 
-               bandejaDeSalidaService.GetDataListSolicitadas().then(function (response) {
+               $scope.columnsOtros = [
+                   { field: 'id', displayName: 'Id', width: 50 },
+                   { field: 'numeroCartaDePorte', displayName: 'Nro.Carta Porte' },
+                   { field: 'tipoCarta', displayName: 'Tipo' },
+                   { field: 'titularCDP', displayName: 'Titular' },
+                   { field: 'estProcedencia', displayName: 'Est.Procedencia' },
+                   { field: 'estadoEnSAP', displayName: 'SAP' },
+                   { field: 'fechaDeEmision', displayName: 'Fecha' },
+                   { field: 'createdBy', displayName: 'Usuario Creación' },
+                   { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="edit(row.entity.id)"><i class="fa fa-pencil"></i></a></div>' }
+               ];
+
+               bandejaDeSalidaService.getDataListSolicitadas().then(function (response) {
                    $scope.data = response.data.data;
                    $scope.filter.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
                    $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;
-                   $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'argentina';
+                   $scope.esArgentina = $scope.data.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'argentina';
 
                    $scope.columns = $scope.esArgentina ? $scope.columnsArg : $scope.columnsOtros;
-               });                           
-               
-               $scope.data = [];
+               });
+
+               $scope.getEstadoAfipDescripcion = function(id) {
+                   var result = null;
+
+                   for (var i = 0; i < $scope.data.estadosAfip.length; i++) {
+                       if ($scope.data.estadosAfip[i].key == id) {
+                           result = $scope.data.estadosAfip[i].value;
+                           break;
+                       }
+                   }
+
+                   return result;
+               };
+
+               $scope.getEstadoSapDescripcion = function (id) {
+                   var result = null;
+
+                   for (var i = 0; i < $scope.data.estadosSap.length; i++) {
+                       if ($scope.data.estadosSap[i].key == id) {
+                           result = $scope.data.estadosSap[i].value;
+                           break;
+                       }
+                   }
+
+                   return result;
+               };
+
+               $scope.solicitudes = [];
                $scope.dataCount = 0;
-              
+
                $scope.gridOptions = {
-                   data: 'data',
+                   data: 'solicitudes',
                    columnDefs: 'columns',
                    showFooter: true,
                    enablePaging: true,
@@ -73,7 +86,7 @@
                };
 
                $scope.find = function () {
-                   $scope.data = [];
+                   $scope.solicitudes = [];
 
                    if (!$scope.filter.empresaId) return;
 
@@ -81,7 +94,7 @@
                    $scope.filter.pageSize = $scope.gridOptions.pagingOptions.pageSize;
 
                    bandejaDeSalidaService.getSolicitadasByFilter($scope.filter).then(function (response) {
-                       $scope.data = response.data.data;
+                       $scope.solicitudes = response.data.data;
                        $scope.dataCount = response.data.count;
                    }, function () { throw 'Error on getSolicitadasByFilter'; });
                };
@@ -89,11 +102,5 @@
                $scope.$watch('gridOptions.pagingOptions', function (newVal, oldVal) {
                    if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
                    $scope.find();
-               }, true);
-
-               $scope.$watch('filter.multiColumnSearchText', function () {
-                   $scope.gridOptions.pagingOptions.currentPage = 1;
-                   $scope.find();
-               });               
-           
+               }, true);              
            }]);

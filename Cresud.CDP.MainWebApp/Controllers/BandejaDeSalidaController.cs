@@ -11,12 +11,12 @@ using SolicitudReport = Cresud.CDP.Entities.SolicitudReport;
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
-    public class BandejaDeSalida : BaseController<ReportesAdmin, int, SolicitudReport, Dtos.SolicitudReport, FilterBase>
+    public class BandejaDeSalidaController : BaseController<ReportesAdmin, int, SolicitudReport, Dtos.SolicitudReport, FilterBase>
     {
         private readonly GeneralAdmin _generalAdmin;
         private readonly GranosAdmin _granosAdmin;
 
-        public BandejaDeSalida()
+        public BandejaDeSalidaController()
         {
             _generalAdmin = new GeneralAdmin();
             _granosAdmin = new GranosAdmin();

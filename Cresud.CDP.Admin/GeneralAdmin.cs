@@ -71,7 +71,7 @@ namespace Cresud.CDP.Admin
              return  Cresud.CDP.Infrastructure.Enum<EstadoAfip>.ToKeyValue();
         }
 
-        public IEnumerable<string> GetEstadosSap()
+        public object GetEstadosSap()
         {
             return Cresud.CDP.Infrastructure.Enum<EstadoSap>.ToKeyValue();
         }

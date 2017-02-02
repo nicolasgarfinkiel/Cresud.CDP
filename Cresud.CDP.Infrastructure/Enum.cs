@@ -135,7 +135,11 @@ namespace Cresud.CDP.Infrastructure
             }
 
             // Return Enumertator as a Dictionary
-            return Enum.GetValues(typeof(T)).Cast<T>().ToDictionary(i => (int)Convert.ChangeType(i, i.GetType()), t => t.ToString()).ToList();
+            return Enum.GetValues(typeof(T)).Cast<T>()
+                   .ToDictionary(i => (int)Convert.ChangeType(i, i.GetType()), t => t.ToString())
+                   .ToList()
+                   .OrderBy(d => d.Value)
+                   .ToList();
         }
     }
 }

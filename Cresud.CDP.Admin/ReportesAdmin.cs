@@ -549,21 +549,32 @@ namespace Cresud.CDP.Admin
 
         public PagedListResponse<Dtos.SolicitudReport> GetSolicitadasByFilter(Dtos.Filters.FilterSolicitudes filter)
         {
-            var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId && s.Asociacartadeporte.HasValue && s.Asociacartadeporte.Value)
+            var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId)
               .OrderBy(s => s.Id)
               .AsQueryable();
 
-            //if (filter.FechaDesde.HasValue)
-            //{
-            //    query = query.Where(s => s.FechaDeEmision >= filter.FechaDesde.Value).AsQueryable();
-            //}
+            if (filter.EstadoAfip.HasValue)
+            {
+                query = query.Where(s => s.EstadoEnAFIP == filter.EstadoAfip).AsQueryable();
+            }
 
-            //if (filter.FechaHasta.HasValue)
-            //{
-            //    var fh = filter.FechaHasta.Value.AddDays(1).AddMilliseconds(-1);
-            //    query = query.Where(s => s.FechaDeEmision <= fh).AsQueryable();
-            //}
+            if (filter.EstadoSap.HasValue)
+            {
+                query = query.Where(s => s.EstadoEnSAP == filter.EstadoSap).AsQueryable();
+            }
 
+            if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
+            {
+                filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
+
+                query = query.Where(r => 
+                    (r.NumeroCartaDePorte != null && r.NumeroCartaDePorte.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.Ctg != null && r.Ctg.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.EstProcedencia != null && r.EstProcedencia.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.ObservacionAfip != null && r.ObservacionAfip.ToLower().Contains(filter.MultiColumnSearchText))).AsQueryable();
+            }
+                 
             return new PagedListResponse<Dtos.SolicitudReport>
             {
                 Count = query.Count(),

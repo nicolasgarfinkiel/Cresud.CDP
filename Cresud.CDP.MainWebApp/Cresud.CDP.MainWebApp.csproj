@@ -183,7 +183,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartasDePorteController.cs" />
-    <Compile Include="Controllers\BandejaDeSalida.cs" />
+    <Compile Include="Controllers\BandejaDeSalidaController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\SolicitudesController.cs" />
