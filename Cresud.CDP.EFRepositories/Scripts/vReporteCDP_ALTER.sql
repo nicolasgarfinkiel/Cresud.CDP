@@ -6,8 +6,10 @@ IF OBJECT_ID('[dbo].[vReporteCDP]', 'V') IS NOT NULL
 GO
 
 
-CREATE VIEW [dbo].[vReporteCDP]
+
+CREATE VIEW [dbo].[vReporteCDP]  
 AS
+
 
 Select Distinct 
 Sol.IdSolicitud, 
@@ -95,29 +97,36 @@ EstProcedencia.EstablecimientoAfip as EstProcedenciaEstablecimientoAfip,
 EstProcedencia.Localidad as EstProcedenciaLocalidad,
 EstDestino.EstablecimientoAfip as EstDestinoEstablecimientoAfip,
 EstDestino.Localidad as EstDestinoLocalidad,
-EmpresaClientePagadorFlete.IdSapOrganizacionDeVenta as ClientePagadorIdSapOrganizacionDeVenta
-From Solicitudes Sol
-Left Join TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
-Left Join Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
-Left Join Cliente CteIntermediario On Sol.IdClienteIntermediario = CteIntermediario.IdCliente
-Left Join Cliente CteRemitenteComecial On Sol.IdClienteRemitenteComercial = CteRemitenteComecial.IdCliente
-Left Join Cliente CteCorredor On Sol.IdClienteCorredor = CteCorredor.IdCliente
-Left Join Cliente CteEntregador On Sol.IdClienteEntregador = CteEntregador.IdCliente
-Left Join Cliente CteDestinatario On Sol.IdClienteDestinatario = CteDestinatario.IdCliente
-Left Join Cliente CteDestino On Sol.IdClienteDestino = CteDestino.IdCliente
-Left Join Proveedor Transportista On Sol.IdProveedorTransportista = Transportista.IdProveedor
-Left join Chofer CTransportista On Sol.IdChoferTransportista = CTransportista.IdChofer
-Left join Chofer Chofer On Sol.IdChofer = Chofer.IdChofer
-Left Join Grano Grano On Sol.IdGrano = Grano.IdGrano
-Left Join Cosecha Cosecha On Grano.IdCosechaAfip = Cosecha.IdCosecha
-Left Join Especie Especie On Grano.IdEspecieAfip = Especie.IdEspecie
-Left Join Establecimiento EstProcedencia On Sol.IdEstablecimientoProcedencia = EstProcedencia.IdEstablecimiento
-Left Join Establecimiento EstDestino On Sol.IdEstablecimientoDestino = EstDestino.IdEstablecimiento
-Left Join Cliente CtePagador On Sol.IdClientePagadorDelFlete = CtePagador.IdCliente
-Left Join Establecimiento EstDestinoCambio On Sol.IdEstablecimientoDestinoCambio = EstDestinoCambio.IdEstablecimiento
-Left Join Cliente CteDestinatarioCambio On Sol.IdClienteDestinatarioCambio = CteDestinatarioCambio.IdCliente
-Left Join Empresa EmpresaClientePagadorFlete On empresaClientePagadorFlete.IdCliente = CtePagador.IdCliente
+EmpresaClientePagadorFlete.IdSapOrganizacionDeVenta as ClientePagadorIdSapOrganizacionDeVenta,
+Sol.MensajeRespuestaEnvioSAP
+From [dbo].Solicitudes Sol
+Left Join [dbo].TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
+Left Join [dbo].Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
+Left Join [dbo].Cliente CteIntermediario On Sol.IdClienteIntermediario = CteIntermediario.IdCliente
+Left Join [dbo].Cliente CteRemitenteComecial On Sol.IdClienteRemitenteComercial = CteRemitenteComecial.IdCliente
+Left Join [dbo].Cliente CteCorredor On Sol.IdClienteCorredor = CteCorredor.IdCliente
+Left Join [dbo].Cliente CteEntregador On Sol.IdClienteEntregador = CteEntregador.IdCliente
+Left Join [dbo].Cliente CteDestinatario On Sol.IdClienteDestinatario = CteDestinatario.IdCliente
+Left Join [dbo].Cliente CteDestino On Sol.IdClienteDestino = CteDestino.IdCliente
+Left Join [dbo].Proveedor Transportista On Sol.IdProveedorTransportista = Transportista.IdProveedor
+Left join [dbo].Chofer CTransportista On Sol.IdChoferTransportista = CTransportista.IdChofer
+Left join [dbo].Chofer Chofer On Sol.IdChofer = Chofer.IdChofer
+Left Join [dbo].Grano Grano On Sol.IdGrano = Grano.IdGrano
+Left Join [dbo].Cosecha Cosecha On Grano.IdCosechaAfip = Cosecha.IdCosecha
+Left Join [dbo].Especie Especie On Grano.IdEspecieAfip = Especie.IdEspecie
+Left Join [dbo].Establecimiento EstProcedencia On Sol.IdEstablecimientoProcedencia = EstProcedencia.IdEstablecimiento
+Left Join [dbo].Establecimiento EstDestino On Sol.IdEstablecimientoDestino = EstDestino.IdEstablecimiento
+Left Join [dbo].Cliente CtePagador On Sol.IdClientePagadorDelFlete = CtePagador.IdCliente
+Left Join [dbo].Establecimiento EstDestinoCambio On Sol.IdEstablecimientoDestinoCambio = EstDestinoCambio.IdEstablecimiento
+Left Join [dbo].Cliente CteDestinatarioCambio On Sol.IdClienteDestinatarioCambio = CteDestinatarioCambio.IdCliente
+Left Join [dbo].Empresa EmpresaClientePagadorFlete On empresaClientePagadorFlete.IdCliente = CtePagador.IdCliente
+
 
 GO
 
+
+
+
+CREATE  INDEX Solicitud_INDEX  ON Solicitudes (IdEmpresa, EstadoEnAFIP, EstadoEnSAP, NumeroCartaDePorte, Ctg);  
+GO  
 

@@ -549,18 +549,20 @@ namespace Cresud.CDP.Admin
 
         public PagedListResponse<Dtos.SolicitudReport> GetSolicitadasByFilter(Dtos.Filters.FilterSolicitudes filter)
         {
-            var query = CdpContext.SolicitudesReport.Where(s => s.EmpresaId == filter.EmpresaId)
-              .OrderBy(s => s.Id)
-              .AsQueryable();
+            var query = CdpContext.SolicitudesReport               
+                        .Where(s => s.EmpresaId == filter.EmpresaId)
+                        .OrderBy(s => s.Id)
+                        .AsQueryable();
 
+            
             if (filter.EstadoAfip.HasValue)
             {
-                query = query.Where(s => s.EstadoEnAFIP == filter.EstadoAfip).AsQueryable();
+                query = query.Where(s => s.EstadoEnAFIP.Value == filter.EstadoAfip.Value).AsQueryable();
             }
 
             if (filter.EstadoSap.HasValue)
             {
-                query = query.Where(s => s.EstadoEnSAP == filter.EstadoSap).AsQueryable();
+                query = query.Where(s => s.EstadoEnSAP.Value == filter.EstadoSap.Value).AsQueryable();
             }
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))

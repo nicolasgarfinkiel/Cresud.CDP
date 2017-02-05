@@ -88,6 +88,7 @@ namespace Cresud.CDP.Dtos
         public int? EstDestinoLocalidad { get; set; }
         public string EstDestinoEstablecimientoAfip { get; set; }
         public decimal? PesoNeto { get; set; }
+        public string MensajeRespuestaEnvioSap { get; set; }
     }
 }
 

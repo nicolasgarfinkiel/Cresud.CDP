@@ -1,6 +1,6 @@
 ﻿<section class="panel panel-default">
     <header class="panel-heading">
-      Bandeja de salida
+        Bandeja de salida
     </header>
 
     <div class="row wrapper" style="    padding-bottom: 0;     padding-right: 0;">
@@ -43,3 +43,76 @@
         <div class="gridStyleLarge" ng-grid="gridOptions"></div>
     </div>
 </section>
+
+<div class="modal" id="confirmReenviarSapModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <div class="well m-t">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Reenviar Sap</strong>
+                            <p>
+                                ¿ Desea reenviar la solicitud {{selectedEntity.id}} a SAP ?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="reenviarSap()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="logSapModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 900px; position: relative;left: -200px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Log SAP
+                    </header>
+                    <div class="row wrapper">
+                        @*<div class="col-sm-12">
+                            <div class="input-group m-b">
+                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterClientes.multiColumnSearchText" ng-debounce="1200">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>*@                       
+                    </div>
+                    <div style="margin: 0 15px 15px 15px">
+                        <div class="gridStyleDefault" ng-grid="gridLogSap"></div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mantenimientoModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 900px; position: relative;left: -200px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Mantenimiento
+                    </header>                   
+                    <div style="margin: 0 15px 15px 15px">
+                   
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

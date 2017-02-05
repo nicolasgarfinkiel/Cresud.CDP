@@ -70,6 +70,7 @@
     <Compile Include="Grano.cs" />
     <Compile Include="GrupoEmpresa.cs" />
     <Compile Include="Localidad.cs" />
+    <Compile Include="LogSap.cs" />
     <Compile Include="LoteCartaPorte.cs" />
     <Compile Include="Pais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

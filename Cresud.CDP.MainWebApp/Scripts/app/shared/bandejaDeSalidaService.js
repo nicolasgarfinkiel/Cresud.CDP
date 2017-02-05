@@ -15,6 +15,13 @@
                            url: '/BandejaDeSalida/GetSolicitadasByFilter',
                            data: { filter: filter }
                        });
-                   },                  
+                   },
+                   getLogSapByFilter: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/BandejaDeSalida/GetLogSapByFilter',
+                           data: { filter: filter }
+                       });
+                   },
                };
            }]);

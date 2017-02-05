@@ -33,6 +33,7 @@ namespace Cresud.CDP.Admin
                 cfg.CreateMap<Proveedor, Dtos.Proveedor>();
                 cfg.CreateMap<SolicitudRecibida, Dtos.SolicitudRecibida>();
                 cfg.CreateMap<CartaDePorteGraficoItem, Dtos.CartaDePorteGraficoItem>();
+                cfg.CreateMap<LogSap, Dtos.LogSap>();
             });         
         }
     }

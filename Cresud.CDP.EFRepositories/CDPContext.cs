@@ -354,6 +354,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoEstablecimientoAfip).HasColumnName("EstDestinoEstablecimientoAfip");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoLocalidad).HasColumnName("EstDestinoLocalidad");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.ClientePagadorIdSapOrganizacionDeVenta).HasColumnName("ClientePagadorIdSapOrganizacionDeVenta");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.MensajeRespuestaEnvioSap).HasColumnName("MensajeRespuestaEnvioSap");            
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.Enabled);
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");
@@ -488,6 +489,18 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.CantidadAfip).HasColumnName("CantidadAfip");
             modelBuilder.Entity<CartaDePorteGraficoItem>().Property(t => t.CantidadSap).HasColumnName("CantidadSap");
             modelBuilder.Entity<CartaDePorteGraficoItem>().ToTable("vGraficoItemCDP");
+
+            modelBuilder.Entity<LogSap>().HasKey(t => t.Id);
+            modelBuilder.Entity<LogSap>().Property(t => t.Id).HasColumnName("IdLogSap");
+            modelBuilder.Entity<LogSap>().Property(t => t.IdDocumento).HasColumnName("IDoc");
+            modelBuilder.Entity<LogSap>().Property(t => t.Origen).HasColumnName("Origen");
+            modelBuilder.Entity<LogSap>().Property(t => t.NroDocumentoRE).HasColumnName("NroDocumentoRE");
+            modelBuilder.Entity<LogSap>().Property(t => t.NroDocumentoSap).HasColumnName("NroDocumentoSap");
+            modelBuilder.Entity<LogSap>().Property(t => t.TipoMensaje).HasColumnName("TipoMensaje");
+            modelBuilder.Entity<LogSap>().Property(t => t.TextoMensaje).HasColumnName("TextoMensaje");
+            modelBuilder.Entity<LogSap>().Property(t => t.NroEnvio).HasColumnName("NroEnvio");
+            modelBuilder.Entity<LogSap>().Property(t => t.FechaCreacion).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<LogSap>().ToTable("LogSap");
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -516,6 +529,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<ClienteIntermediario> ClientesIntermediarios { get; set; }
         public IDbSet<SolicitudRecibida> SolicitudesRecibidas { get; set; }
         public IDbSet<CartaDePorteGraficoItem> ItemsGrafico { get; set; }
+        public IDbSet<LogSap> LogsSap { get; set; }
     }
 }
 

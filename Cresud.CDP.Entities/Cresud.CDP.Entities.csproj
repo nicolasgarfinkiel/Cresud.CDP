@@ -50,6 +50,7 @@
     <Compile Include="EstadoSap.cs" />
     <Compile Include="EstadoAfip.cs" />
     <Compile Include="LogOperacion.cs" />
+    <Compile Include="LogSap.cs" />
     <Compile Include="LoteCartaPorte.cs" />
     <Compile Include="SolicitudRecibida.cs" />
     <Compile Include="SolicitudReport.cs" />

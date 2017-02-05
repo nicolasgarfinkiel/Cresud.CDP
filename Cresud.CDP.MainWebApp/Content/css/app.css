@@ -4047,3 +4047,7 @@ fieldset legend {
     position: relative;
     overflow: hidden;
 }
+
+.ng-grid-icon-container img {
+    margin: 0 3px 0 3px;
+}
