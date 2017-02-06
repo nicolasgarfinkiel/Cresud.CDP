@@ -84,6 +84,23 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return this.JsonNet(response);
         }
 
+         [HttpPost]
+        public ActionResult GetLogSapByFilter(FilterLogSap filter)
+        {
+            var response = new PagedListResponse<Dtos.LogSap>();
+
+            try
+            {
+                response = _admin.GetLogSapByFilter(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }        
 
         #endregion
 

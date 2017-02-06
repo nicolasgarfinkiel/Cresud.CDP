@@ -132,7 +132,7 @@
 
                    var result = item.tipoCarta == 'Compra de granos que transportamos' || item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :
-                       '<a title="Reenviar Sap" href="javascript:void(0)" ng-click="confirmReenviarSap()"><img style="width: 15px;" src="' + $scope.imageSrc + 'icon_select.gif" /></a>';
+                       '<a title="Reenviar Sap" href="javascript:void(0)" ng-click="confirmReenviarSap(' + item.id + ')"><img style="width: 15px;" src="' + $scope.imageSrc + 'icon_select.gif" /></a>';
 
                    return result;
                };
@@ -141,7 +141,7 @@
                    //var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
                    //if (!log || !item.mensajeRespuestaEnvioSap) return '';
 
-                   var result = '<a title="Ver detalle respuesta SAP" href="javascript:void(0)" ng-click="showLogSap()"><img style="width: 15px;" src="' + $scope.imageSrc + 'logsap.png" /></a>';
+                   var result = '<a title="Ver detalle respuesta SAP" href="javascript:void(0)" ng-click="showLogSap(' + item.id + ')"><img style="width: 15px;" src="' + $scope.imageSrc + 'logsap.png" /></a>';
 
                    return result;
                };
@@ -170,11 +170,10 @@
                    //var seguimientos = $scope.data.usuario.currentEmpresa.roles.indexOf('SeguimientoEstados') != -1;
                    //if (!bd || !seguimientos) return '';
                    
-                   var result = '<a href="javascript:void(0)" ng-click="setMantenimiento()"><img style="width: 15px;" src="' + $scope.imageSrc + 'mantenimiento.png" /></a>';
+                   var result = '<a href="javascript:void(0)" ng-click="setMantenimiento(' + item.id +')"><img style="width: 15px;" src="' + $scope.imageSrc + 'mantenimiento.png" /></a>';
 
                    return result;
-               };
-               
+               };               
 
                $scope.getEstadoAfipDescripcion = function(id) {
                    var result = null;
@@ -218,25 +217,26 @@
 
                //#region LogSap
 
-               $scope.showLogSap = function () {
+               $scope.showLogSap = function (id) {
+                   $scope.selectedEntity = $scope.getSolicitudById(id);
                    $scope.findLogSap();
                    $('#logSapModal').modal('show');
                };
 
                $scope.logSapList = [];
                $scope.logSapListCount = 0;
-               $scope.filterlogSap = {};
+               $scope.filterlogSap = {};            
                            
                $scope.gridLogSap = {
                    data: 'logSapList',
                    columnDefs: [
-                                { field: 'razonSocial', displayName: 'Nro.Envío', width: 80 },
-                                { field: 'razonSocial', displayName: 'Fecha', width: 80 },
-                                { field: 'cuit', displayName: 'Origen', width: 100 },
-                                { field: 'id', displayName: 'Carta de Porte', width: 100 },
-                                { field: 'id', displayName: 'Nro Documento Sap', width: 140 },
-                                { field: 'id', displayName: 'Tipo Mensaje', width: 120 },
-                                { field: 'id', displayName: 'Texto Mensaje' }                                
+                                { field: 'nroEnvio', displayName: '#Envío', width: 60 },
+                                { field: 'fechaCreacion', displayName: 'Fecha', width: 80 },
+                                { field: 'origen', displayName: 'Origen', width: 100 },
+                                { field: 'nroDocumentoRE', displayName: 'Carta de Porte', width: 100 },
+                                { field: 'nroDocumentoSap', displayName: 'Nro.Doc.Sap', width: 100 },
+                                { field: 'tipoMensaje', displayName: 'Tipo Mensaje', width: 100 },
+                                { field: 'textoMensaje', displayName: 'Texto Mensaje' }                                
                    ],
                    showFooter: true,
                    enablePaging: true,
@@ -251,13 +251,13 @@
                };
 
                $scope.findLogSap = function () {
-                   $scope.logSapList = [];
-
-                   if (!$scope.filterlogSap.empresaId) return;
+                   $scope.logSapList = [];                   
 
                    $scope.filterlogSap.currentPage = $scope.gridLogSap.pagingOptions.currentPage;
                    $scope.filterlogSap.pageSize = $scope.gridLogSap.pagingOptions.pageSize;
-                   nroDocumentoRE
+                   $scope.filterlogSap.nroDocumentoRE = $scope.esParaguay ?
+                       $scope.selectedEntity.numeroCartaDePorte + '|' + $scope.data.usuario.currentEmpresa.idSapOrganizacionDeVenta :
+                       $scope.selectedEntity.numeroCartaDePorte;
 
                    bandejaDeSalidaService.getLogSapByFilter($scope.filterlogSap).then(function (response) {
                        $scope.logSapList = response.data.data;
@@ -279,11 +279,24 @@
 
                //#region Mantenimiento
 
-               $scope.setMantenimiento = function() {
+               $scope.setMantenimiento = function(id) {
                    $('#mantenimientoModal').modal('show');
                };
 
                //#endregion
+
+               $scope.getSolicitudById = function(id) {
+                   var result = null;
+
+                   for (var i = 0; i < $scope.solicitudes.length; i++) {
+                       if ($scope.solicitudes[i].id == id) {
+                           result = $scope.solicitudes[i];
+                           break;
+                       }
+                   }
+
+                   return result;
+               };
 
                $scope.solicitudes = [];
                $scope.dataCount = 0;
@@ -300,10 +313,7 @@
                        pageSize: 10,
                        currentPage: 1
                    },
-                   filterOptions: { useExternalFilter: true },
-                   afterSelectionChange: function (row) {                       
-                       $scope.selectedEntity = row.entity;                       
-                   },
+                   filterOptions: { useExternalFilter: true }                  
                };
 
                $scope.find = function () {

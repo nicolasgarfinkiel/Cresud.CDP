@@ -583,5 +583,19 @@ namespace Cresud.CDP.Admin
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };     
         }
+
+        public PagedListResponse<Dtos.LogSap> GetLogSapByFilter(Dtos.Filters.FilterLogSap filter)
+        {
+            var query = CdpContext.LogsSap
+                          .Where(s => s.NroDocumentoRE == filter.NroDocumentoRE)
+                          .OrderBy(s => s.FechaCreacion)
+                          .AsQueryable();
+
+            return new PagedListResponse<Dtos.LogSap>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<Entities.LogSap>, IList<Dtos.LogSap>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };     
+        }
     }
 }
