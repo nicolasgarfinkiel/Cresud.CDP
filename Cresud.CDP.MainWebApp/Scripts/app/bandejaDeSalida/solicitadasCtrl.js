@@ -138,8 +138,8 @@
                };
 
                $scope.getLogSapImg = function (item) {
-                   //var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
-                   //if (!log || !item.mensajeRespuestaEnvioSap) return '';
+                   var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
+                   if (!log || !item.mensajeRespuestaEnvioSap) return '';
 
                    var result = '<a title="Ver detalle respuesta SAP" href="javascript:void(0)" ng-click="showLogSap(' + item.id + ')"><img style="width: 15px;" src="' + $scope.imageSrc + 'logsap.png" /></a>';
 

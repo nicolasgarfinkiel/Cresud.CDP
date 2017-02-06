@@ -263,6 +263,7 @@
     <Content Include="Scripts\angularJs\quill\quill.min.js" />
     <Content Include="Scripts\angularJs\ui-utils.min.js" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\app\bandejaDeSalida\confirmacionArriboCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteEditCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteListCtrl.js" />
     <Content Include="Scripts\app\cartasDePorte\CartasDePorteModule.js" />
@@ -398,6 +399,7 @@
     <Content Include="Views\Reportes\Actividad.cshtml" />
     <Content Include="Views\BandejaDeSalida\Solicitadas.cshtml" />
     <Content Include="Views\BandejaDeSalida\Index.cshtml" />
+    <Content Include="Views\BandejaDeSalida\ConfirmacionArribo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

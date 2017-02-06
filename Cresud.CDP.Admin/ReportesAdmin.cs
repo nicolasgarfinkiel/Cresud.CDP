@@ -597,5 +597,10 @@ namespace Cresud.CDP.Admin
                 Data = Mapper.Map<IList<Entities.LogSap>, IList<Dtos.LogSap>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };     
         }
+
+        public PagedListResponse<Dtos.SolicitudReport> GetConfirmacionesArriboByFilter(FilterBase filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

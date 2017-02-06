@@ -6,13 +6,16 @@
     <script type="text/ng-template" id="bandejaDeSalida/solicitadas">
         @RenderPage(Url.Content("~/Views/BandejaDeSalida/Solicitadas.cshtml"))
     </script>    
+    <script type="text/ng-template" id="bandejaDeSalida/confirmacionArribo">
+        @RenderPage(Url.Content("~/Views/BandejaDeSalida/ConfirmacionArribo.cshtml"))
+    </script>    
     <div ng-view></div>
 </div>
 
 @section scripts{    
     @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/bandejaDeSalidaModule.js")
     @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/solicitadasCtrl.js")    
+    @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/confirmacionArriboCtrl.js")    
     @Html.IncludeVersionedJs("Scripts/app/shared/bandejaDeSalidaService.js")    
-    @Html.IncludeVersionedJs("Scripts/app/shared/directives/compileDirective.js")
-    
+    @Html.IncludeVersionedJs("Scripts/app/shared/directives/compileDirective.js")    
 }

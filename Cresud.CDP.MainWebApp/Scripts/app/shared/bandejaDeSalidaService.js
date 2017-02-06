@@ -23,5 +23,18 @@
                            data: { filter: filter }
                        });
                    },
+                   getDataListConfirmacionArribo: function () {
+                       return $http({
+                           method: 'POST',
+                           url: '/BandejaDeSalida/GetDataListConfirmacionArribo'
+                       });
+                   },
+                   getConfirmacionesArriboByFilter: function (filter) {
+                       return $http({
+                           method: 'POST',
+                           url: '/BandejaDeSalida/GetConfirmacionesArriboByFilter',
+                           data: { filter: filter }
+                       });
+                   },
                };
            }]);

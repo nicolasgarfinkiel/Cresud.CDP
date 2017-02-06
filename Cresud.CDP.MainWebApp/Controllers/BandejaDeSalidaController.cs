@@ -27,11 +27,11 @@ namespace Cresud.CDP.MainWebApp.Controllers
         public ActionResult Index()
         {
             return View();
-        }    
-       
+        }
+
         public override object GetDataList()
         {
-            return new {};
+            return new { };
         }
 
         public override object GetDataEdit()
@@ -39,15 +39,14 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return new { };
         }
 
-        #endregion 
-       
-      
+        #endregion
+
         #region Solicitadas
 
         public ActionResult GetDataListSolicitadas()
         {
             var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
-            
+
             try
             {
                 response.Data = new
@@ -84,7 +83,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return this.JsonNet(response);
         }
 
-         [HttpPost]
+        [HttpPost]
         public ActionResult GetLogSapByFilter(FilterLogSap filter)
         {
             var response = new PagedListResponse<Dtos.LogSap>();
@@ -100,10 +99,53 @@ namespace Cresud.CDP.MainWebApp.Controllers
             }
 
             return this.JsonNet(response);
-        }        
+        }
 
         #endregion
 
-      
+        #region ConfirmacionArribo
+
+        public ActionResult GetDataListConfirmacionArribo()
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = new
+                {
+                    Usuario = CDPSession.Current.Usuario
+                };
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public ActionResult GetConfirmacionesArriboByFilter(FilterBase filter)
+        {
+            var response = new PagedListResponse<Dtos.SolicitudReport>();
+
+            try
+            {
+                response = _admin.GetConfirmacionesArriboByFilter(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+
+
+        #endregion
+
     }
 }
