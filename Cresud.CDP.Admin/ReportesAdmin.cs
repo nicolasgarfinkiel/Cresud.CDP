@@ -600,7 +600,25 @@ namespace Cresud.CDP.Admin
 
         public PagedListResponse<Dtos.SolicitudReport> GetConfirmacionesArriboByFilter(FilterBase filter)
         {
-            throw new NotImplementedException();
+            var query = CdpContext.SolicitudesReport
+                       .Where(s => s.EmpresaId == filter.EmpresaId && (s.EstadoEnAFIP == 1 || (s.EstadoEnSAP == 9  && s.ObservacionAfip != "CTG Otorgado Carga Masiva" )))
+                       .OrderBy(s => s.Id)
+                       .AsQueryable();                     
+
+            if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
+            {
+                filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
+
+                query = query.Where(r =>
+                    (r.EstDestino != null && r.EstDestino.ToLower().Contains(filter.MultiColumnSearchText)) ||                  
+                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText)) ).AsQueryable();               
+            }
+
+            return new PagedListResponse<Dtos.SolicitudReport>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };     
         }
     }
 }

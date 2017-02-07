@@ -10,7 +10,8 @@
                bandejaDeSalidaService.getDataListConfirmacionArribo().then(function (response) {
                    $scope.data = response.data.data;
                    $scope.filter.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
-                   $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;                   
+                   $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;
+                   $scope.find();
                });
 
                //#endregion             
@@ -22,14 +23,14 @@
                    data: 'solicitudes',
                    columnDefs: [
                         { field: 'id', displayName: 'Id', width: 60 },
-                        { field: 'numeroCartaDePort', displayName: 'Nro.Carta Porte', width: 140 },
+                        { field: 'numeroCartaDePorte', displayName: 'Nro.Carta Porte', width: 140 },
                         { field: 'tipoCarta', displayName: 'Tipo Carta', width: 140 },
-                        { field: 'fecha', displayName: 'Fecha', width: 80 },
-                        { field: 'fecha', displayName: 'Establecimiento Procedencia' },
-                        { field: 'fecha', displayName: 'Establecimiento Destino' },
-                        { field: 'fecha', displayName: 'Peso', width: 60 },
-                        { field: 'fecha', displayName: 'Usuario', width: 140 },
-                        { field: 'fecha', displayName: 'Ver', width: 60 }
+                        { field: 'createDate', displayName: 'Fecha', width: 80 },
+                        { field: 'estProcedencia', displayName: 'Establecimiento Procedencia' },
+                        { field: 'estDestino', displayName: 'Establecimiento Destino' },
+                        { field: 'pesoNeto', displayName: 'Peso', width: 60 },
+                        { field: 'createdBy', displayName: 'Usuario', width: 140 },
+                        { field: 'fecha', displayName: 'Ver', width: 60, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="javascript:void(0)"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
                    ],
                    showFooter: true,
                    enablePaging: true,
