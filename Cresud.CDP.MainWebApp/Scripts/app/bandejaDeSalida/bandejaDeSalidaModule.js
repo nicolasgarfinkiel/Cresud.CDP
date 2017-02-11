@@ -1,6 +1,7 @@
 ﻿angular.module('cresud.cdp.bandejaDeSalida', [
     'cresud.cdp.bandejaDeSalida.ctrl.solicitadas',
     'cresud.cdp.bandejaDeSalida.ctrl.confirmacionArribo',
+    'cresud.cdp.bandejaDeSalida.ctrl.trasladosRechazados',
     'cresud.cdp.service.bandejaDeSalida',
     'cresud.cdp.service.base',                
     'ngRoute',
@@ -23,7 +24,12 @@
         $routeProvider.when('/confirmacionArribo', {
             templateUrl: 'bandejaDeSalida/confirmacionArribo',
             controller: 'confirmacionArriboCtrl'
-        });        
+        });
+
+        $routeProvider.when('/trasladosRechazados', {
+            templateUrl: 'bandejaDeSalida/trasladosRechazados',
+            controller: 'trasladosRechazadosCtrl'
+        });
 
         $routeProvider.otherwise({
             redirectTo: '/'

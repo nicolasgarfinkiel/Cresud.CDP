@@ -98,7 +98,8 @@ EstProcedencia.Localidad as EstProcedenciaLocalidad,
 EstDestino.EstablecimientoAfip as EstDestinoEstablecimientoAfip,
 EstDestino.Localidad as EstDestinoLocalidad,
 EmpresaClientePagadorFlete.IdSapOrganizacionDeVenta as ClientePagadorIdSapOrganizacionDeVenta,
-Sol.MensajeRespuestaEnvioSAP
+Sol.MensajeRespuestaEnvioSAP,
+EmpresaProveedorTitular.Sap_Id as EmpresaProveedorTitularSap_Id
 From [dbo].Solicitudes Sol
 Left Join [dbo].TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
 Left Join [dbo].Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
@@ -120,6 +121,7 @@ Left Join [dbo].Cliente CtePagador On Sol.IdClientePagadorDelFlete = CtePagador.
 Left Join [dbo].Establecimiento EstDestinoCambio On Sol.IdEstablecimientoDestinoCambio = EstDestinoCambio.IdEstablecimiento
 Left Join [dbo].Cliente CteDestinatarioCambio On Sol.IdClienteDestinatarioCambio = CteDestinatarioCambio.IdCliente
 Left Join [dbo].Empresa EmpresaClientePagadorFlete On empresaClientePagadorFlete.IdCliente = CtePagador.IdCliente
+Left Join [dbo].Empresa EmpresaProveedorTitular On EmpresaProveedorTitular.Sap_Id =ProvTitularCDP.Sap_Id
 
 
 GO

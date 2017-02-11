@@ -620,5 +620,22 @@ namespace Cresud.CDP.Admin
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };     
         }
+
+        public PagedListResponse<Dtos.SolicitudReport> GetTrasladosRechazados(FilterBase filter)
+        {
+            var query = CdpContext.SolicitudesReport
+                         .Where(s => s.EmpresaId == filter.EmpresaId //&& 
+                             //s.EstadoEnAFIP == 7 &&
+                            // s.EstadoEnSAP == -1  &&
+                             //!string.IsNullOrEmpty(s.EmpresaProveedorTitularSapId)
+                          ).OrderBy(s => s.Id)
+                         .AsQueryable();
+            
+            return new PagedListResponse<Dtos.SolicitudReport>
+            {
+                Count = query.Count(),
+                Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+            };     
+        }
     }
 }

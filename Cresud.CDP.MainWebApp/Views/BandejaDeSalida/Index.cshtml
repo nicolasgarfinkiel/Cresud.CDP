@@ -8,7 +8,10 @@
     </script>    
     <script type="text/ng-template" id="bandejaDeSalida/confirmacionArribo">
         @RenderPage(Url.Content("~/Views/BandejaDeSalida/ConfirmacionArribo.cshtml"))
-    </script>    
+    </script> 
+    <script type="text/ng-template" id="bandejaDeSalida/trasladosRechazados">
+        @RenderPage(Url.Content("~/Views/BandejaDeSalida/TrasladosRechazados.cshtml"))
+    </script>       
     <div ng-view></div>
 </div>
 
@@ -16,6 +19,7 @@
     @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/bandejaDeSalidaModule.js")
     @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/solicitadasCtrl.js")    
     @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/confirmacionArriboCtrl.js")    
+    @Html.IncludeVersionedJs("Scripts/app/BandejaDeSalida/trasladosRechazadosCtrl.js")    
     @Html.IncludeVersionedJs("Scripts/app/shared/bandejaDeSalidaService.js")    
     @Html.IncludeVersionedJs("Scripts/app/shared/directives/compileDirective.js")    
 }

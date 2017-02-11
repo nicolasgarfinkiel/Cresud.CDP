@@ -25,7 +25,7 @@
     <mvcSiteMapNode   title="Bandeja de Salida"                     controller="BandejaDeSalida"           action="Index"           Class="fa fa-bookmark-o"  roles="" >
       <mvcSiteMapNode title="CDP Solicitadas"                       controller="BandejaDeSalida"           action="Index"                               roles=""/>                                                                                
       <mvcSiteMapNode title="Confirmación de Arribo"                controller="BandejaDeSalida"           action="Index"   aroute="confirmacionArribo"                       roles=""/>
-      <mvcSiteMapNode title="Cambio Destino y Destinatario"         controller="BandejaDeSalida"           action="Index"   aroute="cambioDestino"                              roles=""/>    
+      <mvcSiteMapNode title="Cambio Destino y Destinatario"         controller="BandejaDeSalida"           action="Index"   aroute="trasladosRechazados"                              roles=""/>    
     </mvcSiteMapNode>
     
     <mvcSiteMapNode   title="Reporting"                             controller="Reports"                  action="Index"               Class="fa fa-bookmark-o"  roles="" >

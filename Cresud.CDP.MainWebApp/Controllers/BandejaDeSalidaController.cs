@@ -113,7 +113,8 @@ namespace Cresud.CDP.MainWebApp.Controllers
             {
                 response.Data = new
                 {
-                    Usuario = CDPSession.Current.Usuario
+                    Usuario = CDPSession.Current.Usuario,
+                    EstadosAfip = _generalAdmin.GetEstadosAfip()
                 };
             }
             catch (Exception ex)
@@ -144,6 +145,28 @@ namespace Cresud.CDP.MainWebApp.Controllers
         }
 
 
+
+        #endregion
+
+        #region TrasladosRechazados
+
+         [HttpPost]
+        public ActionResult GetTrasladosRechazados(FilterBase filter)
+        {
+            var response = new PagedListResponse<Dtos.SolicitudReport>();
+
+            try
+            {
+                response = _admin.GetTrasladosRechazados(filter);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
 
         #endregion
 

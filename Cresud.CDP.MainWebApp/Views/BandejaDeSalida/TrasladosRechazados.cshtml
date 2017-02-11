@@ -1,0 +1,72 @@
+﻿<section class="panel panel-default">
+    <header class="panel-heading">
+        Cambio Destino y Destinatario a CTG Rechazado
+    </header>
+    <div class="row wrapper">
+        <div class="col-sm-12">
+            <div class="alert alert-danger" ng-if="result.hasErrors">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <i class="fa fa-ban-circle"></i> {{result.messages[0]}}
+            </div>
+        </div>
+    </div>
+    <div style="margin: 0 15px 15px 15px">
+        <div class="gridStyleLarge" ng-grid="gridOptions"></div>
+    </div>
+</section>
+
+<div class="modal" id="regresoOrigenModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <form class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Regreso a origen
+                    </header>
+
+                    <div class="row" style="margin-top: 20px;">
+                        <label class="col-lg-4 control-label text-right font-bold">Número carta de porte</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.numeroCartaDePorte}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-4 control-label text-right font-bold">CTG</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.ctg}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-4 control-label text-right font-bold">Establecimiento origen</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.estProcedencia}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-4 control-label text-right font-bold">Establecimiento destino</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.estDestino}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-4 control-label text-right font-bold">Chofer</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.chofer}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-4 control-label text-right font-bold">Fecha creación</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.createDate}}</span>
+                        </div>
+                    </div>
+
+                </section>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="confirmRegresoOrigen()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
