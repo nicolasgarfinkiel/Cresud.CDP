@@ -3,7 +3,7 @@
     'cresud.cdp.reservas.ctrl.edit',
     'cresud.cdp.service.reservas',
     'cresud.cdp.service.establecimientos',
-    'cresud.cdp.service.choferes',
+    //'cresud.cdp.service.choferes',
     'cresud.cdp.navigation.base',     
     'cresud.cdp.service.base',
     'cresud.cdp.service.bootstraper.list',

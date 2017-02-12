@@ -6,6 +6,7 @@ using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Infrastructure;
+using Cresud.CDP.Infrastructure.ActionResults;
 using SolicitudReport = Cresud.CDP.Entities.SolicitudReport;
 
 namespace Cresud.CDP.MainWebApp.Controllers
@@ -99,6 +100,17 @@ namespace Cresud.CDP.MainWebApp.Controllers
             }
 
             return this.JsonNet(response);
+        }
+
+        public ActionResult ReportePdf(int solicitudId, string numeroCartaDePorte)
+        {
+            var pdf = _admin.ReportePdf(solicitudId);
+
+            return new PdfResult
+            {
+                Content = pdf,
+                FileName = string.Format("CartaDePorte_{0}.pdf", numeroCartaDePorte)
+            };
         }
 
         #endregion

@@ -150,7 +150,7 @@
                    //var imprimir = $scope.data.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') != -1;
                    //if (!imprimir || ($scope.esArgentina && item.estadoEnAFIP == 3)) return '';
 
-                   var result = '<form title="Imprimir Cartas de Porte" action="/BandejaDeSalida/ReportePdf" style="display: inline;"><input type="hidden" name="solicitudId" value="' + item.id + '" /><button type="submit" style="border: 0; background: 0;"><img style="width: 15px;" src="' + $scope.imageSrc + 'folder-print.png" /></button></form>';
+                   var result = '<form title="Imprimir Carta de Porte" action="/BandejaDeSalida/ReportePdf" style="display: inline;"><input type="hidden" name="solicitudId" value="' + item.id + '" /><input type="hidden" name="numeroCartaDePorte" value="' + item.numeroCartaDePorte + '" /><button type="submit" style="border: 0; background: 0;"><img style="width: 15px;" src="' + $scope.imageSrc + 'folder-print.png" /></button></form>';
               
                    return result;
                };

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionResults\ExcelActionResult.cs" />
+    <Compile Include="ActionResults\PdfResult.cs" />
     <Compile Include="ActionResults\TxtResult.cs" />
     <Compile Include="ByteArraySerializer.cs" />
     <Compile Include="ControllerExtensions.cs" />

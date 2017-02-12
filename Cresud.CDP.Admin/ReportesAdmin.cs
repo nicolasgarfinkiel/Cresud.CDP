@@ -637,5 +637,26 @@ namespace Cresud.CDP.Admin
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };     
         }
+
+        public byte[] ReportePdf(int solicitudId)
+        {
+            var solicitud = CdpContext.SolicitudesReport.Single(s => s.Id == solicitudId);
+           
+            var result = string.Equals(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.PaisDescripcion.ToUpper(), "PARAGUAY")                
+                ? GetReporteRdlc(solicitud)
+                : GetReporteITextSharp(solicitud);         
+
+            return result;
+        }
+
+        private byte[] GetReporteITextSharp(SolicitudReport solicitud)
+        {
+            throw new NotImplementedException();
+        }
+
+        private byte[] GetReporteRdlc(SolicitudReport solicitud)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
