@@ -354,8 +354,8 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoEstablecimientoAfip).HasColumnName("EstDestinoEstablecimientoAfip");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EstDestinoLocalidad).HasColumnName("EstDestinoLocalidad");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.ClientePagadorIdSapOrganizacionDeVenta).HasColumnName("ClientePagadorIdSapOrganizacionDeVenta");
-            modelBuilder.Entity<SolicitudReport>().Property(t => t.MensajeRespuestaEnvioSap).HasColumnName("MensajeRespuestaEnvioSap");            
-            modelBuilder.Entity<SolicitudReport>().Property(t => t.EmpresaProveedorTitularSapId).HasColumnName("EmpresaProveedorTitularSap_Id");                        
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.MensajeRespuestaEnvioSap).HasColumnName("MensajeRespuestaEnvioSap");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.EmpresaProveedorTitularSapId).HasColumnName("EmpresaProveedorTitularSap_Id");
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.Enabled);
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");
@@ -364,7 +364,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudRecibida>().HasKey(t => t.Id);
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Id).HasColumnName("IdSolicitudRecibida");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
-            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.TipoCartaId).HasColumnName("IdTipoDeCarta");                                                                                                 
+            modelBuilder.Entity<SolicitudRecibida>().Property(t => t.TipoCartaId).HasColumnName("IdTipoDeCarta");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.NumeroCartaDePorte).HasColumnName("NumeroCartaDePorte");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Cee).HasColumnName("Cee");
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Ctg).HasColumnName("Ctg");
@@ -502,6 +502,43 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<LogSap>().Property(t => t.NroEnvio).HasColumnName("NroEnvio");
             modelBuilder.Entity<LogSap>().Property(t => t.FechaCreacion).HasColumnName("FechaCreacion");
             modelBuilder.Entity<LogSap>().ToTable("LogSap");
+
+            modelBuilder.Entity<RemitoParaguay>().HasKey(t => t.Id);
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Id).HasColumnName("IdSolicitud");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Descripcion).HasColumnName("Descripcion");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Cee).HasColumnName("Cee");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.FechaCreacion).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.FechaVencimiento).HasColumnName("FechaVencimiento");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.NumeroRemision).HasColumnName("NumeroRemision");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.FechaDeEmision).HasColumnName("FechaDeEmision");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.RazonSocial).HasColumnName("RazonSocial");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Cuit).HasColumnName("Cuit");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Direccion).HasColumnName("Direccion");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.MotivoTraslado).HasColumnName("MotivoTraslado");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.CteDeVta).HasColumnName("CteDeVta");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.TranspRazonSocial).HasColumnName("TranspRazonSocial");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.TransportistaCuit).HasColumnName("TransportistaCuit");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.EPDireccion).HasColumnName("EPDireccion");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.LocPartida).HasColumnName("LocPartida");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.ProvPartida).HasColumnName("ProvPartida");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.EDDireccion).HasColumnName("EDDireccion");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.LocLlegada).HasColumnName("LocLlegada");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.ProvLlegada).HasColumnName("ProvLlegada");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.KmRecorridos).HasColumnName("KmRecorridos");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.PatenteCamion).HasColumnName("PatenteCamion");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.PatenteAcoplado).HasColumnName("PatenteAcoplado");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.ChoferRazonSocial).HasColumnName("ChoferRazonSocial");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.ChoferCuit).HasColumnName("ChoferCuit");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.ChoferDomicilio).HasColumnName("ChoferDomicilio");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.MarcaVehiculo).HasColumnName("MarcaVehiculo");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Cantidad).HasColumnName("Cantidad");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.Kg).HasColumnName("Kg");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.DescripcionDetallada).HasColumnName("DescripcionDetallada");
+            modelBuilder.Entity<RemitoParaguay>().Property(t => t.HabilitacionNum).HasColumnName("HabilitacionNum");
+            modelBuilder.Entity<RemitoParaguay>().ToTable("vRemitoParaguay");
+
+
+
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -531,6 +568,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<SolicitudRecibida> SolicitudesRecibidas { get; set; }
         public IDbSet<CartaDePorteGraficoItem> ItemsGrafico { get; set; }
         public IDbSet<LogSap> LogsSap { get; set; }
+        public IDbSet<RemitoParaguay> RemitosParaguay { get; set; }
     }
 }
 

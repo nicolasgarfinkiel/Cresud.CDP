@@ -624,10 +624,10 @@ namespace Cresud.CDP.Admin
         public PagedListResponse<Dtos.SolicitudReport> GetTrasladosRechazados(FilterBase filter)
         {
             var query = CdpContext.SolicitudesReport
-                         .Where(s => s.EmpresaId == filter.EmpresaId //&& 
-                             //s.EstadoEnAFIP == 7 &&
-                            // s.EstadoEnSAP == -1  &&
-                             //!string.IsNullOrEmpty(s.EmpresaProveedorTitularSapId)
+                         .Where(s => s.EmpresaId == filter.EmpresaId && 
+                             s.EstadoEnAFIP == 7 &&
+                             s.EstadoEnSAP == -1  &&
+                             !string.IsNullOrEmpty(s.EmpresaProveedorTitularSapId)
                           ).OrderBy(s => s.Id)
                          .AsQueryable();
             
@@ -640,23 +640,25 @@ namespace Cresud.CDP.Admin
 
         public byte[] ReportePdf(int solicitudId)
         {
-            var solicitud = CdpContext.SolicitudesReport.Single(s => s.Id == solicitudId);
+           
            
             var result = string.Equals(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.PaisDescripcion.ToUpper(), "PARAGUAY")                
-                ? GetReporteRdlc(solicitud)
-                : GetReporteITextSharp(solicitud);         
+                ? GetReporteRdlc(solicitudId)
+                : GetReporteITextSharp(solicitudId);         
 
             return result;
         }
 
-        private byte[] GetReporteITextSharp(SolicitudReport solicitud)
+        private byte[] GetReporteITextSharp(int solicitudId)
         {
-            throw new NotImplementedException();
+            var solicitud = CdpContext.SolicitudesReport.Single(s => s.Id == solicitudId);
+            throw new NotImplementedException();            
         }
 
-        private byte[] GetReporteRdlc(SolicitudReport solicitud)
+        private byte[] GetReporteRdlc(int solicitudId)
         {
-            throw new NotImplementedException();
+            var remito = CdpContext.RemitosParaguay.Single(s => s.Id == solicitudId);
+            return ReportManager.Render("RemitoCresca.rdlc", DataSetConverter.GetDataSet(remito), "PDF");
         }
     }
 }

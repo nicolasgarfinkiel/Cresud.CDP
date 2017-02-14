@@ -52,6 +52,7 @@
     <Compile Include="LogOperacion.cs" />
     <Compile Include="LogSap.cs" />
     <Compile Include="LoteCartaPorte.cs" />
+    <Compile Include="RemitoParaguay.cs" />
     <Compile Include="SolicitudRecibida.cs" />
     <Compile Include="SolicitudReport.cs" />
     <Compile Include="Solicitud.cs" />
