@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,8 @@ using AutoMapper;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Infrastructure;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using SolicitudReport = Cresud.CDP.Entities.SolicitudReport;
 
@@ -103,7 +106,7 @@ namespace Cresud.CDP.Admin
             }
 
             var dataList = data.ToList();
-                                                  
+
             #endregion
 
             var template = new FileInfo(String.Format(@"{0}\Reports\CartasDePorte.xlsx", AppDomain.CurrentDomain.BaseDirectory));
@@ -114,7 +117,7 @@ namespace Cresud.CDP.Admin
             #region Header
 
             var logoName = string.Empty;
-            
+
             if (App.IdGrupoCresud == filter.IdGrupoEmpresa)
             {
                 logoName = "LogoCresud";
@@ -228,7 +231,7 @@ namespace Cresud.CDP.Admin
                 {
                     ws.Cells[row, 1].Value = item.Destinatario;
                     ws.Cells[row, 2].Value = item.Destino;
-                    ws.Cells[row, 3].Value =  item.CTransportista;
+                    ws.Cells[row, 3].Value = item.CTransportista;
                     ws.Cells[row, 4].Value = item.Transportista;
                     ws.Cells[row, 5].Value = item.Chofer;
                     ws.Cells[row, 6].Value = item.CosechaDescripcion;
@@ -344,7 +347,7 @@ namespace Cresud.CDP.Admin
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };               
+            };
         }
 
         public PagedListResponse<Dtos.SolicitudRecibida> GetCdpsRecibidasByFilter(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
@@ -368,7 +371,7 @@ namespace Cresud.CDP.Admin
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<Entities.SolicitudRecibida>, IList<Dtos.SolicitudRecibida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };            
+            };
         }
 
         public string GetEmitidasExport(Dtos.Filters.FilterCartasDePorteEmitidasRecibidas filter)
@@ -416,7 +419,7 @@ namespace Cresud.CDP.Admin
                 sbItem.Append(item.CteDestinoCuit.ReplicatePadLeft(' ', 11));
 
                 var cuitTransportista = !string.IsNullOrEmpty(item.ClientePagadorIdSapOrganizacionDeVenta) ?
-                    item.TransportistaNumeroDocumento : item.CTransportistaCuit ;
+                    item.TransportistaNumeroDocumento : item.CTransportistaCuit;
 
                 sbItem.Append(cuitTransportista.ReplicatePadLeft(' ', 11));
                 sbItem.Append(item.ChoferCuit.ReplicatePadLeft(' ', 11));
@@ -428,7 +431,7 @@ namespace Cresud.CDP.Admin
 
 
                 var peso = item.CargaPesadaDestino.HasValue && item.CargaPesadaDestino.Value
-                    ? Convert.ToDecimal(item.KilogramosEstimados)*1.00M
+                    ? Convert.ToDecimal(item.KilogramosEstimados) * 1.00M
                     : Convert.ToDecimal(item.PesoNeto) * 1.00M;
 
                 sbItem.Append(peso.ReplicatePadLeft('0', 11));
@@ -440,7 +443,7 @@ namespace Cresud.CDP.Admin
                 sbItem.Append(item.PatenteCamion.ReplicatePadLeft(' ', 11));
                 sbItem.Append(item.PatenteAcoplado.ReplicatePadLeft(' ', 11));
                 sbItem.Append(item.TarifaReal.ReplicatePadLeft('0', 8));
-                sbItem.Append(item.TarifaReferencia.ReplicatePadLeft('0', 8));                                                                                                                                                                
+                sbItem.Append(item.TarifaReferencia.ReplicatePadLeft('0', 8));
 
                 sb.AppendLine(sbItem.ToString());
             }
@@ -478,7 +481,7 @@ namespace Cresud.CDP.Admin
             {
                 sbItem = new StringBuilder();
 
-                sbItem.Append("1");                
+                sbItem.Append("1");
                 sbItem.Append(item.TipoCartaId);
                 sbItem.Append(item.NumeroCartaDePorte.ReplicatePadLeft('0', 12));
                 sbItem.Append(item.Cee.ReplicatePadLeft(' ', 14));
@@ -514,15 +517,15 @@ namespace Cresud.CDP.Admin
                 sbItem.Append(item.TarifaReal.ReplicatePadLeft('0', 8));
                 sbItem.Append(item.FechaDeCarga.ReplicatePadLeft(' ', 8));
                 sbItem.Append(item.FechaArribo.ReplicatePadLeft(' ', 8));
-                                                                                                              
+
                 var pesoNetoDescarga = Convert.ToDecimal(item.PesoNetoDescarga) * 1.00M;
 
                 sbItem.Append(pesoNetoDescarga.ReplicatePadLeft('0', 11));
                 sbItem.Append(item.EstablecimientoDestinoCambioCuit.ReplicatePadLeft('0', 11));
                 sbItem.Append(item.EstablecimientoDestinoCambioLocalidadId.ReplicatePadLeft('0', 5));
                 sbItem.Append(item.EstablecimientoDestinoCambioCodigo.ReplicatePadLeft('0', 6));
-                sbItem.Append(item.TarifaReferencia.ReplicatePadLeft('0', 8));                                                                
-                
+                sbItem.Append(item.TarifaReferencia.ReplicatePadLeft('0', 8));
+
                 sb.AppendLine(sbItem.ToString());
             }
 
@@ -549,12 +552,12 @@ namespace Cresud.CDP.Admin
 
         public PagedListResponse<Dtos.SolicitudReport> GetSolicitadasByFilter(Dtos.Filters.FilterSolicitudes filter)
         {
-            var query = CdpContext.SolicitudesReport               
+            var query = CdpContext.SolicitudesReport
                         .Where(s => s.EmpresaId == filter.EmpresaId)
                         .OrderBy(s => s.Id)
                         .AsQueryable();
 
-            
+
             if (filter.EstadoAfip.HasValue)
             {
                 query = query.Where(s => s.EstadoEnAFIP.Value == filter.EstadoAfip.Value).AsQueryable();
@@ -569,19 +572,19 @@ namespace Cresud.CDP.Admin
             {
                 filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
 
-                query = query.Where(r => 
+                query = query.Where(r =>
                     (r.NumeroCartaDePorte != null && r.NumeroCartaDePorte.ToLower().Contains(filter.MultiColumnSearchText)) ||
                     (r.Ctg != null && r.Ctg.ToLower().Contains(filter.MultiColumnSearchText)) ||
                     (r.EstProcedencia != null && r.EstProcedencia.ToLower().Contains(filter.MultiColumnSearchText)) ||
                     (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText)) ||
                     (r.ObservacionAfip != null && r.ObservacionAfip.ToLower().Contains(filter.MultiColumnSearchText))).AsQueryable();
             }
-                 
+
             return new PagedListResponse<Dtos.SolicitudReport>
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };     
+            };
         }
 
         public PagedListResponse<Dtos.LogSap> GetLogSapByFilter(Dtos.Filters.FilterLogSap filter)
@@ -595,64 +598,56 @@ namespace Cresud.CDP.Admin
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<Entities.LogSap>, IList<Dtos.LogSap>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };     
+            };
         }
 
         public PagedListResponse<Dtos.SolicitudReport> GetConfirmacionesArriboByFilter(FilterBase filter)
         {
             var query = CdpContext.SolicitudesReport
-                       .Where(s => s.EmpresaId == filter.EmpresaId && (s.EstadoEnAFIP == 1 || (s.EstadoEnSAP == 9  && s.ObservacionAfip != "CTG Otorgado Carga Masiva" )))
+                       .Where(s => s.EmpresaId == filter.EmpresaId && (s.EstadoEnAFIP == 1 || (s.EstadoEnSAP == 9 && s.ObservacionAfip != "CTG Otorgado Carga Masiva")))
                        .OrderBy(s => s.Id)
-                       .AsQueryable();                     
+                       .AsQueryable();
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {
                 filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
 
                 query = query.Where(r =>
-                    (r.EstDestino != null && r.EstDestino.ToLower().Contains(filter.MultiColumnSearchText)) ||                  
-                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText)) ).AsQueryable();               
+                    (r.EstDestino != null && r.EstDestino.ToLower().Contains(filter.MultiColumnSearchText)) ||
+                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText))).AsQueryable();
             }
 
             return new PagedListResponse<Dtos.SolicitudReport>
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };     
+            };
         }
 
         public PagedListResponse<Dtos.SolicitudReport> GetTrasladosRechazados(FilterBase filter)
         {
             var query = CdpContext.SolicitudesReport
-                         .Where(s => s.EmpresaId == filter.EmpresaId && 
+                         .Where(s => s.EmpresaId == filter.EmpresaId &&
                              s.EstadoEnAFIP == 7 &&
-                             s.EstadoEnSAP == -1  &&
+                             s.EstadoEnSAP == -1 &&
                              !string.IsNullOrEmpty(s.EmpresaProveedorTitularSapId)
                           ).OrderBy(s => s.Id)
                          .AsQueryable();
-            
+
             return new PagedListResponse<Dtos.SolicitudReport>
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };     
+            };
         }
 
         public byte[] ReportePdf(int solicitudId)
         {
-           
-           
-            var result = string.Equals(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.PaisDescripcion.ToUpper(), "PARAGUAY")                
+            var result = string.Equals(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.PaisDescripcion.ToUpper(), "PARAGUAY")
                 ? GetReporteRdlc(solicitudId)
-                : GetReporteITextSharp(solicitudId);         
+                : GetReporteITextSharp(solicitudId);
 
             return result;
-        }
-
-        private byte[] GetReporteITextSharp(int solicitudId)
-        {
-            var solicitud = CdpContext.SolicitudesReport.Single(s => s.Id == solicitudId);
-            throw new NotImplementedException();            
         }
 
         private byte[] GetReporteRdlc(int solicitudId)
@@ -660,5 +655,184 @@ namespace Cresud.CDP.Admin
             var remito = CdpContext.RemitosParaguay.Single(s => s.Id == solicitudId);
             return ReportManager.Render("RemitoCresca.rdlc", DataSetConverter.GetDataSet(remito), "PDF");
         }
+
+        private byte[] GetReporteITextSharp(int solicitudId)
+        {
+            var solicitud = CdpContext.SolicitudesReport.Single(s => s.Id == solicitudId);
+            var empresa = CdpContext.Empresas.Single(e => e.Id == solicitud.EmpresaId);
+            var pdfAfipFolder = ConfigurationManager.AppSettings["RutaOriginalCartaDePorte"];
+            var result = default(byte[]);
+            var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            var esCresud = empresa.GrupoEmpresa.Id == App.IdGrupoCresud;
+
+            var pdfTemplate = esCresud
+                ? string.Format("{0}{1}.pdf", pdfAfipFolder, solicitud.NumeroCartaDePorte)
+                : string.Format(@"{0}\Reports\cdp_generica.pdf", AppDomain.CurrentDomain.BaseDirectory);
+
+            using (var reader = new PdfReader(@pdfTemplate))
+            {
+                using (var ms = new MemoryStream())
+                {
+                    var document = new Document(reader.GetPageSizeWithRotation(1));
+                    var writer = PdfWriter.GetInstance(document, ms);
+
+                    document.Open();
+
+                    for (var i = 1; i <= reader.NumberOfPages; i++)
+                    {
+                        document.NewPage();
+
+                        var importedPage = writer.GetImportedPage(reader, i);
+                        var contentByte = writer.DirectContent;
+                        contentByte.SetColorFill(BaseColor.BLACK);
+                        contentByte.SetFontAndSize(baseFont, 9);
+
+                        SetPageContent(contentByte, solicitud, esCresud, i);
+
+                        contentByte.AddTemplate(importedPage, 0, 0);
+                    }
+
+                    document.Close();
+                    writer.Close();
+
+                    result = ms.ToArray();
+                }
+            }
+
+            return result;
+        }
+
+        private void SetPageContent(PdfContentByte contentByte, SolicitudReport solicitud, bool esCresud, int page)
+        {
+            var colNombre = 156;
+            var colCuit = 470;
+
+            AddText(contentByte, false, 9, solicitud.Ctg, 250, 753);
+
+            if (!esCresud)
+            {
+                AddText(contentByte, true, 7, solicitud.TitularCDP, colNombre, 685);
+                AddText(contentByte, true, 10, solicitud.CuitTitularCartaPorte, colCuit, 685);
+            }
+
+            AddText(contentByte, true, 7, solicitud.Intermediario, colNombre, 665);
+            AddText(contentByte, true, 10, solicitud.CteIntermediarioCuit, colCuit, 665);
+
+            //Remitente comercial
+            AddText(contentByte, true, 7, solicitud.CteRemitenteComecial, colNombre, 645);
+            AddText(contentByte, true, 10, solicitud.CteRemitenteComecialCuit, colCuit, 645);
+
+            //Corredor
+            AddText(contentByte, true, 7, solicitud.CteCorredor, colNombre, 625);
+            AddText(contentByte, true, 10, solicitud.CteCorredorCuit, colCuit, 625);
+
+            //Representante/Entregador
+            AddText(contentByte, true, 7, solicitud.Entregador, colNombre, 605);
+            AddText(contentByte, true, 10, solicitud.CteEntregadorCuit, colCuit, 605);
+
+            //Destinatario
+            AddText(contentByte, true, 7, solicitud.Destinatario, colNombre, 585);
+            AddText(contentByte, true, 10, solicitud.CteDestinatarioCuit, colCuit, 585);
+
+            //Destino
+            AddText(contentByte, true, 7, solicitud.Destino, colNombre, 565);
+            AddText(contentByte, true, 10, solicitud.CteDestinoCuit, colCuit, 565);
+
+            //Transportista
+            AddText(contentByte, true, 7, solicitud.CTransportista, colNombre, 545);
+            AddText(contentByte, true, 10, solicitud.CTransportistaCuit, colCuit, 545);
+
+            //Chofer
+            AddText(contentByte, true, 7, solicitud.Chofer, colNombre, 525);
+            AddText(contentByte, true, 10, solicitud.ChoferCuit, colCuit, 525);
+
+            //Datos de los granos / Especies Transportados
+            AddText(contentByte, false, 8, solicitud.GranoEspecie, 100, 488);
+            AddText(contentByte, false, 8, solicitud.TipoGranoEspecie, 265, 488);
+            AddText(contentByte, false, 8, solicitud.NumeroContrato.HasValue ? solicitud.NumeroContrato.Value.ToString() : string.Empty, 460, 488);
+            AddText(contentByte, false, 8, solicitud.CosechaDescripcion, 460, 505);
+            AddText(contentByte, true, 10, solicitud.CargaPesadaDestino, 130, 461);
+            AddText(contentByte, false, 8, solicitud.KilogramosEstimados.HasValue ? solicitud.KilogramosEstimados.ToString() : string.Empty, 100, 437);
+
+            AddText(contentByte, true, 10, solicitud.Conforme, 249, 453);
+            AddText(contentByte, true, 10, solicitud.Condicional, 249, 436);
+            AddText(contentByte, false, 10, solicitud.PesoBruto.HasValue ? solicitud.PesoBruto.Value.ToString() : string.Empty, 343, 470);
+            AddText(contentByte, false, 10, solicitud.PesoTara.HasValue ? solicitud.PesoTara.Value.ToString() : string.Empty, 343, 453);
+            AddText(contentByte, false, 10, solicitud.PesoNeto.HasValue ? solicitud.PesoNeto.Value.ToString() : string.Empty, 343, 436);
+
+            GenerarTextoObservaciones(contentByte, false, 8, solicitud.Observaciones, 400, 458);
+
+            //PROCEDENCIA DE LA MERCADERÍA
+            AddText(contentByte, false, 9, solicitud.DireccionEstablecimientoProcedencia, 78, 393);
+            AddText(contentByte, false, 9, solicitud.NombreEstablecimientoProcedencia, 415, 420);
+            AddText(contentByte, false, 9, solicitud.LocalidadEstablecimientoProcedencia, 415, 403);
+            AddText(contentByte, false, 9, solicitud.ProvinciaEstablecimientoProcedencia, 415, 385);
+
+            //LUGAR DE DESTINO DE LOS GRANOS
+            AddText(contentByte, false, 9, solicitud.DireccionEstablecimientoDestino, 78, 340);
+            AddText(contentByte, false, 9, solicitud.LocalidadEstablecimientoDestino, 415, 349);
+            AddText(contentByte, false, 9, solicitud.ProvinciaEstablecimientoDestino, 415, 331);
+
+            //DATOS DEL TRANSPORTE
+            AddText(contentByte, false, 9, solicitud.PatenteCamion, 95, 295);
+            AddText(contentByte, false, 9, solicitud.PatenteAcoplado, 95, 278);
+            AddText(contentByte, false, 9, solicitud.KmRecorridos.HasValue ? solicitud.KmRecorridos.Value.ToString() : string.Empty, 95, 261);
+            AddText(contentByte, false, 9, solicitud.FletePag, 200, 295);//Flete Pag.            
+            AddText(contentByte, false, 9, solicitud.FleteAPag, 280, 295);//Flete a Pag            
+            AddText(contentByte, false, 9, solicitud.TarifaReferencia.HasValue ? solicitud.TarifaReferencia.Value.ToString() : string.Empty, 243, 278);//Tarifa de Referencia            
+            AddText(contentByte, false, 9, solicitud.TarifaReal.HasValue ? solicitud.TarifaReal.Value.ToString() : string.Empty, 243, 261);//Tarifa
+
+            //Pagador del Flete
+            if (page != 2)
+                AddText(contentByte, false, 9, solicitud.NombrePagadorDelFlete, 350, 311);
+            else
+                AddText(contentByte, false, 9, solicitud.NombrePagadorDelFlete, 252, 311);
+        }
+
+        private void GenerarTextoObservaciones(PdfContentByte cb, bool bold, int size, string texto, int x, int y)
+        {
+            var font = BaseFont.CreateFont(bold ? BaseFont.HELVETICA_BOLD : BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+            if (!string.IsNullOrEmpty(texto) && texto.Length > 45)
+            {
+                AddText(cb, bold, size, texto.Substring(0, 45), 400, 458);
+                if (texto.Length > 90)
+                {
+                    AddText(cb, bold, size, texto.Substring(45, 45), 400, 448);
+                    if (texto.Length > 135)
+                    {
+                        AddText(cb, bold, size, texto.Substring(90, 45), 400, 438);
+                    }
+                    else
+                    {
+                        AddText(cb, bold, size, texto.Substring(90, texto.Length - 90), 400, 438);
+                    }
+                }
+                else
+                {
+                    AddText(cb, bold, size, texto.Substring(45, texto.Length - 45), 400, 448);
+                }
+
+            }
+            else
+            {
+                AddText(cb, bold, size, texto, 400, 458);
+            }
+
+        }
+
+        private void AddText(PdfContentByte cb, bool bold, int size, string text, int x, int y)
+        {
+            if (String.IsNullOrEmpty(text)) return;
+
+            var font = BaseFont.CreateFont(bold ? BaseFont.HELVETICA_BOLD : BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+            cb.BeginText();
+            cb.SetFontAndSize(font, size);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, text, x, y, 0);
+            cb.EndText();
+        }
+
+
     }
 }
