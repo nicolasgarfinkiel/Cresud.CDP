@@ -14,13 +14,7 @@
       <mvcSiteMapNode title="Rangos de CDP"                         controller="CartasDePorte"            action="Index"                                      roles=""/>      
       <mvcSiteMapNode title="Reservas"                              controller="Reservas"                 action="Index"                                       roles=""/>      
       <mvcSiteMapNode title="Carga Solicitud Manual"                controller="CartaDePorte"             action="CargaSolicitudManual"                          roles=""/>
-    </mvcSiteMapNode>
-    
-     <mvcSiteMapNode  title="Solicitud de CDP"                      controller="CartaDePorte"             action="Solicitud"           Class="fa fa-bookmark-o"  roles="" >
-      <mvcSiteMapNode title="Remito Cresud"                         controller="CartaDePorte"             action="RemitoCresud"                                  roles=""/>
-      <mvcSiteMapNode title="Remito Agrop. Acres del Sud"           controller="CartaDePorte"             action="RemitoAcresDelSud"                             roles=""/>
-      <mvcSiteMapNode title="Remito Cresca"                         controller="CartaDePorte"             action="RemitoCresca"                                  roles=""/>    
-    </mvcSiteMapNode>
+    </mvcSiteMapNode>       
     
     <mvcSiteMapNode   title="Bandeja de Salida"                     controller="BandejaDeSalida"           action="Index"           Class="fa fa-bookmark-o"  roles="" >
       <mvcSiteMapNode title="CDP Solicitadas"                       controller="BandejaDeSalida"           action="Index"                               roles=""/>                                                                                

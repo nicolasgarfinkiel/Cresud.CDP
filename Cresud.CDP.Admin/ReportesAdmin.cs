@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
 using AutoMapper;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Entities;
 using Cresud.CDP.Infrastructure;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OfficeOpenXml;
+using Rectangle = iTextSharp.text.Rectangle;
 using SolicitudReport = Cresud.CDP.Entities.SolicitudReport;
 
 namespace Cresud.CDP.Admin
@@ -663,7 +667,7 @@ namespace Cresud.CDP.Admin
             var pdfAfipFolder = ConfigurationManager.AppSettings["RutaOriginalCartaDePorte"];
             var result = default(byte[]);
             var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            var esCresud = empresa.GrupoEmpresa.Id == App.IdGrupoCresud;
+            var esCresud = empresa.GrupoEmpresa.Id == App.IdGrupoCresud;            
 
             var pdfTemplate = esCresud
                 ? string.Format("{0}{1}.pdf", pdfAfipFolder, solicitud.NumeroCartaDePorte)
@@ -687,9 +691,25 @@ namespace Cresud.CDP.Admin
                         contentByte.SetColorFill(BaseColor.BLACK);
                         contentByte.SetFontAndSize(baseFont, 9);
 
-                        SetPageContent(contentByte, solicitud, esCresud, i);
-
+                        SetPageContent(contentByte, solicitud, esCresud, i);                      
                         contentByte.AddTemplate(importedPage, 0, 0);
+
+                        #region FechaDeCarga
+
+                        var textAsChunk = new Chunk(solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToString("dd/MM/yyy") : string.Empty, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11));
+                        textAsChunk.SetBackground(BaseColor.WHITE);
+                        var textLayer = new PdfLayer("Text", writer);                        
+
+                        contentByte.BeginLayer(textLayer);
+                        var ct = new ColumnText(contentByte);
+
+                        ct.AddElement(new Paragraph(textAsChunk));                        
+                        ct.SetSimpleColumn(500, 759, 565, 778);
+                        
+                        ct.Go();
+                        contentByte.EndLayer();
+
+                        #endregion
                     }
 
                     document.Close();
@@ -706,13 +726,61 @@ namespace Cresud.CDP.Admin
         {
             var colNombre = 156;
             var colCuit = 470;
+            var marca = "X";
+
+            //var bm = new Bitmap(1, 1);
+            //System.Drawing.Image img = bm;
+            //var drawing = Graphics.FromImage(img);
+            //var stringFont = new System.Drawing.Font("Helvetica", 40, FontStyle.Bold);
+
+            //var textSize = drawing.MeasureString("24/01/2017", stringFont);
+
+            //img.Dispose();
+            //drawing.Dispose();
+
+
+            //img = new Bitmap((int)textSize.Width, (int)textSize.Height);
+            //drawing = Graphics.FromImage(img);
+            //drawing.Clear(Color.White);
+            //var textBrush = new SolidBrush(Color.Black);
+            //drawing.DrawString("24/01/2017", stringFont, textBrush, 0, 0);
+            //drawing.Save();
+            //var ms = new MemoryStream();
+
+            //img.Save(ms, ImageFormat.Png);           
+
+            //textBrush.Dispose();
+            //drawing.Dispose();
+
+            //ms.Position = 0;
+
+            //iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(ms);
+            //image.ScaleAbsolute(60, 12.1f);
+            //image.SetAbsolutePosition(504, 758);
+            //contentByte.AddImage(image);
+            
+            //      
+            //     AddText(contentByte, true, 12, solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToString("dd/MM/yyy") : string.Empty , 504, 760);
+
+            //var rect = new Rectangle(500, 755, 565, 775);            
+            //rect.BackgroundColor = BaseColor.WHITE;       
+            //var ct = new ColumnText(contentByte);
+          
+            //ct.SetSimpleColumn(rect);
+            //ct.AddElement(new Paragraph(solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToString("dd/MM/yyy") : string.Empty, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11) ));
+            //ct.Go();
+
+           
+
+
+
 
             AddText(contentByte, false, 9, solicitud.Ctg, 250, 753);
 
             if (!esCresud)
             {
                 AddText(contentByte, true, 7, solicitud.TitularCDP, colNombre, 685);
-                AddText(contentByte, true, 10, solicitud.CuitTitularCartaPorte, colCuit, 685);
+                AddText(contentByte, true, 10, solicitud.ProvTitularCDPNumeroDocumento, colCuit, 685);
             }
 
             AddText(contentByte, true, 7, solicitud.Intermediario, colNombre, 665);
@@ -747,15 +815,20 @@ namespace Cresud.CDP.Admin
             AddText(contentByte, true, 10, solicitud.ChoferCuit, colCuit, 525);
 
             //Datos de los granos / Especies Transportados
-            AddText(contentByte, false, 8, solicitud.GranoEspecie, 100, 488);
-            AddText(contentByte, false, 8, solicitud.TipoGranoEspecie, 265, 488);
+            var grano = CdpContext.Granos.SingleOrDefault(g => g.Id == solicitud.GranoId);
+            var granoEspecie = grano != null && grano.EspecieAfip != null ?
+                                esCresud ? grano.EspecieAfip.Descripcion : grano.Descripcion
+                               : string.Empty;
+
+            AddText(contentByte, false, 8, granoEspecie, 100, 488);
+            AddText(contentByte, false, 8, grano != null ? grano.TipoGranoAfip.Descripcion : string.Empty, 265, 488);
             AddText(contentByte, false, 8, solicitud.NumeroContrato.HasValue ? solicitud.NumeroContrato.Value.ToString() : string.Empty, 460, 488);
             AddText(contentByte, false, 8, solicitud.CosechaDescripcion, 460, 505);
-            AddText(contentByte, true, 10, solicitud.CargaPesadaDestino, 130, 461);
+            AddText(contentByte, true, 10, solicitud.CargaPesadaDestino.HasValue && solicitud.CargaPesadaDestino.Value ? marca : string.Empty, 130, 461);
             AddText(contentByte, false, 8, solicitud.KilogramosEstimados.HasValue ? solicitud.KilogramosEstimados.ToString() : string.Empty, 100, 437);
 
-            AddText(contentByte, true, 10, solicitud.Conforme, 249, 453);
-            AddText(contentByte, true, 10, solicitud.Condicional, 249, 436);
+            AddText(contentByte, true, 10, solicitud.ConformeCondicional.HasValue && solicitud.ConformeCondicional.Value == (int)ConformeCondicional.Conforme ? marca : string.Empty, 249, 453);
+            AddText(contentByte, true, 10, solicitud.ConformeCondicional.HasValue && solicitud.ConformeCondicional.Value == (int)ConformeCondicional.Condicional ? marca : string.Empty, 249, 436);
             AddText(contentByte, false, 10, solicitud.PesoBruto.HasValue ? solicitud.PesoBruto.Value.ToString() : string.Empty, 343, 470);
             AddText(contentByte, false, 10, solicitud.PesoTara.HasValue ? solicitud.PesoTara.Value.ToString() : string.Empty, 343, 453);
             AddText(contentByte, false, 10, solicitud.PesoNeto.HasValue ? solicitud.PesoNeto.Value.ToString() : string.Empty, 343, 436);
@@ -763,30 +836,43 @@ namespace Cresud.CDP.Admin
             GenerarTextoObservaciones(contentByte, false, 8, solicitud.Observaciones, 400, 458);
 
             //PROCEDENCIA DE LA MERCADERÍA
-            AddText(contentByte, false, 9, solicitud.DireccionEstablecimientoProcedencia, 78, 393);
-            AddText(contentByte, false, 9, solicitud.NombreEstablecimientoProcedencia, 415, 420);
-            AddText(contentByte, false, 9, solicitud.LocalidadEstablecimientoProcedencia, 415, 403);
-            AddText(contentByte, false, 9, solicitud.ProvinciaEstablecimientoProcedencia, 415, 385);
+            var establecimiento = CdpContext.Establecimientos.SingleOrDefault(e => e.Id == solicitud.EstablecimientoProcedenciaId);
+
+            if (establecimiento != null)
+            {
+                var localidad = CdpContext.Localidades.SingleOrDefault(e => e.Id == establecimiento.LocalidadId);
+
+                AddText(contentByte, false, 9, establecimiento.Direccion, 78, 393);
+                AddText(contentByte, false, 9, establecimiento.Descripcion, 415, 420);
+                AddText(contentByte, false, 9, localidad.Descripcion, 415, 403);
+                AddText(contentByte, false, 9, establecimiento.Provincia.Descripcion, 415, 385);
+            }
 
             //LUGAR DE DESTINO DE LOS GRANOS
-            AddText(contentByte, false, 9, solicitud.DireccionEstablecimientoDestino, 78, 340);
-            AddText(contentByte, false, 9, solicitud.LocalidadEstablecimientoDestino, 415, 349);
-            AddText(contentByte, false, 9, solicitud.ProvinciaEstablecimientoDestino, 415, 331);
+            establecimiento = CdpContext.Establecimientos.SingleOrDefault(e => e.Id == solicitud.EstablecimientoDestinoId);
+
+            if (establecimiento != null)
+            {
+                var localidad = CdpContext.Localidades.SingleOrDefault(e => e.Id == establecimiento.LocalidadId);
+                AddText(contentByte, false, 9, establecimiento.Direccion, 78, 340);
+                AddText(contentByte, false, 9, localidad.Descripcion, 415, 349);
+                AddText(contentByte, false, 9, establecimiento.Provincia.Descripcion, 415, 331);
+            }
 
             //DATOS DEL TRANSPORTE
             AddText(contentByte, false, 9, solicitud.PatenteCamion, 95, 295);
             AddText(contentByte, false, 9, solicitud.PatenteAcoplado, 95, 278);
             AddText(contentByte, false, 9, solicitud.KmRecorridos.HasValue ? solicitud.KmRecorridos.Value.ToString() : string.Empty, 95, 261);
-            AddText(contentByte, false, 9, solicitud.FletePag, 200, 295);//Flete Pag.            
-            AddText(contentByte, false, 9, solicitud.FleteAPag, 280, 295);//Flete a Pag            
+            AddText(contentByte, false, 9, solicitud.EstadoFlete.HasValue && solicitud.EstadoFlete.Value == (int)EstadoFlete.FletePagado ? marca : string.Empty, 200, 295);//Flete Pag.            
+            AddText(contentByte, false, 9, solicitud.EstadoFlete.HasValue && solicitud.EstadoFlete.Value == (int)EstadoFlete.FleteAPagar ? marca : string.Empty, 280, 295);//Flete a Pag            
             AddText(contentByte, false, 9, solicitud.TarifaReferencia.HasValue ? solicitud.TarifaReferencia.Value.ToString() : string.Empty, 243, 278);//Tarifa de Referencia            
             AddText(contentByte, false, 9, solicitud.TarifaReal.HasValue ? solicitud.TarifaReal.Value.ToString() : string.Empty, 243, 261);//Tarifa
 
             //Pagador del Flete
             if (page != 2)
-                AddText(contentByte, false, 9, solicitud.NombrePagadorDelFlete, 350, 311);
+                AddText(contentByte, false, 9, solicitud.CtePagador, 350, 311);
             else
-                AddText(contentByte, false, 9, solicitud.NombrePagadorDelFlete, 252, 311);
+                AddText(contentByte, false, 9, solicitud.CtePagador, 252, 311);
         }
 
         private void GenerarTextoObservaciones(PdfContentByte cb, bool bold, int size, string texto, int x, int y)
@@ -829,7 +915,7 @@ namespace Cresud.CDP.Admin
 
             cb.BeginText();
             cb.SetFontAndSize(font, size);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, text, x, y, 0);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, text, x, y, 0);            
             cb.EndText();
         }
 

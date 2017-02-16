@@ -47,6 +47,8 @@
     <Compile Include="ClienteCorredor.cs" />
     <Compile Include="ClienteIntermediario.cs" />
     <Compile Include="ClienteRemitenteComercial.cs" />
+    <Compile Include="ConformeCondicional.cs" />
+    <Compile Include="EstadoFlete.cs" />
     <Compile Include="EstadoSap.cs" />
     <Compile Include="EstadoAfip.cs" />
     <Compile Include="LogOperacion.cs" />
