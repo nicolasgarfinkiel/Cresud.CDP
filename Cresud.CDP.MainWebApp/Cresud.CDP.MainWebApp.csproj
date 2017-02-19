@@ -215,6 +215,7 @@
     <Content Include="Content\css\metisMenu.min.css" />
     <Content Include="Content\css\ng-grid.min.css" />
     <Content Include="Content\css\pe-icon-7-stroke.css" />
+    <Content Include="Content\css\select.css" />
     <Content Include="Content\css\static_custom.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\Pe-icon-7-stroke.svg" />
@@ -263,6 +264,7 @@
     <Content Include="Scripts\angularJs\ng-map.min.js" />
     <Content Include="Scripts\angularJs\quill\ng-quill.min.js" />
     <Content Include="Scripts\angularJs\quill\quill.min.js" />
+    <Content Include="Scripts\angularJs\select.min.js" />
     <Content Include="Scripts\angularJs\ui-utils.min.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app\bandejaDeSalida\trasladosRechazadosCtrl.js" />
@@ -332,6 +334,7 @@
     <Content Include="Scripts\jsapi.js" />
     <Content Include="Scripts\metisMenu.min.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="select paging.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

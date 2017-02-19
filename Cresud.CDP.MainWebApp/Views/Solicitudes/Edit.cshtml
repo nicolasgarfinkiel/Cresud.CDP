@@ -1,63 +1,500 @@
-﻿<div class="row">    
+﻿<div class="row">
     <div class="col-sm-12">
         <section class="panel panel-default">
-            <header class="panel-heading font-bold">{{operation}}</header>
+            <header class="panel-heading font-bold">Solicitud de Carta de Porte</header>
             <div class="panel-body">
                 <form class="bs-example form-horizontal">
-                  
+
                     <section class="panel panel-info portlet-item">
                         <header class="panel-heading">
-                            Quick link
+                            Datos básicos
                         </header>
-                        <div class="list-group bg-white">
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-envelope"></i> Inbox
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-eye"></i> Profile visits
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-phone"></i> Call
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-comments-o"></i> Messages
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-bookmark"></i> Bookmarks
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-bell"></i> Notifications
-                            </a>
-                        </div>
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Tipo de carta</label>
+                                        <div class="col-lg-8">
+                                            <select class="form-control"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Fecha emisión</label>
+                                        <div class="col-lg-8">
+                                            <div class="input-group input-append">
+                                                <input type="text" ng-model="entity.fechaDesde" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
+                                                <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Fecha vencimiento</label>
+                                        <div class="col-lg-8">
+                                            <div class="input-group input-append">
+                                                <input type="text" ng-model="entity.fechaDesde" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
+                                                <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Ctg</label>
+                                        <div class="col-lg-8">
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Carta de porte</label>
+                                        <div class="col-lg-8">
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-4 control-label">Cee</label>
+                                        <div class="col-lg-8">
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </section>
-                    
-                    <section class="panel panel-info portlet-item">
+
+                    <section class="panel panel-default portlet-item">
                         <header class="panel-heading">
-                            Quick link
+                            1- datos de intervinientes en el translado de granos
                         </header>
-                        <div class="list-group bg-white">
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-envelope"></i> Inbox
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-eye"></i> Profile visits
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-phone"></i> Call
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-comments-o"></i> Messages
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-bookmark"></i> Bookmarks
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-fw fa-bell"></i> Notifications
-                            </a>
-                        </div>
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Titular carta de porte</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Intermediario</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Remitente comercial</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Corredor</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Representante/Entregador</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Destinatario</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Destino</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Transportista</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Chofer</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+                        </section>
                     </section>
-                                                                             
-                                                                                               
+
+                    <section class="panel panel-default portlet-item">
+                        <header class="panel-heading">
+                            2- Datos de los granos / especies transportadas
+                        </header>
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-1 control-label">Grano</label>
+                                        <div class="col-lg-11">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">P.Bruto (Kgs)</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">P.Tara (Kgs)</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">P.Neto (Kgs)</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">Kgs Est.</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">% Humedad</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">% Otros</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">Nro.Contrato</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">La carga sera pesada en destino</label>
+                                        <div class="col-lg-6">
+                                            <input type="checkbox" style="position: relative; top: 5px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">Declaracion Calidad</label>
+                                        <div class="col-lg-6">
+                                            <input type="checkbox" style="position: relative; top: 5px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="position: relative; top: 5px;">
+                                        <div class="col-lg-12">
+                                            <input type="radio" /> Conforme
+                                            <input type="radio" /> Condicional
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1" style="width: 9.5%;">
+                                    <div class="form-group">
+                                        <label class="col-lg-12 control-label">Observaciones</label>                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-11" style="width: 90%;">
+                                    <div class="form-group">
+                                        <textarea class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+
+                    <section class="panel panel-default portlet-item">
+                        <header class="panel-heading">
+                            3- Lugar de procedencia y destino
+                        </header>
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-1 control-label">Procedencia</label>
+                                        <div class="col-lg-11">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-1 control-label">Destino</label>
+                                        <div class="col-lg-11">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+
+                    <section class="panel panel-default portlet-item">
+                        <header class="panel-heading">
+                            4- Datos del transportista
+                        </header>
+                        <section class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Pagador flete</label>
+                                        <div class="col-lg-9">
+                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
+                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="person in ctrl.people">
+                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                    <small>
+                                                        email: {{person.email}}
+                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Tarifa ref.</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Tarifa</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="radio" /> Flete pagado
+                                    <input type="radio" /> Flete a pagar
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Camión</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Acoplado</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Km.recorrer</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Cant.horas</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+
+
                     <div class="alert alert-danger" ng-if="result.hasErrors">
                         <i class="fa fa-bolt"></i>
                         <div ng-repeat="message in result.messages">{{message}}</div>
@@ -65,7 +502,8 @@
                 </form>
             </div>
             <footer class="panel-footer font-bold text-right">
-                <button type="button" class="btn btn-sm btn-success btn-default" ng-click="save()">Aceptar</button>       
+                <button type="button" class="btn btn-sm btn-success btn-info" ng-click="save()">Solo Guardar</button>
+                <button type="button" class="btn btn-sm btn-success btn-default" ng-click="save()">Guardar y enviar</button>
             </footer>
         </section>
     </div>

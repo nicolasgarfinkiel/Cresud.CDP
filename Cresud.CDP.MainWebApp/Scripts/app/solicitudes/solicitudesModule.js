@@ -8,7 +8,8 @@
     'ngGrid',
     '$strap.directives',
     'cresud.cdp.directive.loading',    
-    'cresud.cdp.directive.debounce'    
+    'cresud.cdp.directive.debounce',
+    'ui.select'
 ]).config([
     '$routeProvider',
     '$locationProvider',

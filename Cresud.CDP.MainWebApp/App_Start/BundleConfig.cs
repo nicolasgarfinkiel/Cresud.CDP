@@ -21,6 +21,7 @@ namespace Cresud.CDP.MainWebApp
               .Include("~/Content/css/app.css")
               .Include("~/Content/css/animate.min.css")
               .Include("~/Content/css/jquery.fileupload.css")
+              .Include("~/Content/css/select.css")
               );
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/basicScripts")
@@ -44,6 +45,7 @@ namespace Cresud.CDP.MainWebApp
             .Include("~/Scripts/angularJs/angular-sanitize.js")
             .Include("~/Scripts/angularJs/angular-resource.min.js")
             .Include("~/Scripts/angularJs/ui-utils.min.js")
+            .Include("~/Scripts/angularJs/select.min.js")
             .Include("~/Scripts/app/shared/listBootstraperService.js")
             .Include("~/Scripts/app/shared/editBootstraperService.js")
             .Include("~/Scripts/app/shared/directives/loadingDirective.js")
@@ -52,6 +54,7 @@ namespace Cresud.CDP.MainWebApp
             .Include("~/Scripts/app/shared/base/baseNavigationService.js")
             .Include("~/Scripts/app/shared/base/baseService.js")
             .Include("~/Scripts/jquery.blockUI.js")
+
             );
         }
     }
