@@ -1,0 +1,72 @@
+﻿<div class="row">    
+    <div class="col-sm-12">
+        <section class="panel panel-default">
+            <header class="panel-heading font-bold">{{operation}}</header>
+            <div class="panel-body">
+                <form class="bs-example form-horizontal">
+                  
+                    <section class="panel panel-info portlet-item">
+                        <header class="panel-heading">
+                            Quick link
+                        </header>
+                        <div class="list-group bg-white">
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-envelope"></i> Inbox
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-eye"></i> Profile visits
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-phone"></i> Call
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-comments-o"></i> Messages
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-bookmark"></i> Bookmarks
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-bell"></i> Notifications
+                            </a>
+                        </div>
+                    </section>
+                    
+                    <section class="panel panel-info portlet-item">
+                        <header class="panel-heading">
+                            Quick link
+                        </header>
+                        <div class="list-group bg-white">
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-envelope"></i> Inbox
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-eye"></i> Profile visits
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-phone"></i> Call
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-comments-o"></i> Messages
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-bookmark"></i> Bookmarks
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-fw fa-bell"></i> Notifications
+                            </a>
+                        </div>
+                    </section>
+                                                                             
+                                                                                               
+                    <div class="alert alert-danger" ng-if="result.hasErrors">
+                        <i class="fa fa-bolt"></i>
+                        <div ng-repeat="message in result.messages">{{message}}</div>
+                    </div>
+                </form>
+            </div>
+            <footer class="panel-footer font-bold text-right">
+                <button type="button" class="btn btn-sm btn-success btn-default" ng-click="save()">Aceptar</button>       
+            </footer>
+        </section>
+    </div>
+</div>

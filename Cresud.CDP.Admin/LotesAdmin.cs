@@ -13,7 +13,7 @@ using LoteCartaPorte = Cresud.CDP.Entities.LoteCartaPorte;
 
 namespace Cresud.CDP.Admin
 {
-    public class CartasDePorteAdmin : BaseAdmin<int, Entities.LoteCartaPorte, Dtos.LoteCartaPorte, FilterLotesCartaPorte>
+    public class LotesAdmin : BaseAdmin<int, Entities.LoteCartaPorte, Dtos.LoteCartaPorte, FilterLotesCartaPorte>
     {
         private static string _folder = ConfigurationManager.AppSettings["RutaOriginalCartaDePorte"];
 

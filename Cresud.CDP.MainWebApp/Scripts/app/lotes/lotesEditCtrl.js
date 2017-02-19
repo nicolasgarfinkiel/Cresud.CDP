@@ -1,13 +1,13 @@
-﻿-angular.module('cresud.cdp.cartasDePorte.ctrl.edit', [])
+﻿-angular.module('cresud.cdp.lotes.ctrl.edit', [])
        .controller('editCtrl', [
            '$scope',
            '$routeParams',
-           'cartasDePorteService',
+           'lotesService',
            'establecimientosService',
            'baseNavigationService',
            'editBootstraperService',
            'singleFileService',
-           function ($scope, $routeParams, cartasDePorteService, establecimientosService, baseNavigationService, editBootstraperService, singleFileService) {
+           function ($scope, $routeParams, lotesService, establecimientosService, baseNavigationService, editBootstraperService, singleFileService) {
                //#region Base
 
                $scope.onInitEnd = function () {
@@ -21,12 +21,12 @@
                        onError: $scope.onErrorFileCallBack,
                        onSuccess: $scope.onSuccessFileCallBack,
                        controlId: 'fileupload',
-                       urlFile: 'CartasDePorte/UploadPdf'
+                       urlFile: 'Lotes/UploadPdf'
                    });
                };
 
                editBootstraperService.init($scope, $routeParams, {
-                   service: cartasDePorteService,
+                   service: lotesService,
                    navigation: baseNavigationService
                });
 
@@ -211,7 +211,7 @@
                    $scope.filterLotes.currentPage = $scope.gridLotes.pagingOptions.currentPage;
                    $scope.filterLotes.pageSize = $scope.gridLotes.pagingOptions.pageSize;
 
-                   cartasDePorteService.getByFilter($scope.filterLotes).then(function (response) {
+                   lotesService.getByFilter($scope.filterLotes).then(function (response) {
                        $scope.lotes = response.data.data;
                        $scope.lotesCount = response.data.count;
                    }, function () { throw 'Error on getByFilter'; });

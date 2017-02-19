@@ -66,7 +66,7 @@
   <ItemGroup>
     <Compile Include="BaseAdmin.cs" />
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="CartasDePorteAdmin.cs" />
+    <Compile Include="LotesAdmin.cs" />
     <Compile Include="DataSetConverter.cs" />
     <Compile Include="ReservasAdmin.cs" />
     <Compile Include="ReportesAdmin.cs" />

@@ -182,7 +182,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CartasDePorteController.cs" />
+    <Compile Include="Controllers\LotesController.cs" />
     <Compile Include="Controllers\BandejaDeSalidaController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
@@ -267,14 +267,17 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app\bandejaDeSalida\trasladosRechazadosCtrl.js" />
     <Content Include="Scripts\app\bandejaDeSalida\confirmacionArriboCtrl.js" />
-    <Content Include="Scripts\app\cartasDePorte\CartasDePorteEditCtrl.js" />
-    <Content Include="Scripts\app\cartasDePorte\CartasDePorteListCtrl.js" />
-    <Content Include="Scripts\app\cartasDePorte\CartasDePorteModule.js" />
+    <Content Include="Scripts\app\solicitudes\solicitudesEditCtrl.js" />
+    <Content Include="Scripts\app\solicitudes\solicitudesModule.js" />
+    <Content Include="Scripts\app\lotes\lotesEditCtrl.js" />
+    <Content Include="Scripts\app\lotes\lotesListCtrl.js" />
+    <Content Include="Scripts\app\lotes\lotesModule.js" />
     <Content Include="Scripts\app\bandejaDeSalida\solicitadasCtrl.js" />
     <Content Include="Scripts\app\bandejaDeSalida\bandejaDeSalidaModule.js" />
     <Content Include="Scripts\app\reportes\actividadCtrl.js" />
     <Content Include="Scripts\app\reportes\emitidasRecibidasCtrl.js" />
     <Content Include="Scripts\app\shared\bandejaDeSalidaService.js" />
+    <Content Include="Scripts\app\shared\solicitudesServices.js" />
     <Content Include="Scripts\app\shared\directives\compileDirective.js" />
     <Content Include="Scripts\app\shared\reportesService.js" />
     <Content Include="Scripts\app\reportes\reportesNavigationService.js" />
@@ -300,7 +303,7 @@
     <Content Include="Scripts\app\choferes\choferesModule.js" />
     <Content Include="Scripts\app\shared\base\baseNavigationService.js" />
     <Content Include="Scripts\app\shared\base\baseService.js" />
-    <Content Include="Scripts\app\shared\cartasDePorteService.js" />
+    <Content Include="Scripts\app\shared\lotesService.js" />
     <Content Include="Scripts\app\shared\reservasService.js" />
     <Content Include="Scripts\app\shared\gruposEmpresaService.js" />
     <Content Include="Scripts\app\shared\empresasService.js" />
@@ -388,9 +391,9 @@
     <Content Include="Views\GruposEmpresa\Edit.cshtml" />
     <Content Include="Views\GruposEmpresa\Index.cshtml" />
     <Content Include="Views\GruposEmpresa\List.cshtml" />
-    <Content Include="Views\CartasDePorte\Edit.cshtml" />
-    <Content Include="Views\CartasDePorte\Index.cshtml" />
-    <Content Include="Views\CartasDePorte\List.cshtml" />
+    <Content Include="Views\Lotes\Edit.cshtml" />
+    <Content Include="Views\Lotes\Index.cshtml" />
+    <Content Include="Views\Lotes\List.cshtml" />
     <Content Include="Views\Reservas\Edit.cshtml" />
     <Content Include="Views\Reservas\Index.cshtml" />
     <Content Include="Views\Reservas\List.cshtml" />
@@ -411,6 +414,8 @@
     <Content Include="Reports\cdp_generica.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Solicitudes\Edit.cshtml" />
+    <Content Include="Views\Solicitudes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

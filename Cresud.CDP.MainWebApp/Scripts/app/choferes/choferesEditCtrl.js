@@ -54,8 +54,8 @@
                    if (!$scope.entity.esChoferTransportista && 
                         $scope.esGrupoCresud &&
                         $scope.entity.camion &&
-                        !(patenteOldRegex.match($scope.entity.camion) || patenteNewRegex.match($scope.entity.camion))) {
-                        $scope.result.messages.push('"Formato de patente de camión inválido. Formato corrercto ej: AAA111 o AA111AA');
+                        !($scope.entity.camion.match(patenteOldRegex) || $scope.entity.camion.match(patenteNewRegex))) {
+                        $scope.result.messages.push('Formato de patente de camión inválido. Formato corrercto ej: AAA111 o AA111AA');
                    }
                                                       
                    if (!$scope.entity.esChoferTransportista && $scope.esGrupoCresud && !$scope.entity.acoplado) {
@@ -65,8 +65,8 @@
                    if (!$scope.entity.esChoferTransportista &&
                         $scope.esGrupoCresud &&
                         $scope.entity.acoplado &&
-                        !(patenteOldRegex.match($scope.entity.acoplado) || patenteNewRegex.match($scope.entity.acoplado))) {
-                        $scope.result.messages.push('"Formato de patente de acoplado inválido. Formato corrercto ej: AAA111 o AA111AA');
+                        !($scope.entity.acoplado.match(patenteOldRegex) || $scope.entity.acoplado.match(patenteNewRegex))) {
+                        $scope.result.messages.push('Formato de patente de acoplado inválido. Formato corrercto ej: AAA111 o AA111AA');
                    }
 
                    $scope.result.hasErrors = $scope.result.messages.length;

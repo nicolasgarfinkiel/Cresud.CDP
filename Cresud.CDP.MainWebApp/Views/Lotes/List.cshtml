@@ -22,9 +22,9 @@
             <input type="checkbox" ng-model="filter.tieneDisponibilidad"> Solo con números disponibles
         </div>
         <div class="col-sm-4 text-right">
-            <a href="javascript:void(0)" class="btn btn-info " ng-click="search()"><i class="fa fa-search"></i> Buscar</a>
+            <a href="javascript:void(0)" class="btn btn-info " ng-click="search(true)"><i class="fa fa-search"></i> Buscar</a>
             <a href="javascript:void(0)" class="btn btn-success " ng-click="create()"><i class="fa fa-plus"></i> Nuevo</a>
-            <form method="POST" action="/CartasDeporte/Export" style="display: inline;">                
+            <form method="POST" action="/Lotes/Export" style="display: inline;">                
                 <input type="hidden" name="idGrupoEmpresa" value="{{filter.idGrupoEmpresa}}" />
                 <input type="hidden" name="empresaId" value="{{filter.empresaId}}" /> 
                 <input type="hidden" name="desde" value="{{filter.desde}}" />

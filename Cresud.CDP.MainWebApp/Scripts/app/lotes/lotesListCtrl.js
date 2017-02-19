@@ -1,10 +1,10 @@
-﻿angular.module('cresud.cdp.cartasDePorte.ctrl.list', [])
+﻿angular.module('cresud.cdp.lotes.ctrl.list', [])
        .controller('listCtrl', [
            '$scope',
-           'cartasDePorteService',
+           'lotesService',
            'baseNavigationService',
            'listBootstraperService',
-           function ($scope, cartasDePorteService, baseNavigationService, listBootstraperService) {
+           function ($scope, lotesService, baseNavigationService, listBootstraperService) {
                $scope.onInitEnd = function () {
                    $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'argentina';
                    $scope.columns[3].displayName = $scope.esArgentina ? 'Cee' : 'Timbrado';
@@ -20,7 +20,7 @@
                };
 
                $scope.deleteLoteConfirm = function () {
-                   cartasDePorteService.deleteEntity($scope.currentLote.id).then(function (response) {
+                   lotesService.deleteEntity($scope.currentLote.id).then(function (response) {
                        $('#deleteModal').modal('hide');
                        $scope.currentLote = null;
                        $scope.search();
@@ -36,7 +36,7 @@
                });
 
                listBootstraperService.init($scope, {
-                   service: cartasDePorteService,
+                   service: lotesService,
                    navigation: baseNavigationService,
                    columns: [
                        { field: 'id', displayName: 'Lote', width: 60 },

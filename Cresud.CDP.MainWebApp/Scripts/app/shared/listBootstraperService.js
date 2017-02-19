@@ -31,7 +31,11 @@
                            currentPage: 1
                        }
                    },
-                   search: function () {
+                   search: function (reset) {
+                       if (reset) {
+                           scope.gridOptions.pagingOptions.currentPage = 1;
+                       }
+
                        scope.filter.currentPage = scope.gridOptions.pagingOptions.currentPage;
                        scope.filter.pageSize = scope.gridOptions.pagingOptions.pageSize;
 

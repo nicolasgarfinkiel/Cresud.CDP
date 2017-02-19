@@ -4,6 +4,8 @@
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
   <mvcSiteMapNode title="Home" controller="Home" action="Index">
+
+    <mvcSiteMapNode   title="Inicio"                                controller="Solicitudes"            action="Index"           Class="fa fa-bookmark-o"  roles="" ></mvcSiteMapNode>
         
     <mvcSiteMapNode   title="Admnistración"                         controller="Home"                     action="index"           Class="fa fa-bookmark-o"      roles="" >
       <mvcSiteMapNode title="Choferes"                              controller="Choferes"                 action="Index"                                         roles=""/>
@@ -11,9 +13,8 @@
       <mvcSiteMapNode title="Establecimientos"                      controller="Establecimientos"         action="Index"                                         roles=""/>      
       <mvcSiteMapNode title="Grupos Empresa"                        controller="GruposEmpresa"            action="Index"                                         roles=""/>
       <mvcSiteMapNode title="Empresas"                              controller="Empresas"                 action="Index"                                         roles=""/>
-      <mvcSiteMapNode title="Rangos de CDP"                         controller="CartasDePorte"            action="Index"                                      roles=""/>      
-      <mvcSiteMapNode title="Reservas"                              controller="Reservas"                 action="Index"                                       roles=""/>      
-      <mvcSiteMapNode title="Carga Solicitud Manual"                controller="CartaDePorte"             action="CargaSolicitudManual"                          roles=""/>
+      <mvcSiteMapNode title="Rangos de CDP"                         controller="Lotes"                    action="Index"                                      roles=""/>      
+      <mvcSiteMapNode title="Reservas"                              controller="Reservas"                 action="Index"                                       roles=""/>            
     </mvcSiteMapNode>       
     
     <mvcSiteMapNode   title="Bandeja de Salida"                     controller="BandejaDeSalida"           action="Index"           Class="fa fa-bookmark-o"  roles="" >

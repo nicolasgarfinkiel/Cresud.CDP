@@ -1,42 +1,27 @@
-﻿angular.module('cresud.cdp.cartasDePorte', [
-    'cresud.cdp.cartasDePorte.ctrl.list',
-    'cresud.cdp.cartasDePorte.ctrl.edit',
-    'cresud.cdp.service.cartasDePorte',
-    'cresud.cdp.service.establecimientos',
+﻿angular.module('cresud.cdp.solicitudes', [    
+    'cresud.cdp.solicitudes.ctrl.edit',
+    'cresud.cdp.service.solicitudes',
     'cresud.cdp.navigation.base',     
-    'cresud.cdp.service.base',
-    'cresud.cdp.service.bootstraper.list',
+    'cresud.cdp.service.base',    
     'cresud.cdp.service.bootstraper.edit',
     'ngRoute',
     'ngGrid',
     '$strap.directives',
     'cresud.cdp.directive.loading',    
-    'cresud.cdp.directive.debounce',
-    'cresud.cdp.directive.int',
-    'cdp.service.singleFile'
+    'cresud.cdp.directive.debounce'    
 ]).config([
     '$routeProvider',
     '$locationProvider',
     "$httpProvider",
     function ($routeProvider, $locationProvider, $httpProvider) {
-
-        $routeProvider.when('/', {
-            templateUrl: 'cartasDePorte/list',
-            controller: 'listCtrl'
+                     
+        $routeProvider.when('/create', {
+            templateUrl: 'solicitudes/edit',
+            controller: 'editCtrl'
         });
               
-        $routeProvider.when('/create', {
-            templateUrl: 'cartasDePorte/edit',
-            controller: 'editCtrl'
-        });
-        
-        $routeProvider.when('/edit/:id', {
-            templateUrl: 'cartasDePorte/edit',
-            controller: 'editCtrl'
-        });
-
         $routeProvider.otherwise({
-            redirectTo: '/'
+            redirectTo: '/create'
         });
 
         $httpProvider.interceptors.push(function ($q, $rootScope) {
@@ -62,7 +47,8 @@
                     return rejection;
                 }
             };
-        });               
+        });
+               
 
         var regexIso8601 = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
         

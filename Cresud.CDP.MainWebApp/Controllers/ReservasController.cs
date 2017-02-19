@@ -23,7 +23,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
         {
             return new
             {
-                CartasDePorteDisponibles =  new CartasDePorteAdmin().GetCartasDePorteDisponibles(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.Id.Value),               
+                CartasDePorteDisponibles =  new LotesAdmin().GetCartasDePorteDisponibles(CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresa.Id.Value),               
             };
         }
 

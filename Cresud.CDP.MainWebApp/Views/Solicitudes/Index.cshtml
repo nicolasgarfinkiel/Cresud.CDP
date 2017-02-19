@@ -1,0 +1,16 @@
+﻿@using Cresud.CDP.Infrastructure
+@{
+    ViewBag.ngApp = "cresud.cdp.solicitudes";
+}
+<div>       
+    <script type="text/ng-template" id="solicitudes/edit">
+        @RenderPage(Url.Content("~/Views/Solicitudes/Edit.cshtml"))
+    </script>
+    <div ng-view></div>
+</div>
+
+@section scripts{
+    @Html.IncludeVersionedJs("Scripts/app/Solicitudes/solicitudesModule.js")    
+    @Html.IncludeVersionedJs("Scripts/app/Solicitudes/solicitudesEditCtrl.js")        
+    @Html.IncludeVersionedJs("Scripts/app/shared/solicitudesServices.js")
+}

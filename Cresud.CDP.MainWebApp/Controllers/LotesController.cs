@@ -13,7 +13,7 @@ using Cresud.CDP.Infrastructure.ActionResults;
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
-    public class CartasDePorteController : BaseController<CartasDePorteAdmin, int, Entities.LoteCartaPorte, Dtos.LoteCartaPorte, FilterLotesCartaPorte>
+    public class LotesController : BaseController<LotesAdmin, int, Entities.LoteCartaPorte, Dtos.LoteCartaPorte, FilterLotesCartaPorte>
     {
         #region Base
 
