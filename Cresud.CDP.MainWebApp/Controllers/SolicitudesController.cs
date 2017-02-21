@@ -21,7 +21,12 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
         public override object GetDataEdit()
         {
-            return new { };
+            var generalAdmin = new GeneralAdmin();
+
+            return new
+            {
+                TipoCartaList = generalAdmin.GetTipoCartaList()
+            };
         }
         #endregion        
     }

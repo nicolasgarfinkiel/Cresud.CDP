@@ -7,11 +7,14 @@
            'editBootstraperService',
            function ($scope, $routeParams, solicitudesService, baseNavigationService, editBootstraperService) {
                //#region Base
+               $scope.loading = true;
 
                $scope.onInitEnd = function () {
                    //$scope.operation = !$routeParams.id ? 'Nuevo chofer' : 'Edición de chofer';
-                   //$scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'PARAGUAY';
-                   //$scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
+                   $scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'PARAGUAY';
+                   $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'ARGENTINA';
+                   $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
+                   $scope.loading = false;
                };
 
                editBootstraperService.init($scope, $routeParams,  {
@@ -30,5 +33,22 @@
                    return !$scope.result.hasErrors;
                };
           
+               //#endregion
+
+               $scope.resultAfip = { message: null, hasErros: false };
+
+               $scope.tipoDeCartaControls = function() {
+                   $scope.manual = $scope.entity.tipoDeCartaId == 2 ||
+                                   $scope.entity.tipoDeCartaId == 7 ||
+                                   $scope.entity.tipoDeCartaId == 4;
+               };
+
+               //#region Watches
+
+               $scope.$watch('entity.tipoDeCartaId', function(newValue, oldValue) {
+                   if ($scope.loading) return;
+                   $scope.tipoDeCartaControls();
+               });
+
                //#endregion
            }]);
