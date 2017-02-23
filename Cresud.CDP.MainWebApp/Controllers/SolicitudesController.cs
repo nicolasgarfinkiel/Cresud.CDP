@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Entities;
@@ -22,10 +23,12 @@ namespace Cresud.CDP.MainWebApp.Controllers
         public override object GetDataEdit()
         {
             var generalAdmin = new GeneralAdmin();
+            var granosAdmin = new GranosAdmin();
 
             return new
             {
-                TipoCartaList = generalAdmin.GetTipoCartaList()
+                TipoCartaList = generalAdmin.GetTipoCartaList(),
+                Granos = granosAdmin.GetAll().OrderBy(g => g.Descripcion)
             };
         }
         #endregion        

@@ -15,7 +15,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-4 control-label">Tipo de carta</label>
                                         <div class="col-lg-8">
-                                            <select class="form-control" ng-model="entity" ng-disbled="entity.id && entity.tipoDeCartaId" ng-options="tipo.id as tipo.descripcion for tipo in data.tipoCartaList"></select>
+                                            <select class="form-control" ng-model="entity.tipoDeCartaId" ng-disbled="entity.id && entity.tipoDeCartaId" ng-options="tipo.id as tipo.descripcion for tipo in data.tipoCartaList"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -24,18 +24,18 @@
                                         <label class="col-lg-4 control-label">Fecha emisión</label>
                                         <div class="col-lg-8">
                                             <div class="input-group input-append">
-                                                <input type="text" ng-model="entity.fechaDesde" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
+                                                <input type="text" ng-model="entity.fechaDeEmision" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" ng-disabled="!controlsVisibility.fechaDeEmision" />
                                                 <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="form-group" ng-if="controlsVisibility.fechaDeVencimiento">
                                         <label class="col-lg-4 control-label">Fecha vencimiento</label>
                                         <div class="col-lg-8">
                                             <div class="input-group input-append">
-                                                <input type="text" ng-model="entity.fechaDesde" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
+                                                <input type="text" ng-model="entity.fechaDeVencimiento" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" />
                                                 <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
                                             </div>
                                         </div>
@@ -47,8 +47,8 @@
                                     <div class="form-group" ng-if="esArgentina">
                                         <label class="col-lg-4 control-label">Ctg</label>
                                         <div class="col-lg-8">
-                                            <span ng-if="!manual && !(resultAfip.message && resultAfip.message.indexOf('Reserva') >= 0)">{{entity.ctg}}</span>
-                                            <input type="text" class="form-control" ng-model="entity.ctg" ng-if="manual || (resultAfip.message && resultAfip.message.indexOf('Reserva') >= 0)" />
+                                            <span ng-if="!controlsVisibility.ctg">{{entity.ctg}}</span>
+                                            <input type="text" class="form-control" ng-model="entity.ctg" ng-if="controlsVisibility.ctg" />
                                         </div>
                                     </div>
                                 </div>
@@ -56,8 +56,8 @@
                                     <div class="form-group">
                                         <label class="col-lg-4 control-label">Carta de porte</label>
                                         <div class="col-lg-8">
-                                            <span ng-if="!manual">{{entity.numeroCartaDePorte}}</span>
-                                            <input type="text" class="form-control" ng-model="entity.numeroCartaDePorte" ng-if="manual" />
+                                            <span ng-if="!controlsVisibility.numeroCartaDePorte">{{entity.numeroCartaDePorte}}</span>
+                                            <input type="text" class="form-control" ng-model="entity.numeroCartaDePorte" ng-if="controlsVisibility.numeroCartaDePorte" />
                                         </div>
                                     </div>
                                 </div>
@@ -65,8 +65,8 @@
                                     <div class="form-group" ng-if="esArgentina || esParaguay">
                                         <label class="col-lg-4 control-label">Cee</label>
                                         <div class="col-lg-8">
-                                            <span ng-if="!manual">{{entity.cee}}</span>
-                                            <input type="text" class="form-control" ng-model="entity.cee" ng-if="manual" />
+                                            <span ng-if="!controlsVisibility.cee">{{entity.cee}}</span>
+                                            <input type="text" class="form-control" ng-model="entity.cee" ng-if="controlsVisibility.cee" />
                                         </div>
                                     </div>
                                 </div>
@@ -84,8 +84,8 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Titular carta de porte</label>
                                         <div class="col-lg-9">
-                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                            <ui-select ng-model="entity." theme="select2" style="min-width: 100%;" append-to-body="true">
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -102,7 +102,7 @@
                                         <label class="col-lg-3 control-label">Intermediario</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -121,7 +121,7 @@
                                         <label class="col-lg-3 control-label">Remitente comercial</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -138,7 +138,7 @@
                                         <label class="col-lg-3 control-label">Corredor</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -157,7 +157,7 @@
                                         <label class="col-lg-3 control-label">Representante/Entregador</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -174,7 +174,7 @@
                                         <label class="col-lg-3 control-label">Destinatario</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -193,7 +193,7 @@
                                         <label class="col-lg-3 control-label">Destino</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -210,7 +210,7 @@
                                         <label class="col-lg-3 control-label">Transportista</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -229,7 +229,7 @@
                                         <label class="col-lg-3 control-label">Chofer</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="min-width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -257,13 +257,12 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Grano</label>
                                         <div class="col-lg-11">
-                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="person in ctrl.people">
-                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                            <ui-select ng-model="entity.granoId" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
+                                                <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Grano:</b> {{$select.selected.tipoGranoAfipDescripcion}}. <b>Cosecha:</b> {{$select.selected.cosechaAfipDescripcion}} </ui-select-match>
+                                                <ui-select-choices repeat="grano in data.granos">
+                                                    <div ng-bind-html="grano.descripcion | highlight: $select.search"></div>
                                                     <small>
-                                                        email: {{person.email}}
-                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                        <span ng-if="grano.cosechaAfipCodigo">({{grano.cosechaAfipCodigo}})</span>
                                                     </small>
                                                 </ui-select-choices>
                                             </ui-select>
@@ -276,7 +275,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Bruto (Kgs)</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="entity.pesoBruto" ng-disabled="!entity.cargaPesadaDestino" />
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +283,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Tara (Kgs)</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="entity.pesoTara" ng-disabled="!entity.cargaPesadaDestino" />
                                         </div>
                                     </div>
                                 </div>
@@ -292,7 +291,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Neto (Kgs)</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-value="{entity.pesoBruto - entity.pesoTara}" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -300,23 +299,23 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">Kgs Est.</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="entity.kilogramosEstimados" ng-disabled="!entity.cargaPesadaDestino" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="form-group" ng-if="esParaguay">
                                         <label class="col-lg-6 control-label">% Humedad</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="entity.pHumedad" ng-disabled="entity.id" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2" ng-if="esParaguay">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">% Otros</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="entity.pOtros" ng-disabled="entity.id" />
                                         </div>
                                     </div>
                                 </div>
@@ -326,7 +325,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">Nro.Contrato</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="entity.numeroContrato" />
                                         </div>
                                     </div>
                                 </div>
@@ -334,7 +333,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">La carga sera pesada en destino</label>
                                         <div class="col-lg-6">
-                                            <input type="checkbox" style="position: relative; top: 5px;" />
+                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.cargaPesadaDestino" />
                                         </div>
                                     </div>
                                 </div>
@@ -342,15 +341,15 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">Declaracion Calidad</label>
                                         <div class="col-lg-6">
-                                            <input type="checkbox" style="position: relative; top: 5px;" />
+                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.declaracionDeCalidad" disabled />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group" style="position: relative; top: 5px;">
                                         <div class="col-lg-12">
-                                            <input type="radio" /> Conforme
-                                            <input type="radio" /> Condicional
+                                            <input type="radio" name="conforme" value="1" ng-model="entity.conformeCondicionalId" /> Conforme
+                                            <input type="radio" name="conforme" value="2" ng-model="entity.conformeCondicionalId" /> Condicional
                                         </div>
                                     </div>
                                 </div>
@@ -358,12 +357,12 @@
                             <div class="row">
                                 <div class="col-md-1" style="width: 9.5%;">
                                     <div class="form-group">
-                                        <label class="col-lg-12 control-label">Observaciones</label>                                        
+                                        <label class="col-lg-12 control-label">Observaciones</label>
                                     </div>
                                 </div>
                                 <div class="col-md-11" style="width: 90%;">
                                     <div class="form-group">
-                                        <textarea class="form-control"></textarea>
+                                        <textarea class="form-control" ng-model="entity.observaciones"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -380,14 +379,20 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Procedencia</label>
                                         <div class="col-lg-11">
-                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="person in ctrl.people">
-                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                            <ui-select ng-model="entity.establecimientoProcedenciaId" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="mensajeAfipReserva" focus-on="setEstablecimientos('Procedencia')">
+                                                <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
+                                                <ui-select-choices refresh="getEstablecimientos($select)" refresh-delay="300" repeat="establecimiento in establecimientos | filter: $select.search">
+                                                    <div ng-bind-html="establecimiento.descripcion | highlight: $select.search"></div>
                                                     <small>
-                                                        email: {{person.email}}
-                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                        <span ng-if="establecimiento.direccion">({{establecimiento.direccion}})</span>
                                                     </small>
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getEstablecimientos($select, $event);">
+                                                            Siguiente
+                                                        </button>
+                                                    </div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
@@ -400,13 +405,19 @@
                                         <label class="col-lg-1 control-label">Destino</label>
                                         <div class="col-lg-11">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="person in ctrl.people">
-                                                    <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices refresh="getEstablecimientos($select)" refresh-delay="300" repeat="person in ctrl.people | filter: $select.search">
+                                                    <div ng-bind-html="establecimiento.descripcion | highlight: $select.search"></div>
                                                     <small>
-                                                        email: {{person.email}}
-                                                        age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+                                                        <span ng-if="establecimiento.direccion">({{establecimiento.direccion}})</span>
                                                     </small>
+                                                    <div ng-if="$index == $select.items.length-1">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getEstablecimientos($select, $event);">
+                                                            Siguiente
+                                                        </button>    
+                                                    </div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
@@ -427,7 +438,7 @@
                                         <label class="col-lg-3 control-label">Pagador flete</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match >{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="person in ctrl.people">
                                                     <div ng-bind-html="person.name | highlight: $select.search"></div>
                                                     <small>
@@ -443,7 +454,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Tarifa ref.</label>
                                         <div class="col-lg-9">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-disabled="!(manual || mensajeAfipReserva)" />
                                         </div>
                                     </div>
                                 </div>
@@ -465,7 +476,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Camión</label>
                                         <div class="col-lg-9">
-                                            <input type="text" class="form-control"/>
+                                            <input type="text" class="form-control" />
                                         </div>
                                     </div>
                                 </div>
@@ -496,8 +507,8 @@
                             </div>
                         </section>
                     </section>
-               
-                    <div class="alert" ng-class="'alert-info': !resultAfip.hasErrors, alert-danger: resultAfip.hasErrors" ng-if="resultAfip.message">                        
+
+                    <div class="alert" ng-class="'alert-info': !resultAfip.hasErrors, alert-danger: resultAfip.hasErrors" ng-if="resultAfip.message">
                         <div>{{resultAfip.message}}</div>
                     </div>
 

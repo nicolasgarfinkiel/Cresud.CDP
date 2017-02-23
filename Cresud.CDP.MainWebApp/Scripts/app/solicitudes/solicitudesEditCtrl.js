@@ -6,15 +6,23 @@
            'baseNavigationService',
            'editBootstraperService',
            function ($scope, $routeParams, solicitudesService, baseNavigationService, editBootstraperService) {
-               //#region Base
                $scope.loading = true;
+               $scope.resultAfip = { message: null, hasErros: false };
 
+               //#region Base
+               
                $scope.onInitEnd = function () {
                    //$scope.operation = !$routeParams.id ? 'Nuevo chofer' : 'Edición de chofer';
                    $scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'PARAGUAY';
                    $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'ARGENTINA';
                    $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
+                   $scope.activarModelo = $routeParams.activarModelo;
+                   $scope.rolAltaSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Alta Solicitud') >= 0;
+
                    $scope.loading = false;
+
+                   $scope.setControls();
+                   $scope.setDefaultValues();
                };
 
                editBootstraperService.init($scope, $routeParams,  {
@@ -33,21 +41,44 @@
                    return !$scope.result.hasErrors;
                };
           
-               //#endregion
+               //#endregion               
 
-               $scope.resultAfip = { message: null, hasErros: false };
+               $scope.setControls = function () {
+                   $scope.mensajeAfipReserva = $scope.resultAfip.message && $scope.resultAfip.message.indexOf('Reserva') >= 0;
 
-               $scope.tipoDeCartaControls = function() {
                    $scope.manual = $scope.entity.tipoDeCartaId == 2 ||
                                    $scope.entity.tipoDeCartaId == 7 ||
-                                   $scope.entity.tipoDeCartaId == 4;
+                                   $scope.entity.tipoDeCartaId == 4;                   
+                   
+                   $scope.controlsVisibility = {};
+                   $scope.controlsVisibility.fechaDeEmision = 
+                   $scope.controlsVisibility.fechaDeVencimiento  =
+                   $scope.controlsVisibility.ctg = $scope.mensajeAfipReserva || ($scope.manual && !$scope.entity.id);
+                   $scope.controlsVisibility.numeroCartaDePorte = 
+                   $scope.controlsVisibility.cee = $scope.manual && !$scope.entity.id;
+
+
+               };
+
+               $scope.setDefaultValues = function() {
+                   
                };
 
                //#region Watches
 
                $scope.$watch('entity.tipoDeCartaId', function(newValue, oldValue) {
                    if ($scope.loading) return;
-                   $scope.tipoDeCartaControls();
+                   $scope.setControls();
+               });
+
+               $scope.$watch('entity.cargaPesadaDestino', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+                   
+                   if (!newValue) {
+                       $scope.entity.pesoTara = null;
+                       $scope.entity.pesoBruto = null;
+                       $scope.entity.kilogramosEstimados = null;
+                   }
                });
 
                //#endregion
