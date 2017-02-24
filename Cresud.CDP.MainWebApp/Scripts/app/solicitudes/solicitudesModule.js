@@ -1,6 +1,7 @@
 ﻿angular.module('cresud.cdp.solicitudes', [    
     'cresud.cdp.solicitudes.ctrl.edit',
     'cresud.cdp.service.solicitudes',
+    'cresud.cdp.service.establecimientos',
     'cresud.cdp.navigation.base',     
     'cresud.cdp.service.base',    
     'cresud.cdp.service.bootstraper.edit',

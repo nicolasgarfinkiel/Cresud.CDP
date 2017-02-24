@@ -291,7 +291,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Neto (Kgs)</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-value="{entity.pesoBruto - entity.pesoTara}" disabled />
+                                            <input type="text" class="form-control" ng-value="entity.pesoBruto - entity.pesoTara" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -379,17 +379,17 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Procedencia</label>
                                         <div class="col-lg-11">
-                                            <ui-select ng-model="entity.establecimientoProcedenciaId" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="mensajeAfipReserva" focus-on="setEstablecimientos('Procedencia')">
+                                            <ui-select name="establecimientoOrigen" ng-model="entity.establecimientoProcedenciaId" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="mensajeAfipReserva">
                                                 <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
-                                                <ui-select-choices refresh="getEstablecimientos($select)" refresh-delay="300" repeat="establecimiento in establecimientos | filter: $select.search">
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="establecimiento in selectList | filter: $select.search">
                                                     <div ng-bind-html="establecimiento.descripcion | highlight: $select.search"></div>
                                                     <small>
                                                         <span ng-if="establecimiento.direccion">({{establecimiento.direccion}})</span>
                                                     </small>
                                                     <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
-                                                                style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getEstablecimientos($select, $event);">
+                                                                style="width: 100%; margin-top: 20px;"
+                                                                ng-click="getSelectSource($select, $event);">
                                                             Siguiente
                                                         </button>
                                                     </div>
@@ -404,19 +404,19 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Destino</label>
                                         <div class="col-lg-11">
-                                            <ui-select ng-model="ctrl.person.selected" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices refresh="getEstablecimientos($select)" refresh-delay="300" repeat="person in ctrl.people | filter: $select.search">
+                                            <ui-select name="establecimientoDestino" ng-model="entity.establecimientoDestinoId" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="mensajeAfipReserva">
+                                                <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="establecimiento in selectList | filter: $select.search">
                                                     <div ng-bind-html="establecimiento.descripcion | highlight: $select.search"></div>
                                                     <small>
                                                         <span ng-if="establecimiento.direccion">({{establecimiento.direccion}})</span>
                                                     </small>
-                                                    <div ng-if="$index == $select.items.length-1">
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
                                                                 style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getEstablecimientos($select, $event);">
+                                                                ng-click="getSelectSource($select, $event);">
                                                             Siguiente
-                                                        </button>    
+                                                        </button>
                                                     </div>
                                                 </ui-select-choices>
                                             </ui-select>
