@@ -2,8 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Entities;
+using Cliente = Cresud.CDP.Entities.Cliente;
+using ClienteCorredor = Cresud.CDP.Entities.ClienteCorredor;
+using ClienteDestinatario = Cresud.CDP.Entities.ClienteDestinatario;
+using ClienteEntregador = Cresud.CDP.Entities.ClienteEntregador;
+using ClienteIntermediario = Cresud.CDP.Entities.ClienteIntermediario;
+using ClienteRemitenteComercial = Cresud.CDP.Entities.ClienteRemitenteComercial;
+using Localidad = Cresud.CDP.Entities.Localidad;
+using Pais = Cresud.CDP.Entities.Pais;
+using Proveedor = Cresud.CDP.Entities.Proveedor;
+using Provincia = Cresud.CDP.Entities.Provincia;
+using TipoCarta = Cresud.CDP.Entities.TipoCarta;
 
 namespace Cresud.CDP.Admin
 {
@@ -78,13 +91,21 @@ namespace Cresud.CDP.Admin
 
         #region Clientes
 
-        public PagedListResponse<Dtos.Cliente> GetClientesByFilter(FilterBase filter)
+        public Dtos.Cliente GetClienteById(string clienteId)
+        {
+            var cliente = CdpContext.Clientes.FirstOrDefault(c => c.Id == clienteId);
+
+            return Mapper.Map<Entities.Cliente, Dtos.Cliente>(cliente);
+        }
+
+        public PagedListResponse<Dtos.Cliente> GetClientesByFilter(FilterClientes filter)
         {
             var empresa = CdpContext.Empresas.Single(e => e.Id == filter.EmpresaId);
             var idSapOrganizacionDeVenta = int.Parse(empresa.IdSapOrganizacionDeVenta);
-
+            
             var query = CdpContext.Clientes.Where(c => c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta &&
-                                                      c.Id != "2000151" && c.Id != "3000352").AsQueryable();
+                                                 (!filter.FilterCresud || (filter.FilterCresud && !c.Id.StartsWith("3"))) &&
+                                                  c.Id != "2000151" && c.Id != "3000352").AsQueryable();           
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {

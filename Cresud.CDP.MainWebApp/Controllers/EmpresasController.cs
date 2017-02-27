@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Infrastructure;
 using Empresa = Cresud.CDP.Entities.Empresa;
 
 namespace Cresud.CDP.MainWebApp.Controllers
@@ -43,6 +45,24 @@ namespace Cresud.CDP.MainWebApp.Controllers
                GrupoEmpresaList = grupoEmpresaAdmin.GetAll().OrderBy(g => g.Descripcion),
                OrganizacionVentaList = generalAdmin.GetOrganizacionVentaList()
             };
+        }
+
+        [HttpPost]
+        public ActionResult GetByClienteId(int clienteId)
+        {
+            var response = new Response<Dtos.Empresa>();
+
+            try
+            {
+                response.Data = _admin.GetByClienteId(clienteId);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
         }
     }
 }

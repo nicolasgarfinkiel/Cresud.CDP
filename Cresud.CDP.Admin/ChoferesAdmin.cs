@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Dtos.Filters;
 using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.Admin
 {
-    public class ChoferesAdmin : BaseAdmin<int, Entities.Chofer, Dtos.Chofer, FilterBase>
+    public class ChoferesAdmin : BaseAdmin<int, Entities.Chofer, Dtos.Chofer, FilterChoferes>
     {
         #region Base
 
@@ -59,9 +60,14 @@ namespace Cresud.CDP.Admin
                 throw new Exception("El cuit ya se encuentra asignado a otro chofer");
         }
 
-        public override IQueryable GetQuery(FilterBase filter)
+        public override IQueryable GetQuery(FilterChoferes filter)
         {
             var result = CdpContext.Choferes.Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Nombre).ThenBy(c => c.Apellido).AsQueryable();
+
+            if (filter.EsChoferTransportista.HasValue)
+            {
+                result = result.Where(c => c.EsChoferTransportista == filter.EsChoferTransportista.Value).AsQueryable();
+            }
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {

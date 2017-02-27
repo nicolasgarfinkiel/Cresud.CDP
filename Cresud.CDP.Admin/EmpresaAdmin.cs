@@ -95,5 +95,12 @@ namespace Cresud.CDP.Admin
         }
 
         #endregion
+
+        public Dtos.Empresa GetByClienteId(int clienteId)
+        {
+            var empresa = CdpContext.Empresas.FirstOrDefault(e => e.IdCliente == clienteId && !string.IsNullOrEmpty(e.IdSapOrganizacionDeVenta));
+
+            return Mapper.Map<Entities.Empresa, Dtos.Empresa>(empresa);
+        }
     }
 }

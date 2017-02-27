@@ -60,6 +60,8 @@
     <Compile Include="Empresa.cs" />
     <Compile Include="Especie.cs" />
     <Compile Include="Establecimiento.cs" />
+    <Compile Include="Filters\FilterChoferes.cs" />
+    <Compile Include="Filters\FilterClientes.cs" />
     <Compile Include="Filters\FilterLogSap.cs" />
     <Compile Include="Filters\FilterSolicitudes.cs" />
     <Compile Include="Filters\FilterCartasDePorteEmitidasRecibidas.cs" />

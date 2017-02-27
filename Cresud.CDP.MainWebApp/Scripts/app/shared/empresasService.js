@@ -3,7 +3,15 @@
            '$http',
            'baseService',
            function ($http, baseService) {
-               var result = angular.extend({}, baseService);
+               var result = angular.extend({
+                   getByClienteId: function (clienteId) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Empresas/GetByClienteId',
+                           data: { clienteId: clienteId }
+                       });
+                   },
+               }, baseService);
                result.controller = 'Empresas';
 
                return result;

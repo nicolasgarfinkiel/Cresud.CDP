@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
+using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
-using Cresud.CDP.Entities;
+using Solicitud = Cresud.CDP.Entities.Solicitud;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
@@ -28,7 +29,8 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return new
             {
                 TipoCartaList = generalAdmin.GetTipoCartaList(),
-                Granos = granosAdmin.GetAll().OrderBy(g => g.Descripcion)
+                Granos = granosAdmin.GetAll().OrderBy(g => g.Descripcion),
+                ClienteDefault = generalAdmin.GetClienteById(CDPSession.Current.Usuario.CurrentEmpresa.IdCliente.ToString())
             };
         }
         #endregion        

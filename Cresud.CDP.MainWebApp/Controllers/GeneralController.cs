@@ -12,7 +12,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
     public class GeneralController : BaseController<GeneralAdmin, int, object, object, FilterBase>
     {
         [HttpPost]
-        public ActionResult GetClientesByFilter(FilterBase filter)
+        public ActionResult GetClientesByFilter(FilterClientes filter)
         {
             var response = new PagedListResponse<Cliente>();
 
