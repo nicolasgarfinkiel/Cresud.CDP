@@ -69,7 +69,9 @@
                });
 
                $scope.saveAndSend = function() {
-                   
+                   if (!$scope.isValid()) return;
+
+
                };
 
                $scope.isValid = function () {
@@ -77,6 +79,10 @@
 
                    if (!$scope.entity.tipoDeCartaId) {
                        $scope.result.messages.push('Seleccione un tipo de carta');
+                   }
+
+                   if ($scope.controlsVisibility.numeroCartaDePorte && !$scope.entity.numeroCartaDePorte) {
+                       $scope.result.messages.push('Ingrese el número de carta de porte');
                    }
 
                    if (!$scope.entity.proveedorTitularCartaDePorte) {
@@ -109,7 +115,7 @@
 
                    if (!$scope.entity.establecimientoDestino) {
                        $scope.result.messages.push('Seleccione el destino de la mercadería');
-                   }                   
+                   }
 
                    if (!$scope.entity.clienteRemitenteComercial && (($scope.entity.tipoDeCartaId == 6 || 
                        ($scope.entity.tipoDeCartaId == 2 && 
@@ -117,8 +123,67 @@
                         $scope.entity.clienteDestinatario &&  
                         $scope.entity.proveedorTitularCartaDePorte && 
                         $scope.entity.clienteDestinatario.cuit != $scope.entity.proveedorTitularCartaDePorte.cuit)))) {
-                       $scope.result.messages.push('Seleccione un cliente remitente comercial');
+                        $scope.result.messages.push('Seleccione un cliente remitente comercial');
                    }
+
+                   if ($scope.entity.cargaPesadaDestino && !$scope.entity.kilogramosEstimados) {
+                       $scope.result.messages.push('Ingrese los kilogramos estimados');
+                   }
+
+                   if ($scope.entity.cargaPesadaDestino && $scope.entity.kilogramosEstimados && isNaN($scope.entity.kilogramosEstimados)) {
+                       $scope.result.messages.push('Ingrese un valor numérico para los kilogramos estimados');
+                   }
+
+                   if (!$scope.entity.cargaPesadaDestino && !$scope.entity.pesoBruto) {
+                       $scope.result.messages.push('Ingrese el peso bruto');
+                   }
+
+                   if (!$scope.entity.cargaPesadaDestino && $scope.entity.pesoBruto && isNaN($scope.entity.pesoBruto)) {
+                       $scope.result.messages.push('El peso bruto debe ser numérico');
+                   }
+
+                   if (!$scope.entity.cargaPesadaDestino && !$scope.entity.pesoTara) {
+                       $scope.result.messages.push('Ingrese el peso tara');
+                   }
+
+                   if (!$scope.entity.cargaPesadaDestino && $scope.entity.pesoTara && isNaN($scope.entity.pesoTara)) {
+                       $scope.result.messages.push('El peso tara debe ser numérico');
+                   }
+
+                   if (($scope.entity.tipoDeCartaId == 1 || $scope.entity.tipoDeCartaId == 5) && !$scope.entity.clientePagadorDelFlete) {
+                       $scope.result.messages.push('Seleccione el pagador del flete');
+                   }
+
+                   if ($scope.controlsVisibility.tarifaReferencia && !$scope.entity.tarifaReferencia) {
+                       $scope.result.messages.push('Ingrese la tarifa de referencia enviada por AFIP');
+                   }
+
+                   if ($scope.controlsVisibility.tarifaReferencia && $scope.entity.tarifaReferencia && isNaN($scope.entity.tarifaReferencia)) {
+                       $scope.result.messages.push('La tarifa de referencia debe ser numérica');
+                   }
+
+                   if ($scope.entity.tarifaReal && isNaN($scope.entity.tarifaReal)) {
+                       $scope.result.messages.push('La tarifa debe ser numérica');
+                   }
+
+                   if ($scope.entity.kmRecorridos && isNaN($scope.entity.kmRecorridos)) {
+                       $scope.result.messages.push('Los km. a reccorer deben ser numérico');
+                   }                 
+
+                   var patenteOldRegex = /^[A-ZÑ]{3}\d{3}$/;
+                   var patenteNewRegex = /^[A-ZÑ]{2}\d{3}[A-ZÑ]{2}$/;
+
+                   if ($scope.esGrupoCresud &&                       
+                       $scope.entity.patenteCamion &&
+                       !($scope.entity.patenteCamion.match(patenteOldRegex) || $scope.entity.patenteCamion.match(patenteNewRegex))) {
+                       $scope.result.messages.push('Formato de patente camión inválido. Formato corrercto ej: AAA111 o AA111AA');
+                   }
+
+                   if ($scope.esGrupoCresud &&
+                       $scope.entity.patenteAcoplado &&
+                       !($scope.entity.patenteAcoplado.match(patenteOldRegex) || $scope.entity.patenteAcoplado.match(patenteNewRegex))) {
+                       $scope.result.messages.push('Formato de patente acomplado inválido. Formato corrercto ej: AAA111 o AA111AA');
+                   }                                    
 
                    $scope.result.hasErrors = $scope.result.messages.length;
                    return !$scope.result.hasErrors;
@@ -265,12 +330,10 @@
 
                    if (newValue) {
                        generalService.getClienteById(newValue.interlocutorDestinatarioId).then(function (response) {
-                           $scope.clienteDestino = response.data.data;                         
+                           $scope.entity.clienteDestino = response.data.data;                         
                        }, function () { throw 'Error on getClienteById'; });                                                         
                    }
                });
-
                               
-
                //#endregion
            }]);

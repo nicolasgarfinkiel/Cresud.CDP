@@ -228,8 +228,8 @@
                                     <div class="form-group">                                       
                                         <label class="col-lg-3 control-label">Destino</label>
                                         <div class="col-lg-9">
-                                            <span ng-if="entity.clienteDestino">
-                                                {{clienteDestino.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{clienteDestino.cuit}}
+                                            <span ng-if="entity.clienteDestino" style="position: relative; top: 7px;">
+                                                {{entity.clienteDestino.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{entity.clienteDestino.cuit}}
                                             </span>
                                         </div>
                                     </div>
@@ -302,6 +302,19 @@
                                 <div class="col-md-6">
                                 </div>
                             </div>
+                            <div class="row" ng-if="entity.clienteRemitenteComercial">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">¿El remitente comercial es canjeador?</label>
+                                        <div class="col-lg-1">
+                                            <input type="checkbox" ng-model="entity.remitenteComercialComoCanjeador" style="position: relative; top: 5px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+
                         </section>
                     </section>
 
@@ -365,7 +378,7 @@
                                     <div class="form-group" ng-if="esParaguay">
                                         <label class="col-lg-6 control-label">% Humedad</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-model="entity.pHumedad" ng-disabled="entity.id" />
+                                            <input type="text" class="form-control" ng-model="entity.pHumedad" ng-disabled="entity.id" int />
                                         </div>
                                     </div>
                                 </div>
@@ -373,7 +386,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">% Otros</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-model="entity.pOtros" ng-disabled="entity.id" />
+                                            <input type="text" class="form-control" ng-model="entity.pOtros" ng-disabled="entity.id" int />
                                         </div>
                                     </div>
                                 </div>
@@ -383,7 +396,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">Nro.Contrato</label>
                                         <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-model="entity.numeroContrato" />
+                                            <input type="text" class="form-control" ng-model="entity.numeroContrato" int />
                                         </div>
                                     </div>
                                 </div>
@@ -564,7 +577,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Cant.horas</label>
                                         <div class="col-lg-9">
-                                            <input type="text" class="form-control" ng-model="entity.cantHoras" />
+                                            <input type="text" class="form-control" ng-model="entity.cantHoras" int />
                                         </div>
                                     </div>
                                 </div>

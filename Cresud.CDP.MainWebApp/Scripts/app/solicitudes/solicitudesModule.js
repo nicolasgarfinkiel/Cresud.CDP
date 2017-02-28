@@ -13,6 +13,7 @@
     '$strap.directives',
     'cresud.cdp.directive.loading',    
     'cresud.cdp.directive.debounce',
+    'cresud.cdp.directive.int',
     'ui.select',
     'ngSanitize'
 ]).config([
