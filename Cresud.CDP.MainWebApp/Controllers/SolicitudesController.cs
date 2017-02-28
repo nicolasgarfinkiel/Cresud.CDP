@@ -28,7 +28,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             return new
             {
-                TipoCartaList = generalAdmin.GetTipoCartaList(),
+                TipoCartaList = generalAdmin.GetTipoCartaList().Where(t => t.Activo),
                 Granos = granosAdmin.GetAll().OrderBy(g => g.Descripcion),
                 ClienteDefault = generalAdmin.GetClienteById(CDPSession.Current.Usuario.CurrentEmpresa.IdCliente.ToString())
             };

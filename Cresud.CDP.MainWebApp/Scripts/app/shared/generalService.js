@@ -4,6 +4,13 @@
            'baseService',
            function ($http, baseService) {
                var result = angular.extend({
+                   getClienteById: function (id) {
+                       return $http({
+                           method: 'POST',
+                           url: '/General/GetClienteById',
+                           data: { id: id }
+                       });
+                   },
                    getClientesByFilter: function (filter) {
                        return $http({
                            method: 'POST',

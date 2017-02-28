@@ -10,7 +10,25 @@ namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
     public class GeneralController : BaseController<GeneralAdmin, int, object, object, FilterBase>
-    {
+    {        
+              [HttpPost]
+        public ActionResult GetClienteById(string id)
+        {
+            var response = new Response<Dtos.Cliente>();
+
+            try
+            {
+                response.Data = _admin.GetClienteById(id);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
         [HttpPost]
         public ActionResult GetClientesByFilter(FilterClientes filter)
         {

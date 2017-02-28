@@ -86,6 +86,11 @@ namespace Cresud.CDP.Admin
                                             e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.OrigenYDestino)).AsQueryable();
             }
 
+            if (filter.Enabled.HasValue)
+            {
+                result = result.Where(e => e.Enabled == filter.Enabled.Value ).AsQueryable();
+            }
+
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))
             {
                 filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();

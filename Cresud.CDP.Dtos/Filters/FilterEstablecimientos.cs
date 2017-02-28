@@ -7,5 +7,6 @@ namespace Cresud.CDP.Dtos.Filters
         public bool Origen { get; set; }
 
         public bool Destino { get; set; }
+        public bool? Enabled { get; set; }
     }
 }

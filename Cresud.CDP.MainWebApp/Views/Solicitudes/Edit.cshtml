@@ -47,7 +47,7 @@
                                     <div class="form-group" ng-if="esArgentina">
                                         <label class="col-lg-4 control-label">Ctg</label>
                                         <div class="col-lg-8">
-                                            <span ng-if="!controlsVisibility.ctg">{{entity.ctg}}</span>
+                                            <span ng-if="!controlsVisibility.ctg" style="position: relative; top: 8px; font-weight: bold;">{{entity.ctg}}</span>
                                             <input type="text" class="form-control" ng-model="entity.ctg" ng-if="controlsVisibility.ctg" />
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-4 control-label">Carta de porte</label>
                                         <div class="col-lg-8">
-                                            <span ng-if="!controlsVisibility.numeroCartaDePorte">{{entity.numeroCartaDePorte}}</span>
+                                            <span ng-if="!controlsVisibility.numeroCartaDePorte" style="position: relative; top: 8px; font-weight: bold;">{{entity.numeroCartaDePorte}}</span>
                                             <input type="text" class="form-control" ng-model="entity.numeroCartaDePorte" ng-if="controlsVisibility.numeroCartaDePorte" />
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                     <div class="form-group" ng-if="esArgentina || esParaguay">
                                         <label class="col-lg-4 control-label">Cee</label>
                                         <div class="col-lg-8">
-                                            <span ng-if="!controlsVisibility.cee">{{entity.cee}}</span>
+                                            <span ng-if="!controlsVisibility.cee" style="position: relative; top: 8px; font-weight: bold;">{{entity.cee}}</span>
                                             <input type="text" class="form-control" ng-model="entity.cee" ng-if="controlsVisibility.cee" />
                                         </div>
                                     </div>
@@ -225,25 +225,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group">                                       
                                         <label class="col-lg-3 control-label">Destino</label>
                                         <div class="col-lg-9">
-                                            <ui-select name="cliente" ng-model="entity.clienteDestino" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
-                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
-                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
-                                                    <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
-                                                    </small>
-                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
-                                                        <button class="btn btn-xs btn-info"
-                                                                style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getSelectSource($select, $event);">
-                                                            Siguiente
-                                                        </button>
-                                                    </div>
-                                                </ui-select-choices>
-                                            </ui-select>
+                                            <span ng-if="entity.clienteDestino">
+                                                {{clienteDestino.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{clienteDestino.cuit}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +260,7 @@
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. Camión: {{item.camion}}. ACoplado: {{item.acoplado}})</span>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. Camión: {{item.camion}}. Acoplado: {{item.acoplado}})</span>
                                                     </small>
                                                     <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
@@ -298,7 +285,7 @@
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. Camión: {{item.camion}}. ACoplado: {{item.acoplado}})</span>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. Camión: {{item.camion}}. Acoplado: {{item.acoplado}})</span>
                                                     </small>
                                                     <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
@@ -328,7 +315,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Grano</label>
                                         <div class="col-lg-11">
-                                            <ui-select ng-model="entity.granoId" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
+                                            <ui-select ng-model="entity.grano" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Grano:</b> {{$select.selected.tipoGranoAfipDescripcion}}. <b>Cosecha:</b> {{$select.selected.cosechaAfipDescripcion}} </ui-select-match>
                                                 <ui-select-choices repeat="grano in data.granos">
                                                     <div ng-bind-html="grano.descripcion | highlight: $select.search"></div>
@@ -597,8 +584,9 @@
                 </form>
             </div>
             <footer class="panel-footer font-bold text-right">
-                <button type="button" class="btn btn-sm btn-success btn-info" ng-click="save()">Solo Guardar</button>
-                <button type="button" class="btn btn-sm btn-success btn-default" ng-click="save()">Guardar y enviar</button>
+                <button type="button" class="btn btn-sm btn-success btn-info"  ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>
+                <button type="button" class="btn btn-sm btn-success btn-info" ng-click="save()" ng-if="controlsVisibility.btnSoloGuardar">Solo Guardar</button>
+                <button type="button" class="btn btn-sm btn-success btn-default" ng-click="saveAndSend()" ng-if="controlsVisibility.btnGuardar">{{guardarLabel}}</button>
             </footer>
         </section>
     </div>

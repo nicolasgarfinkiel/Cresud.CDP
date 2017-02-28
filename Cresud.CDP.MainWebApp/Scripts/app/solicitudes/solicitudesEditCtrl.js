@@ -20,6 +20,7 @@
                    $scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'PARAGUAY';
                    $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'ARGENTINA';
                    $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
+                   $scope.guardarLabel = $scope.esGrupoCresud ? 'Guardar y enviar' : 'Guardar';
                    $scope.activarModelo = $routeParams.activarModelo;
                    $scope.rolAltaSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Alta Solicitud') >= 0 || true;
 
@@ -27,12 +28,12 @@
                        'establecimientoOrigen': {
                            service: establecimientosService,
                            method: 'getByFilter',
-                           filter: { empresaId: $scope.empresaId, origen: true, pageSize: 20 },
+                           filter: { empresaId: $scope.empresaId, origen: true, pageSize: 20, enabled: true },
                        },
                        'establecimientoDestino': {
                            service: establecimientosService,
                            method: 'getByFilter',
-                           filter: { empresaId: $scope.empresaId, destino: true, pageSize: 20 },
+                           filter: { empresaId: $scope.empresaId, destino: true, pageSize: 20, enabled: true },
                        },
                        'cliente': {
                            service: generalService,
@@ -67,11 +68,56 @@
                    navigation: baseNavigationService
                });
 
+               $scope.saveAndSend = function() {
+                   
+               };
+
                $scope.isValid = function () {
                    $scope.result = { hasErrors: false, messages: [] };
 
-                   if (!$scope.entity.nombre) {
-                       $scope.result.messages.push($scope.entity.esChoferTransportista ? 'Ingrese la descripción' : 'Ingrese el nombre');
+                   if (!$scope.entity.tipoDeCartaId) {
+                       $scope.result.messages.push('Seleccione un tipo de carta');
+                   }
+
+                   if (!$scope.entity.proveedorTitularCartaDePorte) {
+                       $scope.result.messages.push('Seleccione un titular de carta de porte');
+                   }
+
+                   if (!$scope.entity.clienteDestinatario) {
+                       $scope.result.messages.push('Seleccione un cliente destinatario');
+                   }
+
+                   if (!$scope.entity.clienteDestino) {
+                       $scope.result.messages.push('Seleccione un cliente destino');
+                   }
+
+                   if (!$scope.entity.grano) {
+                       $scope.result.messages.push('Seleccione un grano');
+                   }
+
+                   if (!$scope.entity.conformeCondicionalId) {
+                       $scope.result.messages.push('Seleccione conforme o condicional');
+                   }
+
+                   if (!$scope.entity.estadoFlete) {
+                       $scope.result.messages.push('Seleccione el estado del pago del flete');
+                   }
+
+                   if (!$scope.entity.establecimientoProcedencia) {
+                       $scope.result.messages.push('Seleccione la procedencia de la mercadería');
+                   }
+
+                   if (!$scope.entity.establecimientoDestino) {
+                       $scope.result.messages.push('Seleccione el destino de la mercadería');
+                   }                   
+
+                   if (!$scope.entity.clienteRemitenteComercial && (($scope.entity.tipoDeCartaId == 6 || 
+                       ($scope.entity.tipoDeCartaId == 2 && 
+                        $scope.entity.clienteDestino && 
+                        $scope.entity.clienteDestinatario &&  
+                        $scope.entity.proveedorTitularCartaDePorte && 
+                        $scope.entity.clienteDestinatario.cuit != $scope.entity.proveedorTitularCartaDePorte.cuit)))) {
+                       $scope.result.messages.push('Seleccione un cliente remitente comercial');
                    }
 
                    $scope.result.hasErrors = $scope.result.messages.length;
@@ -92,15 +138,27 @@
                    $scope.controlsVisibility.fechaDeVencimiento =
                    $scope.controlsVisibility.tarifaReferencia =
                    $scope.controlsVisibility.ctg = $scope.mensajeAfipReserva || ($scope.manual && !$scope.entity.id);
-
-                   $scope.controlsVisibility.numeroCartaDePorte =
-                   $scope.controlsVisibility.cee = $scope.manual && !$scope.entity.id;
-
-
+                   $scope.controlsVisibility.numeroCartaDePorte = $scope.controlsVisibility.cee = $scope.manual && !$scope.entity.id;
+                   $scope.controlsVisibility.btnDesvio = $routeParams.btnDesvio && $scope.rolAltaSolicitud;
+                   $scope.controlsVisibility.btnSoloGuardar = $scope.esGrupoCresud &&
+                                                             (!$scope.entity.id ||
+                                                               (($scope.mensajeAfipReserva && $scope.entity.createdBy == $scope.usuario.nombre) ||
+                                                               (!$scope.mensajeAfipReserva && !$scope.activarModelo && !$scope.entity.ctg))
+                                                             );
+                   $scope.controlsVisibility.btnGuardar = !$scope.mensajeAfipReserva && 
+                                                           $scope.rolAltaSolicitud &&
+                                                           (
+                                                              !$scope.entity.id ||
+                                                              ($scope.entity.id && ((!$scope.activarModelo || $scope.entity.estadoEnAFIP == 2) && $scope.esGrupoCresud)) ||
+                                                              (!$scope.esGrupoCresud && !$scope.entity.estadoEnSAP)
+                                                           );                   
                };
 
                $scope.setDefaultValues = function () {
-
+                   if (!$scope.entity.id) {
+                       $scope.entity.fechaDeEmision = moment().format('DD/MM/YYYY');
+                       $scope.entity.fechaDeVencimiento = moment().format('DD/MM/YYYY');
+                   }
                };
 
                //#region Select UI
@@ -140,16 +198,40 @@
                $scope.$watch('entity.tipoDeCartaId', function (newValue, oldValue) {
                    if ($scope.loading) return;
                    $scope.setControls();
+                   $scope.setDefaultValues();
+               });
+              
+
+               $scope.$watch('controlsVisibility.ctg', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+                   
+                   if (!newValue) {
+                       $scope.entity.ctg = null;
+                   }
                });
 
-               $scope.$watch('entity.cargaPesadaDestino', function (newValue, oldValue) {
+               $scope.$watch('controlsVisibility.numeroCartaDePorte', function (newValue, oldValue) {
                    if ($scope.loading) return;
 
                    if (!newValue) {
-                       $scope.entity.pesoTara = null;
-                       $scope.entity.pesoBruto = null;
-                       $scope.entity.kilogramosEstimados = null;
+                       $scope.entity.numeroCartaDePorte = null;
                    }
+               });
+
+               $scope.$watch('controlsVisibility.cee', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+
+                   if (!newValue) {
+                       $scope.entity.cee = null;
+                   }
+               });
+               
+               $scope.$watch('entity.cargaPesadaDestino', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+
+                   $scope.entity.pesoTara = null;
+                   $scope.entity.pesoBruto = null;
+                   $scope.entity.kilogramosEstimados = null;
                });
 
                $scope.$watch('entity.estadoFlete', function (newValue, oldValue) {
@@ -173,11 +255,22 @@
                        } else {
                            $scope.entity.choferTransportista = null;
                        }
-
                    }, function () { throw 'Error on getSelectByFilter'; });                  
                });
 
-               
+               $scope.$watch('entity.establecimientoDestino', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+
+                   $scope.entity.clienteDestino = null;
+
+                   if (newValue) {
+                       generalService.getClienteById(newValue.interlocutorDestinatarioId).then(function (response) {
+                           $scope.clienteDestino = response.data.data;                         
+                       }, function () { throw 'Error on getClienteById'; });                                                         
+                   }
+               });
+
+                              
 
                //#endregion
            }]);
