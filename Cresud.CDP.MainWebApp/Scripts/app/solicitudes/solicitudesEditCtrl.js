@@ -68,10 +68,18 @@
                    navigation: baseNavigationService
                });
 
-               $scope.saveAndSend = function() {
-                   if (!$scope.isValid()) return;
+               $scope.onlySave = function () {
+                   $scope.entity.send = false;
+                   if (!$scope.isValid()) return;                   
 
+                   $scope.save();
+               };
 
+               $scope.saveAndSend = function () {
+                   $scope.entity.send = true;
+                   if (!$scope.isValid()) return;                   
+
+                   $scope.save();
                };
 
                $scope.isValid = function () {
@@ -149,11 +157,7 @@
                    if (!$scope.entity.cargaPesadaDestino && $scope.entity.pesoTara && isNaN($scope.entity.pesoTara)) {
                        $scope.result.messages.push('El peso tara debe ser numérico');
                    }
-
-                   if (($scope.entity.tipoDeCartaId == 1 || $scope.entity.tipoDeCartaId == 5) && !$scope.entity.clientePagadorDelFlete) {
-                       $scope.result.messages.push('Seleccione el pagador del flete');
-                   }
-
+                  
                    if ($scope.controlsVisibility.tarifaReferencia && !$scope.entity.tarifaReferencia) {
                        $scope.result.messages.push('Ingrese la tarifa de referencia enviada por AFIP');
                    }
@@ -183,7 +187,60 @@
                        $scope.entity.patenteAcoplado &&
                        !($scope.entity.patenteAcoplado.match(patenteOldRegex) || $scope.entity.patenteAcoplado.match(patenteNewRegex))) {
                        $scope.result.messages.push('Formato de patente acomplado inválido. Formato corrercto ej: AAA111 o AA111AA');
-                   }                                    
+                   }
+
+                   if ($scope.entity.send) {
+
+                       if ($scope.entity.tipoDeCartaId == 4 || $scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) {
+
+                           if (!$scope.entity.clientePagadorDelFlete) {
+                               $scope.result.messages.push('Seleccione el pagador del flete');
+                           }
+                         
+                           if ($scope.entity.empresaClientePagadorFlete && !$scope.entity.patenteCamion) {
+                               $scope.result.messages.push('Ingrese la patente del camión');
+                           }
+
+                           if ($scope.entity.empresaClientePagadorFlete && !$scope.entity.patenteAcoplado) {
+                               $scope.result.messages.push('Ingrese la patente del acoplado');
+                           }                          
+                         
+                       } else if ((($scope.entity.tipoDeCartaId == 4 || $scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) && $scope.entity.empresaClientePagadorFlete) ||
+                           ($scope.entity.tipoDeCartaId != 4 && $scope.entity.tipoDeCartaId != 2 && $scope.entity.tipoDeCartaId != 7)) {
+
+                           if (!$scope.entity.proveedorTransportista) {
+                               $scope.result.messages.push('Seleccione un proveedor transportista');
+                           }
+
+                           if (!$scope.entity.chofer) {
+                               $scope.result.messages.push('Seleccione un chofer');
+                           }
+
+                           if (!$scope.entity.kmRecorridos) {
+                               $scope.result.messages.push('Ingrese los km. a reccorer');
+                           }
+
+                           if ($scope.esGrupoCresud && !$scope.entity.cantHoras) {
+                               $scope.result.messages.push('Ingrese la cantidad de horas');
+                           }
+
+                           if (!$scope.entity.tarifaReal) {
+                               $scope.result.messages.push('Ingrese la tarifa');
+                           }
+                       }
+
+                       if ($scope.entity.tipoDeCartaId == 1 && !$scope.entity.empresaProveedorTitularCartaDePorte) {
+                           $scope.result.messages.push('El proveedor titular de carta de porte debe ser una empresa');
+                       }
+
+                       if (($scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) && !scope.entity.clienteRemitenteComercial) {
+                           $scope.result.messages.push('Seleccione un cliente remitente comercial');
+                       }
+
+                       if (($scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) && scope.entity.clienteRemitenteComercial && !$scope.entity.empresaClienteRemitenteComercial) {
+                           $scope.result.messages.push('El cliente remitente comercial debe ser una empresa');
+                       }
+                   }
 
                    $scope.result.hasErrors = $scope.result.messages.length;
                    return !$scope.result.hasErrors;
@@ -313,9 +370,9 @@
                    if ($scope.loading || !newValue || $scope.data.clienteDefault == newValue) return;
                    
                    empresasService.getByClienteId(newValue.id).then(function (response) {
-                       $scope.empresaClientePagadorFlete = response.data.data;
+                       $scope.entity.empresaClientePagadorFlete = response.data.data;
 
-                       if ($scope.empresaClientePagadorFlete) {
+                       if ($scope.entity.empresaClientePagadorFlete) {
                            $scope.entity.proveedorTransportista = null;
                        } else {
                            $scope.entity.choferTransportista = null;
@@ -333,6 +390,24 @@
                            $scope.entity.clienteDestino = response.data.data;                         
                        }, function () { throw 'Error on getClienteById'; });                                                         
                    }
+               });
+
+               $scope.$watch('entity.clienteRemitenteComercial', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+                   $scope.entity.empresaClienteRemitenteComercial = null;
+
+                   empresasService.getByClienteId(newValue.id).then(function (response) {
+                       $scope.entity.empresaClienteRemitenteComercial = response.data.data;
+                   }, function () { throw 'Error on getByClienteId'; });
+               });
+
+               $scope.$watch('entity.proveedorTitularCartaDePorte', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+                   $scope.entity.empresaProveedorTitularCartaDePorte = null;
+
+                   empresasService.getBySapId(newValue.sapId).then(function (response) {
+                       $scope.entity.empresaProveedorTitularCartaDePorte = response.data.data;
+                   }, function () { throw 'Error on getBySapId'; });
                });
                               
                //#endregion

@@ -64,5 +64,23 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             return this.JsonNet(response);
         }
+
+         [HttpPost]
+        public ActionResult GetBySapId(string sapId)
+        {
+            var response = new Response<Dtos.Empresa>();
+
+            try
+            {
+                response.Data = _admin.GetBySapId(sapId);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }        
     }
 }

@@ -11,6 +11,13 @@
                            data: { clienteId: clienteId }
                        });
                    },
+                   getBySapId: function (sapId) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Empresas/GetBySapId',
+                           data: { clienteId: sapId }
+                       });
+                   },
                }, baseService);
                result.controller = 'Empresas';
 

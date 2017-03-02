@@ -102,5 +102,12 @@ namespace Cresud.CDP.Admin
 
             return Mapper.Map<Entities.Empresa, Dtos.Empresa>(empresa);
         }
+
+        public Dtos.Empresa GetBySapId(string sapId)
+        {
+            var empresa = CdpContext.Empresas.FirstOrDefault(e => string.Equals(e.SapId,sapId));
+
+            return Mapper.Map<Entities.Empresa, Dtos.Empresa>(empresa);
+        }
     }
 }

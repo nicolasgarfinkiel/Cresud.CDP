@@ -238,7 +238,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Transportista</label>
                                         <div class="col-lg-9">
-                                            <ui-select name="proveedor" ng-model="entity.proveedorTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="!empresaClientePagadorFlete">
+                                            <ui-select name="proveedor" ng-model="entity.proveedorTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="!entity.empresaClientePagadorFlete">
                                                 <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
@@ -255,7 +255,7 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                             
-                                            <ui-select name="choferTransportista" ng-model="entity.choferTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="empresaClientePagadorFlete">
+                                            <ui-select name="choferTransportista" ng-model="entity.choferTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="entity.empresaClientePagadorFlete">
                                                 <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
@@ -598,7 +598,7 @@
             </div>
             <footer class="panel-footer font-bold text-right">
                 <button type="button" class="btn btn-sm btn-success btn-info"  ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>
-                <button type="button" class="btn btn-sm btn-success btn-info" ng-click="save()" ng-if="controlsVisibility.btnSoloGuardar">Solo Guardar</button>
+                <button type="button" class="btn btn-sm btn-success btn-info" ng-click="onlySave()" ng-if="controlsVisibility.btnSoloGuardar">Solo Guardar</button>
                 <button type="button" class="btn btn-sm btn-success btn-default" ng-click="saveAndSend()" ng-if="controlsVisibility.btnGuardar">{{guardarLabel}}</button>
             </footer>
         </section>
