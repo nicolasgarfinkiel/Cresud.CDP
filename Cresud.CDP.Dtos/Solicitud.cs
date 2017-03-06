@@ -4,6 +4,10 @@ namespace Cresud.CDP.Dtos
 {
     public class Solicitud 
     {
+        public int? Id { get; set; }
+        public DateTime? CreateDate { get; set; }                
+        public string CreatedBy { get; set; }
+
         public int EmpresaId { get; set; }
         public string ObservacionAfip { get; set; }
         public string NumeroCartaDePorte { get; set; }

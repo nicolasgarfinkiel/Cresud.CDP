@@ -727,54 +727,7 @@ namespace Cresud.CDP.Admin
             var colNombre = 156;
             var colCuit = 470;
             var marca = "X";
-
-            //var bm = new Bitmap(1, 1);
-            //System.Drawing.Image img = bm;
-            //var drawing = Graphics.FromImage(img);
-            //var stringFont = new System.Drawing.Font("Helvetica", 40, FontStyle.Bold);
-
-            //var textSize = drawing.MeasureString("24/01/2017", stringFont);
-
-            //img.Dispose();
-            //drawing.Dispose();
-
-
-            //img = new Bitmap((int)textSize.Width, (int)textSize.Height);
-            //drawing = Graphics.FromImage(img);
-            //drawing.Clear(Color.White);
-            //var textBrush = new SolidBrush(Color.Black);
-            //drawing.DrawString("24/01/2017", stringFont, textBrush, 0, 0);
-            //drawing.Save();
-            //var ms = new MemoryStream();
-
-            //img.Save(ms, ImageFormat.Png);           
-
-            //textBrush.Dispose();
-            //drawing.Dispose();
-
-            //ms.Position = 0;
-
-            //iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(ms);
-            //image.ScaleAbsolute(60, 12.1f);
-            //image.SetAbsolutePosition(504, 758);
-            //contentByte.AddImage(image);
-            
-            //      
-            //     AddText(contentByte, true, 12, solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToString("dd/MM/yyy") : string.Empty , 504, 760);
-
-            //var rect = new Rectangle(500, 755, 565, 775);            
-            //rect.BackgroundColor = BaseColor.WHITE;       
-            //var ct = new ColumnText(contentByte);
           
-            //ct.SetSimpleColumn(rect);
-            //ct.AddElement(new Paragraph(solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToString("dd/MM/yyy") : string.Empty, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11) ));
-            //ct.Go();
-
-           
-
-
-
-
             AddText(contentByte, false, 9, solicitud.Ctg, 250, 753);
 
             if (!esCresud)

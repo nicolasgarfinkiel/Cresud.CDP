@@ -24,7 +24,7 @@
                              '<div class="ng-grid-icon-container">' +
                                  '<a href="javascript:void(0)" title="Cancelar" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="cancelarConfirm(row.entity)"><i class="fa fa-times-circle"></i></a>' +
                                  '<a href="javascript:void(0)" title="Anular" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="anularConfirm(row.entity)"><i class="fa fa-times-circle-o"></i></a>' +
-                                 '<a href="javascript:void(0)" title="Cargar" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="carga(row.entity)"><i class="fa fa-plus"></i></a>' +
+                                 '<a href="/solicitudes#/edit/{{row.entity.id}}" title="Cargar" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="carga(row.entity)"><i class="fa fa-plus"></i></a>' +
                              '</div>'
                        }
                    ]

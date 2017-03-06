@@ -159,8 +159,8 @@
                    //var visualizar = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Solicitud') != -1;
                    //if (!visualizar || (item.estadoEnAFIP == 3 && item.estadoEnSAP == 4)) return '';
 
-                   var icon = item.observacionAfip && item.observacionAfip.indexOf('Reserva') == -1 ? 'magnify.gif' : 'cargaCartaDePorteReservada.png';
-                   var result = '<a title="Abrir Solicitud" target="_blank" href="/solicitud" ><img style="width: 15px;" src="' + $scope.imageSrc + icon + '" /></a>';
+                   var icon = item.observacionAfip && item.observacionAfip.indexOf('Reserva') == -1 ? 'cargaCartaDePorteReservada.png' : 'magnify.gif';
+                   var result = '<a title="Abrir Solicitud"  href="/solicitudes#/edit/' + item.id + '" ><img style="width: 15px;" src="' + $scope.imageSrc + icon + '" /></a>';
 
                    return result;
                };
@@ -316,10 +316,14 @@
                    filterOptions: { useExternalFilter: true }                  
                };
 
-               $scope.find = function () {
+               $scope.find = function (clear) {
                    $scope.solicitudes = [];
 
                    if (!$scope.filter.empresaId) return;
+
+                   if (clear) {
+                       $scope.gridOptions.pagingOptions.currentPage = 1;
+                   }
 
                    $scope.filter.currentPage = $scope.gridOptions.pagingOptions.currentPage;
                    $scope.filter.pageSize = $scope.gridOptions.pagingOptions.pageSize;

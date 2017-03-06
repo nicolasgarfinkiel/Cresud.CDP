@@ -8,7 +8,7 @@ using Solicitud = Cresud.CDP.Entities.Solicitud;
 namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
-    public class SolicitudesController : BaseController<SolicitudesAdmin, int, Solicitud, Dtos.Solicitud, FilterBase>
+    public class SolicitudesController : BaseController<SolicitudesAdmin, int, Solicitud, Dtos.SolicitudEdit, FilterBase>
     {
         #region Base
         public ActionResult Index()

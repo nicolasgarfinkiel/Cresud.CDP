@@ -1,7 +1,10 @@
 ﻿<div class="row">
     <div class="col-sm-12">
         <section class="panel panel-default">
-            <header class="panel-heading font-bold">Solicitud de Carta de Porte</header>
+            <header class="panel-heading font-bold">
+                Solicitud de Carta de Porte
+                <a style="float: right; position: relative; top: -6px;" class="btn btn-sm btn-success btn-default" href="/solicitudes" ng-if="rolAltaSolicitud && entity.id">Nueva</a>
+            </header>
             <div class="panel-body">
                 <form class="bs-example form-horizontal">
 
@@ -15,7 +18,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-4 control-label">Tipo de carta</label>
                                         <div class="col-lg-8">
-                                            <select class="form-control" ng-model="entity.tipoDeCartaId" ng-disbled="entity.id && entity.tipoDeCartaId" ng-options="tipo.id as tipo.descripcion for tipo in data.tipoCartaList"></select>
+                                            <select class="form-control" ng-model="entity.tipoDeCartaId" ng-disabled="entity.id && entity.tipoDeCartaId" ng-options="tipo.id as tipo.descripcion for tipo in data.tipoCartaList"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -475,7 +478,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Destino</label>
                                         <div class="col-lg-11">
-                                            <ui-select name="establecimientoDestino" ng-model="entity.establecimientoDestino" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="mensajeAfipReserva">
+                                            <ui-select name="establecimientoDestino" ng-model="entity.establecimientoDestino" theme="select2" style="width: 100%;" append-to-body="true" >
                                                 <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
@@ -588,6 +591,11 @@
                     <div class="alert" ng-class="'alert-info': !resultAfip.hasErrors, alert-danger: resultAfip.hasErrors" ng-if="resultAfip.message">
                         <div>{{resultAfip.message}}</div>
                     </div>
+                    
+                    <div class="alert alert-info" ng-if="entity.observacionAfip && esArgentina">
+                        <i class="fa fa-info-circle"></i> 
+                        <span>{{entity.observacionAfip}}</span>
+                    </div>
 
                     <div class="alert alert-danger" ng-if="result.hasErrors">
                         <i class="fa fa-bolt"></i>
@@ -597,6 +605,11 @@
                 </form>
             </div>
             <footer class="panel-footer font-bold text-right">
+                <form action="/BandejaDeSalida/ReportePdf" style="display: inline;" ng-if="controlsVisibility.btnImprimir">
+                    <input type="hidden" name="solicitudId" value="{{entity.id}}">
+                    <input type="hidden" name="numeroCartaDePorte" value="{{entity.numeroCartaDePorte}}">
+                    <button type="submit" class="btn btn-sm  btn-default">Imprimir</button>
+                </form>
                 <button type="button" class="btn btn-sm btn-success btn-info"  ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>
                 <button type="button" class="btn btn-sm btn-success btn-info" ng-click="onlySave()" ng-if="controlsVisibility.btnSoloGuardar">Solo Guardar</button>
                 <button type="button" class="btn btn-sm btn-success btn-default" ng-click="saveAndSend()" ng-if="controlsVisibility.btnGuardar">{{guardarLabel}}</button>

@@ -26,6 +26,11 @@
             templateUrl: 'solicitudes/edit',
             controller: 'editCtrl'
         });
+
+        $routeProvider.when('/edit/:id', {
+            templateUrl: 'solicitudes/edit',
+            controller: 'editCtrl'
+        });
               
         $routeProvider.otherwise({
             redirectTo: '/create'

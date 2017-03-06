@@ -2,6 +2,7 @@
        .controller('editCtrl', [
            '$scope',
            '$routeParams',
+           '$timeout',
            'solicitudesService',
            'baseNavigationService',
            'editBootstraperService',
@@ -9,7 +10,7 @@
            'generalService',
            'choferesService',
            'empresasService',
-           function ($scope, $routeParams, solicitudesService, baseNavigationService, editBootstraperService, establecimientosService, generalService, choferesService, empresasService) {
+           function ($scope, $routeParams, $timeout, solicitudesService, baseNavigationService, editBootstraperService, establecimientosService, generalService, choferesService, empresasService) {
                $scope.loading = true;
                $scope.resultAfip = { message: null, hasErros: false };
              
@@ -23,6 +24,7 @@
                    $scope.guardarLabel = $scope.esGrupoCresud ? 'Guardar y enviar' : 'Guardar';
                    $scope.activarModelo = $routeParams.activarModelo;
                    $scope.rolAltaSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Alta Solicitud') >= 0 || true;
+                   $scope.rolImprimirSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') >= 0 || true;
 
                    $scope.sources = {
                        'establecimientoOrigen': {
@@ -57,7 +59,9 @@
                        },
                    };
 
-                   $scope.loading = false;
+                   $timeout(function() {
+                       $scope.loading = false;
+                   }, 300);                   
 
                    $scope.setControls();
                    $scope.setDefaultValues();                   
@@ -69,16 +73,18 @@
                });
 
                $scope.onlySave = function () {
-                   $scope.entity.send = false;
-                   if (!$scope.isValid()) return;                   
+                   $scope.entity.enviar = false;
+                   if (!$scope.isValid()) return;
 
+                   $scope.setEstados();
                    $scope.save();
                };
 
                $scope.saveAndSend = function () {
-                   $scope.entity.send = true;
+                   $scope.entity.enviar = true;
                    if (!$scope.isValid()) return;                   
 
+                   $scope.setEstados();
                    $scope.save();
                };
 
@@ -189,7 +195,7 @@
                        $scope.result.messages.push('Formato de patente acomplado inválido. Formato corrercto ej: AAA111 o AA111AA');
                    }
 
-                   if ($scope.entity.send) {
+                   if ($scope.entity.enviar) {
 
                        if ($scope.entity.tipoDeCartaId == 4 || $scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) {
 
@@ -246,11 +252,47 @@
                    return !$scope.result.hasErrors;
                };
 
-               //#endregion               
+               //#endregion   
+
+               $scope.setEstados = function() {
+                   if ($scope.entity.enviar) {
+                       $scope.entity.observacionAfip = !$scope.esArgentina ? 'Solicitud SIN proceso AFIP' : null;
+
+                       $scope.entity.estadoEnSAP =
+                           !$scope.esArgentina ? 0 :
+                           $scope.esProspecto() ? 9 :
+                           $scope.entity.tipoDeCartaId == 4 ? 7 : 0;
+
+                       $scope.entity.estadoEnAFIP = 2;
+                   } else {
+                       $scope.entity.observacionAfip = $scope.controlsVisibility.ctg ? 'Solicitud Manual' : 'Solicitud guardada.';                       
+
+                       $scope.entity.estadoEnSAP =                           
+                           $scope.esProspecto() ? 9 :
+                           $scope.entity.tipoDeCartaId == 4 ? 7 : 0;
+
+                       $scope.entity.estadoEnAFIP = $scope.controlsVisibility.ctg ? 4 : 2;
+                   }                   
+               };
+
+               $scope.esProspecto = function() {
+                   return ($scope.entity.clienteIntermediario != null && $scope.entity.clienteIntermediario.esProspecto) ||
+                   ($scope.entity.clienteRemitenteComercial != null && $scope.entity.clienteRemitenteComercial.esProspecto) ||
+                   ($scope.entity.clienteCorredor != null && $scope.entity.clienteCorredor.esProspecto) ||
+                   ($scope.entity.clienteEntregador != null && $scope.entity.clienteEntregador.esProspecto) ||
+                   ($scope.entity.clienteDestinatario != null && $scope.entity.clienteDestinatario.esProspecto) ||
+                   ($scope.entity.clienteDestino != null && $scope.entity.clienteDestino.esProspecto) ||
+                   ($scope.entity.clientePagadorDelFlete != null && $scope.entity.clientePagadorDelFlete.esProspecto) ||
+                   ($scope.entity.clienteDestinatarioCambio != null && $scope.entity.clienteDestinatarioCambio.esProspecto) ||
+                   ($scope.entity.proveedorTitularCartaDePorte != null && $scope.entity.proveedorTitularCartaDePorte.esProspecto) ||
+                   ($scope.entity.proveedorTransportista != null && $scope.entity.proveedorTransportista.esProspecto);
+               };
 
                $scope.setControls = function () {
-                   $scope.mensajeAfipReserva = $scope.resultAfip.message && $scope.resultAfip.message.indexOf('Reserva') >= 0;
+                   $scope.mensajeAfipReserva = ($scope.resultAfip.message && $scope.resultAfip.message.indexOf('Reserva') >= 0) ||
+                                               ($scope.entity.id && $scope.entity.observacionAfip && $scope.entity.observacionAfip.indexOf('Reserva') >= 0);
 
+                   $scope.entity.manual =
                    $scope.manual = $scope.entity.tipoDeCartaId == 2 ||
                                    $scope.entity.tipoDeCartaId == 7 ||
                                    $scope.entity.tipoDeCartaId == 4;
@@ -260,26 +302,31 @@
                    $scope.controlsVisibility.fechaDeVencimiento =
                    $scope.controlsVisibility.tarifaReferencia =
                    $scope.controlsVisibility.ctg = $scope.mensajeAfipReserva || ($scope.manual && !$scope.entity.id);
+
                    $scope.controlsVisibility.numeroCartaDePorte = $scope.controlsVisibility.cee = $scope.manual && !$scope.entity.id;
                    $scope.controlsVisibility.btnDesvio = $routeParams.btnDesvio && $scope.rolAltaSolicitud;
+
                    $scope.controlsVisibility.btnSoloGuardar = $scope.esGrupoCresud &&
                                                              (!$scope.entity.id ||
                                                                (($scope.mensajeAfipReserva && $scope.entity.createdBy == $scope.usuario.nombre) ||
                                                                (!$scope.mensajeAfipReserva && !$scope.activarModelo && !$scope.entity.ctg))
                                                              );
+
                    $scope.controlsVisibility.btnGuardar = !$scope.mensajeAfipReserva && 
                                                            $scope.rolAltaSolicitud &&
                                                            (
                                                               !$scope.entity.id ||
                                                               ($scope.entity.id && ((!$scope.activarModelo || $scope.entity.estadoEnAFIP == 2) && $scope.esGrupoCresud)) ||
                                                               (!$scope.esGrupoCresud && !$scope.entity.estadoEnSAP)
-                                                           );                   
+                                                           );                  
                };
 
                $scope.setDefaultValues = function () {
                    if (!$scope.entity.id) {
                        $scope.entity.fechaDeEmision = moment().format('DD/MM/YYYY');
                        $scope.entity.fechaDeVencimiento = moment().format('DD/MM/YYYY');
+                   } else if ($scope.mensajeAfipReserva) {
+                       $scope.entity.fechaDeEmision = $scope.entity.createDate;
                    }
                };
 
@@ -408,6 +455,15 @@
                    empresasService.getBySapId(newValue.sapId).then(function (response) {
                        $scope.entity.empresaProveedorTitularCartaDePorte = response.data.data;
                    }, function () { throw 'Error on getBySapId'; });
+               });
+
+               $scope.$watch('entity.grano', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+                   $scope.entity.loteDeMaterial = null;
+
+                   if (!newValue) return;
+
+                   $scope.entity.loteDeMaterial = newValue.sujetoALote;
                });
                               
                //#endregion
