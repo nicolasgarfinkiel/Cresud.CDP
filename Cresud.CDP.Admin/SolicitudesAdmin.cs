@@ -158,6 +158,69 @@ namespace Cresud.CDP.Admin
             return Mapper.Map<Solicitud, Dtos.SolicitudEdit>(entity);
         }
 
+        public override Dtos.SolicitudEdit Update(Dtos.SolicitudEdit dto)
+        {
+            dto.SetIds();
+            var entity = CdpContext.Solicitudes.Single(s => s.Id == dto.Id);
+            entity.UpdateDate = DateTime.Now;
+            entity.UpdatedBy = UsuarioLogged;
+
+            entity.CantHoras = dto.CantHoras;
+            entity.CargaPesadaDestino = dto.CargaPesadaDestino;
+            entity.ChoferId = dto.ChoferId;
+            entity.ChoferTransportistaId = dto.ChoferTransportistaId;
+            entity.ClienteCorredorId = dto.ClienteCorredorId;
+            entity.ClienteDestinatarioCambioId = dto.ClienteDestinatarioCambioId;
+            entity.ClienteDestinatarioId = dto.ClienteDestinatarioId;
+            entity.ClienteDestinoId = dto.ClienteDestinoId;
+            entity.ClienteEntregadorId = dto.ClienteEntregadorId;
+            entity.ClienteIntermediarioId = dto.ClienteIntermediarioId;
+            entity.ClientePagadorDelFleteId = dto.ClientePagadorDelFleteId;
+            entity.ClienteRemitenteComercialId = dto.ClienteRemitenteComercialId;
+            entity.ConformeCondicionalId = dto.ConformeCondicionalId;
+            entity.CosechaId = dto.CosechaId;
+            entity.DeclaracionDeCalidad = dto.DeclaracionDeCalidad;
+            entity.EspecieId = dto.EspecieId;
+            entity.EstablecimientoDestinoCambioId = dto.EstablecimientoDestinoCambioId;
+            entity.EstablecimientoDestinoId = dto.EstablecimientoDestinoId;
+            entity.EstablecimientoProcedenciaId = dto.EstablecimientoProcedenciaId;
+            entity.EstadoEnAFIP = dto.EstadoEnAFIP;
+            entity.EstadoEnSAP = dto.EstadoEnSAP;
+            entity.EstadoFlete = dto.EstadoFlete;
+            entity.FechaDeCarga = dto.FechaDeCarga;
+            entity.FechaDeEmision = dto.FechaDeEmision;
+            entity.FechaDeVencimiento = dto.FechaDeVencimiento;
+            entity.GranoId = dto.GranoId;
+            entity.KilogramosEstimados = dto.KilogramosEstimados;
+            entity.KmRecorridos = dto.KmRecorridos;
+            entity.LoteDeMaterial = dto.LoteDeMaterial;
+            entity.NumeroContrato = dto.NumeroContrato;
+            entity.Observaciones = dto.Observaciones;
+            entity.PHumedad = dto.PHumedad;
+            entity.POtros = dto.POtros;
+            entity.PatenteAcoplado = dto.PatenteAcoplado;
+            entity.PatenteCamion = dto.PatenteCamion;
+            entity.PesoBruto = dto.PesoBruto;            
+            entity.PesoTara = dto.PesoTara;
+            entity.ProveedorTitularCartaDePorteId = dto.ProveedorTitularCartaDePorteId;
+            entity.ProveedorTransportistaId = dto.ProveedorTransportistaId;
+            entity.RemitenteComercialComoCanjeador = dto.RemitenteComercialComoCanjeador;
+            entity.SapContrato = dto.SapContrato;
+            entity.SinContrato = dto.SinContrato;
+            entity.TarifaReal = dto.TarifaReal;
+            entity.TarifaReferencia = dto.TarifaReferencia;                        
+
+            //TODO: Afip. Responsabilidad de sposzalksi.
+            if (dto.Enviar)
+            {
+
+            }
+
+            CdpContext.SaveChanges();
+
+            return Mapper.Map<Solicitud, Dtos.SolicitudEdit>(entity);
+        }      
+
         public override Solicitud ToEntity(Dtos.SolicitudEdit dto)
         {
             return null;
@@ -191,3 +254,6 @@ namespace Cresud.CDP.Admin
         #endregion
     }
 }
+
+
+
