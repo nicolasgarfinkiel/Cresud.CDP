@@ -15,6 +15,7 @@
                $scope.onInitEnd = function () {
                    $scope.operation = !$routeParams.id ? 'Nuevo establecimiento' : 'Edición de establecimiento';
                    $scope.filterClientes.empresaId = $scope.usuario.currentEmpresa.id;
+                   $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'ARGENTINA';
 
                    $timeout(function () {
                        $scope.loading = false;
