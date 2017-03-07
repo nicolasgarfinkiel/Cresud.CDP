@@ -19,6 +19,7 @@ namespace Cresud.CDP.Dtos
         public string EstablecimientoAfip { get; set; }
         public int EmpresaId { get; set; }
         public int InterlocutorDestinatarioId { get; set; }
+        public Cliente InterlocutorDestinatario { get; set; }
         public bool AsociaCartaDePorte { get; set; }
         public DateTime CreateDate { get; set; }
         public string CreatedBy { get; set; }  

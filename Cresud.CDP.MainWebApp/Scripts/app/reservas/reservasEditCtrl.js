@@ -2,16 +2,23 @@
        .controller('editCtrl', [
            '$scope',
            '$routeParams',
+           '$timeout',
            'reservasService',
            'establecimientosService',
            'baseNavigationService',
            'editBootstraperService',
-           function ($scope, $routeParams, reservasService, establecimientosService, baseNavigationService, editBootstraperService) {
+           function ($scope, $routeParams, $timeout, reservasService, establecimientosService, baseNavigationService, editBootstraperService) {
+               $scope.loading = true;
+
                //#region base
 
                $scope.onInitEnd = function () {
                    $scope.operation = 'Nueva reserva';
                    $scope.filterEstablecimientos.empresaId = $scope.usuario.currentEmpresa.id;
+                   
+                   $timeout(function () {
+                       $scope.loading = false;
+                   }, 300);
                };
 
                editBootstraperService.init($scope, $routeParams,  {
@@ -36,63 +43,41 @@
 
                //#endregion
 
-               //#region Establecimientos
+               //#region Select UI
 
-               $scope.establecimientos = [];
-               $scope.establecimientosCount = 0;
-               $scope.filterEstablecimientos = { origen: true };
+               $scope.selectList = [];
+               $scope.currentPage = 0;
+               $scope.pageCount = 0;
+               $scope.filterEstablecimientos = { origen: true, pageSize: 20 };
 
-               $scope.setEstablecimiento = function (establecimiento) {
-                   $scope.entity.establecimientoProcedenciaId = establecimiento.id;
-                   $scope.entity.establecimientoProcedenciaDescripcion = establecimiento.descripcion;
-                   $('#establecimientosModal').modal('hide');
-               };
+               $scope.getSelectSource = function ($select, $event) {
+                   if ($scope.loading) return;
+                   
+                   if (!$event) {
+                       $scope.currentPage = 1;
+                       $scope.pageCount = 0;
+                       $scope.selectList = [];
+                   } else {
+                       $event.stopPropagation();
+                       $event.preventDefault();
+                       $scope.currentPage++;
+                   }
 
-               $scope.gridEstablecimientos = {
-                   data: 'establecimientos',
-                   columnDefs: [
-                                { field: 'descripcion', displayName: 'Descripción' },
-                                { field: 'direccion', displayName: 'Dirección' },
-                                { field: 'cuit', displayName: 'Seleccionar', width: 120, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="setEstablecimiento(row.entity)"><i class="fa fa-thumbs-o-up"></i></a></div>' }
-
-                   ],
-                   showFooter: true,
-                   enablePaging: true,
-                   multiSelect: false,
-                   totalServerItems: 'establecimientosCount',
-                   pagingOptions: {
-                       pageSizes: [10],
-                       pageSize: 10,
-                       currentPage: 1
-                   },
-                   filterOptions: { useExternalFilter: true }
-               };
-
-               $scope.findEstablecimientos = function () {
-                   $scope.establecimientos = [];
-
-                   if (!$scope.filterEstablecimientos.empresaId) return;
-
-                   $scope.filterEstablecimientos.currentPage = $scope.gridEstablecimientos.pagingOptions.currentPage;
-                   $scope.filterEstablecimientos.pageSize = $scope.gridEstablecimientos.pagingOptions.pageSize;
+                   $scope.filterEstablecimientos.currentPage = $scope.currentPage;
+                   $scope.filterEstablecimientos.multiColumnSearchText = $select.search;
 
                    establecimientosService.getByFilter($scope.filterEstablecimientos).then(function (response) {
-                       $scope.establecimientos = response.data.data;
-                       $scope.establecimientosCount = response.data.count;
+                       $scope.selectList = $scope.selectList.concat(response.data.data);
+                       $scope.pageCount = Math.ceil(response.data.count / 20);
                    }, function () { throw 'Error on getByFilter'; });
                };
 
-               $scope.$watch('gridEstablecimientos.pagingOptions', function (newVal, oldVal) {
-                   if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
-                   $scope.findEstablecimientos();
-               }, true);
-
-               $scope.$watch('filterEstablecimientos.multiColumnSearchText', function () {
-                   $scope.gridEstablecimientos.pagingOptions.currentPage = 1;
-                   $scope.findEstablecimientos();
+               $scope.$watch('entity.establecimientoProcedencia', function (newValue, oldValue) {
+                   if ($scope.loading) return;
+                  
+                   $scope.entity.establecimientoProcedenciaId = newValue.id;
                });
 
-               //#endregion
-
+               //#endregion         
 
            }]);

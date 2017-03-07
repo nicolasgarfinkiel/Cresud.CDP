@@ -47,8 +47,22 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Interlocutor Destinatario</label>
                         <div class="col-lg-10">
-                            <i class="fa fa-search" style="position: relative; top: 8px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#clientesModal"></i>
-                            <span style="position: relative; top: 8px;left: 10px;">{{entity.interlocutorDestinatarioId}}</span>
+                            <ui-select name="cliente" ng-model="entity.interlocutorDestinatario" theme="select2" style="width: 100%;" append-to-body="true" >
+                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
+                                    <small>
+                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
+                                    </small>
+                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                        <button class="btn btn-xs btn-info"
+                                                style="width: 100%; margin-top: 5px;"
+                                                ng-click="getSelectSource($select, $event);">
+                                            Siguiente
+                                        </button>
+                                    </div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>     
                     <div class="form-group">
@@ -95,41 +109,5 @@
                 <button type="button" class="btn btn-sm btn-default" ng-click="list()">Volver</button>
             </footer>
         </section>
-    </div>
-</div>
-
-<div class="modal" id="clientesModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">            
-            <div class="modal-body">
-                <section class="panel panel-default">
-                    <header class="panel-heading">
-                        Búsqueda de clientes
-                    </header>
-                    <div class="row wrapper">
-                        <div class="col-sm-12">
-                            <div class="input-group m-b">
-                                <input type="text" class="input-sm form-control" placeholder="Buscar" ng-model="filterClientes.multiColumnSearchText" ng-debounce="1200">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-search"></i>
-                                </span>
-                            </div>
-                        </div>                      
-                        @*<div class="col-sm-12">
-                            <div class="alert alert-danger" ng-if="result.hasErrors">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                <i class="fa fa-ban-circle"></i> {{result.messages[0]}}
-                            </div>
-                        </div>*@
-                    </div>
-                    <div style="margin: 0 15px 15px 15px">
-                        <div class="gridStyleDefault" ng-grid="gridClientes"></div>
-                    </div>
-                </section>        
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                
-            </div>
-        </div>
     </div>
 </div>
