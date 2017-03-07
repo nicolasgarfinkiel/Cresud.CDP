@@ -13,7 +13,9 @@
     'cresud.cdp.directive.loading',    
     'cresud.cdp.directive.debounce',
     'cresud.cdp.directive.int',
-    'cdp.service.singleFile'
+    'cdp.service.singleFile',
+    'ui.select',
+    'ngSanitize'
 ]).config([
     '$routeProvider',
     '$locationProvider',

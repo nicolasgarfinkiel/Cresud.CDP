@@ -28,7 +28,7 @@ namespace Cresud.CDP.Admin
             {
                 var establecimientoId = int.Parse(dto.EstablecimientoOrigenId);
                 var establecimiento = CdpContext.Establecimientos.Single(e => e.Id == establecimientoId);
-                dto.EstablecimientoOrigenDescripcion = establecimiento.Descripcion;
+                dto.EstablecimientoOrigen = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(establecimiento);
             }
 
             return dto;

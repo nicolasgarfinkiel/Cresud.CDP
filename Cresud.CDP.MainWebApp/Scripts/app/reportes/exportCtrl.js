@@ -1,12 +1,14 @@
 ﻿angular.module('cresud.cdp.reportes.ctrl.export', [])
        .controller('exportCtrl', [
            '$scope',
+           '$timeout',
            'reportesService',
            'reportesNavigationService',
            'generalService',
            'choferesService',
            'establecimientosService',
-           function ($scope, reportesService, reportesNavigationService, generalService, choferesService, establecimientosService) {
+           function ($scope, $timeout, reportesService, reportesNavigationService, generalService, choferesService, establecimientosService) {
+               $scope.loading = true;
                $scope.filter = {};
                $scope.filterProveedores = {};
                $scope.filterChoferes = {};
@@ -14,18 +16,38 @@
 
                reportesService.getDataListExport().then(function(response) {
                    $scope.data = response.data.data;
+              
+                   $scope.sources = {
+                       'proveedorTitular': {
+                           service: generalService,
+                           method: 'getProveedoresByFilter',
+                           filter: { empresaId: $scope.data.usuario.currentEmpresa.id, idGrupoEmpresa: $scope.data.usuario.currentEmpresa.grupoEmpresa.id, pageSize: 20, enabled: true },
+                       },
+                       'proveedorTransportista': {
+                           service: generalService,
+                           method: 'getProveedoresByFilter',
+                           filter: { empresaId: $scope.data.usuario.currentEmpresa.id, idGrupoEmpresa: $scope.data.usuario.currentEmpresa.grupoEmpresa.id, pageSize: 20, enabled: true },
+                       },
+                       'chofer': {
+                           service: choferesService,
+                           method: 'getByFilter',
+                           filter: { empresaId: $scope.data.usuario.currentEmpresa.id, idGrupoEmpresa: $scope.data.usuario.currentEmpresa.grupoEmpresa.id, pageSize: 20, enabled: true },
+                       },
+                       'establecimientoOrigen': {
+                           service: establecimientosService,
+                           method: 'getByFilter',
+                           filter: { empresaId: $scope.data.usuario.currentEmpresa.id, origen: true, pageSize: 20, enabled: true },
+                       },
+                       'establecimientoDestino': {
+                           service: establecimientosService,
+                           method: 'getByFilter',
+                           filter: { empresaId: $scope.data.usuario.currentEmpresa.id, destino: true, pageSize: 20, enabled: true },
+                       }
+                   };
 
-                   $scope.filter.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
-                   $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;
-
-                   $scope.filterProveedores.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
-                   $scope.filterProveedores.empresaId = $scope.data.usuario.currentEmpresa.id;
-
-                   $scope.filterChoferes.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
-                   $scope.filterChoferes.empresaId = $scope.data.usuario.currentEmpresa.id;
-
-                   $scope.filterEstablecimientos.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
-                   $scope.filterEstablecimientos.empresaId = $scope.data.usuario.currentEmpresa.id;
+                   $timeout(function () {
+                       $scope.loading = false;
+                   }, 300);
                });
 
                $scope.clearFilter = function() {
@@ -41,6 +63,68 @@
                $scope.$watch('filter.fechaHasta', function (newValue) {
                    $scope.fechaHasta = moment($scope.filter.fechaHasta).add(1, 'days').format('YYYY/MM/DD');
                });
+
+               //#region Select UI
+
+               $scope.selectList = [];
+               $scope.currentPage = 0;
+               $scope.pageCount = 0;
+
+               $scope.getSelectSource = function ($select, $event) {
+                   if ($scope.loading) return;
+
+                   var source = $scope.sources[$select.$element.attr('name')];
+
+                   if (!$event) {
+                       $scope.currentPage = 1;
+                       $scope.pageCount = 0;
+                       $scope.selectList = [];
+                   } else {
+                       $event.stopPropagation();
+                       $event.preventDefault();
+                       $scope.currentPage++;
+                   }
+
+                   source.filter.currentPage = $scope.currentPage;
+                   source.filter.multiColumnSearchText = $select.search;
+
+                   source.service[source.method](source.filter).then(function (response) {
+                       $scope.selectList = $scope.selectList.concat(response.data.data);
+                       $scope.pageCount = Math.ceil(response.data.count / 20);
+                   }, function () { throw 'Error on getSelectByFilter'; });
+               };
+
+               $scope.$watch('filter.proveedorTitularCartaDePorte', function (newValue, oldValue) {
+                   if ($scope.loading || !newValue) return;
+
+                   $scope.filter.proveedorTitularCartaDePorteId = newValue.id;
+               });
+
+               $scope.$watch('filter.proveedorTransportista', function (newValue, oldValue) {
+                   if ($scope.loading || !newValue) return;
+
+                   $scope.filter.proveedorTransportistaId = newValue.id;
+               });
+
+               $scope.$watch('filter.chofer', function (newValue, oldValue) {
+                   if ($scope.loading || !newValue) return;
+
+                   $scope.filter.choferId = newValue.id;
+               });
+
+               $scope.$watch('filter.establecimientoProcedencia', function (newValue, oldValue) {
+                   if ($scope.loading || !newValue) return;
+
+                   $scope.filter.establecimientoProcedenciaId = newValue.id;
+               });
+
+               $scope.$watch('filter.establecimientoDestino', function (newValue, oldValue) {
+                   if ($scope.loading || !newValue) return;
+
+                   $scope.filter.establecimientoDestinoId = newValue.id;
+               });
+
+               //#endregion
 
                //#region Proveedores
 
