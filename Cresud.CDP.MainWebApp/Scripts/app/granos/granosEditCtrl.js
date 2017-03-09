@@ -35,7 +35,7 @@
                        $scope.result.messages.push('Seleccione la cosecha');
                    }
 
-                   if (!$scope.entity.tipoGranoAfipId) {
+                   if ($scope.esGrupoCresud &&  !$scope.entity.tipoGranoAfipId) {
                        $scope.result.messages.push('Seleccione un tipo');
                    }
 

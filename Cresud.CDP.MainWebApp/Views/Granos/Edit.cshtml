@@ -16,10 +16,10 @@
                             <input type="text" class="form-control" ng-model="entity.idMaterialSap">
                         </div>
                     </div>                    
-                    <div class="form-group">
+                    <div class="form-group" ng-if="esGrupoCresud">
                         <label class="col-lg-2 control-label">Especie</label>
-                        <div class="col-lg-10">                            
-                            <select ng-model="entity.especieAfipId" ng-options="especie.id as especie.descripcion for especie in data.especies" class="form-control" >
+                        <div class="col-lg-10">
+                            <select ng-model="entity.especieAfipId" ng-options="especie.id as especie.descripcion for especie in data.especies" class="form-control">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -32,7 +32,7 @@
                             </select>
                         </div>
                     </div> 
-                    <div class="form-group">
+                    <div class="form-group" ng-if="esGrupoCresud">
                         <label class="col-lg-2 control-label">Tipo</label>
                         <div class="col-lg-10">
                             <select ng-model="entity.tipoGranoAfipId" ng-options="tipo.id as tipo.descripcion for tipo in data.tiposGrano" class="form-control">
