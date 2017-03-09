@@ -19,15 +19,14 @@
                            displayName = 'CUIT';
                    }
 
-                   $scope.columns[2].displayName = displayName;                   
+                   $scope.columns[1].displayName = displayName;                   
                };
 
                listBootstraperService.init($scope, {
                    service: choferesService,
                    navigation: baseNavigationService,
                    columns: [
-                       { field: 'nombre', displayName: 'Nombre' },
-                       { field: 'apellido', displayName: 'Apellido' },
+                       { field: 'nombre', displayName: 'Apellido Nombre / Descripción', cellTemplate: '<div class="" style="padding: 4px;">{{row.entity.apellido}} {{row.entity.nombre}}</div>' },
                        { field: 'cuit', displayName: 'Cuit', width: 100 },
                        { field: 'esChoferTransportista ? "Si" : "No" ', displayName: 'Transportista', width: 110 },
                        { field: 'createDate', displayName: 'Fecha creación', width: 120 },

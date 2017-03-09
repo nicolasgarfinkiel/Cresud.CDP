@@ -28,14 +28,14 @@
                             <input type="text" class="form-control" ng-model="entity.cuit" int>                            
                         </div>
                     </div>
-                    <div class="form-group" ng-if="!entity.esChoferTransportista && esParaguay">
+                    <div class="form-group" ng-if="esParaguay">
                         <label class="col-lg-2 control-label">Domicilio</label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control" ng-model="entity.domicilio">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Marca</label>
+                    <div class="form-group" ng-if="esParaguay">
+                        <label class="col-lg-2 control-label">Marca Vehículo</label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control" ng-model="entity.marca">
                         </div>
