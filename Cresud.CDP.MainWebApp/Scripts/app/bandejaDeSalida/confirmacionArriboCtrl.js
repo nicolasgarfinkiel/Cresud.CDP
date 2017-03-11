@@ -30,7 +30,7 @@
                         { field: 'estDestino', displayName: 'Establecimiento Destino' },
                         { field: 'pesoNeto', displayName: 'Peso', width: 60 },
                         { field: 'createdBy', displayName: 'Usuario', width: 140 },
-                        { field: 'fecha', displayName: 'Ver', width: 60, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="javascript:void(0)"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
+                        { field: 'fecha', displayName: 'Ver', width: 60, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="/solicitudes#/edit/{{row.entity.id}}"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
                    ],
                    showFooter: true,
                    enablePaging: true,

@@ -108,6 +108,31 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="col-lg-3 control-label">Destinatario</label>
+                                        <div class="col-lg-9">
+                                            <ui-select name="cliente" ng-model="entity.clienteDestinatario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
+                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
+                                                    <small>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
+                                                    </small>
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getSelectSource($select, $event);">
+                                                            Siguiente
+                                                        </button>
+                                                    </div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="col-lg-3 control-label">Intermediario</label>
                                         <div class="col-lg-9">
                                             <ui-select name="cliente" ng-model="entity.clienteIntermediario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
@@ -126,6 +151,16 @@
                                                     </div>
                                                 </ui-select-choices>
                                             </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Destino</label>
+                                        <div class="col-lg-9">
+                                            <span ng-if="entity.clienteDestino" style="position: relative; top: 7px;">
+                                                {{entity.clienteDestino.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{entity.clienteDestino.cuit}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -156,89 +191,6 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label">Corredor</label>
-                                        <div class="col-lg-9">
-                                            <ui-select name="cliente" ng-model="entity.clienteCorredor" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
-                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
-                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
-                                                    <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
-                                                    </small>
-                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
-                                                        <button class="btn btn-xs btn-info"
-                                                                style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getSelectSource($select, $event);">
-                                                            Siguiente
-                                                        </button>
-                                                    </div>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Representante/Entregador</label>
-                                        <div class="col-lg-9">
-                                            <ui-select name="cliente" ng-model="entity.clienteEntregador" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
-                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
-                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
-                                                    <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
-                                                    </small>
-                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
-                                                        <button class="btn btn-xs btn-info"
-                                                                style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getSelectSource($select, $event);">
-                                                            Siguiente
-                                                        </button>
-                                                    </div>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Destinatario</label>
-                                        <div class="col-lg-9">
-                                            <ui-select name="cliente" ng-model="entity.clienteDestinatario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
-                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
-                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
-                                                    <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
-                                                    </small>
-                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
-                                                        <button class="btn btn-xs btn-info"
-                                                                style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getSelectSource($select, $event);">
-                                                            Siguiente
-                                                        </button>
-                                                    </div>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">                                       
-                                        <label class="col-lg-3 control-label">Destino</label>
-                                        <div class="col-lg-9">
-                                            <span ng-if="entity.clienteDestino" style="position: relative; top: 7px;">
-                                                {{entity.clienteDestino.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{entity.clienteDestino.cuit}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label class="col-lg-3 control-label">Transportista</label>
                                         <div class="col-lg-9">
                                             <ui-select name="proveedor" ng-model="entity.proveedorTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="!entity.empresaClientePagadorFlete">
@@ -257,7 +209,7 @@
                                                     </div>
                                                 </ui-select-choices>
                                             </ui-select>
-                                            
+
                                             <ui-select name="choferTransportista" ng-model="entity.choferTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="entity.empresaClientePagadorFlete">
                                                 <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -281,14 +233,62 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="col-lg-3 control-label">Corredor</label>
+                                        <div class="col-lg-9">
+                                            <ui-select name="cliente" ng-model="entity.clienteCorredor" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
+                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
+                                                    <small>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
+                                                    </small>
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getSelectSource($select, $event);">
+                                                            Siguiente
+                                                        </button>
+                                                    </div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="col-lg-3 control-label">Chofer</label>
                                         <div class="col-lg-9">
-                                            <ui-select name="chofer" ng-model="entity.chofer" theme="select2" style="width: 100%;" append-to-body="true" >
+                                            <ui-select name="chofer" ng-model="entity.chofer" theme="select2" style="width: 100%;" append-to-body="true">
                                                 <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
                                                         <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. Camión: {{item.camion}}. Acoplado: {{item.acoplado}})</span>
+                                                    </small>
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getSelectSource($select, $event);">
+                                                            Siguiente
+                                                        </button>
+                                                    </div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Representante / Entregador</label>
+                                        <div class="col-lg-9">
+                                            <ui-select name="cliente" ng-model="entity.clienteEntregador" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
+                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
+                                                    <small>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
                                                     </small>
                                                     <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
@@ -345,6 +345,40 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-lg-3 text-right">
+                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.cargaPesadaDestino" />
+                                        </div>
+                                        <label class="col-lg-9 control-label" style="text-align: left;">La carga sera pesada en destino</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="col-lg-1">
+                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.declaracionDeCalidad" disabled />
+                                        </div>
+                                        <label class="col-lg-10 control-label" style="text-align: left;">Declaracion Calidad</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" style="position: relative; top: 5px;">
+                                        <div class="col-lg-12">
+                                            <input type="radio" name="conforme" value="1" ng-model="entity.conformeCondicionalId" /> Conforme
+                                            <input type="radio" name="conforme" value="2" ng-model="entity.conformeCondicionalId" /> Condicional
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">Nro.Contrato</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" ng-model="entity.numeroContrato" int />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Bruto (Kgs)</label>
@@ -390,40 +424,6 @@
                                         <label class="col-lg-6 control-label">% Otros</label>
                                         <div class="col-lg-6">
                                             <input type="text" class="form-control" ng-model="entity.pOtros" ng-disabled="entity.id" int />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="col-lg-6 control-label">Nro.Contrato</label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-model="entity.numeroContrato" int />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="col-lg-6 control-label">La carga sera pesada en destino</label>
-                                        <div class="col-lg-6">
-                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.cargaPesadaDestino" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="col-lg-6 control-label">Declaracion Calidad</label>
-                                        <div class="col-lg-6">
-                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.declaracionDeCalidad" disabled />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group" style="position: relative; top: 5px;">
-                                        <div class="col-lg-12">
-                                            <input type="radio" name="conforme" value="1" ng-model="entity.conformeCondicionalId" /> Conforme
-                                            <input type="radio" name="conforme" value="2" ng-model="entity.conformeCondicionalId" /> Condicional
                                         </div>
                                     </div>
                                 </div>
@@ -478,7 +478,7 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Destino</label>
                                         <div class="col-lg-11">
-                                            <ui-select name="establecimientoDestino" ng-model="entity.establecimientoDestino" theme="select2" style="width: 100%;" append-to-body="true" >
+                                            <ui-select name="establecimientoDestino" ng-model="entity.establecimientoDestino" theme="select2" style="width: 100%;" append-to-body="true">
                                                 <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
@@ -508,13 +508,15 @@
                         <section class="panel-body">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <input type="radio" name="fletePagado" value="1" ng-model="entity.estadoFlete" /> Flete pagado
+                                    <input type="radio" name="fletePagado" value="1" ng-model="entity.estadoFlete" /> Flete pagado                                    
+                                </div>
+                                <div class="col-md-2">                                    
                                     <input type="radio" name="fletePagado" value="2" ng-model="entity.estadoFlete" /> Flete a pagar
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label">Pagador flete</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-2 control-label">Pagador flete</label>
+                                        <div class="col-lg-10">
                                             <ui-select name="cliente" ng-model="entity.clientePagadorDelFlete" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud || entity.estadoFlete == 2 || !entity.estadoFlete">
                                                 <ui-select-match>{{$select.selected.razonSocial}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -530,37 +532,39 @@
                                                         </button>
                                                     </div>
                                                 </ui-select-choices>
-                                            </ui-select>                                           
+                                            </ui-select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Tarifa ref.</label>
-                                        <div class="col-lg-9">
-                                            <input type="text" class="form-control" ng-model="entity.tarifaReferencia" ng-disabled="!controlsVisibility.tarifaReferencia" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Tarifa</label>
-                                        <div class="col-lg-9">
-                                            <input type="text" class="form-control" ng-model="entity.tarifaReal" />
-                                        </div>
-                                    </div>
-                                </div>                               
+                                </div>                                                              
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Camión</label>
                                         <div class="col-lg-9">
                                             <input type="text" class="form-control" ng-model="entity.patenteCamion" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
+                                </div>                               
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Km.recorrer</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" ng-model="entity.kmRecorridos" />
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Tarifa ref.</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" ng-model="entity.tarifaReferencia" ng-disabled="!controlsVisibility.tarifaReferencia" />
+                                        </div>
+                                    </div>
+                                </div>                             
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Acoplado</label>
                                         <div class="col-lg-9">
@@ -568,15 +572,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label">Km.recorrer</label>
+                                        <label class="col-lg-3 control-label">Tarifa</label>
                                         <div class="col-lg-9">
-                                            <input type="text" class="form-control" ng-model="entity.kmRecorridos" />
+                                            <input type="text" class="form-control" ng-model="entity.tarifaReal" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Cant.horas</label>
                                         <div class="col-lg-9">
@@ -591,9 +595,9 @@
                     <div class="alert" ng-class="'alert-info': !resultAfip.hasErrors, alert-danger: resultAfip.hasErrors" ng-if="resultAfip.message">
                         <div>{{resultAfip.message}}</div>
                     </div>
-                    
+
                     <div class="alert alert-info" ng-if="entity.observacionAfip && esArgentina">
-                        <i class="fa fa-info-circle"></i> 
+                        <i class="fa fa-info-circle"></i>
                         <span>{{entity.observacionAfip}}</span>
                     </div>
 
@@ -610,7 +614,7 @@
                     <input type="hidden" name="numeroCartaDePorte" value="{{entity.numeroCartaDePorte}}">
                     <button type="submit" class="btn btn-sm  btn-default">Imprimir</button>
                 </form>
-                <button type="button" class="btn btn-sm btn-success btn-info"  ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>
+                <button type="button" class="btn btn-sm btn-success btn-info" ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>
                 <button type="button" class="btn btn-sm btn-success btn-info" ng-click="onlySave()" ng-if="controlsVisibility.btnSoloGuardar">Solo Guardar</button>
                 <button type="button" class="btn btn-sm btn-success btn-default" ng-click="saveAndSend()" ng-if="controlsVisibility.btnGuardar">{{guardarLabel}}</button>
             </footer>

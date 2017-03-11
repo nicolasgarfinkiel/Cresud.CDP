@@ -35,7 +35,7 @@
                         { field: 'estadoEnAFIP', displayName: 'AFIP', width: 40, cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>' },
                         { field: 'CDD', displayName: 'CDD', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Cambio Destino y Destinatario" href="javascript:void(0)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
                         { field: 'RAO', displayName: 'RaO', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Regresar a Origen" href="javascript:void(0)" ng-click="setRegresoOrigen(row.entity)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
-                        { field: 'fecha', displayName: 'Ver', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="javascript:void(0)"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
+                        { field: 'fecha', displayName: 'Ver', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="/solicitudes#/edit/{{row.entity.id}}"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
                    ],
                    showFooter: true,
                    enablePaging: true,

@@ -1138,13 +1138,16 @@ body.container {
         }
 
             .nav-xs .nav-primary > ul > li > a span {
-                color: #fff !important;
-                display: table-cell;
+                color: #fff !important;                
                 vertical-align: middle;
                 height: 60px;
                 width: 60px;
                 position: relative;
                 z-index: 2;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                display: inline-block;
             }
 
                 .nav-xs .nav-primary > ul > li > a span.pull-right {

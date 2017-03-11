@@ -208,7 +208,7 @@ namespace Cresud.CDP.Security
                 Empresas = empresas
             };
 
-            if (CDPSession.Current.Usuario.Empresas.Count == 1)
+            if (CDPSession.Current.Usuario.Empresas.Count > 0)
             {
                 CDPSession.Current.Usuario.CurrentEmpresa = CDPSession.Current.Usuario.Empresas[0];
             }
