@@ -36,7 +36,7 @@
                     { field: 'observacionAfip', displayName: 'Observaciones AFIP' },
                     { field: 'fechaDeEmision', displayName: 'Fecha', width: 80 },
                     { field: 'createdBy', displayName: 'Usuario Creación', width: 110 },
-                    { field: 'cuit', displayName: 'Acciones', width: 120, cellTemplate: '<div class="ng-grid-icon-container">' +
+                    { field: 'cuit', displayName: 'Acciones', width: 160, cellTemplate: '<div class="ng-grid-icon-container">' +
                             '<span compile="getMantenimientoImg(row.entity)"></span>' +
                             '<span compile="getReenvioAfipImg(row.entity)"></span>' +
                             '<span compile="getReenvioSapImg(row.entity)"></span>' +
@@ -116,19 +116,19 @@
                };
 
                $scope.getReenvioAfipImg = function (item) {
-                   var reenviosAfip = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosAFIP') != -1;
-                   if (!reenviosAfip || (item.estadoEnAFIP != 0 && item.estadoEnAFIP != 2) || !item.tipoCarta) return '';
+                   //var reenviosAfip = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosAFIP') != -1;
+                   //if (!reenviosAfip || (item.estadoEnAFIP != 0 && item.estadoEnAFIP != 2) || !item.tipoCarta) return '';
 
-                   var result = item.tipoCarta == 'Compra de granos' ? 
+                   var result = item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :
                        '<a title="Reenviar afip" href="solicitud?id=' + item.id + '&reenvioAfip=1"><img style="width: 15px;" src="' + $scope.imageSrc + 'icon_select.gif" /></a>';
                                                                      
-                   return $sce.trustAsHtml(result);
+                   return result;
                };
 
                $scope.getReenvioSapImg = function (item) {
-                   var reenviosSap = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosSAP') != -1;
-                   if (!reenviosSap || !item.tipoCarta || item.estadoEnSAP == 8) return '';
+                   //var reenviosSap = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosSAP') != -1;
+                   //if (!reenviosSap || !item.tipoCarta || item.estadoEnSAP == 8) return '';
 
                    var result = item.tipoCarta == 'Compra de granos que transportamos' || item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :
@@ -138,8 +138,8 @@
                };
 
                $scope.getLogSapImg = function (item) {
-                   var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
-                   if (!log || !item.mensajeRespuestaEnvioSap) return '';
+                   //var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
+                   //if (!log || !item.mensajeRespuestaEnvioSap) return '';
 
                    var result = '<a title="Ver detalle respuesta SAP" href="javascript:void(0)" ng-click="showLogSap(' + item.id + ')"><img style="width: 15px;" src="' + $scope.imageSrc + 'logsap.png" /></a>';
 
