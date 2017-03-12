@@ -558,7 +558,7 @@ namespace Cresud.CDP.Admin
         {
             var query = CdpContext.SolicitudesReport
                         .Where(s => s.EmpresaId == filter.EmpresaId)
-                        .OrderBy(s => s.Id)
+                        .OrderByDescending(s => s.Id)
                         .AsQueryable();
 
 
