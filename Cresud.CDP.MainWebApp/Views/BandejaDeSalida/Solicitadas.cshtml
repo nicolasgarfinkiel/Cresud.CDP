@@ -99,18 +99,61 @@
 
 <div class="modal" id="mantenimientoModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
-        <div class="modal-content" style="width: 900px; position: relative;left: -200px;">
+        <div class="modal-content" style="width: 940px; position: relative;left: -200px;">
             <div class="modal-body">
                 <section class="panel panel-default">
                     <header class="panel-heading">
-                        Mantenimiento
+                        Mantenimiento - Carta de porte: <b>{{selectedEntity.numeroCartaDePorte}}</b>
                     </header>                   
-                    <div style="margin: 0 15px 15px 15px">
-                   
+                    <div style="margin: 15px">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" >
+                                    <label class="col-lg-4 control-label">Ctg</label>
+                                    <div class="col-lg-8">                                        
+                                        <input type="text" class="form-control" ng-model="entity.ctg"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Fecha vencimiento</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="selectedEntity.fechaDeVencimiento" data-date-format="dd/mm/yyyy" bs-datepicker class="form-control" disabled />
+                                            <span class="input-group-addon" data-toggle="datepicker"><i class=" fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Estado en SAP</label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control" ng-model="entity.tipoDeCartaId" ng-options="estado.key as estado.value for estado in data.estadosSap"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Estado en AFIP</label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control" ng-model="entity.tipoDeCartaId" ng-options="estado.key as estado.value for estado in data.estadosAfip"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger" ng-if="result.hasErrors">
+                            <i class="fa fa-bolt"></i>
+                            <div ng-repeat="message in result.messages">{{message}}</div>
+                        </div>
                     </div>
                 </section>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="saveMantenimiento()">Aceptar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

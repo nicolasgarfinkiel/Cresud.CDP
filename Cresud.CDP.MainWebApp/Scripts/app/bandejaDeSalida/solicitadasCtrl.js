@@ -7,6 +7,7 @@
                $scope.filter = {};
                $scope.columns = [];
                $scope.imageSrc = 'content/images/';
+               $scope.result = {hasErros: false, messages: []};
 
                //#region Init
 
@@ -116,8 +117,8 @@
                };
 
                $scope.getReenvioAfipImg = function (item) {
-                   //var reenviosAfip = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosAFIP') != -1;
-                   //if (!reenviosAfip || (item.estadoEnAFIP != 0 && item.estadoEnAFIP != 2) || !item.tipoCarta) return '';
+                   var reenviosAfip = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosAFIP') != -1;
+                   if (!reenviosAfip || (item.estadoEnAFIP != 0 && item.estadoEnAFIP != 2) || !item.tipoCarta) return '';
 
                    var result = item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :
@@ -127,8 +128,8 @@
                };
 
                $scope.getReenvioSapImg = function (item) {
-                   //var reenviosSap = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosSAP') != -1;
-                   //if (!reenviosSap || !item.tipoCarta || item.estadoEnSAP == 8) return '';
+                   var reenviosSap = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosSAP') != -1;
+                   if (!reenviosSap || !item.tipoCarta || item.estadoEnSAP == 8) return '';
 
                    var result = item.tipoCarta == 'Compra de granos que transportamos' || item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :
@@ -138,8 +139,8 @@
                };
 
                $scope.getLogSapImg = function (item) {
-                   //var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
-                   //if (!log || !item.mensajeRespuestaEnvioSap) return '';
+                   var log = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Log SAP') != -1;
+                   if (!log || !item.mensajeRespuestaEnvioSap) return '';
 
                    var result = '<a title="Ver detalle respuesta SAP" href="javascript:void(0)" ng-click="showLogSap(' + item.id + ')"><img style="width: 15px;" src="' + $scope.imageSrc + 'logsap.png" /></a>';
 
@@ -147,8 +148,8 @@
                };
 
                $scope.getReporteImg = function (item) {
-                   //var imprimir = $scope.data.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') != -1;
-                   //if (!imprimir || ($scope.esArgentina && item.estadoEnAFIP == 3)) return '';
+                   var imprimir = $scope.data.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') != -1;
+                   if (!imprimir || ($scope.esArgentina && item.estadoEnAFIP == 3)) return '';
 
                    var result = '<form title="Imprimir Carta de Porte" action="/BandejaDeSalida/ReportePdf" style="display: inline;"><input type="hidden" name="solicitudId" value="' + item.id + '" /><input type="hidden" name="numeroCartaDePorte" value="' + item.numeroCartaDePorte + '" /><button type="submit" style="border: 0; background: 0;"><img style="width: 15px;" src="' + $scope.imageSrc + 'folder-print.png" /></button></form>';
               
@@ -156,8 +157,8 @@
                };
 
                $scope.getSolicitudImg = function (item) {
-                   //var visualizar = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Solicitud') != -1;
-                   //if (!visualizar || (item.estadoEnAFIP == 3 && item.estadoEnSAP == 4)) return '';
+                   var visualizar = $scope.data.usuario.currentEmpresa.roles.indexOf('Visualizacion Solicitud') != -1;
+                   if (!visualizar || (item.estadoEnAFIP == 3 && item.estadoEnSAP == 4)) return '';
 
                    var icon = item.observacionAfip && item.observacionAfip.indexOf('Reserva') == -1 ? 'cargaCartaDePorteReservada.png' : 'magnify.gif';
                    var result = '<a title="Abrir Solicitud"  href="/solicitudes#/edit/' + item.id + '" ><img style="width: 15px;" src="' + $scope.imageSrc + icon + '" /></a>';
@@ -166,9 +167,9 @@
                };
 
                $scope.getMantenimientoImg = function (item) {
-                   //var bd = $scope.data.usuario.currentEmpresa.roles.indexOf('BaseDeDatos') != -1;
-                   //var seguimientos = $scope.data.usuario.currentEmpresa.roles.indexOf('SeguimientoEstados') != -1;
-                   //if (!bd || !seguimientos) return '';
+                   var bd = $scope.data.usuario.currentEmpresa.roles.indexOf('BaseDeDatos') != -1;
+                   var seguimientos = $scope.data.usuario.currentEmpresa.roles.indexOf('SeguimientoEstados') != -1;
+                   if (!bd || !seguimientos) return '';
                    
                    var result = '<a href="javascript:void(0)" ng-click="setMantenimiento(' + item.id +')"><img style="width: 15px;" src="' + $scope.imageSrc + 'mantenimiento.png" /></a>';
 
@@ -279,8 +280,14 @@
 
                //#region Mantenimiento
 
-               $scope.setMantenimiento = function(id) {
+
+               $scope.setMantenimiento = function (id) {
+
                    $('#mantenimientoModal').modal('show');
+               };
+
+               $scope.saveMantenimiento = function() {
+                   
                };
 
                //#endregion
@@ -313,7 +320,12 @@
                        pageSize: 10,
                        currentPage: 1
                    },
-                   filterOptions: { useExternalFilter: true }                  
+                   filterOptions: { useExternalFilter: true },
+                   afterSelectionChange: function (row) {
+                       if (row.selected) {
+                           $scope.selectedEntity = row.entity;
+                       }
+                   },
                };
 
                $scope.find = function (clear) {
