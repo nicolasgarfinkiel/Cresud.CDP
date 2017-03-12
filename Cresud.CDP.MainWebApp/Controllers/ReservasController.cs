@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
@@ -31,7 +32,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
         {
             return new
             {
-                TipoCartaList = new GeneralAdmin().GetTipoCartaList()
+                TipoCartaList = new GeneralAdmin().GetTipoCartaList().Where(t => t.Activo)
             };
         }
         #endregion        

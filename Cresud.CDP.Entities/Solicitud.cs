@@ -65,6 +65,49 @@ namespace Cresud.CDP.Entities
         {
             get { return PesoBruto - PesoTara; }
         }
+
+        public void SetDefaultValues()
+        {
+            ClienteIntermediarioId = ClienteIntermediarioId ?? 0;
+            ClienteRemitenteComercialId = ClienteRemitenteComercialId ?? 0;
+            ClienteCorredorId = ClienteCorredorId ?? 0;
+            ClienteEntregadorId = ClienteEntregadorId ?? 0;
+            ClienteDestinatarioId = ClienteDestinatarioId ?? 0;
+            ClienteDestinoId = ClienteDestinoId ?? 0;
+            RemitenteComercialComoCanjeador = RemitenteComercialComoCanjeador ?? false;
+            ProveedorTitularCartaDePorteId = ProveedorTitularCartaDePorteId ?? 0;
+            ProveedorTransportistaId = ProveedorTransportistaId ?? 0;
+            ChoferId = ChoferId ?? 0;
+            CosechaId = CosechaId ?? 0;
+            EspecieId = EspecieId ?? 0;
+            NumeroContrato = NumeroContrato ?? 0;
+            SapContrato = SapContrato ?? 0;
+            SinContrato = SinContrato ?? false;
+            CargaPesadaDestino = CargaPesadaDestino ?? false;
+            KilogramosEstimados = KilogramosEstimados ?? 0;
+            ConformeCondicionalId = ConformeCondicionalId ?? 0;
+            PesoBruto = PesoBruto ?? 0;
+            PesoTara = PesoTara ?? 0;
+            EstablecimientoProcedenciaId = EstablecimientoProcedenciaId ?? 0;
+            EstablecimientoDestinoId = EstablecimientoDestinoId ?? 0;
+            KmRecorridos = KmRecorridos ?? 0;
+            EstadoFlete = EstadoFlete ?? 0;
+            CantHoras = CantHoras ?? 0;
+            TarifaReferencia = TarifaReferencia ?? 0;
+            TarifaReal = TarifaReal ?? 0;
+            ClientePagadorDelFleteId = ClientePagadorDelFleteId ?? 0;
+            EstadoEnSAP = EstadoEnSAP ?? 0;
+            EstadoEnAFIP = EstadoEnAFIP ?? 0;
+            GranoId = GranoId ?? 0;
+            CodigoAnulacionAfip = CodigoAnulacionAfip ?? 0;
+            EstablecimientoDestinoCambioId = EstablecimientoDestinoCambioId ?? 0;
+            ClienteDestinatarioCambioId = ClienteDestinatarioCambioId ?? 0;
+            ChoferTransportistaId = ChoferTransportistaId ?? 0;
+            PHumedad = PHumedad ?? 0;
+            POtros = POtros ?? 0;
+            TipoDeCartaId = TipoDeCartaId ?? 0;
+        }
     }
 }
+
 

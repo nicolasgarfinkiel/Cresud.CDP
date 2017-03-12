@@ -46,6 +46,7 @@ namespace Cresud.CDP.Admin
                 EmpresaId = empresa.Id
             };
 
+            entity.SetDefaultValues();
             CdpContext.Solicitudes.Add(entity);
             CdpContext.SaveChanges();
 

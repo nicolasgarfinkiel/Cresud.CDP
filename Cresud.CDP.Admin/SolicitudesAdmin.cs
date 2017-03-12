@@ -113,10 +113,10 @@ namespace Cresud.CDP.Admin
 
         public override Dtos.SolicitudEdit Create(Dtos.SolicitudEdit dto)
         {
-            dto.SetIds();
+            dto.SetIds();           
             var entity = Mapper.Map<Dtos.SolicitudEdit, Solicitud>(dto);
             entity.CreateDate = DateTime.Now;
-            entity.CreatedBy = UsuarioLogged;                        
+            entity.CreatedBy = UsuarioLogged;          
 
             if (!dto.Id.HasValue && (dto.TipoDeCartaId != 4 && dto.TipoDeCartaId != 2 && dto.TipoDeCartaId != 7))
             {
@@ -151,7 +151,8 @@ namespace Cresud.CDP.Admin
             {
                 
             }
-         
+
+            entity.SetDefaultValues();
             CdpContext.Solicitudes.Add(entity);
             CdpContext.SaveChanges();
 
@@ -160,7 +161,7 @@ namespace Cresud.CDP.Admin
 
         public override Dtos.SolicitudEdit Update(Dtos.SolicitudEdit dto)
         {
-            dto.SetIds();
+            dto.SetIds();          
             var entity = CdpContext.Solicitudes.Single(s => s.Id == dto.Id);
             entity.UpdateDate = DateTime.Now;
             entity.UpdatedBy = UsuarioLogged;
@@ -216,6 +217,7 @@ namespace Cresud.CDP.Admin
 
             }
 
+            entity.SetDefaultValues();
             CdpContext.SaveChanges();
 
             return Mapper.Map<Solicitud, Dtos.SolicitudEdit>(entity);
