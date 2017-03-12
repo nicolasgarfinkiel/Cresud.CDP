@@ -6,7 +6,7 @@ using Cresud.CDP.Dtos.Filters;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administracion")]
     public class ChoferesController : BaseController<ChoferesAdmin, int, Entities.Chofer, Dtos.Chofer, FilterChoferes>
     {        
         public ActionResult Index()

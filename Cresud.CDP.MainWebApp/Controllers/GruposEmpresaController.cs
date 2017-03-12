@@ -4,7 +4,7 @@ using Cresud.CDP.Dtos.Common;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administracion")]
     public class GruposEmpresaController : BaseController<GrupoEmpresaAdmin, int, Entities.GrupoEmpresa, Dtos.GrupoEmpresa, FilterBase>
     {        
         public ActionResult Index()

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Web.Security;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
@@ -28,14 +30,8 @@ namespace Cresud.CDP.Security
 
         public override string ApplicationName
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
@@ -54,12 +50,15 @@ namespace Cresud.CDP.Security
             return result;
         }
 
-        public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
+        public override bool ChangePasswordQuestionAndAnswer(string username, string password,
+            string newPasswordQuestion, string newPasswordAnswer)
         {
             throw new NotImplementedException();
         }
 
-        public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
+        public override MembershipUser CreateUser(string username, string password, string email,
+            string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey,
+            out MembershipCreateStatus status)
         {
             throw new NotImplementedException();
         }
@@ -79,12 +78,14 @@ namespace Cresud.CDP.Security
             get { return false; }
         }
 
-        public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
+        public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize,
+            out int totalRecords)
         {
             throw new NotImplementedException();
         }
 
-        public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
+        public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize,
+            out int totalRecords)
         {
             throw new NotImplementedException();
         }
@@ -192,10 +193,12 @@ namespace Cresud.CDP.Security
         {
             if (CDPSession.Current.Usuario == null)
             {
+                username = @"IRSACORP\Sposzalski";
                 Init(username);
             }
 
-            return CDPSession.Current.Usuario != null && CDPSession.Current.Usuario.Empresas.Any(e => e.Roles != null && e.Roles.Any());
+            return CDPSession.Current.Usuario != null &&
+                   CDPSession.Current.Usuario.Empresas.Any(e => e.Roles != null && e.Roles.Any());
         }
 
         private void Init(string username)
@@ -220,41 +223,35 @@ namespace Cresud.CDP.Security
             var empresas = admin.GetAll().Where(e => e.GrupoEmpresa != null).ToList();
             var result = new List<Empresa>();
 
-            var client = new WebServiceClient<ISecurityService>(ConfigurationManager.AppSettings["SecurityServiceUrl"], (binding, httpTransport, address, factory) =>
-            {
-                var basicAuthBehavior = new BasicAuthBehavior(ConfigurationManager.AppSettings["SecurityServiceUser"], ConfigurationManager.AppSettings["SecurityServicePassword"]);
-                factory.Endpoint.Behaviors.Add(basicAuthBehavior);
-            });
+            var client = new WebServiceClient<ISecurityService>(ConfigurationManager.AppSettings["SecurityServiceUrl"],
+                (binding, httpTransport, address, factory) =>
+                {
+                    var credentialBehaviour = factory.Endpoint.Behaviors.Find<ClientCredentials>();
+                    credentialBehaviour.UserName.UserName = ConfigurationManager.AppSettings["SecurityServiceUser"];
+                    credentialBehaviour.UserName.Password = ConfigurationManager.AppSettings["SecurityServicePassword"];
+                    httpTransport.AuthenticationScheme = AuthenticationSchemes.Ntlm;
+                });
 
             empresas.ForEach(e =>
-            {                
-                var usuario = GetUsuario(username, e.GrupoEmpresa.IdApp);
+            {
+                var roles = new List<string>();
+                var usuario = client.Channel.UserLogonByName(username, e.GrupoEmpresa.IdApp);
 
                 if (usuario == null) return;
 
                 client.Channel.GroupsListPerUser(usuario, e.GrupoEmpresa.IdApp).ToList().ForEach(g =>
                 {
-                    e.Roles = client.Channel.PermissionListPerGroup(g).Select(r => r.Description).ToList();
+                    roles.AddRange(client.Channel.PermissionListPerGroup(g).Select(r => r.Description).ToList());
                 });
 
-                if (e.Roles.Any())
+                e.Roles = roles;
+                if (e.Roles != null && e.Roles.Any())
                 {
                     result.Add(e);
                 }
             });
 
             return result;
-        }
-
-        private UserLogonByNameResult GetUsuario(string username, int idApp)
-        {        
-            var client = new WebServiceClient<ISecurityService>(ConfigurationManager.AppSettings["SecurityServiceUrl"], (binding, httpTransport, address, factory) =>
-             {
-                 var basicAuthBehavior = new BasicAuthBehavior(ConfigurationManager.AppSettings["SecurityServiceUser"], ConfigurationManager.AppSettings["SecurityServicePassword"]);
-                 factory.Endpoint.Behaviors.Add(basicAuthBehavior);               
-             });
-
-            return client.Channel.UserLogonByName(username, idApp);            
         }
     }
 }

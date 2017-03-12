@@ -11,7 +11,7 @@ using Solicitud = Cresud.CDP.Entities.Solicitud;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    [Authorize]
+     [Authorize(Roles = "Alta Solicitud, Reservas")]
     public class ReservasController : BaseController<ReservasAdmin, int, Solicitud, Dtos.Solicitud, FilterReservas>
     {
         #region Base

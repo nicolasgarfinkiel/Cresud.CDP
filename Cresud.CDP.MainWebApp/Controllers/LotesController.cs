@@ -12,7 +12,7 @@ using Cresud.CDP.Infrastructure.ActionResults;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Alta PDF Lotes Cartas de Porte")]
     public class LotesController : BaseController<LotesAdmin, int, Entities.LoteCartaPorte, Dtos.LoteCartaPorte, FilterLotesCartaPorte>
     {
         #region Base

@@ -15,6 +15,6 @@ namespace Cresud.CDP.Security.Service
         List<Group> GroupsListPerUser(UserLogonByNameResult user, int idApplication);
 
         [OperationContract(Action = "http://framework.irsa.com.ar/WebServices/Security/PermissionListPerGroup", ReplyAction = "http://framework.irsa.com.ar/WebServices/Security/PermissionListPerGroup")]
-        List<Permission> PermissionListPerGroup(Group group);
+        List<Permission> PermissionListPerGroup(Group grupo);
     }
 }

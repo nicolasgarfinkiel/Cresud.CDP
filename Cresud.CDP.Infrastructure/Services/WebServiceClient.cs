@@ -25,8 +25,8 @@ namespace Cresud.CDP.Infrastructure.Services
         {
             
             var binding = new CustomBinding();
-            binding.Elements.Add(
-                new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8));
+            binding.Elements.Add(new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8));
+
             var transport = url.StartsWith("https", StringComparison.InvariantCultureIgnoreCase)
                                 ? new HttpsTransportBindingElement ()
                                 : new HttpTransportBindingElement ();

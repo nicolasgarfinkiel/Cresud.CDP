@@ -5,7 +5,7 @@ using Cresud.CDP.Dtos.Common;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administracion")]
     public class GranosController : BaseController<GranosAdmin, int, Entities.Grano, Dtos.Grano, FilterBase>
     {        
         public ActionResult Index()

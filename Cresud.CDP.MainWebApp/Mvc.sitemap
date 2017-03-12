@@ -5,29 +5,29 @@
 
   <mvcSiteMapNode title="Home" controller="Home" action="Index">
 
-    <mvcSiteMapNode   title="Inicio"                                controller="Solicitudes"            action="Index"           Class="fa fa-bookmark-o"  roles="" ></mvcSiteMapNode>
+    <mvcSiteMapNode   title="Inicio"                                controller="Solicitudes"              action="Index"           Class="fa fa-bookmark-o"      roles="Alta Solicitud, Visualizacion Solicitud" ></mvcSiteMapNode>
         
-    <mvcSiteMapNode   title="Admnistración"                         controller="Home"                     action="index"           Class="fa fa-bookmark-o"      roles="" >
-      <mvcSiteMapNode title="Choferes"                              controller="Choferes"                 action="Index"                                         roles=""/>
-      <mvcSiteMapNode title="Granos"                                controller="Granos"                   action="Index"                                         roles=""/>
-      <mvcSiteMapNode title="Establecimientos"                      controller="Establecimientos"         action="Index"                                         roles=""/>      
-      <mvcSiteMapNode title="Grupos Empresa"                        controller="GruposEmpresa"            action="Index"                                         roles=""/>
-      <mvcSiteMapNode title="Empresas"                              controller="Empresas"                 action="Index"                                         roles=""/>
-      <mvcSiteMapNode title="Rangos de CDP"                         controller="Lotes"                    action="Index"                                      roles=""/>      
-      <mvcSiteMapNode title="Reservas"                              controller="Reservas"                 action="Index"                                       roles=""/>            
+    <mvcSiteMapNode   title="Admnistración"                         controller="Home"                     action="index"           Class="fa fa-bookmark-o"      roles="Administracion, Alta PDF Lotes Cartas de Porte, Alta Solicitud, Reservas" >
+      <mvcSiteMapNode title="Choferes"                              controller="Choferes"                 action="Index"                                         roles="Administracion"/>
+      <mvcSiteMapNode title="Granos"                                controller="Granos"                   action="Index"                                         roles="Administracion"/>
+      <mvcSiteMapNode title="Establecimientos"                      controller="Establecimientos"         action="Index"                                         roles="Administracion"/>      
+      <mvcSiteMapNode title="Grupos Empresa"                        controller="GruposEmpresa"            action="Index"                                         roles="Administracion"/>
+      <mvcSiteMapNode title="Empresas"                              controller="Empresas"                 action="Index"                                         roles="Administracion"/>
+      <mvcSiteMapNode title="Rangos de CDP"                         controller="Lotes"                    action="Index"                                         roles="Alta PDF Lotes Cartas de Porte"/>      
+      <mvcSiteMapNode title="Reservas"                              controller="Reservas"                 action="Index"                                         roles="Alta Solicitud, Reservas"/>            
     </mvcSiteMapNode>       
     
-    <mvcSiteMapNode   title="Bandeja de Salida"                     controller="BandejaDeSalida"           action="Index"           Class="fa fa-bookmark-o"  roles="" >
-      <mvcSiteMapNode title="CDP Solicitadas"                       controller="BandejaDeSalida"           action="Index"                               roles=""/>                                                                                
-      <mvcSiteMapNode title="Confirmación de Arribo"                controller="BandejaDeSalida"           action="Index"   aroute="confirmacionArribo"                       roles=""/>
-      <mvcSiteMapNode title="Cambio Destino y Destinatario"         controller="BandejaDeSalida"           action="Index"   aroute="trasladosRechazados"                              roles=""/>    
+    <mvcSiteMapNode   title="Bandeja de Salida"                     controller="BandejaDeSalida"          action="Index"           Class="fa fa-bookmark-o"      roles="Bandeja de Salida, Confirmar Arribo" >
+      <mvcSiteMapNode title="CDP Solicitadas"                       controller="BandejaDeSalida"          action="Index"                                         roles="Bandeja de Salida"/>                                                                                
+      <mvcSiteMapNode title="Confirmación de Arribo"                controller="BandejaDeSalida"          action="Index"           aroute="confirmacionArribo"   roles="Confirmar Arribo"/>
+      <mvcSiteMapNode title="Cambio Destino y Destinatario"         controller="BandejaDeSalida"          action="Index"           aroute="trasladosRechazados"  roles="Bandeja de Salida"/>    
     </mvcSiteMapNode>
     
-    <mvcSiteMapNode   title="Reporting"                             controller="Reports"                  action="Index"               Class="fa fa-bookmark-o"  roles="" >
-      <mvcSiteMapNode title="Exportar CDP"                          controller="Reportes"                 action="Index"                                     roles=""/>
-      <mvcSiteMapNode title="CDP Emitidas"                          controller="Reportes"                 action="Index"       aroute="emitidas"                roles=""/>
-      <mvcSiteMapNode title="CDP Recibidas"                         controller="Reportes"                 action="Index"       aroute="recibidas"               roles=""/>
-      <mvcSiteMapNode title="Actividad"                             controller="Reportes"                 action="Index"       aroute="actividad"              roles=""/>       
+    <mvcSiteMapNode   title="Reporting"                             controller="Reports"                  action="Index"           Class="fa fa-bookmark-o"      roles="Reportes" >
+      <mvcSiteMapNode title="Exportar CDP"                          controller="Reportes"                 action="Index"                                         roles="Reportes"/>
+      <mvcSiteMapNode title="CDP Emitidas"                          controller="Reportes"                 action="Index"           aroute="emitidas"             roles="Reportes"/>
+      <mvcSiteMapNode title="CDP Recibidas"                         controller="Reportes"                 action="Index"           aroute="recibidas"            roles="Reportes"/>
+      <mvcSiteMapNode title="Actividad"                             controller="Reportes"                 action="Index"           aroute="actividad"            roles="Reportes"/>       
     </mvcSiteMapNode>
                      
   </mvcSiteMapNode>
