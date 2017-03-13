@@ -35,7 +35,7 @@ namespace Cresud.CDP.Admin
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ClienteCorredorId.HasValue )
+            if (entity.ClienteCorredorId.HasValue)
             {
                 var clienteId = entity.ClienteCorredorId.Value.ToString();
                 dto.ClienteCorredor = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
@@ -113,10 +113,10 @@ namespace Cresud.CDP.Admin
 
         public override Dtos.SolicitudEdit Create(Dtos.SolicitudEdit dto)
         {
-            dto.SetIds();           
+            dto.SetIds();
             var entity = Mapper.Map<Dtos.SolicitudEdit, Solicitud>(dto);
             entity.CreateDate = DateTime.Now;
-            entity.CreatedBy = UsuarioLogged;          
+            entity.CreatedBy = UsuarioLogged;
 
             if (!dto.Id.HasValue && (dto.TipoDeCartaId != 4 && dto.TipoDeCartaId != 2 && dto.TipoDeCartaId != 7))
             {
@@ -149,7 +149,7 @@ namespace Cresud.CDP.Admin
             //TODO: Afip. Responsabilidad de sposzalksi.
             if (dto.Enviar)
             {
-                
+
             }
 
             entity.SetDefaultValues();
@@ -161,7 +161,7 @@ namespace Cresud.CDP.Admin
 
         public override Dtos.SolicitudEdit Update(Dtos.SolicitudEdit dto)
         {
-            dto.SetIds();          
+            dto.SetIds();
             var entity = CdpContext.Solicitudes.Single(s => s.Id == dto.Id);
             entity.UpdateDate = DateTime.Now;
             entity.UpdatedBy = UsuarioLogged;
@@ -201,7 +201,7 @@ namespace Cresud.CDP.Admin
             entity.POtros = dto.POtros;
             entity.PatenteAcoplado = dto.PatenteAcoplado;
             entity.PatenteCamion = dto.PatenteCamion;
-            entity.PesoBruto = dto.PesoBruto;            
+            entity.PesoBruto = dto.PesoBruto;
             entity.PesoTara = dto.PesoTara;
             entity.ProveedorTitularCartaDePorteId = dto.ProveedorTitularCartaDePorteId;
             entity.ProveedorTransportistaId = dto.ProveedorTransportistaId;
@@ -209,7 +209,7 @@ namespace Cresud.CDP.Admin
             entity.SapContrato = dto.SapContrato;
             entity.SinContrato = dto.SinContrato;
             entity.TarifaReal = dto.TarifaReal;
-            entity.TarifaReferencia = dto.TarifaReferencia;                        
+            entity.TarifaReferencia = dto.TarifaReferencia;
 
             //TODO: Afip. Responsabilidad de sposzalksi.
             if (dto.Enviar)
@@ -221,7 +221,20 @@ namespace Cresud.CDP.Admin
             CdpContext.SaveChanges();
 
             return Mapper.Map<Solicitud, Dtos.SolicitudEdit>(entity);
-        }      
+        }
+
+        public void UpdateSimple(Solicitud solicitud)
+        {
+            var entity = CdpContext.Solicitudes.Single(s => s.Id == solicitud.Id);
+            entity.UpdateDate = DateTime.Now;
+            entity.UpdatedBy = UsuarioLogged;
+            entity.Ctg = solicitud.Ctg;
+            entity.EstadoEnAFIP = solicitud.EstadoEnAFIP;
+            entity.EstadoEnSAP = solicitud.EstadoEnSAP;
+            entity.SetDefaultValues();
+
+            CdpContext.SaveChanges();
+        }
 
         public override Solicitud ToEntity(Dtos.SolicitudEdit dto)
         {
@@ -232,7 +245,7 @@ namespace Cresud.CDP.Admin
         {
             if (!dto.Id.HasValue && (dto.TipoDeCartaId != 4 && dto.TipoDeCartaId != 2 && dto.TipoDeCartaId != 7))
             {
-                
+
             }
         }
 

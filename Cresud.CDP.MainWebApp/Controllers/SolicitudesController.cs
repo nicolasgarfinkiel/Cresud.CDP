@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
+using Cresud.CDP.Infrastructure;
 using Solicitud = Cresud.CDP.Entities.Solicitud;
 
 namespace Cresud.CDP.MainWebApp.Controllers
@@ -32,6 +35,24 @@ namespace Cresud.CDP.MainWebApp.Controllers
                 Granos = granosAdmin.GetAll().OrderBy(g => g.Descripcion),
                 ClienteDefault = generalAdmin.GetClienteById(CDPSession.Current.Usuario.CurrentEmpresa.IdCliente.ToString())
             };
+        }
+
+        [HttpPost]
+        public ActionResult UpdateSimple(Solicitud solicitud)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                _admin.UpdateSimple(solicitud);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
         }
         #endregion        
     }

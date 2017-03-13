@@ -3,6 +3,7 @@
     'cresud.cdp.bandejaDeSalida.ctrl.confirmacionArribo',
     'cresud.cdp.bandejaDeSalida.ctrl.trasladosRechazados',
     'cresud.cdp.service.bandejaDeSalida',
+    'cresud.cdp.service.solicitudes',
     'cresud.cdp.service.base',                
     'ngRoute',
     'ngGrid',

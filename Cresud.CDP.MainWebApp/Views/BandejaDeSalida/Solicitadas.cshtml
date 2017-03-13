@@ -108,10 +108,10 @@
                     <div style="margin: 15px">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group" >
+                                <div class="form-group" ng-if="esArgentina">
                                     <label class="col-lg-4 control-label">Ctg</label>
-                                    <div class="col-lg-8">                                        
-                                        <input type="text" class="form-control" ng-model="entity.ctg"  />
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" ng-model="selectedEntity.ctg" />
                                     </div>
                                 </div>
                             </div>
@@ -132,19 +132,25 @@
                                 <div class="form-group">
                                     <label class="col-lg-4 control-label">Estado en SAP</label>
                                     <div class="col-lg-8">
-                                        <select class="form-control" ng-model="entity.tipoDeCartaId" ng-options="estado.key as estado.value for estado in data.estadosSap"></select>
+                                        <select class="form-control" ng-model="selectedEntity.estadoEnSAP" ng-options="estado.key as estado.value for estado in data.estadosSap"></select>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group" ng-if="esArgentina">
                                     <label class="col-lg-4 control-label">Estado en AFIP</label>
                                     <div class="col-lg-8">
-                                        <select class="form-control" ng-model="entity.tipoDeCartaId" ng-options="estado.key as estado.value for estado in data.estadosAfip"></select>
+                                        <select class="form-control" ng-model="selectedEntity.estadoEnAFIP" ng-options="estado.key as estado.value for estado in data.estadosAfip"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br/>
+                        <div class="alert alert-info" ng-if="selectedEntity.observacionAfip && esArgentina">
+                            <i class="fa fa-info-circle"></i>
+                            <span>{{selectedEntity.observacionAfip}}</span>
+                        </div>
+                        <br />
                         <div class="alert alert-danger" ng-if="result.hasErrors">
                             <i class="fa fa-bolt"></i>
                             <div ng-repeat="message in result.messages">{{message}}</div>
@@ -153,7 +159,7 @@
                 </section>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" ng-click="saveMantenimiento()">Aceptar</button>
+                <button type="button" class="btn btn-success" ng-click="saveMantenimiento()">Guardar solamente</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

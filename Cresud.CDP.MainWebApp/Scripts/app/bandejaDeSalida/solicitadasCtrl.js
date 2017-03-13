@@ -2,8 +2,9 @@
        .controller('solicitadasCtrl', [
            '$scope',
            'bandejaDeSalidaService',
+           'solicitudesService',
            '$sce',
-           function ($scope, bandejaDeSalidaService, $sce) {
+           function ($scope, bandejaDeSalidaService, solicitudesService,  $sce) {
                $scope.filter = {};
                $scope.columns = [];
                $scope.imageSrc = 'content/images/';
@@ -32,19 +33,29 @@
                     { field: 'tipoCarta', displayName: 'Tipo', width: 110 },
                     { field: 'titularCDP', displayName: 'Titular' },
                     { field: 'estProcedencia', displayName: 'Est.Procedencia' },
-                    { field: 'asd', displayName: 'Afip', cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>', width: 40 },
-                    { field: 'asd', displayName: 'SAP', cellTemplate: '<div  style="text-align: center; position: relative;top: 2px;" ng-bind-html="getSapImg(row.entity)"></div>', width: 40 },
+                    { field: 'asd', displayName: 'Afip', cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>', width: 38 },
+                    { field: 'asd', displayName: 'SAP', cellTemplate: '<div  style="text-align: center; position: relative;top: 2px;" ng-bind-html="getSapImg(row.entity)"></div>', width: 38 },
                     { field: 'observacionAfip', displayName: 'Observaciones AFIP' },
                     { field: 'fechaDeEmision', displayName: 'Fecha', width: 80 },
                     { field: 'createdBy', displayName: 'Usuario Creación', width: 110 },
-                    { field: 'cuit', displayName: 'Acciones', width: 160, cellTemplate: '<div class="ng-grid-icon-container">' +
-                            '<span compile="getMantenimientoImg(row.entity)"></span>' +
-                            '<span compile="getReenvioAfipImg(row.entity)"></span>' +
-                            '<span compile="getReenvioSapImg(row.entity)"></span>' +
-                            '<span compile="getLogSapImg(row.entity)"></span>' +
-                            '<span compile="getReporteImg(row.entity)"></span>' +
-                            '<span compile="getSolicitudImg(row.entity)"></span>' +
-                        '</div>' }
+                    { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                             '<div class="ng-grid-icon-container"><span compile="getMantenimientoImg(row.entity)"></span></div>'
+                    },
+                    { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                              '<div class="ng-grid-icon-container"><span compile="getReenvioAfipImg(row.entity)"></span></div>'
+                    },
+                    { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                             '<div class="ng-grid-icon-container"><span compile="getReenvioSapImg(row.entity)"></span></div>'
+                    },
+                    { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                             '<div class="ng-grid-icon-container"><span compile="getLogSapImg(row.entity)"></span></div>'
+                    },
+                    { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                             '<div class="ng-grid-icon-container"><span compile="getReporteImg(row.entity)"></span></div>'
+                    },
+                    { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                             '<div class="ng-grid-icon-container"><span compile="getSolicitudImg(row.entity)"></span></div>'
+                    }
                ];               
 
                $scope.columnsOtros = [
@@ -59,13 +70,20 @@
                    { field: 'estadoEnSAP', displayName: 'SAP' },
                    { field: 'fechaDeEmision', displayName: 'Fecha' },
                    { field: 'createdBy', displayName: 'Usuario Creación' },
-                   { field: 'cuit', displayName: 'Acciones', width: 120, cellTemplate: '<div class="ng-grid-icon-container">' +
-                              '<span compile="getMantenimientoImg(row.entity)"></span>' +
-                              '<span compile="getReenvioSapImg(row.entity)"></span>' +
-                              '<span compile="getLogSapImg(row.entity)"></span>' +
-                              '<span compile="getReporteImg(row.entity)"></span>' +
-                              '<span compile="getSolicitudImg(row.entity)"></span>' +
-                          '</div>'
+                   { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                            '<div class="ng-grid-icon-container"><span compile="getMantenimientoImg(row.entity)"></span></div>'
+                   },
+                   { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                            '<div class="ng-grid-icon-container"><span compile="getReenvioSapImg(row.entity)"></span></div>'
+                   },
+                   { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                            '<div class="ng-grid-icon-container"><span compile="getLogSapImg(row.entity)"></span></div>'
+                   },
+                   { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                            '<div class="ng-grid-icon-container"><span compile="getReporteImg(row.entity)"></span></div>'
+                   },
+                   { field: 'cuit', displayName: '', width: 25, cellTemplate:
+                            '<div class="ng-grid-icon-container"><span compile="getSolicitudImg(row.entity)"></span></div>'
                    }
                ];
 
@@ -280,14 +298,15 @@
 
                //#region Mantenimiento
 
-
-               $scope.setMantenimiento = function (id) {
-
+               $scope.setMantenimiento = function () {
                    $('#mantenimientoModal').modal('show');
                };
 
                $scope.saveMantenimiento = function() {
-                   
+                   solicitudesService.updateSimple($scope.selectedEntity).then(function (response) {
+                       $('#mantenimientoModal').modal('hide');
+                       $scope.find();
+                   }, function () { throw 'Error on updateSimple'; });
                };
 
                //#endregion
