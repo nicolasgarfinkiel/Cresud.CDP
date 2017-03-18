@@ -614,10 +614,59 @@
                     <input type="hidden" name="numeroCartaDePorte" value="{{entity.numeroCartaDePorte}}">
                     <button type="submit" class="btn btn-sm  btn-default">Imprimir</button>
                 </form>
-                <button type="button" class="btn btn-sm btn-success btn-info" ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>
+                <button type="button" class="btn btn-sm btn-danger btn-info" ng-if="controlsVisibility.btnAnular" ng-click="confirmAnulacion()">Anular</button>
+                <button type="button" class="btn btn-sm btn-info btn-info" ng-if="controlsVisibility.btnModelo" ng-click="createModel()">Crear modelo</button>
+                @*<button type="button" class="btn btn-sm btn-success btn-info" ng-if="controlsVisibility.btnDesvio">Guardar Cambio Desvío</button>*@
+                <button type="button" class="btn btn-sm btn-success btn-info" ng-if="controlsVisibility.btnArribo" ng-click="confirmArribo()">Confirmar arribo</button>
                 <button type="button" class="btn btn-sm btn-success btn-info" ng-click="onlySave()" ng-if="controlsVisibility.btnSoloGuardar">Solo Guardar</button>
                 <button type="button" class="btn btn-sm btn-success btn-default" ng-click="saveAndSend()" ng-if="controlsVisibility.btnGuardar">{{guardarLabel}}</button>
             </footer>
         </section>
+    </div>
+</div>
+
+
+<div class="modal" id="modalModelo" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <div class="well m-t">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Nuevo modelo</strong>
+                            <p>
+                                Modelo generado correctamente
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-default" data-dismiss="modal">Acpetar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalConfirm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <div class="well m-t">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Confirmación</strong>
+                            <p>
+                                Desea continuar con la operación?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="modalConfirm()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
     </div>
 </div>

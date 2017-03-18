@@ -140,7 +140,7 @@
 
                    var result = item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :
-                       '<a title="Reenviar afip" href="solicitud?id=' + item.id + '&reenvioAfip=1"><img style="width: 15px;" src="' + $scope.imageSrc + 'icon_select.gif" /></a>';
+                       '<a title="Reenviar afip" href="javascript:void(0)" ng-click="confirmReenviarAfip(' + item.id + ')"><img style="width: 15px;" src="' + $scope.imageSrc + 'icon_select.gif" /></a>';
                                                                      
                    return result;
                };
@@ -229,7 +229,23 @@
                };
              
                $scope.reenviarSap = function () {
+                   solicitudesService.reenviarSap($scope.selectedEntity.id).then(function (response) {
+                       $('#confirmReenviarSapModal').modal('hide');
+                       $scope.find();
+                   }, function () { throw 'Error on reenviarSap'; });
+               };
 
+               //#region ReenvioAfip
+
+               $scope.confirmReenviarAfip = function () {
+                   $('#confirmReenviarAfipModal').modal('show');
+               };
+
+               $scope.reenviarAfip = function () {
+                   solicitudesService.reenviarAfip($scope.selectedEntity.id).then(function (response) {
+                       $('#confirmReenviarAfipModal').modal('hide');
+                       $scope.find();
+                   }, function () { throw 'Error on reenviarAfip'; });
                };
 
                //#endregion

@@ -17,6 +17,7 @@
         public Establecimiento EstablecimientoDestino { get; set; }
         public Cliente ClientePagadorDelFlete { get; set; }
         public Cliente ClienteDestinatarioCambio { get; set; }
+        public Empresa EmpresaDestino { get; set; }
 
         public bool Enviar { get; set; }
         public bool Manual { get; set; }

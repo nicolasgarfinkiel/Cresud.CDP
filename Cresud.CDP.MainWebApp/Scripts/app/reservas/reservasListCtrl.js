@@ -43,7 +43,7 @@
                $scope.anularConfirm = function(solicitud) {
                    $scope.currentSolicitud = solicitud;
                    $scope.title = 'Anular carta de porte';
-                   $scope.confirmMessage = '¿Desea Anular la carta de porte ' + solicitud.numeroCartaDePorte + 'previamente reservada?. Recuerde que la carta de porte se debe ANULAR solamente si fue utilizada y Anulada fuera del sistema.';
+                   $scope.confirmMessage = '¿Desea Anular la carta de porte ' + solicitud.numeroCartaDePorte + ' previamente reservada?. Recuerde que la carta de porte se debe ANULAR solamente si fue utilizada y Anulada fuera del sistema.';
 
                    $('#confirmModal').modal('show');
                };

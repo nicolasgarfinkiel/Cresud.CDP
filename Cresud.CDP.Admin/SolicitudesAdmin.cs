@@ -15,93 +15,95 @@ namespace Cresud.CDP.Admin
             var entity = CdpContext.Solicitudes.Single(s => s.Id == id);
             var dto = Mapper.Map<Entities.Solicitud, Dtos.SolicitudEdit>(entity);
 
-            if (entity.ProveedorTitularCartaDePorteId.HasValue)
+            if (entity.ProveedorTitularCartaDePorteId > 0)
             {
                 dto.ProveedorTitularCartaDePorte = Mapper.Map<Entities.Proveedor, Dtos.Proveedor>(
                 CdpContext.Proveedores.FirstOrDefault(e => e.Id == entity.ProveedorTitularCartaDePorteId.Value));
             }
 
-            if (entity.ClienteIntermediarioId.HasValue)
+            if (entity.ClienteIntermediarioId > 0)
             {
                 var clienteId = entity.ClienteIntermediarioId.Value.ToString();
                 dto.ClienteIntermediario = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ClienteRemitenteComercialId.HasValue)
+            if (entity.ClienteRemitenteComercialId > 0)
             {
                 var clienteId = entity.ClienteRemitenteComercialId.Value.ToString();
                 dto.ClienteRemitenteComercial = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ClienteCorredorId.HasValue)
+            if (entity.ClienteCorredorId > 0)
             {
                 var clienteId = entity.ClienteCorredorId.Value.ToString();
                 dto.ClienteCorredor = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ClienteEntregadorId.HasValue)
+            if (entity.ClienteEntregadorId > 0)
             {
                 var clienteId = entity.ClienteEntregadorId.Value.ToString();
                 dto.ClienteEntregador = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ClienteDestinatarioId.HasValue)
+            if (entity.ClienteDestinatarioId > 0)
             {
                 var clienteId = entity.ClienteDestinatarioId.Value.ToString();
                 dto.ClienteDestinatario = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ClienteDestinoId.HasValue)
+            if (entity.ClienteDestinoId > 0)
             {
                 var clienteId = entity.ClienteDestinoId.Value.ToString();
                 dto.ClienteDestino = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
-            if (entity.ProveedorTransportistaId.HasValue)
+            if (entity.ProveedorTransportistaId > 0)
             {
                 dto.ProveedorTransportista = Mapper.Map<Entities.Proveedor, Dtos.Proveedor>(
                 CdpContext.Proveedores.FirstOrDefault(e => e.Id == entity.ProveedorTransportistaId.Value));
             }
 
-            if (entity.ChoferTransportistaId.HasValue)
+            if (entity.ChoferTransportistaId > 0)
             {
                 dto.ChoferTransportista = Mapper.Map<Entities.Chofer, Dtos.Chofer>(
                 CdpContext.Choferes.FirstOrDefault(e => e.Id == entity.ChoferTransportistaId.Value));
             }
 
-            if (entity.ChoferId.HasValue)
+            if (entity.ChoferId > 0)
             {
                 dto.Chofer = Mapper.Map<Entities.Chofer, Dtos.Chofer>(
                 CdpContext.Choferes.FirstOrDefault(e => e.Id == entity.ChoferId.Value));
             }
 
-            if (entity.GranoId.HasValue)
+            if (entity.GranoId > 0)
             {
                 dto.Grano = Mapper.Map<Entities.Grano, Dtos.Grano>(
                 CdpContext.Granos.FirstOrDefault(e => e.Id == entity.GranoId.Value));
             }
 
-            if (entity.EstablecimientoProcedenciaId.HasValue)
+            if (entity.EstablecimientoProcedenciaId > 0)
             {
                 dto.EstablecimientoProcedencia = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
                 CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoProcedenciaId.Value));
                 dto.EstablecimientoProcedencia.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoProcedencia.LocalidadId)).Descripcion;
             }
 
-            if (entity.EstablecimientoDestinoId.HasValue)
+            if (entity.EstablecimientoDestinoId > 0)
             {
                 dto.EstablecimientoDestino = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
                 CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoDestinoId.Value));
                 dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;
+
+                dto.EmpresaDestino = new EmpresaAdmin().GetByClienteId(dto.EstablecimientoDestino.InterlocutorDestinatarioId);
             }
 
-            if (entity.ClientePagadorDelFleteId.HasValue)
+            if (entity.ClientePagadorDelFleteId > 0)
             {
                 var clienteId = entity.ClientePagadorDelFleteId.Value.ToString();
                 dto.ClientePagadorDelFlete = Mapper.Map<Entities.Cliente, Dtos.Cliente>(

@@ -22,9 +22,11 @@
                    $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toUpperCase() == 'ARGENTINA';
                    $scope.esGrupoCresud = $scope.usuario.currentEmpresa.grupoEmpresa.id == 1;
                    $scope.guardarLabel = $scope.esGrupoCresud ? 'Guardar y enviar' : 'Guardar';
-                   $scope.activarModelo = $routeParams.activarModelo;
-                   $scope.rolAltaSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Alta Solicitud') >= 0 || true;
-                   $scope.rolImprimirSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') >= 0 || true;
+                   $scope.activarModelo =  false;
+                   $scope.rolAltaSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Alta Solicitud') >= 0 ;
+                   $scope.rolImprimirSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') >= 0;
+                   $scope.rolConfirmarArribo = $scope.usuario.currentEmpresa.roles.indexOf('Confirmar Arribo') >= 0;
+                   $scope.rolAnularSolicitud = $scope.usuario.currentEmpresa.roles.indexOf('Anular Solicitud') >= 0;
 
                    $scope.sources = {
                        'establecimientoOrigen': {
@@ -305,6 +307,9 @@
 
                    $scope.controlsVisibility.numeroCartaDePorte = $scope.controlsVisibility.cee = $scope.manual && !$scope.entity.id;
                    $scope.controlsVisibility.btnDesvio = $routeParams.btnDesvio && $scope.rolAltaSolicitud;
+                   $scope.controlsVisibility.btnModelo = $scope.entity.id && !$scope.mensajeAfipReserva;
+                   $scope.controlsVisibility.btnImprimir = $scope.entity.id && $scope.rolImprimirSolicitud;
+                   
 
                    $scope.controlsVisibility.btnSoloGuardar = $scope.esGrupoCresud &&
                                                              (!$scope.entity.id ||
@@ -318,7 +323,20 @@
                                                               !$scope.entity.id ||
                                                               ($scope.entity.id && ((!$scope.activarModelo || $scope.entity.estadoEnAFIP == 2) && $scope.esGrupoCresud)) ||
                                                               (!$scope.esGrupoCresud && !$scope.entity.estadoEnSAP)
-                                                           );                  
+                                                           );
+
+
+                   $scope.controlsVisibility.btnArribo = $scope.entity.id && !$scope.activarModelo && $scope.rolConfirmarArribo &&
+                                                         ($scope.entity.estadoEnAFIP == 9 || 
+                                                          ($scope.entity.estadoEnAFIP == 1 && $scope.entity.empresaDestino )
+                                                         );
+
+
+                   $scope.controlsVisibility.btnAnular = $scope.entity.id &&
+                                                         (
+                                                          !$scope.esArgentina || 
+                                                          ($scope.esArgentina && !$scope.mensajeAfipReserva && $scope.rolAnularSolicitud && $scope.entity.estadoEnAFIP == 1 && !$scope.activarModelo)
+                                                         );                   
                };
 
                $scope.setDefaultValues = function () {
@@ -328,6 +346,56 @@
                    } else if ($scope.mensajeAfipReserva) {
                        $scope.entity.fechaDeEmision = $scope.entity.createDate;
                    }
+               };
+
+               $scope.createModel = function () {
+                   $scope.activarModelo = true;
+
+                   $scope.entity.id = null;
+                   $scope.entity.clientePagadorDelFlete = null;
+                   $scope.entity.patenteCamion = null;
+                   $scope.entity.patenteAcoplado = null;
+                   $scope.entity.kmRecorridos = null;
+                   $scope.entity.tarifaReferencia = null;
+                   $scope.entity.tarifaReal = null;
+                   $scope.entity.cantHoras = null;
+                   $scope.entity.cargaPesadaDestino = null;
+                   $scope.entity.kilogramosEstimados = null;
+                   $scope.entity.pesoBruto = null;
+                   $scope.entity.pesoTara = null;
+                   $scope.entity.numeroContrato = null;
+                   $scope.entity.observaciones = null;
+
+                   $scope.setControls();
+                   $scope.setDefaultValues();
+                   $('#modalModelo').modal('show');
+               };
+
+               $scope.confirmArribo = function () {
+                   $scope.operation = 'Arribo';
+                   $('#modalConfirm').modal('show');
+               };
+
+               $scope.confirmAnulacion = function () {
+                   $scope.operation = 'Anulacion';
+                   $('#modalConfirm').modal('show');
+               };
+
+               $scope.modalConfirm = function() {
+                   if ($scope.operation == 'Arribo') {
+                       $scope.setArribo();
+                   } else {
+                       $scope.setAnulacion();
+                   }
+               };
+
+               $scope.setArribo = function()
+               {
+                   $('#modalConfirm').modal('hide');
+               };
+
+               $scope.setAnulacion = function () {
+                   $('#modalConfirm').modal('hide');
                };
 
                //#region Select UI
