@@ -41,8 +41,48 @@ namespace Cresud.SecurityServiceTest
             {
                 new Permission
                 {
-                    Description = "Admin"
-                }
+                    Description = "Alta Solicitud"
+                },
+                new Permission
+                {
+                    Description = "Visualizacion Solicitud"
+                },
+                new Permission
+                {
+                    Description = "Administracion"
+                },
+                new Permission
+                {
+                    Description = "Alta PDF Lotes Cartas de Porte"
+                },
+                new Permission
+                {
+                    Description = "Alta Solicitud"
+                },
+                new Permission
+                {
+                    Description = "Reservas"
+                },
+                new Permission
+                {
+                    Description = "Bandeja de Salida"
+                },
+                new Permission
+                {
+                    Description = "Confirmar Arribo"
+                },
+                new Permission
+                {
+                    Description = "Reportes"
+                },
+                new Permission
+                {
+                    Description = "Imprimir Solicitud"
+                },
+                new Permission
+                {
+                    Description = "Anular Solicitud"
+                },
             };
         }
     }

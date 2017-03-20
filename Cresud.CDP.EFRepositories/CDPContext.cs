@@ -538,7 +538,16 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<RemitoParaguay>().ToTable("vRemitoParaguay");
 
 
-
+           modelBuilder.Entity<AfipAuth>().HasKey(t => t.Id);
+            modelBuilder.Entity<AfipAuth>().Property(t => t.Id).HasColumnName("IdAfipAuth");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.Token).HasColumnName("Token");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.Sign).HasColumnName("Sign");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.CuitRepresentado).HasColumnName("CuitRepresentado");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.GenerationTime).HasColumnName("GenerationTime");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.ExpirationTime).HasColumnName("ExpirationTime");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.Service).HasColumnName("Service");            
+            modelBuilder.Entity<AfipAuth>().Property(t => t.UniqueId).HasColumnName("UniqueID");
+            modelBuilder.Entity<AfipAuth>().ToTable("AfipAuth");
         }
 
         public IDbSet<Pais> Paises { get; set; }
@@ -569,6 +578,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<CartaDePorteGraficoItem> ItemsGrafico { get; set; }
         public IDbSet<LogSap> LogsSap { get; set; }
         public IDbSet<RemitoParaguay> RemitosParaguay { get; set; }
+        public IDbSet<AfipAuth> AfipAuth { get; set; }
     }
 }
 

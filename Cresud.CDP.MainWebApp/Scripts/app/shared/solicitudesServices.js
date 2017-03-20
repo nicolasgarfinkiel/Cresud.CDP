@@ -10,6 +10,20 @@
                            url: '/Solicitudes/UpdateSimple',
                            data: { solicitud: solicitud }
                        });
+                   },
+                   reenviarSap: function (id) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Solicitudes/ReenviarSap',
+                           data: { id: id }
+                       });
+                   },
+                   reenviarAfip: function (id) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Solicitudes/ReenviarAfip',
+                           data: { id: id }
+                       });
                    }
                }, baseService);
 

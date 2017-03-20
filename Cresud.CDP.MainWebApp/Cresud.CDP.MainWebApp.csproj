@@ -419,6 +419,8 @@
     </Content>
     <Content Include="Views\Solicitudes\Edit.cshtml" />
     <Content Include="Views\Solicitudes\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\CartaDePorte - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\CartaDePorte - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Admin\Cresud.CDP.Admin.csproj">

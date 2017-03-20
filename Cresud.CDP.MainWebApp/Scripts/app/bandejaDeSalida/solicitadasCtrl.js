@@ -147,7 +147,7 @@
 
                $scope.getReenvioSapImg = function (item) {
                    var reenviosSap = $scope.data.usuario.currentEmpresa.roles.indexOf('ReenviosSAP') != -1;
-                   if (!reenviosSap || !item.tipoCarta || item.estadoEnSAP == 8) return '';
+                   if (!reenviosSap || !item.tipoCarta || item.estadoEnSAP == 8 || item.tipoCarta == 'Compra de granos que transportamos') return '';
 
                    var result = item.tipoCarta == 'Compra de granos que transportamos' || item.tipoCarta == 'Compra de granos' ?
                        '<img style="width: 15px;" src="' + $scope.imageSrc + 'icon_Delete.png" />' :

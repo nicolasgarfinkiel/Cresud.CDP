@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AfipAuth.cs" />
     <Compile Include="CartaDePorte.cs" />
     <Compile Include="CartaDePorteGraficoItem.cs" />
     <Compile Include="ClienteDestinatario.cs" />

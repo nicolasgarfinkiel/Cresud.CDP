@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using Cresud.CDP.Admin.ServicesAdmin;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Entities;
 
@@ -8,6 +9,14 @@ namespace Cresud.CDP.Admin
 {
     public class SolicitudesAdmin : BaseAdmin<int, Entities.Solicitud, Dtos.SolicitudEdit, FilterBase>
     {
+        private readonly AfipAdmin _afipAdmin;
+
+        public SolicitudesAdmin()
+        {
+            _afipAdmin = new AfipAdmin();            
+        }
+
+
         #region Base
 
         public override Dtos.SolicitudEdit GetById(int id)
@@ -269,6 +278,38 @@ namespace Cresud.CDP.Admin
         }
 
         #endregion
+
+        public void ReenviarSap(int id)
+        {
+            var entity = CdpContext.Solicitudes.Single(s => s.Id == id);
+        }
+
+        public void ReenviarAfip(int id)
+        {
+            //var solicitud = GetById(id);
+            //var auth = CdpContext.AfipAuth.FirstOrDefault();
+
+            //try
+            //{
+            //    var ctg = _afipAdmin.SolicitarCtgInicial(solicitud, auth);
+
+            //    if(ctg.arrayErrores.Length > 0)
+            //        throw new Exception(ctg.arrayErrores[0]);
+
+                
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (ex.Message.Contains("The connection was closed unexpectedly") || ex.Message.Contains("Service Temporarily Unavailable") || ex.Message.Contains("JDBC Connection"))
+            //        throw new Exception(string.Format("{0}. ({1})", "AFIP Temporalmente sin servicio. Por favor, Intente nuevamente mas tarde", ex.Message));
+
+            //    if (ex.Message.Contains("character string buffer too small"))
+            //        throw new Exception(string.Format("{0}. ({1})", "Verifique el formato de los datos de patentes", ex.Message));
+
+            //    throw;
+            //}            
+        }
     }
 }
 
