@@ -92,6 +92,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\SapPrefacturasService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cresud.CDP.Dtos\Cresud.CDP.Dtos.csproj">
@@ -174,6 +179,11 @@
     <None Include="Web References\CTGService_v3\solicitarCTGReturnType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\SapPrefacturasService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SapPrefacturasService\re_prefacturas_out_async_MI.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -182,6 +192,19 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="E:\projects\Irsa\CartaDePorte\documents\re_prefacturas_out_async_MI.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SapPrefacturasService\</RelPath>
+      <UpdateFromURL>E:\projects\Irsa\CartaDePorte\documents\re_prefacturas_out_async_MI.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="https://serviciosjava.afip.gob.ar/wsctg/services/CTGService_v3.0%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CTGService_v3\</RelPath>
