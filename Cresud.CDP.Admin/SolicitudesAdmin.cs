@@ -12,10 +12,12 @@ namespace Cresud.CDP.Admin
     public class SolicitudesAdmin : BaseAdmin<int, Entities.Solicitud, Dtos.SolicitudEdit, FilterBase>
     {
         private readonly AfipAdmin _afipAdmin;
+        private readonly SapAdmin _sapAdmin;
 
         public SolicitudesAdmin()
         {
-            _afipAdmin = new AfipAdmin();            
+            _afipAdmin = new AfipAdmin();
+            _sapAdmin = new SapAdmin();
         }
 
 
@@ -112,6 +114,14 @@ namespace Cresud.CDP.Admin
                 dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;
 
                 dto.EmpresaDestino = new EmpresaAdmin().GetByClienteId(dto.EstablecimientoDestino.InterlocutorDestinatarioId);
+            }
+
+
+            if (entity.EstablecimientoDestinoCambioId > 0)
+            {
+                dto.EstablecimientoDestino = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
+                CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoDestinoCambioId.Value));
+                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;             
             }
 
             if (entity.ClientePagadorDelFleteId > 0)
@@ -281,9 +291,16 @@ namespace Cresud.CDP.Admin
 
         #endregion
 
-        public void ReenviarSap(int id)
+        public Result ReenviarSap(int id)
         {
-            var entity = CdpContext.Solicitudes.Single(s => s.Id == id);
+            var result = new Result { Messages = new List<string>() };
+            var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
+            var solicitudEdit = GetById(id);
+
+            solicitud.EstadoEnSAP = (int)_sapAdmin.PrefacturaSap(solicitudEdit, false, false);
+            CdpContext.SaveChanges();
+
+            return result;
         }
 
         public Result ReenviarAfip(int id)

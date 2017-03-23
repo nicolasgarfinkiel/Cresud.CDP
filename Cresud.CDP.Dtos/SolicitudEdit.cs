@@ -15,9 +15,10 @@
         public Grano Grano { get; set; }
         public Establecimiento EstablecimientoProcedencia { get; set; }
         public Establecimiento EstablecimientoDestino { get; set; }
+        public Establecimiento EstablecimientoDestinoCambio { get; set; }
         public Cliente ClientePagadorDelFlete { get; set; }
         public Cliente ClienteDestinatarioCambio { get; set; }
-        public Empresa EmpresaDestino { get; set; }
+        public Empresa EmpresaDestino { get; set; }        
 
         public bool Enviar { get; set; }
         public bool Manual { get; set; }
@@ -87,6 +88,11 @@
             if (EstablecimientoDestino != null)
             {
                 EstablecimientoDestinoId = EstablecimientoDestino.Id;
+            }
+
+            if (EstablecimientoDestinoCambio != null)
+            {
+                EstablecimientoDestinoCambioId = EstablecimientoDestinoCambio.Id;
             }
 
             if (ClientePagadorDelFlete != null)
