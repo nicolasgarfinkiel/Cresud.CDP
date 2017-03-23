@@ -8,7 +8,7 @@
                $scope.filter = {};
                $scope.columns = [];
                $scope.imageSrc = 'content/images/';
-               $scope.result = {hasErros: false, messages: []};
+               $scope.result = {hasErrors: false, messages: []};
 
                //#region Init
 
@@ -224,12 +224,16 @@
 
                //#region ReenvioSap
              
-               $scope.confirmReenviarSap = function() {
+               $scope.confirmReenviarSap = function () {
+                   $scope.result.hasErrors = false;
                    $('#confirmReenviarSapModal').modal('show');
                };
              
                $scope.reenviarSap = function () {
                    solicitudesService.reenviarSap($scope.selectedEntity.id).then(function (response) {
+                       $scope.result = response.data;
+                       if ($scope.result.hasErrors) return;
+
                        $('#confirmReenviarSapModal').modal('hide');
                        $scope.find();
                    }, function () { throw 'Error on reenviarSap'; });
@@ -238,11 +242,15 @@
                //#region ReenvioAfip
 
                $scope.confirmReenviarAfip = function () {
+                   $scope.result.hasErrors = false;
                    $('#confirmReenviarAfipModal').modal('show');
                };
 
                $scope.reenviarAfip = function () {
                    solicitudesService.reenviarAfip($scope.selectedEntity.id).then(function (response) {
+                       $scope.result = response.data;
+                       if ($scope.result.hasErrors) return;
+
                        $('#confirmReenviarAfipModal').modal('hide');
                        $scope.find();
                    }, function () { throw 'Error on reenviarAfip'; });
@@ -315,6 +323,7 @@
                //#region Mantenimiento
 
                $scope.setMantenimiento = function () {
+                   $scope.result.hasErros = false;
                    $('#mantenimientoModal').modal('show');
                };
 

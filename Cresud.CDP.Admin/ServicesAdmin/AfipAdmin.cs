@@ -43,7 +43,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             request.datosSolicitarCTGInicial = new datosSolicitarCTGInicialType();
 
             request.datosSolicitarCTGInicial.cartaPorte = (long)Convert.ToDouble(solicitud.NumeroCartaDePorte);
-            request.datosSolicitarCTGInicial.codigoEspecie = solicitud.Grano.EspecieAfipCodigo;
+            request.datosSolicitarCTGInicial.codigoEspecie = solicitud.Grano == null ? 0 : solicitud.Grano.EspecieAfipCodigo;
 
             if (solicitud.ClienteDestino != null && (!String.IsNullOrEmpty(solicitud.ClienteDestino.Cuit)))
                 request.datosSolicitarCTGInicial.cuitDestino = (long)Convert.ToDouble(solicitud.ClienteDestino.Cuit);
@@ -51,9 +51,9 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             if (solicitud.ClienteDestinatario != null && (!String.IsNullOrEmpty(solicitud.ClienteDestinatario.Cuit)))
                 request.datosSolicitarCTGInicial.cuitDestinatario = (long)Convert.ToDouble(solicitud.ClienteDestinatario.Cuit);
 
-            request.datosSolicitarCTGInicial.codigoLocalidadOrigen = solicitud.EstablecimientoProcedencia.LocalidadId;
-            request.datosSolicitarCTGInicial.codigoLocalidadDestino = solicitud.EstablecimientoDestino.LocalidadId;
-            request.datosSolicitarCTGInicial.codigoCosecha = solicitud.Grano.CosechaAfipCodigo;
+            request.datosSolicitarCTGInicial.codigoLocalidadOrigen = solicitud.EstablecimientoProcedencia == null ? 0 : solicitud.EstablecimientoProcedencia.LocalidadId;
+            request.datosSolicitarCTGInicial.codigoLocalidadDestino = solicitud.EstablecimientoDestino == null ? 0 : solicitud.EstablecimientoDestino.LocalidadId;
+            request.datosSolicitarCTGInicial.codigoCosecha = solicitud.Grano == null ? string.Empty : solicitud.Grano.CosechaAfipCodigo;
 
             if (solicitud.CargaPesadaDestino.HasValue && solicitud.CargaPesadaDestino.Value)
             {
@@ -86,13 +86,13 @@ namespace Cresud.CDP.Admin.ServicesAdmin
 
             //Cambio solicitado por Maximiliano y Pedro
             //Si existe intermediario lo manda y no el comercial
-            if (!String.IsNullOrEmpty(solicitud.ClienteIntermediario.Cuit))
+            if (solicitud.ClienteIntermediario != null && !String.IsNullOrEmpty(solicitud.ClienteIntermediario.Cuit))
             {
                 request.datosSolicitarCTGInicial.remitenteComercialComoCanjeador = (solicitud.RemitenteComercialComoCanjeador.HasValue && solicitud.RemitenteComercialComoCanjeador.Value ? "SI" : "NO");
                 request.datosSolicitarCTGInicial.cuitCanjeadorSpecified = true;
                 request.datosSolicitarCTGInicial.cuitCanjeador = (long)Convert.ToDouble(solicitud.ClienteIntermediario.Cuit);// 33504619589;
             }
-            else if (!String.IsNullOrEmpty(solicitud.ClienteRemitenteComercial.Cuit))
+            else if (solicitud.ClienteRemitenteComercial != null && !String.IsNullOrEmpty(solicitud.ClienteRemitenteComercial.Cuit))
             {
                 request.datosSolicitarCTGInicial.remitenteComercialComoCanjeador = (solicitud.RemitenteComercialComoCanjeador.HasValue && solicitud.RemitenteComercialComoCanjeador.Value ? "SI" : "NO");
                 request.datosSolicitarCTGInicial.cuitCanjeadorSpecified = true;
@@ -100,7 +100,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             }
 
             //Si la procedencia es las vertientes debe 
-            if (solicitud.EstablecimientoProcedencia.Descripcion.Contains("Las Vertientes") && solicitud.EstablecimientoProcedencia.Id == 72)
+            if (solicitud.EstablecimientoProcedencia.Descripcion != null && solicitud.EstablecimientoProcedencia.Descripcion.Contains("Las Vertientes") && solicitud.EstablecimientoProcedencia != null && solicitud.EstablecimientoProcedencia.Id == 72)
                 request.datosSolicitarCTGInicial.remitenteComercialcomoProductor = "SI";
 
             request.datosSolicitarCTGInicial.kmARecorrer = (uint)Convert.ToDouble(solicitud.KmRecorridos);

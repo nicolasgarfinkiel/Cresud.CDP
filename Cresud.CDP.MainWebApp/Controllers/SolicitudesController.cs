@@ -76,16 +76,16 @@ namespace Cresud.CDP.MainWebApp.Controllers
         [HttpPost]
         public ActionResult ReenviarAfip(int id)
         {
-            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+            var response = new Result() {HasErrors = false, Messages = new List<string>()};
 
             try
             {
-                _admin.ReenviarAfip(id);
+              response = _admin.ReenviarAfip(id);
             }
             catch (Exception ex)
             {
-                response.Result.HasErrors = true;
-                response.Result.Messages.Add(ex.Message);
+                response.HasErrors = true;
+                response.Messages.Add(ex.Message);
             }
 
             return this.JsonNet(response);

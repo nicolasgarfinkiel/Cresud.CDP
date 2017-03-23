@@ -57,6 +57,10 @@
                             </p>
                         </div>
                     </div>
+                    <div class="alert alert-danger" ng-if="result.hasErrors">
+                        <i class="fa fa-bolt"></i>
+                        <div ng-repeat="message in result.messages">{{message}}</div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -79,6 +83,10 @@
                                 ¿ Desea reenviar la solicitud {{selectedEntity.id}} a AFIP?
                             </p>
                         </div>
+                    </div>
+                    <div class="alert alert-danger" ng-if="result.hasErrors">
+                        <i class="fa fa-bolt"></i>
+                        <div ng-repeat="message in result.messages">{{message}}</div>
                     </div>
                 </div>
             </div>

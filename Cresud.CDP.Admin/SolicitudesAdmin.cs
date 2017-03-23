@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AutoMapper;
 using Cresud.CDP.Admin.ServicesAdmin;
 using Cresud.CDP.Dtos.Common;
@@ -284,31 +286,93 @@ namespace Cresud.CDP.Admin
             var entity = CdpContext.Solicitudes.Single(s => s.Id == id);
         }
 
-        public void ReenviarAfip(int id)
+        public Result ReenviarAfip(int id)
         {
-            //var solicitud = GetById(id);
-            //var auth = CdpContext.AfipAuth.FirstOrDefault();
+            var result = new Result {Messages = new List<string>()};
+            var solicitudEdit = GetById(id);
+            var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
+            var auth = CdpContext.AfipAuth.FirstOrDefault();
 
-            //try
-            //{
-            //    var ctg = _afipAdmin.SolicitarCtgInicial(solicitud, auth);
+            try
+            {
+                solicitud.EstadoEnAFIP = (int)EstadoAfip.Enviado;
 
-            //    if(ctg.arrayErrores.Length > 0)
-            //        throw new Exception(ctg.arrayErrores[0]);
+                var wsResult = _afipAdmin.SolicitarCtgInicial(solicitudEdit, auth);
 
-                
+                if (wsResult.arrayErrores.Length > 0)
+                {
+                    solicitud.EstadoEnAFIP = (int)EstadoAfip.SinProcesar;
+                    result.HasErrors = true;
+                    result.Messages = wsResult.arrayErrores.Select(NormalizarMensajeErrorAfip).ToList();
+                }
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (ex.Message.Contains("The connection was closed unexpectedly") || ex.Message.Contains("Service Temporarily Unavailable") || ex.Message.Contains("JDBC Connection"))
-            //        throw new Exception(string.Format("{0}. ({1})", "AFIP Temporalmente sin servicio. Por favor, Intente nuevamente mas tarde", ex.Message));
+                if (!string.IsNullOrEmpty(wsResult.observacion) && wsResult.observacion.Contains("CTG otorgado"))
+                {
+                    solicitud.EstadoEnAFIP = (int)EstadoAfip.Otorgado;                    
+                }
 
-            //    if (ex.Message.Contains("character string buffer too small"))
-            //        throw new Exception(string.Format("{0}. ({1})", "Verifique el formato de los datos de patentes", ex.Message));
+                if (wsResult.datosSolicitarCTGResponse != null && wsResult.datosSolicitarCTGResponse.arrayControles != null && wsResult.datosSolicitarCTGResponse.arrayControles.Length > 0)
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine("Reenvio manual. CONTROLES AFIP: ");
 
-            //    throw;
-            //}            
+                    wsResult.datosSolicitarCTGResponse.arrayControles.ToList()                        
+                        .ForEach(c => 
+                            sb.AppendLine(string.Format("{0}: {1}", c.tipo, c.descripcion))
+                         );                  
+
+                    solicitud.EstadoEnAFIP = (int)EstadoAfip.SinProcesar;
+                    solicitud.ObservacionAfip = sb.ToString();
+                }
+
+             
+                //TODO: Envair mail
+               // EnvioMailDAO.Instance.sendMail("<b>Envio de Solicitud a Afip</b> <br/><br/>" + solicitudGuardada.ObservacionAfip + "<br/>" + "Carta De Porte: " + solicitudGuardada.NumeroCartaDePorte + "<br/>" + "Usuario: " + solicitudGuardada.UsuarioCreacion);
+
+                if (wsResult.datosSolicitarCTGResponse != null && wsResult.datosSolicitarCTGResponse.datosSolicitarCTG != null)
+                {
+                    solicitud.Ctg = wsResult.datosSolicitarCTGResponse.datosSolicitarCTG.ctg.ToString();
+                    solicitud.EstadoEnAFIP = (int)EstadoAfip.Otorgado;
+
+                    if (!String.IsNullOrEmpty(wsResult.datosSolicitarCTGResponse.datosSolicitarCTG.fechaVigenciaHasta))
+                    {
+                        var fecha = wsResult.datosSolicitarCTGResponse.datosSolicitarCTG.fechaVigenciaHasta.Split('/');
+                        var fechaVigencia = new DateTime(Convert.ToInt32(fecha[2]), Convert.ToInt32(fecha[1]), Convert.ToInt32(fecha[0]));
+                        solicitud.FechaDeVencimiento = fechaVigencia;
+                        solicitud.TarifaReferencia = wsResult.datosSolicitarCTGResponse.datosSolicitarCTG.tarifaReferencia;
+                    }
+                }
+
+
+                CdpContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var norm = NormalizarMensajeErrorAfip(ex.Message);                
+                throw  new Exception(norm);
+            }
+
+            return result;
+        }
+
+        public string NormalizarMensajeErrorAfip(string texto)
+        {
+            var mensaje = texto;
+
+            if (texto.Contains("The connection was closed unexpectedly"))
+                mensaje = "AFIP Temporalmente sin servicio. Por favor, Intente nuevamente mas tarde. (" + texto + ")";
+
+            if (texto.Contains("Service Temporarily Unavailable"))
+                mensaje = "FIP Temporalmente sin servicio. Por favor, Intente nuevamente mas tarde. (" + texto + ")";
+
+            if (texto.Contains("JDBC Connection"))
+                mensaje = "AFIP Temporalmente sin servicio. Por favor, Intente nuevamente mas tarde. (" + texto + ")";
+
+            if (texto.Contains("character string buffer too small"))
+                mensaje = "Verifique el formato de los datos de patentes. (" + texto + ")";
+
+            return mensaje;
+
         }
     }
 }
