@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.EFRepositories
@@ -10,6 +11,7 @@ namespace Cresud.CDP.EFRepositories
             : base(ConfigurationManager.ConnectionStrings["CDP"].ConnectionString)
         {
             Database.SetInitializer<CDPContext>(null);
+            this.Database.CommandTimeout = 500;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
@@ -77,8 +78,16 @@ namespace Cresud.CDP.MainWebApp.Controllers
             }
             catch (Exception ex)
             {
+                var sb = new StringBuilder();
                 response.Result.HasErrors = true;
-                response.Result.Messages.Add(ex.Message);
+
+                while (ex != null)
+                {
+                    sb.AppendLine(ex.Message);
+                    ex = ex.InnerException;
+                }
+
+                response.Result.Messages.Add(sb.ToString());
             }
 
             return this.JsonNet(response);
