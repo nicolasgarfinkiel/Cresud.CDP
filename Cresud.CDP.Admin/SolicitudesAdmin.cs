@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using Cresud.CDP.Admin.ServicesAdmin;
+using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Entities;
+using Solicitud = Cresud.CDP.Entities.Solicitud;
 
 namespace Cresud.CDP.Admin
 {
@@ -19,7 +21,6 @@ namespace Cresud.CDP.Admin
             _afipAdmin = new AfipAdmin();
             _sapAdmin = new SapAdmin();
         }
-
 
         #region Base
 
@@ -121,7 +122,7 @@ namespace Cresud.CDP.Admin
             {
                 dto.EstablecimientoDestino = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
                 CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoDestinoCambioId.Value));
-                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;             
+                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;
             }
 
             if (entity.ClientePagadorDelFleteId > 0)
@@ -169,16 +170,33 @@ namespace Cresud.CDP.Admin
                 entity.Cee = cartaDePorte.NumeroCee;
             }
 
-            //TODO: Afip. Responsabilidad de sposzalksi.
-            if (dto.Enviar)
-            {
-
-            }
 
             entity.SetDefaultValues();
             CdpContext.Solicitudes.Add(entity);
             CdpContext.SaveChanges();
 
+            if (dto.Enviar)
+            {
+                if (entity.TipoDeCartaId != 2 &&
+                entity.TipoDeCartaId != 4 &&
+                entity.TipoDeCartaId != 7 &&
+                CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresaId == App.IdGrupoCresud)
+                {
+                    ReenviarAfip(entity.Id);
+                }
+                else
+                {
+                    entity.EstadoEnAFIP = (int)EstadoAfip.CargaManual;
+                    entity.ObservacionAfip = "Carga Manual";
+                }
+
+                if (entity.TipoDeCartaId == 7)
+                {
+                    entity.EstadoEnSAP = (int)EstadoSap.Pendiente;
+                }
+            }
+
+            CdpContext.SaveChanges();
             return Mapper.Map<Solicitud, Dtos.SolicitudEdit>(entity);
         }
 
@@ -234,10 +252,25 @@ namespace Cresud.CDP.Admin
             entity.TarifaReal = dto.TarifaReal;
             entity.TarifaReferencia = dto.TarifaReferencia;
 
-            //TODO: Afip. Responsabilidad de sposzalksi.
             if (dto.Enviar)
             {
+                if (entity.TipoDeCartaId != 2 &&
+                entity.TipoDeCartaId != 4 &&
+                entity.TipoDeCartaId != 7 &&
+                CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresaId == App.IdGrupoCresud)
+                {
+                    ReenviarAfip(entity.Id);
+                }
+                else
+                {
+                    entity.EstadoEnAFIP = (int)EstadoAfip.CargaManual;
+                    entity.ObservacionAfip = "Carga Manual";
+                }
 
+                if (entity.TipoDeCartaId == 7)
+                {
+                    entity.EstadoEnSAP = (int)EstadoSap.Pendiente;
+                }
             }
 
             entity.SetDefaultValues();
@@ -305,7 +338,7 @@ namespace Cresud.CDP.Admin
 
         public Result ReenviarAfip(int id)
         {
-            var result = new Result {Messages = new List<string>()};
+            var result = new Result { Messages = new List<string>() };
             var solicitudEdit = GetById(id);
             var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
             var auth = CdpContext.AfipAuth.FirstOrDefault();
@@ -325,7 +358,7 @@ namespace Cresud.CDP.Admin
 
                 if (!string.IsNullOrEmpty(wsResult.observacion) && wsResult.observacion.Contains("CTG otorgado"))
                 {
-                    solicitud.EstadoEnAFIP = (int)EstadoAfip.Otorgado;                    
+                    solicitud.EstadoEnAFIP = (int)EstadoAfip.Otorgado;
                 }
 
                 if (wsResult.datosSolicitarCTGResponse != null && wsResult.datosSolicitarCTGResponse.arrayControles != null && wsResult.datosSolicitarCTGResponse.arrayControles.Length > 0)
@@ -333,18 +366,18 @@ namespace Cresud.CDP.Admin
                     var sb = new StringBuilder();
                     sb.AppendLine("Reenvio manual. CONTROLES AFIP: ");
 
-                    wsResult.datosSolicitarCTGResponse.arrayControles.ToList()                        
-                        .ForEach(c => 
+                    wsResult.datosSolicitarCTGResponse.arrayControles.ToList()
+                        .ForEach(c =>
                             sb.AppendLine(string.Format("{0}: {1}", c.tipo, c.descripcion))
-                         );                  
+                         );
 
                     solicitud.EstadoEnAFIP = (int)EstadoAfip.SinProcesar;
                     solicitud.ObservacionAfip = sb.ToString();
                 }
 
-             
+
                 //TODO: Envair mail
-               // EnvioMailDAO.Instance.sendMail("<b>Envio de Solicitud a Afip</b> <br/><br/>" + solicitudGuardada.ObservacionAfip + "<br/>" + "Carta De Porte: " + solicitudGuardada.NumeroCartaDePorte + "<br/>" + "Usuario: " + solicitudGuardada.UsuarioCreacion);
+                // EnvioMailDAO.Instance.sendMail("<b>Envio de Solicitud a Afip</b> <br/><br/>" + solicitudGuardada.ObservacionAfip + "<br/>" + "Carta De Porte: " + solicitudGuardada.NumeroCartaDePorte + "<br/>" + "Usuario: " + solicitudGuardada.UsuarioCreacion);
 
                 if (wsResult.datosSolicitarCTGResponse != null && wsResult.datosSolicitarCTGResponse.datosSolicitarCTG != null)
                 {
@@ -365,8 +398,8 @@ namespace Cresud.CDP.Admin
             }
             catch (Exception ex)
             {
-                var norm = NormalizarMensajeErrorAfip(ex.Message);                
-                throw  new Exception(norm);
+                var norm = NormalizarMensajeErrorAfip(ex.Message);
+                throw new Exception(norm);
             }
 
             return result;
