@@ -38,7 +38,7 @@
                        $scope.result.messages.push('Ingrese la dirección');
                    }
 
-                   if (!$scope.entity.provinciaId) {
+                   if ($scope.entity.provinciaId == null || $scope.entity.provinciaId === '' || $scope.entity.provinciaId == 'undefined' ) {
                        $scope.result.messages.push('Seleccione una provincia');
                    }
 
@@ -65,7 +65,7 @@
                $scope.$watch('entity.provinciaId', function (newValue, oldValue) {
                    $scope.localidadesFiltered = [];
 
-                   if (!newValue) return;
+                   if (isNaN(newValue)) return;
 
                    for (var i = 0; i < $scope.data.localidades.length; i++) {
                        if ($scope.data.localidades[i].provinciaId == newValue) {
