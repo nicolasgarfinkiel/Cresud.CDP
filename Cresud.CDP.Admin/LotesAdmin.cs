@@ -121,8 +121,10 @@ namespace Cresud.CDP.Admin
                         .Where(c => int.Parse(c.NumeroCartaDePorte) >= dto.Desde && int.Parse(c.NumeroCartaDePorte) <= dto.Hasta)
                         .ToList();
 
+            dto.Desde--;
             while (dto.Desde <= dto.Hasta)
             {
+                dto.Desde++;
                 if (current.Any(c => int.Parse(c.NumeroCartaDePorte) == dto.Desde)) continue;
 
                 entity.CartasDePorte.Add(new CartaDePorte
@@ -132,9 +134,7 @@ namespace Cresud.CDP.Admin
                     Lote = entity,
                     NumeroCartaDePorte = dto.Desde.ToString(),
                     NumeroCee = dto.Cee
-                });
-
-                dto.Desde++;
+                });                
             }
 
             return entity;
@@ -197,10 +197,10 @@ namespace Cresud.CDP.Admin
         }
 
         public override void Validate(Dtos.LoteCartaPorte dto)
-        {
+        {            
             var pageCount = GetPageCount();
-
-            if (pageCount != dto.Cantidad)
+            
+            if (pageCount != dto.Cantidad && CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresaId ==  App.IdGrupoCresud)
             {
                 throw new Exception("La cantidad de cartas de porte no coincide con el valor ingresado");
             }
@@ -217,6 +217,8 @@ namespace Cresud.CDP.Admin
 
         private int GetPageCount()
         {
+            if (CDPSession.Current.File == null) return 0;
+
             var pageCount = 0;
             CDPSession.Current.File.InputStream.Position = 0;
 
@@ -233,6 +235,8 @@ namespace Cresud.CDP.Admin
 
         private void SaveFile(int desde)
         {
+            if (CDPSession.Current.File == null) return;
+
             var pageCount = GetPageCount();
             var currentPage = 1;
             CDPSession.Current.File.InputStream.Position = 0;

@@ -14,6 +14,12 @@
                $scope.onInitEnd = function () {
                    $scope.operation = !$routeParams.id ? 'Nueva empresa' : 'Edición de empresa';
                    $scope.filterClientes.empresaId = $scope.usuario.currentEmpresa.id;
+
+                   if ($scope.entity.idCliente) {
+                       $scope.filterClientes.idSapOrganizacionDeVenta = $scope.entity.idSapOrganizacionDeVenta;
+                       $scope.entity.cliente = { id: $scope.entity.idCliente, razonSocial: $scope.entity.descripcion};                                              
+                   }
+
                    $timeout(function() {
                        $scope.loading = false;
                    }, 100);               
@@ -85,63 +91,41 @@
                    }
                });
 
+               //#region Select UI
 
-               //#region Clientes
+               $scope.selectList = [];
+               $scope.currentPage = 0;
+               $scope.pageCount = 0;
+               $scope.filterClientes = {pageSize: 20};
 
-               $scope.clientes = [];
-               $scope.clientesCount = 0;
-               $scope.filterClientes = {};
+               $scope.getSelectSource = function ($select, $event) {
+                   if ($scope.loading) return;
 
-               $scope.setCliente = function (cliente) {
-                   $scope.entity.idCliente = cliente.id;
-                   $scope.entity.descripcion = cliente.razonSocial;
-                   $('#clientesModal').modal('hide');
-               };
+                   if (!$event) {
+                       $scope.currentPage = 1;
+                       $scope.pageCount = 0;
+                       $scope.selectList = [];
+                   } else {
+                       $event.stopPropagation();
+                       $event.preventDefault();
+                       $scope.currentPage++;
+                   }
 
-               $scope.gridClientes = {
-                   data: 'clientes',
-                   columnDefs: [
-                                { field: 'razonSocial', displayName: 'Razón Social' },
-                                { field: 'cuit', displayName: 'Cuit' },
-                                { field: 'id', displayName: 'Id Cliente', width: 100 },
-                                { field: 'cuit', displayName: 'Seleccionar', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="setCliente(row.entity)"><i class="fa fa-thumbs-o-up"></i></a></div>' }
-
-                   ],
-                   showFooter: true,
-                   enablePaging: true,
-                   multiSelect: false,
-                   totalServerItems: 'clientesCount',
-                   pagingOptions: {
-                       pageSizes: [10],
-                       pageSize: 10,
-                       currentPage: 1
-                   },
-                   filterOptions: { useExternalFilter: true }
-               };
-
-               $scope.findClientes = function () {
-                   $scope.clientes = [];
-
-                   if (!$scope.filterClientes.empresaId) return;
-
-                   $scope.filterClientes.currentPage = $scope.gridClientes.pagingOptions.currentPage;
-                   $scope.filterClientes.pageSize = $scope.gridClientes.pagingOptions.pageSize;
+                   $scope.filterClientes.currentPage = $scope.currentPage;
+                   $scope.filterClientes.multiColumnSearchText = $select.search;
 
                    generalService.getClientesConProveedorByFilter($scope.filterClientes).then(function (response) {
-                       $scope.clientes = response.data.data;
-                       $scope.clientesCount = response.data.count;
-                   }, function () { throw 'Error on getClientesConProveedorByFilter'; });
+                       $scope.selectList = $scope.selectList.concat(response.data.data);
+                       $scope.pageCount = Math.ceil(response.data.count / 20);
+                   }, function () { throw 'Error on getByFilter'; });
                };
 
-               $scope.$watch('gridClientes.pagingOptions', function (newVal, oldVal) {
-                   if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
-                   $scope.findClientes();
-               }, true);
+               $scope.$watch('entity.cliente', function (newValue, oldValue) {
+                   if ($scope.loading) return;
 
-               $scope.$watch('filterClientes.multiColumnSearchText', function () {
-                   $scope.gridClientes.pagingOptions.currentPage = 1;
-                   $scope.findClientes();
-               });
+                   $scope.entity.idCliente = newValue.id;
+               });            
 
-               //#endregion             
+               //#endregion                          
+           
            }]);

@@ -85,19 +85,17 @@
                             </div>
                         </div>
                     </fieldset>
-                    <fieldset ng-if="!esParaguay">
+                    <fieldset ng-show="esArgentina">
                         <legend>PDF</legend>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Archivo PDF Afip</label>
                             <div class="col-lg-10">
                                 @*<i class="fa fa-search" style="position: relative; top: 8px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#establecimientosModal"></i>*@
-                                
                                 <span class="btn btn-success fileinput-button">
                                     <i class=""></i>
                                     <span>Seleccione</span>
                                     <input id="fileupload" type="file" name="file">
                                 </span>
-
                             </div>
                         </div>
                     </fieldset>

@@ -17,6 +17,7 @@
                    $scope.filterEstablecimientos.empresaId = $scope.usuario.currentEmpresa.id;
                    $scope.filterLotes.idGrupoEmpresa = $scope.usuario.currentEmpresa.grupoEmpresa.id;
                    $scope.esParaguay = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'paraguay';
+                   $scope.esArgentina = $scope.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'argentina';
                    $scope.operation = $scope.esParaguay ? 'Alta de lote' : 'Alta de Rango de Cartas de Porte solicitadas a la AFIP';
                    $scope.findLotes();
 
@@ -83,7 +84,7 @@
                        $scope.result.messages.push('Ingrese la fecha desde');
                    }
 
-                   if (!$scope.fileLoaded) {
+                   if ($scope.esArgentina && !$scope.fileLoaded) {
                        $scope.result.messages.push('Seleccione un archivo de tipo pdf');
                    }
 
