@@ -87,6 +87,7 @@
     <Compile Include="SolicitudEdit.cs" />
     <Compile Include="Solicitud.cs" />
     <Compile Include="SolicitudRecibida.cs" />
+    <Compile Include="SolicitudBandejaSalida.cs" />
     <Compile Include="SolicitudReport.cs" />
     <Compile Include="TipoCarta.cs" />
     <Compile Include="TipoGrano.cs" />

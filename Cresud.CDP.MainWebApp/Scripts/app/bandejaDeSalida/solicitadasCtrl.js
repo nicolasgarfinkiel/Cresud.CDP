@@ -58,16 +58,13 @@
                     }
                ];               
 
-               $scope.columnsOtros = [
-                   {field: 'cuit', displayName: 'Mantenimiento', width: 80, cellTemplate: '<div class="ng-grid-icon-container">' +
-                                   '<span compile="getMantenimientoImg(row.entity)"></span>' +
-                              '</div>'},
+               $scope.columnsOtros = [                  
                    { field: 'id', displayName: 'Id', width: 50 },
                    { field: 'numeroCartaDePorte', displayName: 'Nro.Carta Porte' },
                    { field: 'tipoCarta', displayName: 'Tipo' },
                    { field: 'titularCDP', displayName: 'Titular' },
                    { field: 'estProcedencia', displayName: 'Est.Procedencia' },
-                   { field: 'estadoEnSAP', displayName: 'SAP' },
+                   { field: 'asd', displayName: 'SAP', cellTemplate: '<div  style="text-align: center; position: relative;top: 2px;" ng-bind-html="getSapImg(row.entity)"></div>', width: 38 },
                    { field: 'fechaDeEmision', displayName: 'Fecha' },
                    { field: 'createdBy', displayName: 'Usuario Creación' },
                    { field: 'cuit', displayName: '', width: 25, cellTemplate:

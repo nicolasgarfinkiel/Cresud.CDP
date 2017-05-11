@@ -52,6 +52,7 @@ namespace Cresud.CDP.Admin
                 cfg.CreateMap<SolicitudEdit, Solicitud>();
                 cfg.CreateMap<TipoCarta, Dtos.TipoCarta>();
                 cfg.CreateMap<SolicitudReport, Dtos.SolicitudReport>();
+                cfg.CreateMap<Entities.SolicitudBandejaSalida, Dtos.SolicitudBandejaSalida>();
                 cfg.CreateMap<ClienteRemitenteComercial, Dtos.ClienteRemitenteComercial>();
                 cfg.CreateMap<ClienteCorredor, Dtos.ClienteCorredor>();
                 cfg.CreateMap<ClienteEntregador, Dtos.ClienteEntregador>();

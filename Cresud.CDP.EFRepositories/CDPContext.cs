@@ -254,9 +254,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Solicitud>().Property(t => t.CodigoRespuestaEnvioSAP).HasColumnName("CodigoRespuestaEnvioSAP");
             modelBuilder.Entity<Solicitud>().Property(t => t.MensajeRespuestaEnvioSAP).HasColumnName("MensajeRespuestaEnvioSAP");
             modelBuilder.Entity<Solicitud>().Property(t => t.CodigoRespuestaAnulacionSAP).HasColumnName("CodigoRespuestaAnulacionSAP");
-            modelBuilder.Entity<Solicitud>().Property(t => t.MensajeRespuestaAnulacionSAP).HasColumnName("MensajeRespuestaAnulacionSAP");
-            modelBuilder.Entity<Solicitud>().Property(t => t.CodigoRespuestaAnulacionSAP).HasColumnName("CodigoRespuestaAnulacionSAP");
-            modelBuilder.Entity<Solicitud>().Property(t => t.MensajeRespuestaAnulacionSAP).HasColumnName("MensajeRespuestaAnulacionSAP");
+            modelBuilder.Entity<Solicitud>().Property(t => t.MensajeRespuestaAnulacionSAP).HasColumnName("MensajeRespuestaAnulacionSAP");                        
             modelBuilder.Entity<Solicitud>().Property(t => t.EstablecimientoDestinoCambioId).HasColumnName("IdEstablecimientoDestinoCambio");
             modelBuilder.Entity<Solicitud>().Property(t => t.ClienteDestinatarioCambioId).HasColumnName("IdClienteDestinatarioCambio");
             modelBuilder.Entity<Solicitud>().Property(t => t.ChoferTransportistaId).HasColumnName("IdChoferTransportista");
@@ -362,6 +360,29 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");
 
+            modelBuilder.Entity<SolicitudBandejaSalida>().HasKey(t => t.Id);
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.Id).HasColumnName("IdSolicitud");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EmpresaId).HasColumnName("IdEmpresa");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EstadoEnSAP).HasColumnName("EstadoEnSAP");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EstadoEnAFIP).HasColumnName("EstadoEnAFIP");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.NumeroCartaDePorte).HasColumnName("NumeroCartaDePorte");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.Ctg).HasColumnName("Ctg");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EstProcedencia).HasColumnName("EstProcedencia");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.ObservacionAfip).HasColumnName("ObservacionAfip");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.TipoCarta).HasColumnName("TipoCarta");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CodigoAnulacionAfip).HasColumnName("CodigoAnulacionAfip");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CodigoRespuestaEnvioSAP).HasColumnName("CodigoRespuestaEnvioSAP");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.MensajeRespuestaEnvioSap).HasColumnName("MensajeRespuestaEnvioSap");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.TitularCDP).HasColumnName("TitularCDP");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.FechaDeEmision).HasColumnName("FechaDeEmision");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.FechaDeVencimiento).HasColumnName("FechaDeVencimiento");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.UpdatedBy).HasColumnName("UsuarioModificacion");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Ignore(t => t.Enabled);
+            modelBuilder.Entity<SolicitudBandejaSalida>().Ignore(t => t.DeletedBy);
+            modelBuilder.Entity<SolicitudBandejaSalida>().ToTable("vSolicitudBandejaSalida");
 
             modelBuilder.Entity<SolicitudRecibida>().HasKey(t => t.Id);
             modelBuilder.Entity<SolicitudRecibida>().Property(t => t.Id).HasColumnName("IdSolicitudRecibida");
@@ -567,6 +588,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<Proveedor> Proveedores { get; set; }
         public IDbSet<Solicitud> Solicitudes { get; set; }
         public IDbSet<SolicitudReport> SolicitudesReport { get; set; }
+        public IDbSet<SolicitudBandejaSalida> SolicitudesBandejaSalida { get; set; }
         public IDbSet<LoteCartaPorte> LotesCartaPorte { get; set; }
         public IDbSet<CartaDePorte> CartaDePortes { get; set; }
         public IDbSet<LogOperacion> LogOperaciones { get; set; }

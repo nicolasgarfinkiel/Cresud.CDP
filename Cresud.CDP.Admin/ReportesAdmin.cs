@@ -554,9 +554,9 @@ namespace Cresud.CDP.Admin
             return Mapper.Map<IList<Entities.CartaDePorteGraficoItem>, IList<Dtos.CartaDePorteGraficoItem>>(query.ToList());
         }
 
-        public PagedListResponse<Dtos.SolicitudReport> GetSolicitadasByFilter(Dtos.Filters.FilterSolicitudes filter)
+        public PagedListResponse<Dtos.SolicitudBandejaSalida> GetSolicitadasByFilter(Dtos.Filters.FilterSolicitudes filter)
         {
-            var query = CdpContext.SolicitudesReport
+            var query = CdpContext.SolicitudesBandejaSalida
                         .Where(s => s.EmpresaId == filter.EmpresaId)
                         .OrderByDescending(s => s.Id)
                         .AsQueryable();
@@ -584,10 +584,10 @@ namespace Cresud.CDP.Admin
                     (r.ObservacionAfip != null && r.ObservacionAfip.ToLower().Contains(filter.MultiColumnSearchText))).AsQueryable();
             }
 
-            return new PagedListResponse<Dtos.SolicitudReport>
+            return new PagedListResponse<Dtos.SolicitudBandejaSalida>
             {
                 Count = query.Count(),
-                Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+                Data = Mapper.Map<IList<Entities.SolicitudBandejaSalida>, IList<Dtos.SolicitudBandejaSalida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };
         }
 

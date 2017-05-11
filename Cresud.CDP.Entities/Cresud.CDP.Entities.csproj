@@ -57,6 +57,7 @@
     <Compile Include="LoteCartaPorte.cs" />
     <Compile Include="RemitoParaguay.cs" />
     <Compile Include="SolicitudRecibida.cs" />
+    <Compile Include="SolicitudBandejaSalida.cs" />
     <Compile Include="SolicitudReport.cs" />
     <Compile Include="Solicitud.cs" />
     <Compile Include="Proveedor.cs" />
