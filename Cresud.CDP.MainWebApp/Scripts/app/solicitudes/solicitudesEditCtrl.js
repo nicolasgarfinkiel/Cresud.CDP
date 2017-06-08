@@ -398,6 +398,117 @@
                    $('#modalConfirm').modal('hide');
                };
 
+               //#region Clientes
+
+               $scope.resultModal = { hasErrors: false, messages: [] };
+               
+               $scope.setCreateCliente = function (prop) {
+                   $scope.prop = prop;
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+                   $scope.cliente = {};
+                   $('#clienteModal').modal('show');
+               };
+
+               $scope.createCliente = function () {
+                   if (!$scope.isValidCliente()) return;
+
+                   generalService.createCliente($scope.cliente).then(function (response) {
+                       $scope.resultModal = response.data.result;                       
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#clienteModal').modal('hide');
+                       $scope.entity[$scope.prop] = response.data.data;
+                   }, function () { throw 'Error on createCliente'; });                                      
+               };
+
+               $scope.isValidCliente = function () {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+
+                   if (!$scope.cliente.razonSocial) {
+                       $scope.resultModal.messages.push('Ingrese la Razon Social o Nombre de Fantasia del cliente');
+                   }
+
+                   if (!$scope.cliente.cuit) {
+                       $scope.resultModal.messages.push('Ingrese el ' + $scope.usuario.currentEmpresaLabelCuit);
+                   }
+
+                   if ($scope.esGrupoCresud && $scope.cliente.cuit && !$scope.isValidCuit($scope.cliente.cuit)) {
+                       $scope.resultModal.messages.push($scope.usuario.currentEmpresaLabelCuit + ' inválido');
+                   }
+
+                   $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
+                   return !$scope.resultModal.hasErrors;
+               };
+
+               $scope.isValidCuit = function (cuit) {
+
+                   if (cuit.length != 11) {
+                       return false;
+                   }
+
+                   var acumulado = 0;
+                   var digitos = cuit.split("");
+                   var digito = digitos.pop();
+
+                   for (var i = 0; i < digitos.length; i++) {
+                       acumulado += digitos[9 - i] * (2 + (i % 6));
+                   }
+
+                   var verif = 11 - (acumulado % 11);
+                   if (verif == 11) {
+                       verif = 0;
+                   } else if (verif == 10) {
+                       verif = 9;
+                   }
+
+                   return digito == verif;
+               };
+
+
+               //#endregion
+
+               //#region Proveedores
+
+               $scope.setCreateProveedor = function (prop) {
+                   $scope.prop = prop;
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+                   $scope.proveedor = {};
+                   $('#proveedorModal').modal('show');
+               };
+
+               $scope.createProveedor = function () {
+                   if (!$scope.isValidProveedor()) return;
+
+                   generalService.createProveedor($scope.proveedor).then(function (response) {
+                       $scope.resultModal = response.data.result;
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#proveedorModal').modal('hide');
+                       $scope.entity[$scope.prop] = response.data.data;
+                   }, function () { throw 'Error on createProveedor'; });
+               };
+
+               $scope.isValidProveedor = function () {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+
+                   if (!$scope.proveedor.nombre) {
+                       $scope.resultModal.messages.push('Ingrese el nombre del proveedor');
+                   }
+
+                   if (!$scope.proveedor.numeroDocumento) {
+                       $scope.resultModal.messages.push('Ingrese el ' + $scope.usuario.currentEmpresaLabelCuit);
+                   }
+
+                   if ($scope.esGrupoCresud && $scope.proveedor.numeroDocumento && !$scope.isValidCuit($scope.proveedor.numeroDocumento)) {
+                       $scope.resultModal.messages.push($scope.usuario.currentEmpresaLabelCuit + ' inválido');
+                   }
+
+                   $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
+                   return !$scope.resultModal.hasErrors;
+               };
+
+               //#endregion
+
                //#region Select UI
                               
                $scope.selectList = [];               

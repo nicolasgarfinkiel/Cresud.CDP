@@ -86,7 +86,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Titular carta de porte</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="proveedor" ng-model="entity.proveedorTitularCartaDePorte" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -104,12 +104,15 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateProveedor('proveedorTitularCartaDePorte')"><i class="fa fa-plus"></i></button>
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Destinatario</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteDestinatario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -127,6 +130,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clienteDestinatario')"><i class="fa fa-plus"></i></button>
+                                        </div>                                                                                
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +140,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Intermediario</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteIntermediario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -152,6 +158,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clienteIntermediario')"><i class="fa fa-plus"></i></button>
+                                        </div>   
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -169,7 +178,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Remitente comercial</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteRemitenteComercial" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -187,12 +196,15 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clienteRemitenteComercial')"><i class="fa fa-plus"></i></button>
+                                        </div>   
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Transportista</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="proveedor" ng-model="entity.proveedorTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="!entity.empresaClientePagadorFlete">
                                                 <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -227,6 +239,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button ng-if="!entity.empresaClientePagadorFlete" class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateProveedor('proveedorTransportista')"><i class="fa fa-plus"></i></button>
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +249,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Corredor</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteCorredor" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -252,6 +267,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clienteCorredor')"><i class="fa fa-plus"></i></button>
+                                        </div>   
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -282,7 +300,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Representante / Entregador</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteEntregador" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -300,6 +318,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clienteEntregador')"><i class="fa fa-plus"></i></button>
+                                        </div>  
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -516,7 +537,7 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label class="col-lg-2 control-label">Pagador flete</label>
-                                        <div class="col-lg-10">
+                                        <div class="col-lg-9">
                                             <ui-select name="cliente" ng-model="entity.clientePagadorDelFlete" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud || entity.estadoFlete == 2 || !entity.estadoFlete">
                                                 <ui-select-match>{{$select.selected.razonSocial}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -534,6 +555,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clientePagadorDelFlete')"><i class="fa fa-plus"></i></button>
+                                        </div>  
                                     </div>
                                 </div>                                                              
                             </div>
@@ -666,6 +690,106 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" ng-click="modalConfirm()">Aceptar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="clienteModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 600px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Alta rápida de cliente
+                    </header>
+                    <div style="margin: 15px">
+                        <div class="row">                           
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Razón social</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="cliente.razonSocial" class="form-control" />                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">{{usuario.currentEmpresaLabelCuit}}</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="cliente.cuit" int class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                     
+                        <br />                     
+                        <br />
+                        <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                            <i class="fa fa-bolt"></i>
+                            <div ng-repeat="message in resultModal.messages">{{message}}</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="createCliente()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="proveedorModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 600px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Alta rápida de proveedor
+                    </header>
+                    <div style="margin: 15px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Nombre</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="proveedor.nombre" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">{{usuario.currentEmpresaLabelCuit}}</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="proveedor.numeroDocumento" int class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                            <i class="fa fa-bolt"></i>
+                            <div ng-repeat="message in resultModal.messages">{{message}}</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="createProveedor()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

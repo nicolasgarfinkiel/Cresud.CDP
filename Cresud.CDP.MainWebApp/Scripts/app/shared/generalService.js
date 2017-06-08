@@ -4,6 +4,20 @@
            'baseService',
            function ($http, baseService) {
                var result = angular.extend({
+                   createCliente: function (dto) {
+                       return $http({
+                           method: 'POST',
+                           url: '/General/CreateCliente',
+                           data: { dto: dto }
+                       });
+                   },
+                   updateCliente: function (dto) {
+                       return $http({
+                           method: 'POST',
+                           url: '/General/UpdateCliente',
+                           data: { dto: dto }
+                       });
+                   },
                    getClienteById: function (id) {
                        return $http({
                            method: 'POST',
@@ -16,6 +30,13 @@
                            method: 'POST',
                            url: '/General/GetClientesByFilter',
                            data: { filter: filter }
+                       });
+                   },
+                   createProveedor: function (dto) {
+                       return $http({
+                           method: 'POST',
+                           url: '/General/CreateProveedor',
+                           data: { dto: dto }
                        });
                    },
                    getClientesConProveedorByFilter: function (filter) {

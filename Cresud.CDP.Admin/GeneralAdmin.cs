@@ -98,6 +98,60 @@ namespace Cresud.CDP.Admin
 
         #region Clientes
 
+        public Dtos.Cliente CreateCliente(Dtos.Cliente dto)
+        {
+            ValidateCliente(dto);
+            var empresa = CdpContext.Empresas.Single(e => e.Id == CDPSession.Current.Usuario.CurrentEmpresa.Id);
+            var idSapOrganizacionDeVenta = int.Parse(empresa.IdSapOrganizacionDeVenta);
+            var lastClienete = CdpContext.Clientes.OrderByDescending(c => c.Id).FirstOrDefault(c => c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta && c.EsProspecto);
+            var currentId = int.Parse(lastClienete != null ? lastClienete.Id : "9299999");
+                        
+            var entity = new Entities.Cliente
+            {
+                Id = (++currentId).ToString(),
+                NombreFantasia = dto.RazonSocial,
+                RazonSocial = dto.RazonSocial,
+                Cuit = dto.Cuit,
+                IdTipoDocumentoSap = 80,
+                EsProspecto = true,
+                Enabled = true,
+                CreateDate = DateTime.Now,
+                Calle = string.Empty,
+                ClaveGrupo = string.Empty,
+                Cp = string.Empty,
+                DescripcionGe = string.Empty,
+                Dto = string.Empty,
+                GrupoComercial = string.Empty,
+                Numero = string.Empty,
+                Piso = string.Empty,
+                Poblacion = string.Empty,
+                Tratamiento = string.Empty,
+                IdSapOrganizacionDeVenta = string.IsNullOrEmpty(empresa.IdSapOrganizacionDeVenta) ? 0 : idSapOrganizacionDeVenta
+            };
+
+            CdpContext.Clientes.Add(entity);
+            CdpContext.SaveChanges();
+
+            return Mapper.Map<Entities.Cliente, Dtos.Cliente>(entity);
+        }
+
+        public Dtos.Cliente UpdateCliente(Dtos.Cliente dto)
+        {
+            ValidateCliente(dto);
+            var entity = CdpContext.Clientes.Single(e => e.Id == dto.Id);
+            CdpContext.SaveChanges();
+
+            return Mapper.Map<Entities.Cliente, Dtos.Cliente>(entity);
+        }
+
+        private void ValidateCliente(Dtos.Cliente dto)
+        {
+            var entity = CdpContext.Clientes.FirstOrDefault(c => string.Equals(c.Cuit, dto.Cuit));
+
+            if (entity != null && entity.Id != dto.Id)
+                throw new Exception(string.Format("El {0} ya se encuentra asignado a otro cliente", CDPSession.Current.Usuario.CurrentEmpresaLabelCuit));
+        }
+
         public Dtos.Cliente GetClienteById(string clienteId)
         {
             var cliente = CdpContext.Clientes.FirstOrDefault(c => c.Id == clienteId);
@@ -220,6 +274,45 @@ namespace Cresud.CDP.Admin
 
         #region Proveedores
 
+
+        public object CreateProveedor(Dtos.Proveedor dto)
+        {
+            ValidateProveedor(dto);
+            var empresa = CdpContext.Empresas.Single(e => e.Id == CDPSession.Current.Usuario.CurrentEmpresa.Id);
+            var idSapOrganizacionDeVenta = int.Parse(empresa.IdSapOrganizacionDeVenta);
+            var lastProveedor = CdpContext.Proveedores.OrderByDescending(c => c.SapId).FirstOrDefault(c => c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta && c.EsProspecto);
+            var currentId = long.Parse(lastProveedor != null ? lastProveedor.SapId : "9300000000");
+
+            var entity = new Entities.Proveedor
+            {
+                SapId = (++currentId).ToString(),   
+                Nombre = dto.Nombre,
+                TipoDocumento = CdpContext.TiposDocumentoSap.Single(e => e.SapId == "80"),
+                NumeroDocumento = dto.NumeroDocumento,
+                EsProspecto = true,
+                Enabled = true,
+                CreateDate = DateTime.Now,
+                Calle = string.Empty,                
+                Cp = string.Empty,                                                
+                Numero = string.Empty,
+                Piso = string.Empty,                                
+                IdSapOrganizacionDeVenta = string.IsNullOrEmpty(empresa.IdSapOrganizacionDeVenta) ? 0 : idSapOrganizacionDeVenta
+            };
+
+            CdpContext.Proveedores.Add(entity);
+            CdpContext.SaveChanges();
+
+            return Mapper.Map<Entities.Proveedor, Dtos.Proveedor>(entity);
+        }
+
+        private void ValidateProveedor(Dtos.Proveedor dto)
+        {
+            var entity = CdpContext.Proveedores.FirstOrDefault(c => string.Equals(c.NumeroDocumento, dto.NumeroDocumento));
+
+            if (entity != null && entity.Id != dto.Id)
+                throw new Exception(string.Format("El {0} ya se encuentra asignado a otro proveedor", CDPSession.Current.Usuario.CurrentEmpresaLabelCuit));
+        }
+
         public PagedListResponse<Dtos.Proveedor> GetProveedoresByFilter(FilterBase filter)
         {
             var empresa = CdpContext.Empresas.Single(e => e.Id == filter.EmpresaId);
@@ -246,9 +339,6 @@ namespace Cresud.CDP.Admin
             };
         }
 
-        #endregion
-
-
-      
+        #endregion       
     }
 }

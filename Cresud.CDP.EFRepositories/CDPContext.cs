@@ -603,6 +603,7 @@ namespace Cresud.CDP.EFRepositories
         public IDbSet<LogSap> LogsSap { get; set; }
         public IDbSet<RemitoParaguay> RemitosParaguay { get; set; }
         public IDbSet<AfipAuth> AfipAuth { get; set; }
+        public IDbSet<TipoDocumentoSap> TiposDocumentoSap { get; set; }
     }
 }
 

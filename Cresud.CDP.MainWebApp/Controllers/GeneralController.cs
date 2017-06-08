@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Cresud.CDP.Admin;
 using Cresud.CDP.Dtos;
@@ -10,8 +11,47 @@ namespace Cresud.CDP.MainWebApp.Controllers
 {
     [Authorize]
     public class GeneralController : BaseController<GeneralAdmin, int, object, object, FilterBase>
-    {        
-              [HttpPost]
+    {
+        #region Clientes
+
+        [HttpPost]
+        public virtual ActionResult CreateCliente(Cliente dto)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = _admin.CreateCliente(dto);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateCliente(Cliente dto)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = _admin.UpdateCliente(dto);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
+
+        [HttpPost]
         public ActionResult GetClienteById(string id)
         {
             var response = new Response<Dtos.Cliente>();
@@ -65,6 +105,28 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return this.JsonNet(response);
         }
 
+        #endregion
+
+        #region Proveedores
+
+        [HttpPost]
+        public virtual ActionResult CreateProveedor(Proveedor dto)
+        {
+            var response = new Response<object> { Result = new Result() { HasErrors = false, Messages = new List<string>() } };
+
+            try
+            {
+                response.Data = _admin.CreateProveedor(dto);
+            }
+            catch (Exception ex)
+            {
+                response.Result.HasErrors = true;
+                response.Result.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
         [HttpPost]
         public ActionResult GetProveedoresByFilter(FilterBase filter)
         {
@@ -82,6 +144,8 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             return this.JsonNet(response);
         }
+
+        #endregion
         
         public override object GetDataList()
         {
