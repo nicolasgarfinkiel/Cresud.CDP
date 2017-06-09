@@ -660,6 +660,12 @@ namespace Cresud.CDP.Admin
             return ReportManager.Render("RemitoCresca.rdlc", DataSetConverter.GetDataSet(remito), "PDF");
         }
 
+        public byte[] ReporteSimplePdf(int solicitudId)
+        {
+            var solicitud = new SolicitudesAdmin().GetById(solicitudId);
+            return ReportManager.Render("CartaDeporteSimple.rdlc", DataSetConverter.GetDataSet(solicitud), "PDF");
+        }
+
         private byte[] GetReporteITextSharp(int solicitudId)
         {
             var solicitud = CdpContext.SolicitudesReport.Single(s => s.Id == solicitudId);
@@ -871,7 +877,6 @@ namespace Cresud.CDP.Admin
             cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, text, x, y, 0);            
             cb.EndText();
         }
-
-
+        
     }
 }

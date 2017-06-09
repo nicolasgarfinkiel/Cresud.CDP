@@ -122,6 +122,17 @@ namespace Cresud.CDP.MainWebApp.Controllers
             };
         }
 
+        public ActionResult ReporteSimplePdf(int solicitudId, string numeroCartaDePorte)
+        {
+            var pdf = _admin.ReporteSimplePdf(solicitudId);
+
+            return new PdfResult
+            {
+                Content = pdf,
+                FileName = string.Format("CartaDePorteSimple_{0}.pdf", numeroCartaDePorte)
+            };
+        }
+
         #endregion
 
         #region ConfirmacionArribo

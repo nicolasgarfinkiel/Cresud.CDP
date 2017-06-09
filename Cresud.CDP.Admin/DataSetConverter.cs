@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Cresud.CDP.Dtos;
 using Cresud.CDP.Entities;
+using SolicitudReport = Cresud.CDP.Dtos.SolicitudReport;
 
 namespace Cresud.CDP.Admin
 {
@@ -79,6 +81,40 @@ namespace Cresud.CDP.Admin
             row["HabilitacionNum"] = remito.HabilitacionNum;
 
             table.Rows.Add(row);            
+
+            return result;
+        }
+
+        public static DataSet GetDataSet(SolicitudEdit solicitud)
+        {
+            var result = new DataSet();
+            var table = result.Tables.Add("SolicitudDS");
+
+            table.Columns.Add(new DataColumn("SolicitudId"));
+            table.Columns.Add(new DataColumn("NumeroCartaDePorte"));
+            table.Columns.Add(new DataColumn("FechaDeCarga"));
+            table.Columns.Add(new DataColumn("Grano_Tipo"));
+            table.Columns.Add(new DataColumn("Grano_Peso"));
+            table.Columns.Add(new DataColumn("Grano_Observaciones"));
+          
+
+
+            var row = table.NewRow();
+
+            row["SolicitudId"] = solicitud.Id.ToString();
+            row["NumeroCartaDePorte"] = solicitud.NumeroCartaDePorte;
+            row["FechaDeCarga"] = solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToShortDateString() : string.Empty;
+
+            //Ver remitente comercial
+
+            row["Grano_Tipo"] = string.Format("{0} / {1}", solicitud.Grano.Descripcion, solicitud.Grano.TipoGranoAfipDescripcion);
+            row["Grano_Observaciones"] = solicitud.Observaciones; 
+
+           
+            
+          //ToShortDateString
+
+            table.Rows.Add(row);
 
             return result;
         }
