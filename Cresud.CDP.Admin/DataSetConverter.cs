@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Entities;
-using SolicitudReport = Cresud.CDP.Dtos.SolicitudReport;
 
 namespace Cresud.CDP.Admin
 {
@@ -93,11 +90,32 @@ namespace Cresud.CDP.Admin
             table.Columns.Add(new DataColumn("SolicitudId"));
             table.Columns.Add(new DataColumn("NumeroCartaDePorte"));
             table.Columns.Add(new DataColumn("FechaDeCarga"));
+
             table.Columns.Add(new DataColumn("Grano_Tipo"));
             table.Columns.Add(new DataColumn("Grano_Peso"));
             table.Columns.Add(new DataColumn("Grano_Observaciones"));
-          
 
+            table.Columns.Add(new DataColumn("Procedencia_Direccion"));
+            table.Columns.Add(new DataColumn("Procedencia_Localidad"));
+            table.Columns.Add(new DataColumn("Procedencia_Provincia"));
+
+            table.Columns.Add(new DataColumn("Transporte_Nombre"));
+            table.Columns.Add(new DataColumn("Transporte_Cuit"));
+            table.Columns.Add(new DataColumn("Transporte_Domicilio"));
+            table.Columns.Add(new DataColumn("Transporte_Camion"));
+            table.Columns.Add(new DataColumn("Transporte_KmRecorridos"));            
+            table.Columns.Add(new DataColumn("Transporte_Acoplado"));
+
+            table.Columns.Add(new DataColumn("Chofer_Nombre"));
+            table.Columns.Add(new DataColumn("Chofer_Cuit"));
+
+            table.Columns.Add(new DataColumn("Destinatario_Nombre"));
+            table.Columns.Add(new DataColumn("Destinatario_Cuit"));
+            table.Columns.Add(new DataColumn("Destinatario_Domicilio"));
+
+            table.Columns.Add(new DataColumn("Destino_Direccion"));
+            table.Columns.Add(new DataColumn("Destino_Localidad"));
+            table.Columns.Add(new DataColumn("Destino_Provincia"));
 
             var row = table.NewRow();
 
@@ -105,15 +123,57 @@ namespace Cresud.CDP.Admin
             row["NumeroCartaDePorte"] = solicitud.NumeroCartaDePorte;
             row["FechaDeCarga"] = solicitud.FechaDeCarga.HasValue ? solicitud.FechaDeCarga.Value.ToShortDateString() : string.Empty;
 
-            //Ver remitente comercial
+            //Ver remitente comercial            
 
-            row["Grano_Tipo"] = string.Format("{0} / {1}", solicitud.Grano.Descripcion, solicitud.Grano.TipoGranoAfipDescripcion);
-            row["Grano_Observaciones"] = solicitud.Observaciones; 
+            if (solicitud.Grano != null)
+            {
+                row["Grano_Tipo"] = string.Format("{0} / {1}", solicitud.Grano.Descripcion, solicitud.Grano.TipoGranoAfipDescripcion);
+                row["Grano_Peso"] = solicitud.PesoNeto;
+                row["Grano_Observaciones"] = solicitud.Observaciones;
+            }
 
-           
-            
-          //ToShortDateString
+            if (solicitud.EstablecimientoProcedencia != null)
+            {
+                row["Procedencia_Direccion"] = solicitud.EstablecimientoProcedencia.Direccion;
+                row["Procedencia_Localidad"] = solicitud.EstablecimientoProcedencia.LocalidadDescripcion;
+                row["Procedencia_Provincia"] = solicitud.EstablecimientoProcedencia.ProvinciaDescripcion;
+            }
 
+            if (solicitud.ClientePagadorDelFlete != null)
+            {
+                row["Transporte_Nombre"] = solicitud.ClientePagadorDelFlete.RazonSocial;
+                row["Transporte_Cuit"] = solicitud.ClientePagadorDelFlete.Cuit;
+                row["Transporte_Domicilio"] = string.Format("Calle: {0}. Número: {1}. Piso: {2}. C.P.: {3}.",
+                    solicitud.ClientePagadorDelFlete.Calle, solicitud.ClientePagadorDelFlete.Numero,
+                    solicitud.ClientePagadorDelFlete.Piso, solicitud.ClientePagadorDelFlete.Cp);
+            }
+
+            row["Transporte_Camion"] = solicitud.PatenteCamion;
+            row["Transporte_Acoplado"] = solicitud.PatenteAcoplado;
+            row["Transporte_KmRecorridos"] = solicitud.KmRecorridos;
+
+            if (solicitud.Chofer != null)
+            {
+                row["Chofer_Nombre"] = solicitud.Chofer.Nombre;
+                row["Chofer_Cuit"] = solicitud.Chofer.Cuit;
+            }
+
+            if (solicitud.ClienteDestinatario != null)
+            {
+                row["Destinatario_Nombre"] = solicitud.ClienteDestinatario.RazonSocial;
+                row["Destinatario_Cuit"] = solicitud.ClienteDestinatario.Cuit;
+                row["Destinatario_Domicilio"] = string.Format("Calle: {0}. Número: {1}. Piso: {2}. C.P.: {3}.",
+                    solicitud.ClienteDestinatario.Calle, solicitud.ClienteDestinatario.Numero,
+                    solicitud.ClienteDestinatario.Piso, solicitud.ClienteDestinatario.Cp);
+            }
+
+            if (solicitud.EstablecimientoProcedencia != null)
+            {
+                row["Destino_Direccion"] = solicitud.EstablecimientoDestino.Direccion;
+                row["Destino_Localidad"] = solicitud.EstablecimientoDestino.LocalidadDescripcion;
+                row["Destino_Provincia"] = solicitud.EstablecimientoDestino.ProvinciaDescripcion;
+            }
+                       
             table.Rows.Add(row);
 
             return result;

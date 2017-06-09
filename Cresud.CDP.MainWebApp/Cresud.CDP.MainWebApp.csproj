@@ -445,6 +445,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\CartaDeporteSimple.rdlc" />
     <EmbeddedResource Include="Reports\RemitoCresca.rdlc" />
   </ItemGroup>
   <PropertyGroup>
