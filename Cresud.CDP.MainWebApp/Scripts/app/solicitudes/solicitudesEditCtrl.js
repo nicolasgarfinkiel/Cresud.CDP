@@ -97,79 +97,30 @@
                        $scope.result.messages.push('Seleccione un tipo de carta');
                    }
 
-                   if ($scope.controlsVisibility.numeroCartaDePorte && !$scope.entity.numeroCartaDePorte) {
-                       $scope.result.messages.push('Ingrese el número de carta de porte');
-                   }
-
                    if (!$scope.entity.proveedorTitularCartaDePorte) {
                        $scope.result.messages.push('Seleccione un titular de carta de porte');
-                   }
-
-                   if (!$scope.entity.clienteDestinatario) {
-                       $scope.result.messages.push('Seleccione un cliente destinatario');
-                   }
-
-                   if (!$scope.entity.clienteDestino) {
-                       $scope.result.messages.push('Seleccione un cliente destino');
                    }
 
                    if (!$scope.entity.grano) {
                        $scope.result.messages.push('Seleccione un grano');
                    }
 
-                   if (!$scope.entity.conformeCondicionalId) {
-                       $scope.result.messages.push('Seleccione conforme o condicional');
-                   }
-
-                   if (!$scope.entity.estadoFlete) {
-                       $scope.result.messages.push('Seleccione el estado del pago del flete');
-                   }
-
                    if (!$scope.entity.establecimientoProcedencia) {
                        $scope.result.messages.push('Seleccione la procedencia de la mercadería');
                    }
-
-                   if (!$scope.entity.establecimientoDestino) {
-                       $scope.result.messages.push('Seleccione el destino de la mercadería');
-                   }
-
-                   if (!$scope.entity.clienteRemitenteComercial && (($scope.entity.tipoDeCartaId == 6 || 
-                       ($scope.entity.tipoDeCartaId == 2 && 
-                        $scope.entity.clienteDestino && 
-                        $scope.entity.clienteDestinatario &&  
-                        $scope.entity.proveedorTitularCartaDePorte && 
-                        $scope.entity.clienteDestinatario.cuit != $scope.entity.proveedorTitularCartaDePorte.cuit)))) {
-                        $scope.result.messages.push('Seleccione un cliente remitente comercial');
-                   }
-
-                   if ($scope.entity.cargaPesadaDestino && !$scope.entity.kilogramosEstimados) {
-                       $scope.result.messages.push('Ingrese los kilogramos estimados');
-                   }
-
+                  
                    if ($scope.entity.cargaPesadaDestino && $scope.entity.kilogramosEstimados && isNaN($scope.entity.kilogramosEstimados)) {
                        $scope.result.messages.push('Ingrese un valor numérico para los kilogramos estimados');
                    }
-
-                   if (!$scope.entity.cargaPesadaDestino && !$scope.entity.pesoBruto) {
-                       $scope.result.messages.push('Ingrese el peso bruto');
-                   }
-
+                  
                    if (!$scope.entity.cargaPesadaDestino && $scope.entity.pesoBruto && isNaN($scope.entity.pesoBruto)) {
                        $scope.result.messages.push('El peso bruto debe ser numérico');
                    }
-
-                   if (!$scope.entity.cargaPesadaDestino && !$scope.entity.pesoTara) {
-                       $scope.result.messages.push('Ingrese el peso tara');
-                   }
-
+                 
                    if (!$scope.entity.cargaPesadaDestino && $scope.entity.pesoTara && isNaN($scope.entity.pesoTara)) {
                        $scope.result.messages.push('El peso tara debe ser numérico');
                    }
-                  
-                   if ($scope.controlsVisibility.tarifaReferencia && !$scope.entity.tarifaReferencia) {
-                       $scope.result.messages.push('Ingrese la tarifa de referencia enviada por AFIP');
-                   }
-
+                                     
                    if ($scope.controlsVisibility.tarifaReferencia && $scope.entity.tarifaReferencia && isNaN($scope.entity.tarifaReferencia)) {
                        $scope.result.messages.push('La tarifa de referencia debe ser numérica');
                    }
@@ -198,6 +149,60 @@
                    }
 
                    if ($scope.entity.enviar) {
+
+                       if ($scope.controlsVisibility.numeroCartaDePorte && !$scope.entity.numeroCartaDePorte) {
+                           $scope.result.messages.push('Ingrese el número de carta de porte');
+                       }
+
+                       if (!$scope.entity.clienteDestinatario) {
+                           $scope.result.messages.push('Seleccione un cliente destinatario');
+                       }
+
+                       if (!$scope.entity.clienteDestino) {
+                           $scope.result.messages.push('Seleccione un cliente destino');
+                       }
+
+                       if (!$scope.entity.conformeCondicionalId) {
+                           $scope.result.messages.push('Seleccione conforme o condicional');
+                       }
+
+                       if (!$scope.entity.estadoFlete) {
+                           $scope.result.messages.push('Seleccione el estado del pago del flete');
+                       }
+
+                       if (!$scope.entity.establecimientoDestino) {
+                           $scope.result.messages.push('Seleccione el destino de la mercadería');
+                       }
+
+                       if (!$scope.entity.clienteRemitenteComercial && (($scope.entity.tipoDeCartaId == 6 ||
+                           ($scope.entity.tipoDeCartaId == 2 &&
+                            $scope.entity.clienteDestino &&
+                            $scope.entity.clienteDestinatario &&
+                            $scope.entity.proveedorTitularCartaDePorte &&
+                            $scope.entity.clienteDestinatario.cuit != $scope.entity.proveedorTitularCartaDePorte.cuit)))) {
+                           $scope.result.messages.push('Seleccione un cliente remitente comercial');
+                       }
+
+                       if ($scope.entity.cargaPesadaDestino && !$scope.entity.kilogramosEstimados) {
+                           $scope.result.messages.push('Ingrese los kilogramos estimados');
+                       }
+
+
+                       if (!$scope.entity.cargaPesadaDestino && !$scope.entity.pesoBruto) {
+                           $scope.result.messages.push('Ingrese el peso bruto');
+                       }
+
+                       if (!$scope.entity.cargaPesadaDestino && !$scope.entity.pesoTara) {
+                           $scope.result.messages.push('Ingrese el peso tara');
+                       }
+
+                       if ($scope.controlsVisibility.tarifaReferencia && !$scope.entity.tarifaReferencia) {
+                           $scope.result.messages.push('Ingrese la tarifa de referencia enviada por AFIP');
+                       }
+
+
+
+
 
                        if ($scope.entity.tipoDeCartaId == 4 || $scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) {
 
