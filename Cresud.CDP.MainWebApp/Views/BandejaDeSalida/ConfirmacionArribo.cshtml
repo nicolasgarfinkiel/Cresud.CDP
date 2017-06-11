@@ -25,3 +25,73 @@
     </div>
 </section>
 
+<div class="modal" id="confirmacionModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 740px; position: relative;left: -200px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Confirmación de Arribo
+                    </header>
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Número carta de porte</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;"><b>{{selectedEntity.numeroCartaDePorte}}</b></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Código trazabilidad de granos</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">{{selectedEntity.ctg}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Cuit transportista</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">{{selectedEntity.proveedorTransportista ? selectedEntity.proveedorTransportista.numeroDocumento : selectedEntity.choferTransportista.cuit }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Cuit/Cuil chofer</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">{{selectedEntity.chofer.cuit}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Establecimiento procedencia</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">{{selectedEntity.establecimientoProcedencia.descripcion}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Kg. netos</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">{{selectedEntity.pesoNeto}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Consumo propio</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">
+                                    <span style="position: relative; top: -2px;">Si</span> <input type="radio" value="S" ng-model="selectedEntity.consumoPropio" /> 
+                                    <span style="position: relative; top: -2px;">No</span> <input type="radio" value="N" ng-model="selectedEntity.consumoPropio" /> 
+                                </span>                                
+                            </div>
+                        </div>
+
+
+                        <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                            <i class="fa fa-bolt"></i>
+                            <div ng-repeat="message in resultModal.messages">{{message}}</div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="setArribo()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

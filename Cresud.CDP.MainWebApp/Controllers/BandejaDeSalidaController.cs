@@ -17,11 +17,13 @@ namespace Cresud.CDP.MainWebApp.Controllers
     {
         private readonly GeneralAdmin _generalAdmin;
         private readonly GranosAdmin _granosAdmin;
+        private readonly SolicitudesAdmin _solicitudesAdmin;
 
         public BandejaDeSalidaController()
         {
             _generalAdmin = new GeneralAdmin();
             _granosAdmin = new GranosAdmin();
+            _solicitudesAdmin = new SolicitudesAdmin();
         }
 
         #region Base
@@ -176,7 +178,23 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return this.JsonNet(response);
         }
 
+         [HttpPost]
+        public ActionResult ConfirmarArribo(int solicitudId, string consumoPropio)
+        {
+            var response = new Result() { HasErrors = false, Messages = new List<string>() };
 
+            try
+            {
+                response = _solicitudesAdmin.ConfirmarArribo(solicitudId, consumoPropio);
+            }
+            catch (Exception ex)
+            {
+                response.HasErrors = true;
+                response.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }        
 
         #endregion
 

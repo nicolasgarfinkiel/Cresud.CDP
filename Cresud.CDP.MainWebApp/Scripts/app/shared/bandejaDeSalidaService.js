@@ -43,5 +43,12 @@
                            data: { filter: filter }
                        });
                    },
+                   confirmarArribo: function (solicitudId, consumoPropio) {
+                       return $http({
+                           method: 'POST',
+                           url: '/BandejaDeSalida/ConfirmarArribo',
+                           data: { solicitudId: solicitudId, consumoPropio: consumoPropio }
+                       });
+                   }
                };
            }]);

@@ -324,6 +324,41 @@ namespace Cresud.CDP.Admin
 
         #endregion
 
+        public Result ConfirmarArribo(int solicitudId, string consumoPropio)
+        {
+            var result = new Result { Messages = new List<string>() };
+            var solicitudEdit = GetById(solicitudId);
+            var solicitud = CdpContext.Solicitudes.Single(s => s.Id == solicitudId);
+            var auth = CdpContext.AfipAuth.FirstOrDefault();
+
+            var wsResult = _afipAdmin.ConfirmarArribo(solicitudEdit, auth, consumoPropio);
+
+            if (wsResult.arrayErrores.Length > 0)
+            {
+                if (wsResult.arrayErrores.Any(e => string.Equals(e, "confirmado")))
+                {
+                    solicitud.EstadoEnAFIP = 5;
+                }
+
+                if (wsResult.arrayErrores.Any(e => string.Equals(e, "definitivo")))
+                {
+                    solicitud.EstadoEnAFIP = 6;
+                }
+
+                solicitud.ObservacionAfip = string.Join(", ", wsResult.arrayErrores);
+            }
+            else
+            {
+                solicitud.CodigoAnulacionAfip = wsResult.datosResponse.codigoOperacion;
+                solicitud.ObservacionAfip = "CTG Confirmado Manual";
+                solicitud.EstadoEnAFIP = 5 ;
+            }
+
+            CdpContext.SaveChanges();
+
+            return result;
+        }
+
         public Result ReenviarSap(int id)
         {
             var result = new Result { Messages = new List<string>() };

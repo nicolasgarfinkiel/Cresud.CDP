@@ -2,8 +2,10 @@
        .controller('confirmacionArriboCtrl', [
            '$scope',
            'bandejaDeSalidaService',
-           function ($scope, bandejaDeSalidaService) {
+           'solicitudesService',
+           function ($scope, bandejaDeSalidaService, solicitudesService) {
                $scope.filter = {};
+               $scope.resultModal = {hasErrors: false, messages: []};
 
                //#region Init
 
@@ -30,6 +32,7 @@
                         { field: 'estDestino', displayName: 'Establecimiento Destino' },
                         { field: 'pesoNeto', displayName: 'Peso', width: 60 },
                         { field: 'createdBy', displayName: 'Usuario', width: 140 },
+                        { field: 'fecha', displayName: 'Confirmar', width: 100, cellTemplate: '<div class="ng-grid-icon-container"><a title="Confirmar Arribo" ng-click="confirmarArribo(row.entity)" href="javascript:void(0)"><img style="width: 15px;" src="content/images/icon_select.gif" /></a></div>' },
                         { field: 'fecha', displayName: 'Ver', width: 60, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="/solicitudes#/edit/{{row.entity.id}}"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
                    ],
                    showFooter: true,
@@ -57,6 +60,42 @@
                        $scope.dataCount = response.data.count;
                        $scope.result = response.data.result;
                    }, function () { throw 'Error on getConfirmacionesArriboByFilter'; });
+               };
+
+               $scope.confirmarArribo = function (entity) {
+                   solicitudesService.getById(entity.id).then(function(response) {
+                       $scope.resultModal = { hasErrors: false, messages: [] };
+                       $scope.selectedEntity = response.data.data;
+                       $('#confirmacionModal').modal('show');
+                   });                   
+               };
+
+               $scope.setArribo = function () {
+                   if (!$scope.isValidConfirmacion()) return;
+
+                   bandejaDeSalidaService.confirmarArribo($scope.selectedEntity.id, $scope.selectedEntity.consumoPropio).then(function (response) {
+                       $scope.resultModal = response.data;
+
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $scope.find();
+                       $('#confirmacionModal').modal('hide');
+                   });                   
+               };
+
+               $scope.isValidConfirmacion = function() {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+
+                   if (typeof $scope.selectedEntity.consumoPropio == 'undefined') {
+                       $scope.resultModal.messages.push('Indique si es consumo propio');
+                   }
+
+                   //if (!$scope.entity.establecimiento) {
+                   //    $scope.result.messages.push('Selecione el establecimiento');
+                   //}
+
+                   $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
+                   return !$scope.resultModal.hasErrors;
                };
 
                $scope.$watch('gridOptions.pagingOptions', function (newVal, oldVal) {

@@ -115,6 +115,47 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             return service.solicitarCTGInicial(request);
         }
 
+        public operacionCTGReturnType ConfirmarArribo(SolicitudEdit solicitud, AfipAuth auth, string consumoPropio)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
+
+            var request = new confirmarArriboRequestType();
+            request.auth = new authType();
+            request.auth.token = auth.Token;
+            request.auth.sign = auth.Sign;
+            request.auth.cuitRepresentado = long.Parse(auth.CuitRepresentado);
+            request.datosConfirmarArribo = new datosConfirmarArriboType();
+            request.datosConfirmarArribo.ctg = Convert.ToInt64(solicitud.Ctg);
+            request.datosConfirmarArribo.cantKilosCartaPorte = (long)solicitud.KilogramosEstimados;
+            request.datosConfirmarArribo.cartaPorte = Convert.ToInt64(solicitud.NumeroCartaDePorte);
+            request.datosConfirmarArribo.consumoPropio = consumoPropio;            
+
+            if (solicitud.ClientePagadorDelFlete != null && int.Parse(solicitud.ClientePagadorDelFlete.Id) > 0 && new EmpresaAdmin().GetByClienteId(int.Parse(solicitud.ClientePagadorDelFlete.Id)) != null)
+            {
+                if (solicitud.ProveedorTransportista != null)
+                {
+                    request.datosConfirmarArribo.cuitTransportista = (long)Convert.ToDouble(solicitud.ProveedorTransportista.NumeroDocumento); //27054888649;
+                }
+            }
+            else
+            {
+                if (solicitud.ChoferTransportista != null)
+                {
+                    request.datosConfirmarArribo.cuitTransportista = (long)Convert.ToDouble(solicitud.ChoferTransportista.Cuit); //27054888649;
+                }
+            }
+
+            if (!String.IsNullOrEmpty(solicitud.EstablecimientoProcedencia.EstablecimientoAfip.Trim()))
+            {
+                request.datosConfirmarArribo.establecimiento = Convert.ToInt64(solicitud.EstablecimientoProcedencia.EstablecimientoAfip.Trim());
+                request.datosConfirmarArribo.establecimientoSpecified = true;
+                //request.datosConfirmarArribo.consumoPropio = "N"; -- SPOSZALSKI tiene que ver esto. Asi es como estaba antes.
+            }
+
+            return service.confirmarArribo(request);
+        }
+
         #region NetworkCredential
         public NetworkCredential NetWorkCredential
         {
@@ -134,5 +175,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             }
         }
         #endregion
+
+       
     }
 }
