@@ -115,7 +115,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             return service.solicitarCTGInicial(request);
         }
 
-        public operacionCTGReturnType ConfirmarArribo(SolicitudEdit solicitud, AfipAuth auth, string consumoPropio)
+        public operacionCTGReturnType ConfirmarArribo(SolicitudEdit solicitud, AfipAuth auth, string consumoPropio, long establecimientoAfip)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
             var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
@@ -146,12 +146,8 @@ namespace Cresud.CDP.Admin.ServicesAdmin
                 }
             }
 
-            if (!String.IsNullOrEmpty(solicitud.EstablecimientoProcedencia.EstablecimientoAfip.Trim()))
-            {
-                request.datosConfirmarArribo.establecimiento = Convert.ToInt64(solicitud.EstablecimientoProcedencia.EstablecimientoAfip.Trim());
-                request.datosConfirmarArribo.establecimientoSpecified = true;
-                //request.datosConfirmarArribo.consumoPropio = "N"; -- SPOSZALSKI tiene que ver esto. Asi es como estaba antes.
-            }
+            request.datosConfirmarArribo.establecimiento = establecimientoAfip;
+            request.datosConfirmarArribo.establecimientoSpecified = true;
 
             return service.confirmarArribo(request);
         }

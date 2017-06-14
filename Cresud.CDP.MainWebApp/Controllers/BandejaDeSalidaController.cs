@@ -179,13 +179,13 @@ namespace Cresud.CDP.MainWebApp.Controllers
         }
 
          [HttpPost]
-        public ActionResult ConfirmarArribo(int solicitudId, string consumoPropio)
+        public ActionResult ConfirmarArribo(int solicitudId, string consumoPropio, long establecimientoAfip)
         {
             var response = new Result() { HasErrors = false, Messages = new List<string>() };
 
             try
             {
-                response = _solicitudesAdmin.ConfirmarArribo(solicitudId, consumoPropio);
+                response = _solicitudesAdmin.ConfirmarArribo(solicitudId, consumoPropio, establecimientoAfip);
             }
             catch (Exception ex)
             {

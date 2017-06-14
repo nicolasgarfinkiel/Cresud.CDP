@@ -57,17 +57,32 @@
                             <div class="col-lg-8">
                                 <span style="position:relative; top: 8px;">{{selectedEntity.chofer.cuit}}</span>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">Establecimiento procedencia</label>
-                            <div class="col-lg-8">
-                                <span style="position:relative; top: 8px;">{{selectedEntity.establecimientoProcedencia.descripcion}}</span>
-                            </div>
-                        </div>
+                        </div>                       
                         <div class="form-group">
                             <label class="col-lg-4 control-label">Kg. netos</label>
                             <div class="col-lg-8">
                                 <span style="position:relative; top: 8px;">{{selectedEntity.pesoNeto}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Establecimiento procedencia</label>
+                            <div class="col-lg-8">
+                                <ui-select ng-model="selectedEntity.establecimientoProcedenciaAux" theme="select2" style="width: 100%;" append-to-body="true">
+                                    <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
+                                    <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                        <div ng-bind="item.descripcion"></div>
+                                        <small>
+                                            <span ng-if="item.direccion">({{item.direccion}})</span>
+                                        </small>
+                                        <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                            <button class="btn btn-xs btn-info"
+                                                    style="width: 100%; margin-top: 20px;"
+                                                    ng-click="getSelectSource($select, $event);">
+                                                Siguiente
+                                            </button>
+                                        </div>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                         </div>
                         <div class="form-group">

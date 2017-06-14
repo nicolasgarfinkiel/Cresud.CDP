@@ -324,14 +324,14 @@ namespace Cresud.CDP.Admin
 
         #endregion
 
-        public Result ConfirmarArribo(int solicitudId, string consumoPropio)
+        public Result ConfirmarArribo(int solicitudId, string consumoPropio, long establecimientoAfip)
         {
             var result = new Result { Messages = new List<string>() };
             var solicitudEdit = GetById(solicitudId);
             var solicitud = CdpContext.Solicitudes.Single(s => s.Id == solicitudId);
             var auth = CdpContext.AfipAuth.FirstOrDefault();
 
-            var wsResult = _afipAdmin.ConfirmarArribo(solicitudEdit, auth, consumoPropio);
+            var wsResult = _afipAdmin.ConfirmarArribo(solicitudEdit, auth, consumoPropio, establecimientoAfip);
 
             if (wsResult.arrayErrores.Length > 0)
             {

@@ -43,11 +43,11 @@
                            data: { filter: filter }
                        });
                    },
-                   confirmarArribo: function (solicitudId, consumoPropio) {
+                   confirmarArribo: function (solicitudId, consumoPropio, establecimientoAfip) {
                        return $http({
                            method: 'POST',
                            url: '/BandejaDeSalida/ConfirmarArribo',
-                           data: { solicitudId: solicitudId, consumoPropio: consumoPropio }
+                           data: { solicitudId: solicitudId, consumoPropio: consumoPropio, establecimientoAfip: establecimientoAfip }
                        });
                    }
                };

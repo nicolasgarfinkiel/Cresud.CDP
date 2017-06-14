@@ -3,9 +3,11 @@
            '$scope',
            'bandejaDeSalidaService',
            'solicitudesService',
-           function ($scope, bandejaDeSalidaService, solicitudesService) {
+           'establecimientosService',
+           function ($scope, bandejaDeSalidaService, solicitudesService, establecimientosService) {
                $scope.filter = {};
-               $scope.resultModal = {hasErrors: false, messages: []};
+               $scope.resultModal = { hasErrors: false, messages: [] };
+               $scope.filterEstablecimientos = { destino: true, pageSize: 20, enabled: true };
 
                //#region Init
 
@@ -13,6 +15,7 @@
                    $scope.data = response.data.data;
                    $scope.filter.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
                    $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;
+                   $scope.filterEstablecimientos.empresaId = $scope.data.usuario.currentEmpresa.id;
                    $scope.find();
                });
 
@@ -62,18 +65,19 @@
                    }, function () { throw 'Error on getConfirmacionesArriboByFilter'; });
                };
 
-               $scope.confirmarArribo = function (entity) {
+               $scope.confirmarArribo = function (entity) {                   
                    solicitudesService.getById(entity.id).then(function(response) {
                        $scope.resultModal = { hasErrors: false, messages: [] };
                        $scope.selectedEntity = response.data.data;
                        $('#confirmacionModal').modal('show');
+                       $scope.selectedEntity.establecimientoProcedenciaAux = null;
                    });                   
                };
 
                $scope.setArribo = function () {
                    if (!$scope.isValidConfirmacion()) return;
 
-                   bandejaDeSalidaService.confirmarArribo($scope.selectedEntity.id, $scope.selectedEntity.consumoPropio).then(function (response) {
+                   bandejaDeSalidaService.confirmarArribo($scope.selectedEntity.id, $scope.selectedEntity.consumoPropio, $scope.selectedEntity.establecimientoProcedenciaAux.establecimientoAfip).then(function (response) {
                        $scope.resultModal = response.data;
 
                        if ($scope.resultModal.hasErrors) return;
@@ -84,15 +88,19 @@
                };
 
                $scope.isValidConfirmacion = function() {
-                   $scope.resultModal = { hasErrors: false, messages: [] };
+                   $scope.resultModal = { hasErrors: false, messages: [] };                  
+
+                   if (!$scope.selectedEntity.establecimientoProcedenciaAux) {
+                       $scope.resultModal.messages.push('Selecione el establecimiento');
+                   }
+
+                   if ($scope.selectedEntity.establecimientoProcedenciaAux && !$scope.selectedEntity.establecimientoProcedenciaAux.establecimientoAfip) {
+                       $scope.resultModal.messages.push('El establecimiento seleccionado no posee establecimientoAfip asignado');
+                   }
 
                    if (typeof $scope.selectedEntity.consumoPropio == 'undefined') {
                        $scope.resultModal.messages.push('Indique si es consumo propio');
                    }
-
-                   //if (!$scope.entity.establecimiento) {
-                   //    $scope.result.messages.push('Selecione el establecimiento');
-                   //}
 
                    $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
                    return !$scope.resultModal.hasErrors;
@@ -107,5 +115,35 @@
                    $scope.gridOptions.pagingOptions.currentPage = 1;
                    $scope.find();
                });
+
+               //#region Select UI
+
+               $scope.selectList = [];
+               $scope.currentPage = 0;
+               $scope.pageCount = 0;                              
+
+               $scope.getSelectSource = function ($select, $event) {
+                   if ($scope.loading) return;
+
+                   if (!$event) {
+                       $scope.currentPage = 1;
+                       $scope.pageCount = 0;
+                       $scope.selectList = [];
+                   } else {
+                       $event.stopPropagation();
+                       $event.preventDefault();
+                       $scope.currentPage++;
+                   }
+
+                   $scope.filterEstablecimientos.currentPage = $scope.currentPage;
+                   $scope.filterEstablecimientos.multiColumnSearchText = $select.search;
+
+                   establecimientosService.getByFilter($scope.filterEstablecimientos).then(function (response) {
+                       $scope.selectList = $scope.selectList.concat(response.data.data);
+                       $scope.pageCount = Math.ceil(response.data.count / 20);
+                   }, function () { throw 'Error on getByFilter'; });
+               };
+            
+               //#endregion                
 
            }]);

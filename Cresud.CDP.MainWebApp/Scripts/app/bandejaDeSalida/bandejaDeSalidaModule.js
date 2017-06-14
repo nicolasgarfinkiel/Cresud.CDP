@@ -4,13 +4,15 @@
     'cresud.cdp.bandejaDeSalida.ctrl.trasladosRechazados',
     'cresud.cdp.service.bandejaDeSalida',
     'cresud.cdp.service.solicitudes',
+    'cresud.cdp.service.establecimientos',
     'cresud.cdp.service.base',                
     'ngRoute',
     'ngGrid',
     '$strap.directives',
     'cresud.cdp.directive.loading',    
     'cresud.cdp.directive.debounce',
-    'cresud.cdp.directive.compile'
+    'cresud.cdp.directive.compile',
+    'ui.select'
 ]).config([
     '$routeProvider',
     '$locationProvider',
