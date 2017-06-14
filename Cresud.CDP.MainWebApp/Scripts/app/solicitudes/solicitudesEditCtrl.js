@@ -52,7 +52,7 @@
                        'chofer': {
                            service: choferesService,
                            method: 'getByFilter',
-                           filter: { grupoEmpesaId: $scope.usuario.currentEmpresa.grupoEmpresa.id, esChoferTransportista: false, pageSize: 20 },
+                           filter: { idGrupoEmpresa: $scope.usuario.currentEmpresa.grupoEmpresa.id, esChoferTransportista: false, pageSize: 20 },
                        },
                        'choferTransportista': {
                            service: choferesService,

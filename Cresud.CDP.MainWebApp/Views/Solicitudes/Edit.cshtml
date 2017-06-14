@@ -88,7 +88,7 @@
                                         <label class="col-lg-3 control-label">Titular carta de porte</label>
                                         <div class="col-lg-8">
                                             <ui-select name="proveedor" ng-model="entity.proveedorTitularCartaDePorte" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
@@ -114,7 +114,7 @@
                                         <label class="col-lg-3 control-label">Destinatario</label>
                                         <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteDestinatario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
                                                     <small>
@@ -142,7 +142,7 @@
                                         <label class="col-lg-3 control-label">Intermediario</label>
                                         <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteIntermediario" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
                                                     <small>
@@ -180,7 +180,7 @@
                                         <label class="col-lg-3 control-label">Remitente comercial</label>
                                         <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteRemitenteComercial" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
                                                     <small>
@@ -206,7 +206,7 @@
                                         <label class="col-lg-3 control-label">Transportista</label>
                                         <div class="col-lg-8">
                                             <ui-select name="proveedor" ng-model="entity.proveedorTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="!entity.empresaClientePagadorFlete">
-                                                <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.numeroDocumento}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
@@ -223,7 +223,7 @@
                                             </ui-select>
 
                                             <ui-select name="choferTransportista" ng-model="entity.choferTransportista" theme="select2" style="width: 100%;" append-to-body="true" ng-show="entity.empresaClientePagadorFlete">
-                                                <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
@@ -251,7 +251,7 @@
                                         <label class="col-lg-3 control-label">Corredor</label>
                                         <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteCorredor" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
                                                     <small>
@@ -277,7 +277,7 @@
                                         <label class="col-lg-3 control-label">Chofer</label>
                                         <div class="col-lg-9">
                                             <ui-select name="chofer" ng-model="entity.chofer" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match>{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
@@ -302,7 +302,7 @@
                                         <label class="col-lg-3 control-label">Representante / Entregador</label>
                                         <div class="col-lg-8">
                                             <ui-select name="cliente" ng-model="entity.clienteEntregador" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
                                                     <small>
@@ -353,7 +353,7 @@
                                         <label class="col-lg-1 control-label">Grano</label>
                                         <div class="col-lg-11">
                                             <ui-select ng-model="entity.grano" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Grano:</b> {{$select.selected.tipoGranoAfipDescripcion}}. <b>Cosecha:</b> {{$select.selected.cosechaAfipDescripcion}} </ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}}. <b>Tipo Grano:</b> {{$select.selected.tipoGranoAfipDescripcion}}. <b>Cosecha:</b> {{$select.selected.cosechaAfipDescripcion}} </ui-select-match>
                                                 <ui-select-choices repeat="grano in data.granos">
                                                     <div ng-bind-html="grano.descripcion | highlight: $select.search"></div>
                                                     <small>
@@ -475,7 +475,7 @@
                                         <label class="col-lg-1 control-label">Procedencia</label>
                                         <div class="col-lg-11">
                                             <ui-select name="establecimientoOrigen" ng-model="entity.establecimientoProcedencia" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="mensajeAfipReserva">
-                                                <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
                                                     <small>
@@ -500,7 +500,7 @@
                                         <label class="col-lg-1 control-label">Destino</label>
                                         <div class="col-lg-11">
                                             <ui-select name="establecimientoDestino" ng-model="entity.establecimientoDestino" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match>{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
                                                     <small>
@@ -539,7 +539,7 @@
                                         <label class="col-lg-2 control-label">Pagador flete</label>
                                         <div class="col-lg-9">
                                             <ui-select name="cliente" ng-model="entity.clientePagadorDelFlete" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud || entity.estadoFlete == 2 || !entity.estadoFlete">
-                                                <ui-select-match>{{$select.selected.razonSocial}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
                                                     <small>
