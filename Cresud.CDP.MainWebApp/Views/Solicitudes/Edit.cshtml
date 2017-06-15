@@ -348,10 +348,10 @@
                         </header>
                         <section class="panel-body">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="col-lg-1 control-label">Grano</label>
-                                        <div class="col-lg-11">
+                                        <label class="col-lg-2 control-label">Grano</label>
+                                        <div class="col-lg-10">
                                             <ui-select name="grano" ng-model="entity.grano" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
                                                 <ui-select-match allow-clear="true">{{$select.selected.descripcion}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -371,17 +371,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <div class="col-lg-3 text-right">
+                                        <div class="col-lg-1 text-right">
                                             <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.cargaPesadaDestino" />
                                         </div>
-                                        <label class="col-lg-9 control-label" style="text-align: left;">La carga sera pesada en destino</label>
+                                        <label class="col-lg-10 control-label" style="text-align: left;">La carga sera pesada en destino</label>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <div class="col-lg-1">
                                             <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.declaracionDeCalidad" disabled />
@@ -389,9 +387,11 @@
                                         <label class="col-lg-10 control-label" style="text-align: left;">Declaracion Calidad</label>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                            </div>
+                            <div class="row">                               
+                                <div class="col-md-3">
                                     <div class="form-group" style="position: relative; top: 5px;">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12" style="text-align: right;">
                                             <input type="radio" name="conforme" value="1" ng-model="entity.conformeCondicionalId" /> Conforme
                                             <input type="radio" name="conforme" value="2" ng-model="entity.conformeCondicionalId" /> Condicional
                                         </div>
@@ -405,9 +405,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Bruto (Kgs)</label>
                                         <div class="col-lg-6">
@@ -415,7 +413,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Tara (Kgs)</label>
                                         <div class="col-lg-6">
@@ -423,7 +421,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                            </div>
+                            <div class="row">                                
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">P.Neto (Kgs)</label>
                                         <div class="col-lg-6">
@@ -431,7 +431,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">Kgs Est.</label>
                                         <div class="col-lg-6">
@@ -439,7 +439,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group" ng-if="esParaguay">
                                         <label class="col-lg-6 control-label">% Humedad</label>
                                         <div class="col-lg-6">
@@ -447,7 +447,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2" ng-if="esParaguay">
+                                <div class="col-md-3" ng-if="esParaguay">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">% Otros</label>
                                         <div class="col-lg-6">
