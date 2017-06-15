@@ -352,15 +352,22 @@
                                     <div class="form-group">
                                         <label class="col-lg-1 control-label">Grano</label>
                                         <div class="col-lg-11">
-                                            <ui-select ng-model="entity.grano" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}}. <b>Tipo Grano:</b> {{$select.selected.tipoGranoAfipDescripcion}}. <b>Cosecha:</b> {{$select.selected.cosechaAfipDescripcion}} </ui-select-match>
-                                                <ui-select-choices repeat="grano in data.granos">
-                                                    <div ng-bind-html="grano.descripcion | highlight: $select.search"></div>
+                                            <ui-select name="grano" ng-model="entity.grano" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
+                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}}</ui-select-match>
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                                    <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
                                                     <small>
-                                                        <span ng-if="grano.cosechaAfipCodigo">({{grano.cosechaAfipCodigo}})</span>
+                                                        <span ng-if="item.cosechaAfipCodigo">({{item.cosechaAfipCodigo}})</span>
                                                     </small>
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getSelectSource($select, $event);">
+                                                            Siguiente
+                                                        </button>
+                                                    </div>
                                                 </ui-select-choices>
-                                            </ui-select>
+                                            </ui-select>                                          
                                         </div>
                                     </div>
                                 </div>

@@ -5,6 +5,7 @@
     'cresud.cdp.service.general',
     'cresud.cdp.service.choferes',
     'cresud.cdp.service.empresas',
+    'cresud.cdp.service.granos',
     'cresud.cdp.navigation.base',     
     'cresud.cdp.service.base',    
     'cresud.cdp.service.bootstraper.edit',    

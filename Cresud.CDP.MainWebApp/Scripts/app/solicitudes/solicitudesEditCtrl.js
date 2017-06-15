@@ -10,7 +10,8 @@
            'generalService',
            'choferesService',
            'empresasService',
-           function ($scope, $routeParams, $timeout, solicitudesService, baseNavigationService, editBootstraperService, establecimientosService, generalService, choferesService, empresasService) {
+           'granosService',
+           function ($scope, $routeParams, $timeout, solicitudesService, baseNavigationService, editBootstraperService, establecimientosService, generalService, choferesService, empresasService, granosService) {
                $scope.loading = true;
                $scope.resultAfip = { message: null, hasErros: false };
              
@@ -58,6 +59,11 @@
                            service: choferesService,
                            method: 'getByFilter',
                            filter: { grupoEmpesaId: $scope.usuario.currentEmpresa.grupoEmpresa.id, esChoferTransportista: true, pageSize: 20 },
+                       },
+                       'grano': {
+                           service: granosService,
+                           method: 'getByFilter',
+                           filter: { idGrupoEmpresa: $scope.usuario.currentEmpresa.grupoEmpresa.id, pageSize: 20 },
                        },
                    };
 
