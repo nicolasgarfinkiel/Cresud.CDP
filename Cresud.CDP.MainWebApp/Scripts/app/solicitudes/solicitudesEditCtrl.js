@@ -248,9 +248,9 @@
                            }
                        }
 
-                       if ($scope.entity.tipoDeCartaId == 1 && !$scope.entity.empresaProveedorTitularCartaDePorte) {
-                           $scope.result.messages.push('El proveedor titular de carta de porte debe ser una empresa');
-                       }
+                       //if ($scope.entity.tipoDeCartaId == 1 && !$scope.entity.empresaProveedorTitularCartaDePorte) {
+                       //    $scope.result.messages.push('El proveedor titular de carta de porte debe ser una empresa');
+                       //}
 
                        if (($scope.entity.tipoDeCartaId == 2 || $scope.entity.tipoDeCartaId == 7) && !scope.entity.clienteRemitenteComercial) {
                            $scope.result.messages.push('Seleccione un cliente remitente comercial');
