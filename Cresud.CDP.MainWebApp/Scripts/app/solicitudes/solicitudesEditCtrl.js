@@ -10,7 +10,7 @@
            'generalService',
            'choferesService',
            'empresasService',
-           'granosService',
+           'granosService',           
            function ($scope, $routeParams, $timeout, solicitudesService, baseNavigationService, editBootstraperService, establecimientosService, generalService, choferesService, empresasService, granosService) {
                $scope.loading = true;
                $scope.resultAfip = { message: null, hasErros: false };
@@ -512,6 +512,79 @@
 
                    if ($scope.esGrupoCresud && $scope.proveedor.numeroDocumento && !$scope.isValidCuit($scope.proveedor.numeroDocumento)) {
                        $scope.resultModal.messages.push($scope.usuario.currentEmpresaLabelCuit + ' inválido');
+                   }
+
+                   $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
+                   return !$scope.resultModal.hasErrors;
+               };
+
+               //#endregion
+
+               //#region Choferes
+
+               $scope.setCreateChofer = function (prop) {
+                   $scope.prop = prop;
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+                   $scope.chofer = {};
+                   $('#choferModal').modal('show');
+               };
+
+               $scope.createChofer = function () {
+                   if (!$scope.isValidChofer()) return;
+
+                   $scope.chofer.grupoEmpresaId = $scope.usuario.currentEmpresa.grupoEmpresa.id;
+
+                   choferesService.createEntity($scope.chofer).then(function (response) {
+                       $scope.resultModal = response.data.result;
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#choferModal').modal('hide');
+                       $scope.entity[$scope.prop] = response.data.data;
+                   }, function () { throw 'Error on createEntity'; });
+               };
+
+               $scope.isValidChofer = function () {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+                   var patenteOldRegex = /^[A-ZÑ]{3}\d{3}$/;
+                   var patenteNewRegex = /^[A-ZÑ]{2}\d{3}[A-ZÑ]{2}$/;
+                   var esChoferTransportista = $scope.prop == 'choferTransportista';
+
+                   if (!$scope.chofer.nombre) {
+                       $scope.resultModal.messages.push(esChoferTransportista ? 'Ingrese la descripción' : 'Ingrese el nombre');
+                   }
+
+                   if (!esChoferTransportista && !$scope.chofer.apellido) {
+                       $scope.resultModal.messages.push('Ingrese el apellido');
+                   }
+
+                   if ($scope.esGrupoCresud && !$scope.chofer.cuit) {
+                       $scope.resultModal.messages.push('Ingrese el cuit');
+                   }
+
+                   if ($scope.esGrupoCresud && $scope.chofer.cuit && !$scope.isValidCuit($scope.chofer.cuit)) {
+                       $scope.resultModal.messages.push('Cuit inválido');
+                   }                  
+
+                   if (!esChoferTransportista && $scope.esGrupoCresud && !$scope.chofer.camion) {
+                       $scope.resultModal.messages.push('Ingrese la patente del camión');
+                   }
+
+                   if (!esChoferTransportista &&
+                        $scope.esGrupoCresud &&
+                        $scope.chofer.camion &&
+                        !($scope.chofer.camion.match(patenteOldRegex) || $scope.chofer.camion.match(patenteNewRegex))) {
+                       $scope.resultModal.messages.push('Formato de patente de camión inválido. Formato corrercto ej: AAA111 o AA111AA');
+                   }
+
+                   if (!esChoferTransportista && $scope.esGrupoCresud && !$scope.chofer.acoplado) {
+                       $scope.resultModal.messages.push('Ingrese la patente del acoplado');
+                   }
+
+                   if (!esChoferTransportista &&
+                        $scope.esGrupoCresud &&
+                        $scope.chofer.acoplado &&
+                        !($scope.chofer.acoplado.match(patenteOldRegex) || $scope.chofer.acoplado.match(patenteNewRegex))) {
+                       $scope.resultModal.messages.push('Formato de patente de acoplado inválido. Formato corrercto ej: AAA111 o AA111AA');
                    }
 
                    $scope.resultModal.hasErrors = $scope.resultModal.messages.length;

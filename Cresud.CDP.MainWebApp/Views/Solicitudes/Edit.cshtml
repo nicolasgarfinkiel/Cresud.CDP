@@ -241,6 +241,7 @@
                                         </div>
                                         <div class="col-lg-1" style="padding: 0;">
                                             <button ng-if="!entity.empresaClientePagadorFlete" class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateProveedor('proveedorTransportista')"><i class="fa fa-plus"></i></button>
+                                            <button ng-if="entity.empresaClientePagadorFlete" class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateChofer('choferTransportista')"><i class="fa fa-plus"></i></button>
                                         </div> 
                                     </div>
                                 </div>
@@ -275,7 +276,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Chofer</label>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <ui-select name="chofer" ng-model="entity.chofer" theme="select2" style="width: 100%;" append-to-body="true">
                                                 <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
@@ -293,6 +294,9 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button  class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateChofer('chofer')"><i class="fa fa-plus"></i></button>
+                                        </div>  
                                     </div>
                                 </div>
                             </div>
@@ -796,6 +800,92 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" ng-click="createProveedor()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="choferModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 600px; position: relative;left: -100px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Alta rápida de chofer
+                    </header>
+                    <div style="margin: 15px">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">{{prop == 'choferTransportista' ? 'Ingrese la descripción' : 'Ingrese el nombre' }}</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="chofer.nombre" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Apellido</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="chofer.apellido" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">{{usuario.currentEmpresaLabelCuit}}</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="chofer.cuit" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Camión</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="chofer.camion" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">Acoplado</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-group input-append">
+                                            <input type="text" ng-model="chofer.acoplado" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                            <i class="fa fa-bolt"></i>
+                            <div ng-repeat="message in resultModal.messages">{{message}}</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="createChofer()">Aceptar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

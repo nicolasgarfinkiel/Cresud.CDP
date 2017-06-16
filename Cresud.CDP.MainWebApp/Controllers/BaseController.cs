@@ -112,7 +112,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
 
             try
             {                
-                _admin.Create(dto);
+              response.Data = _admin.Create(dto);
             }
             catch (Exception ex)
             {
