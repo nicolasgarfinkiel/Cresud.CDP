@@ -32,7 +32,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
         {
             return new
             {
-                TipoCartaList = new GeneralAdmin().GetTipoCartaList().Where(t => t.Activo)
+                TipoCartaList = new GeneralAdmin().GetTipoCartaList().Where(t => t.Activo && (string.Equals(t.Descripcion, "Venta de granos propios") || string.Equals(t.Descripcion, "Traslado de granos") || string.Equals(t.Descripcion, "Canje") ))
             };
         }
         #endregion        
