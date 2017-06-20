@@ -28,7 +28,7 @@ namespace Cresud.CDP.Dtos
         public int? ChoferId { get; set; }
         public int? CosechaId { get; set; }
         public int? EspecieId { get; set; }
-        public int? NumeroContrato { get; set; }
+        public string NumeroContrato { get; set; }
         public int? SapContrato { get; set; }
         public bool? SinContrato { get; set; }
         public bool? CargaPesadaDestino { get; set; }

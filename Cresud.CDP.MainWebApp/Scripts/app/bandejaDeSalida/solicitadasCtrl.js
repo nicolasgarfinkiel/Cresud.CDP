@@ -33,16 +33,14 @@
 
                $scope.columnsArg = [                   
                     { field: 'id', displayName: 'Id', width: 50 },
-                    { field: 'numeroCartaDePorte', displayName: 'Nro.Carta Porte', width: 80 },
+                    { field: 'numeroCartaDePorte', displayName: 'Nro.Carta', width: 80 },
                     { field: 'ctg', displayName: 'Ctg', width: 80 },
-                    { field: 'tipoCarta', displayName: 'Tipo', width: 110 },
+                    { field: 'tipoCarta', displayName: 'Tipo' },
                     { field: 'titularCDP', displayName: 'Titular' },
                     { field: 'estProcedencia', displayName: 'Est.Procedencia' },
                     { field: 'asd', displayName: 'Afip', cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>', width: 38 },
                     { field: 'asd', displayName: 'SAP', cellTemplate: '<div  style="text-align: center; position: relative;top: 2px;" ng-bind-html="getSapImg(row.entity)"></div>', width: 38 },
-                    { field: 'observacionAfip', displayName: 'Observaciones AFIP' },
-                    { field: 'fechaDeEmision', displayName: 'Fecha', width: 80 },
-                    { field: 'createdBy', displayName: 'Usuario Creación', width: 110 },
+                    { field: 'observacionAfip', displayName: 'Observaciones AFIP' },                                        
                     { field: 'cuit', displayName: '', width: 25, cellTemplate:
                              '<div class="ng-grid-icon-container"><span compile="getMantenimientoImg(row.entity)"></span></div>'
                     },

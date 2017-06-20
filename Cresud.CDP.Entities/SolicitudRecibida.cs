@@ -22,7 +22,7 @@ namespace Cresud.CDP.Entities
         public string ProveedorTransportistaCuit { get; set; }
         public string ChoferCuit { get; set; }
         public virtual Grano Grano { get; set; }
-        public int NumeroContrato { get; set; }
+        public string NumeroContrato { get; set; }
         public bool? CargaPesadaDestino { get; set; }
         public decimal?  KilogramosEstimados { get; set; }
         public decimal? PesoBruto { get; set; }

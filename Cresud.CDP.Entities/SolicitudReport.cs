@@ -19,7 +19,7 @@ namespace Cresud.CDP.Entities
         public int? ProveedorTransportistaId { get; set; }
         public int? ChoferId { get; set; }
         public int? CosechaId { get; set; }        
-        public int? NumeroContrato { get; set; }                
+        public string NumeroContrato { get; set; }                
         public bool? CargaPesadaDestino { get; set; }
         public decimal? KilogramosEstimados { get; set; }                
         public decimal? PesoBruto { get; set; }

@@ -781,7 +781,7 @@ namespace Cresud.CDP.Admin
 
             AddText(contentByte, false, 8, granoEspecie, 100, 488);
             AddText(contentByte, false, 8, grano != null ? grano.TipoGranoAfip.Descripcion : string.Empty, 265, 488);
-            AddText(contentByte, false, 8, solicitud.NumeroContrato.HasValue ? solicitud.NumeroContrato.Value.ToString() : string.Empty, 460, 488);
+            AddText(contentByte, false, 8, solicitud.NumeroContrato ?? string.Empty, 460, 488);
             AddText(contentByte, false, 8, solicitud.CosechaDescripcion, 460, 505);
             AddText(contentByte, true, 10, solicitud.CargaPesadaDestino.HasValue && solicitud.CargaPesadaDestino.Value ? marca : string.Empty, 130, 461);
             AddText(contentByte, false, 8, solicitud.KilogramosEstimados.HasValue ? solicitud.KilogramosEstimados.ToString() : string.Empty, 100, 437);
