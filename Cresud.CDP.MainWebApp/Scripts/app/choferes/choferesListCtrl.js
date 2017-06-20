@@ -5,6 +5,8 @@
            'baseNavigationService',
            'listBootstraperService',
            function ($scope, choferesService, baseNavigationService, listBootstraperService) {
+               $scope.resultModal = {hasErrors: false, messages: []};
+
                $scope.onInitEnd = function () {
                    var displayName = null;
 
@@ -31,7 +33,23 @@
                        { field: 'esChoferTransportista ? "Si" : "No" ', displayName: 'Transportista', width: 110 },
                        { field: 'createDate', displayName: 'Fecha creación', width: 120 },
                        { field: 'createdBy', displayName: 'Usuario creación' },
-                       { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="edit(row.entity.id)"><i class="fa fa-pencil"></i></a></div>' }
+                       { field: 'cuit', displayName: 'Acciones', width: 80, cellTemplate: '<div class="ng-grid-icon-container"><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="edit(row.entity.id)"><i class="fa fa-pencil"></i></a><a href="javascript:void(0)" class="btn btn-rounded btn-xs btn-icon btn-default" ng-click="deleteEntityConfirm(row.entity.id)"><i class="fa fa-times"></i></a></div>' }
                    ]
                });
+
+               $scope.deleteEntityConfirm = function (id) {
+                   $scope.entityId = id;
+                   $('#modalConfirm').modal('show');
+               };
+
+               $scope.deleteEntity = function () {
+                   choferesService.disableEntity($scope.entityId).then(function (response) {
+                       $scope.resultModal = response.data.result;
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#modalConfirm').modal('hide');
+                       $scope.entityId = null;
+                       $scope.search();
+                   }, function () { throw 'Error on deleteEntity'; });                 
+               };
            }]);

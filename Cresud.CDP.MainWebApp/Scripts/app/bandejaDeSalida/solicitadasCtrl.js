@@ -1,10 +1,11 @@
 ﻿angular.module('cresud.cdp.bandejaDeSalida.ctrl.solicitadas', [])
        .controller('solicitadasCtrl', [
            '$scope',
+           '$timeout',
            'bandejaDeSalidaService',
            'solicitudesService',
            '$sce',
-           function ($scope, bandejaDeSalidaService, solicitudesService,  $sce) {
+           function ($scope, $timeout, bandejaDeSalidaService, solicitudesService,  $sce) {
                $scope.filter = {};
                $scope.columns = [];
                $scope.imageSrc = 'content/images/';
@@ -20,6 +21,10 @@
                    $scope.esParaguay = $scope.data.usuario.currentEmpresa.grupoEmpresa.paisDescripcion.toLowerCase() == 'paraguay';
 
                    $scope.columns = $scope.esArgentina ? $scope.columnsArg : $scope.columnsOtros;
+
+                   $timeout(function() {
+                       $scope.find();
+                   }, 300);
                });
 
                //#endregion
@@ -179,7 +184,7 @@
                    var imprimir = $scope.data.usuario.currentEmpresa.roles.indexOf('Imprimir Solicitud') != -1;
                    if (!imprimir || ($scope.esArgentina && item.estadoEnAFIP == 3)) return '';
 
-                   var result = '<form title="Imprimir Carta de Porte Simple" action="/BandejaDeSalida/ReporteSimplePdf" style="display: inline;"><input type="hidden" name="solicitudId" value="' + item.id + '" /><input type="hidden" name="numeroCartaDePorte" value="' + item.numeroCartaDePorte + '" /><button type="submit" style="border: 0; background: 0;"><img style="width: 15px;" src="' + $scope.imageSrc + 'folder-print.png" /></button></form>';
+                   var result = '<form title="Imprimir Carta de Porte Simple" action="/BandejaDeSalida/ReporteSimplePdf" style="display: inline;"><input type="hidden" name="solicitudId" value="' + item.id + '" /><input type="hidden" name="numeroCartaDePorte" value="' + item.numeroCartaDePorte + '" /><button type="submit" style="border: 0; background: 0;"><img style="width: 15px;" src="' + $scope.imageSrc + 'folder-print-simple.png" /></button></form>';
 
                    return result;
                };
@@ -248,6 +253,8 @@
                        $scope.find();
                    }, function () { throw 'Error on reenviarSap'; });
                };
+
+               //#endregion
 
                //#region ReenvioAfip
 

@@ -62,7 +62,7 @@ namespace Cresud.CDP.Admin
 
         public override IQueryable GetQuery(FilterBase filter)
         {
-            var result = CdpContext.Granos.Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Descripcion).AsQueryable();
+            var result = CdpContext.Granos.Where(c => c.Enabled && c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Descripcion).AsQueryable();
             var cresud = filter.IdGrupoEmpresa == App.IdGrupoCresud;            
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))

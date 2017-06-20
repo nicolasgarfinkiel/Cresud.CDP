@@ -75,6 +75,10 @@
                    $scope.setDefaultValues();                   
                };
 
+               $scope.onEntitySaved = function(entity) {
+                   window.location = window.location.origin + '/solicitudes#/edit/' + entity.id;
+               };
+
                editBootstraperService.init($scope, $routeParams, {
                    service: solicitudesService,
                    navigation: baseNavigationService
@@ -377,6 +381,11 @@
                    $scope.entity.numeroContrato = null;
                    $scope.entity.observaciones = null;
 
+                   $scope.entity.numeroCartaDePorte = null;
+                   $scope.entity.ctg = null;
+                   $scope.entity.chofer = null;
+                   $scope.entity.estadoFlete = null;                   
+
                    $scope.setControls();
                    $scope.setDefaultValues();
                    $('#modalModelo').modal('show');
@@ -565,9 +574,9 @@
                        $scope.resultModal.messages.push('Cuit inválido');
                    }                  
 
-                   if (!esChoferTransportista && $scope.esGrupoCresud && !$scope.chofer.camion) {
-                       $scope.resultModal.messages.push('Ingrese la patente del camión');
-                   }
+                   //if (!esChoferTransportista && $scope.esGrupoCresud && !$scope.chofer.camion) {
+                   //    $scope.resultModal.messages.push('Ingrese la patente del camión');
+                   //}
 
                    if (!esChoferTransportista &&
                         $scope.esGrupoCresud &&
@@ -576,9 +585,9 @@
                        $scope.resultModal.messages.push('Formato de patente de camión inválido. Formato corrercto ej: AAA111 o AA111AA');
                    }
 
-                   if (!esChoferTransportista && $scope.esGrupoCresud && !$scope.chofer.acoplado) {
-                       $scope.resultModal.messages.push('Ingrese la patente del acoplado');
-                   }
+                   //if (!esChoferTransportista && $scope.esGrupoCresud && !$scope.chofer.acoplado) {
+                   //    $scope.resultModal.messages.push('Ingrese la patente del acoplado');
+                   //}
 
                    if (!esChoferTransportista &&
                         $scope.esGrupoCresud &&

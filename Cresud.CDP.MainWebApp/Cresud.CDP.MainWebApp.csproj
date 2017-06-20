@@ -230,6 +230,7 @@
     <Content Include="Content\images\circle_red.png" />
     <Content Include="Content\images\circle_yellow.png" />
     <Content Include="Content\images\datosPropios.png" />
+    <Content Include="Content\images\folder-print-simple.png" />
     <Content Include="Content\images\folder-print.png" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\iconArribo.png" />

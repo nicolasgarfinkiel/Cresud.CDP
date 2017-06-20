@@ -21,16 +21,26 @@
 
                        if (scope.entity.id) {
                            data.service.updateEntity(scope.entity).then(function (response) {
-                               if (!response.data.result.hasErrors)
-                                   data.navigation.goToList();
+                               if (!response.data.result.hasErrors) {
+                                   if (scope.onEntitySaved) {
+                                       scope.onEntitySaved(scope.entity);
+                                   } else {
+                                       data.navigation.goToList();
+                                   }
+                               }
 
                                scope.result = response.data.result;
                            }, function () { throw 'Error on update'; });
                        } else {
                            data.service.createEntity(scope.entity).then(function (response) {
-                               if (!response.data.result.hasErrors)
-                                   data.navigation.goToList();
-
+                               if (!response.data.result.hasErrors) {
+                                   if (scope.onEntitySaved) {
+                                       scope.onEntitySaved(response.data.data);
+                                   } else {
+                                       data.navigation.goToList();
+                                   }
+                               }
+                               
                                scope.result = response.data.result;
                            }, function () { throw 'Error on create'; });
                        }

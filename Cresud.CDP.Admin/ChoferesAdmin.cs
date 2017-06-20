@@ -62,7 +62,7 @@ namespace Cresud.CDP.Admin
 
         public override IQueryable GetQuery(FilterChoferes filter)
         {
-            var result = CdpContext.Choferes.Where(c => c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Nombre).ThenBy(c => c.Apellido).AsQueryable();
+            var result = CdpContext.Choferes.Where(c => c.Enabled && c.GrupoEmpresa.Id == filter.IdGrupoEmpresa).OrderBy(c => c.Nombre).ThenBy(c => c.Apellido).AsQueryable();
 
             if (filter.EsChoferTransportista.HasValue)
             {

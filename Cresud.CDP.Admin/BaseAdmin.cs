@@ -5,6 +5,7 @@ using AutoMapper;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.EFRepositories;
 using System.Linq;
+using Cresud.CDP.Entities;
 
 namespace Cresud.CDP.Admin
 {
@@ -79,6 +80,14 @@ namespace Cresud.CDP.Admin
             CdpContext.Set(typeof (TE)).Remove(entity);
 
             CdpContext.SaveChanges();            
+        }
+
+        public virtual void Disable(TID id)
+        {
+            var entity = (EntityBase)CdpContext.Set(typeof(TE)).Find(id);
+            entity.Enabled = false;
+
+            CdpContext.SaveChanges();
         }
 
         #region Abstract Methods
