@@ -89,14 +89,17 @@
                         <legend>PDF</legend>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Archivo PDF Afip</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-6">
                                 @*<i class="fa fa-search" style="position: relative; top: 8px; font-weight: bold; cursor: pointer;" data-toggle="modal" data-target="#establecimientosModal"></i>*@
                                 <span class="btn btn-success fileinput-button">
                                     <i class=""></i>
                                     <span>Seleccione</span>
                                     <input id="fileupload" type="file" name="file">
                                 </span>
-                            </div>
+                            </div>                          
+                        </div>
+                        <div class="alert alert-success" ng-if="fileLoaded">
+                            Archivo subido correctamente
                         </div>
                     </fieldset>
                     <div class="alert alert-danger" ng-if="result.hasErrors">

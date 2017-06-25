@@ -65,6 +65,15 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-lg-4 control-label">Consumo propio</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">
+                                    <span style="position: relative; top: -2px;">Si</span> <input type="radio" value="S" ng-model="selectedEntity.consumoPropio" />
+                                    <span style="position: relative; top: -2px;">No</span> <input type="radio" value="N" ng-model="selectedEntity.consumoPropio" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="selectedEntity.consumoPropio !== null">
                             <label class="col-lg-4 control-label">Establecimiento procedencia</label>
                             <div class="col-lg-8">
                                 <ui-select ng-model="selectedEntity.establecimientoProcedenciaAux" theme="select2" style="width: 100%;" append-to-body="true">
@@ -84,16 +93,7 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">Consumo propio</label>
-                            <div class="col-lg-8">
-                                <span style="position:relative; top: 8px;">
-                                    <span style="position: relative; top: -2px;">Si</span> <input type="radio" value="S" ng-model="selectedEntity.consumoPropio" /> 
-                                    <span style="position: relative; top: -2px;">No</span> <input type="radio" value="N" ng-model="selectedEntity.consumoPropio" /> 
-                                </span>                                
-                            </div>
-                        </div>
+                        </div>                      
 
 
                         <div class="alert alert-danger" ng-if="resultModal.hasErrors">

@@ -271,7 +271,45 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                         
+                            </div>  
+                            <div class="row">
+                                <div class="col-lg-2">                                    
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="radio" name="fletePagado" value="1" ng-model="entity.estadoFlete" /> Flete pagado
+                                    <input type="radio" name="fletePagado" value="2" ng-model="entity.estadoFlete"  style="margin-left: 10px;"/> Flete a pagar
+                                </div>                                                              
+                            </div>    
+                            
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Pagador flete</label>
+                                        <div class="col-lg-9">
+                                            <ui-select name="cliente" ng-model="entity.clientePagadorDelFlete" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud || entity.estadoFlete == 2 || !entity.estadoFlete">
+                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}</ui-select-match>
+                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
+                                                    <small>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
+                                                    </small>
+                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                                        <button class="btn btn-xs btn-info"
+                                                                style="width: 100%; margin-top: 5px;"
+                                                                ng-click="getSelectSource($select, $event);">
+                                                            Siguiente
+                                                        </button>
+                                                    </div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <div class="col-lg-1" style="padding: 0;">
+                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clientePagadorDelFlete')"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                                               
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -552,40 +590,7 @@
                             4- DATOS DEL TRANSPORTE
                         </header>
                         <section class="panel-body">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <input type="radio" name="fletePagado" value="1" ng-model="entity.estadoFlete" /> Flete pagado
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="radio" name="fletePagado" value="2" ng-model="entity.estadoFlete" /> Flete a pagar
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Pagador flete</label>
-                                        <div class="col-lg-9">
-                                            <ui-select name="cliente" ng-model="entity.clientePagadorDelFlete" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud || entity.estadoFlete == 2 || !entity.estadoFlete">
-                                                <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}</ui-select-match>
-                                                <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
-                                                    <div ng-bind-html="item.razonSocial | highlight: $select.search"></div>
-                                                    <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. IdCliente: {{item.id}})</span>
-                                                    </small>
-                                                    <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
-                                                        <button class="btn btn-xs btn-info"
-                                                                style="width: 100%; margin-top: 5px;"
-                                                                ng-click="getSelectSource($select, $event);">
-                                                            Siguiente
-                                                        </button>
-                                                    </div>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                        <div class="col-lg-1" style="padding: 0;">
-                                            <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click="setCreateCliente('clientePagadorDelFlete')"><i class="fa fa-plus"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">

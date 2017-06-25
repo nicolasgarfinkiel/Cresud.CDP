@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Cresud.CDP.Dtos.Filters;
@@ -104,6 +105,12 @@ namespace Cresud.CDP.Admin
             if (filter.Enabled.HasValue)
             {
                 result = result.Where(e => e.Enabled == filter.Enabled.Value).AsQueryable();
+            }
+
+            if (filter.ConsumoPropio.HasValue && !filter.ConsumoPropio.Value)
+            {
+                var estsAfip = new List<string> { "16096", "16610", "21570" };
+                result = result.Where(e => !string.IsNullOrEmpty(e.EstablecimientoAfip) && estsAfip.Contains(e.EstablecimientoAfip)).AsQueryable();
             }
 
             if (!string.IsNullOrEmpty(filter.MultiColumnSearchText))

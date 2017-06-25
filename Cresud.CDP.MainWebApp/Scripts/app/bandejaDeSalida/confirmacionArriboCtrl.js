@@ -88,7 +88,11 @@
                };
 
                $scope.isValidConfirmacion = function() {
-                   $scope.resultModal = { hasErrors: false, messages: [] };                  
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+
+                   if (typeof $scope.selectedEntity.consumoPropio == 'undefined') {
+                       $scope.resultModal.messages.push('Indique si es consumo propio');
+                   }
 
                    if (!$scope.selectedEntity.establecimientoProcedenciaAux) {
                        $scope.resultModal.messages.push('Selecione el establecimiento');
@@ -96,11 +100,7 @@
 
                    if ($scope.selectedEntity.establecimientoProcedenciaAux && !$scope.selectedEntity.establecimientoProcedenciaAux.establecimientoAfip) {
                        $scope.resultModal.messages.push('El establecimiento seleccionado no posee establecimientoAfip asignado');
-                   }
-
-                   if (typeof $scope.selectedEntity.consumoPropio == 'undefined') {
-                       $scope.resultModal.messages.push('Indique si es consumo propio');
-                   }
+                   }               
 
                    $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
                    return !$scope.resultModal.hasErrors;
@@ -114,6 +114,13 @@
                $scope.$watch('filter.multiColumnSearchText', function () {
                    $scope.gridOptions.pagingOptions.currentPage = 1;
                    $scope.find();
+               });
+
+               $scope.$watch('selectedEntity.consumoPropio', function (newValue) {
+                   if (!$scope.selectedEntity) return;
+                   $scope.filterEstablecimientos.consumoPropio = newValue == 'S';
+                   $scope.selectedEntity.establecimientoProcedenciaAux = null;
+                 //  $scope.getSelectSource();
                });
 
                //#region Select UI
@@ -136,7 +143,7 @@
                    }
 
                    $scope.filterEstablecimientos.currentPage = $scope.currentPage;
-                   $scope.filterEstablecimientos.multiColumnSearchText = $select.search;
+                   $scope.filterEstablecimientos.multiColumnSearchText = $select ? $select.search : null;
 
                    establecimientosService.getByFilter($scope.filterEstablecimientos).then(function (response) {
                        $scope.selectList = $scope.selectList.concat(response.data.data);
