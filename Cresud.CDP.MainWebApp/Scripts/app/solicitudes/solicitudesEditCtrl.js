@@ -715,6 +715,8 @@
                    if ($scope.loading) return;
                    $scope.entity.empresaClienteRemitenteComercial = null;
 
+                   if (!newValue) return;
+
                    empresasService.getByClienteId(newValue.id).then(function (response) {
                        $scope.entity.empresaClienteRemitenteComercial = response.data.data;
                    }, function () { throw 'Error on getByClienteId'; });
@@ -723,6 +725,8 @@
                $scope.$watch('entity.proveedorTitularCartaDePorte', function (newValue, oldValue) {
                    if ($scope.loading) return;
                    $scope.entity.empresaProveedorTitularCartaDePorte = null;
+
+                   if (!newValue) return;
 
                    empresasService.getBySapId(newValue.sapId).then(function (response) {
                        $scope.entity.empresaProveedorTitularCartaDePorte = response.data.data;

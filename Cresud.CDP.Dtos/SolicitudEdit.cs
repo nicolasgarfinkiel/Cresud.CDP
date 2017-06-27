@@ -25,6 +25,23 @@
 
         public void SetIds()
         {
+            ProveedorTitularCartaDePorteId = null;
+            ClienteIntermediarioId = null;
+            ClienteRemitenteComercialId = null;
+            ClienteCorredorId = null;
+            ClienteEntregadorId = null;
+            ClienteDestinatarioId = null;
+            ClienteDestinoId = null;
+            ProveedorTransportistaId = null;
+            ChoferTransportistaId = null;
+            ChoferId = null;
+            GranoId = null;
+            EstablecimientoProcedenciaId = null;
+            EstablecimientoDestinoId = null;
+            EstablecimientoDestinoCambioId = null;
+            ClientePagadorDelFleteId = null;
+            ClienteDestinatarioCambioId = null;
+
             if (ProveedorTitularCartaDePorte != null)
             {
                 ProveedorTitularCartaDePorteId = ProveedorTitularCartaDePorte.Id;

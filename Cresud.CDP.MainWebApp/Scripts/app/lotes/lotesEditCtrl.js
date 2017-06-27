@@ -114,7 +114,7 @@
                $scope.selectList = [];
                $scope.currentPage = 0;
                $scope.pageCount = 0;               
-               $scope.filterEstablecimientos = { origen: true, pageSize: 20 };
+               $scope.filterEstablecimientos = { origen: true, pageSize: 20, asociaCartaDePorte: true };
 
                $scope.getSelectSource = function ($select, $event) {
                    if ($scope.loading) return;

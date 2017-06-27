@@ -15,12 +15,14 @@ namespace Cresud.CDP.Admin
         public override Establecimiento GetById(int id)
         {
             var entity = CdpContext.Establecimientos.Single(e => e.Id == id);
+            var empresa = CdpContext.Empresas.Single(e => e.Id == entity.EmpresaId);
             var result = Mapper.Map<Entities.Establecimiento, Establecimiento>(entity);
 
             if (result.InterlocutorDestinatarioId > 0)
             {
+                var idSapOrganizacionDeVenta = int.Parse(empresa.IdSapOrganizacionDeVenta);
                 var cid = result.InterlocutorDestinatarioId.ToString();
-                result.InterlocutorDestinatario = Mapper.Map<Cliente, Dtos.Cliente>(CdpContext.Clientes.Single(c => string.Equals(c.Id, cid)));
+                result.InterlocutorDestinatario = Mapper.Map<Cliente, Dtos.Cliente>(CdpContext.Clientes.Single(c => string.Equals(c.Id, cid) && c.IdSapOrganizacionDeVenta == idSapOrganizacionDeVenta));
             }
             
             return result;
@@ -100,6 +102,11 @@ namespace Cresud.CDP.Admin
                 result = result.Where(e => e.RecorridoEstablecimiento.HasValue &&
                                            (e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.SoloDestino ||
                                             e.RecorridoEstablecimiento.Value == RecorridoEstablecimiento.OrigenYDestino)).AsQueryable();
+            }
+
+            if (filter.AsociaCartaDePorte)
+            {
+                result = result.Where(e => e.AsociaCartaDePorte).AsQueryable();
             }
 
             if (filter.Enabled.HasValue)
