@@ -17,6 +17,11 @@ namespace Cresud.CDP.Dtos
         public int GrupoEmpresaId{ get; set; }
         public string Domicilio { get; set; }
         public string Marca { get; set; }
+
+        public string NombreApellido
+        {
+            get { return string.Format("{0} {1}", Nombre, Apellido); }
+        }
     }
 }
 

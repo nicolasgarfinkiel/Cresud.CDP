@@ -362,9 +362,9 @@
                                         <label class="col-lg-2 control-label">Chofer</label>
                                         <div class="col-lg-9">
                                             <ui-select name="chofer" ng-model="entity.chofer" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.nombreApellido}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
-                                                    <div ng-bind-html="item.nombre | highlight: $select.search"></div>
+                                                    <div ng-bind-html="item.nombreApellido | highlight: $select.search"></div>
                                                     <small>
                                                         <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}})</span>
                                                     </small>
