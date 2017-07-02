@@ -77,7 +77,9 @@
                $scope.setArribo = function () {
                    if (!$scope.isValidConfirmacion()) return;
 
-                   bandejaDeSalidaService.confirmarArribo($scope.selectedEntity.id, $scope.selectedEntity.consumoPropio, $scope.selectedEntity.establecimientoProcedenciaAux.establecimientoAfip).then(function (response) {
+                   var estId = $scope.selectedEntity.establecimientoProcedenciaAux ? $scope.selectedEntity.establecimientoProcedenciaAux.establecimientoAfip : null;
+
+                   bandejaDeSalidaService.confirmarArribo($scope.selectedEntity.id, $scope.selectedEntity.consumoPropio, estId).then(function (response) {
                        $scope.resultModal = response.data;
 
                        if ($scope.resultModal.hasErrors) return;
@@ -94,7 +96,7 @@
                        $scope.resultModal.messages.push('Indique si es consumo propio');
                    }
 
-                   if (!$scope.selectedEntity.establecimientoProcedenciaAux) {
+                   if ($scope.selectedEntity.consumoPropio == 'N' && !$scope.selectedEntity.establecimientoProcedenciaAux) {
                        $scope.resultModal.messages.push('Selecione el establecimiento');
                    }
 

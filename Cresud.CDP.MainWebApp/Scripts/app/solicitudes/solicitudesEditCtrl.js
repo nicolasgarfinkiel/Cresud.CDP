@@ -349,8 +349,8 @@
 
                    $scope.controlsVisibility.btnAnular = $scope.entity.id &&
                                                          (
-                                                          !$scope.esArgentina || 
-                                                          ($scope.esArgentina && !$scope.mensajeAfipReserva && $scope.rolAnularSolicitud && $scope.entity.estadoEnAFIP == 1 && !$scope.activarModelo)
+                                                          (!$scope.esArgentina && $scope.entity.estadoEnSAP != 5) ||
+                                                          ($scope.esArgentina && !$scope.mensajeAfipReserva && $scope.rolAnularSolicitud && $scope.entity.estadoEnAFIP == 1 && !$scope.activarModelo && $scope.entity.ctg && $scope.entity.numeroCartaDePorte)
                                                          );                   
                };
 
@@ -392,11 +392,13 @@
                };
 
                $scope.confirmArribo = function () {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
                    $scope.operation = 'Arribo';
                    $('#modalConfirm').modal('show');
                };
 
                $scope.confirmAnulacion = function () {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
                    $scope.operation = 'Anulacion';
                    $('#modalConfirm').modal('show');
                };
@@ -415,7 +417,13 @@
                };
 
                $scope.setAnulacion = function () {
-                   $('#modalConfirm').modal('hide');
+                   solicitudesService.anular($scope.entity.id).then(function(response) {
+                       $scope.resultModal = response.data;
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#modalConfirm').modal('hide');
+                       window.location = window.location.origin + '/solicitudes#/edit/' + $scope.entity.id;
+                   });                   
                };
 
                //#region Clientes

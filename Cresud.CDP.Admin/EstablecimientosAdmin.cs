@@ -125,10 +125,10 @@ namespace Cresud.CDP.Admin
                 filter.MultiColumnSearchText = filter.MultiColumnSearchText.ToLower();
 
                 result = result.Where(r =>
-                    (r.Descripcion != null && r.Descripcion.ToLower().Contains(filter.MultiColumnSearchText)) ||
-                    (r.Direccion != null && r.Direccion.ToLower().Contains(filter.MultiColumnSearchText)) ||
-                    (r.CreatedBy != null && r.CreatedBy.ToLower().Contains(filter.MultiColumnSearchText)) ||
-                    (r.Provincia != null && r.Provincia.Descripcion.ToLower().Contains(filter.MultiColumnSearchText))
+                    (r.Descripcion != null && r.Descripcion.ToLower().Trim().StartsWith(filter.MultiColumnSearchText)) ||
+                    (r.Direccion != null && r.Direccion.ToLower().Trim().StartsWith(filter.MultiColumnSearchText)) ||
+                    (r.CreatedBy != null && r.CreatedBy.ToLower().Trim().StartsWith(filter.MultiColumnSearchText)) ||
+                    (r.Provincia != null && r.Provincia.Descripcion.Trim().ToLower().StartsWith(filter.MultiColumnSearchText))
                     ).AsQueryable();
             }
 

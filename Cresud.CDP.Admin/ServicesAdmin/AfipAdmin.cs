@@ -115,7 +115,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             return service.solicitarCTGInicial(request);
         }
 
-        public operacionCTGReturnType ConfirmarArribo(SolicitudEdit solicitud, AfipAuth auth, string consumoPropio, long establecimientoAfip)
+        public operacionCTGReturnType ConfirmarArribo(SolicitudEdit solicitud, AfipAuth auth, string consumoPropio, long? establecimientoAfip)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
             var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
@@ -146,10 +146,30 @@ namespace Cresud.CDP.Admin.ServicesAdmin
                 }
             }
 
-            request.datosConfirmarArribo.establecimiento = establecimientoAfip;
-            request.datosConfirmarArribo.establecimientoSpecified = true;
+            if (establecimientoAfip.HasValue)
+            {
+                request.datosConfirmarArribo.establecimiento = establecimientoAfip.Value;
+                request.datosConfirmarArribo.establecimientoSpecified = true;
+            }
 
             return service.confirmarArribo(request);
+        }
+
+        public operacionCTGReturnType AnularCtg(long numeroCartaDePorte, long ctg, AfipAuth auth)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
+
+            var request = new anularCTGRequestType();
+            request.auth = new authType();
+            request.auth.token = auth.Token;
+            request.auth.sign = auth.Sign;
+            request.auth.cuitRepresentado = long.Parse(auth.CuitRepresentado);
+            request.datosAnularCTG = new datosCTGType();
+            request.datosAnularCTG.cartaPorte = numeroCartaDePorte;
+            request.datosAnularCTG.ctg = ctg;
+
+            return service.anularCTG(request);
         }
 
         #region NetworkCredential
@@ -170,8 +190,6 @@ namespace Cresud.CDP.Admin.ServicesAdmin
                 return proxy;
             }
         }
-        #endregion
-
-       
+        #endregion      
     }
 }

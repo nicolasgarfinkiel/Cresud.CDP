@@ -91,6 +91,24 @@ namespace Cresud.CDP.MainWebApp.Controllers
             return this.JsonNet(response);
         }
 
+        [HttpPost]
+        public ActionResult Anular(int id)
+        {
+            var response = new Result() { HasErrors = false, Messages = new List<string>() };
+
+            try
+            {
+                response = _admin.Anular(id);
+            }
+            catch (Exception ex)
+            {
+                response.HasErrors = true;
+                response.Messages.Add(ex.Message);
+            }
+
+            return this.JsonNet(response);
+        }
+
         #endregion        
     }
 }

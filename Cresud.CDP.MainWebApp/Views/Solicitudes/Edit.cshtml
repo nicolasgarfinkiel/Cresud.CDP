@@ -362,11 +362,11 @@
                                         <label class="col-lg-2 control-label">Chofer</label>
                                         <div class="col-lg-9">
                                             <ui-select name="chofer" ng-model="entity.chofer" theme="select2" style="width: 100%;" append-to-body="true">
-                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}. <b>Camión:</b> {{$select.selected.camion}}. <b>Acoplado:</b> {{$select.selected.acoplado}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.nombre}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.nombre | highlight: $select.search"></div>
                                                     <small>
-                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}}. Camión: {{item.camion}}. Acoplado: {{item.acoplado}})</span>
+                                                        <span>({{usuario.currentEmpresaLabelCuit}}: {{item.cuit}})</span>
                                                     </small>
                                                     <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
@@ -409,11 +409,11 @@
                                         <label class="col-lg-2 control-label">Grano</label>
                                         <div class="col-lg-10">
                                             <ui-select name="grano" ng-model="entity.grano" theme="select2" style="width: 100%;" append-to-body="true" ng-disabled="!rolAltaSolicitud">
-                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}}</ui-select-match>
+                                                <ui-select-match allow-clear="true">{{$select.selected.descripcion}} - {{$select.selected.tipoGranoAfipDescripcion}} - {{$select.selected.cosechaAfipCodigo}} </ui-select-match>
                                                 <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
                                                     <div ng-bind-html="item.descripcion | highlight: $select.search"></div>
                                                     <small>
-                                                        <span ng-if="item.cosechaAfipCodigo">({{item.cosechaAfipCodigo}})</span>
+                                                        <span ng-if="item.cosechaAfipCodigo">({{item.cosechaAfipCodigo}})</span>                                                        
                                                     </small>
                                                     <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
                                                         <button class="btn btn-xs btn-info"
@@ -427,7 +427,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="col-lg-1 text-right">
                                             <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.cargaPesadaDestino" />
@@ -435,14 +435,15 @@
                                         <label class="col-lg-10 control-label" style="text-align: left;">La carga sera pesada en destino</label>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <div class="col-lg-1">
-                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.declaracionDeCalidad" disabled />
+                                        <label class="col-lg-6 control-label">P.Bruto (Kgs)</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" ng-model="entity.pesoBruto" ng-disabled="entity.cargaPesadaDestino" />
                                         </div>
-                                        <label class="col-lg-10 control-label" style="text-align: left;">Declaracion Calidad</label>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
@@ -463,10 +464,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="col-lg-6 control-label">P.Bruto (Kgs)</label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-model="entity.pesoBruto" ng-disabled="entity.cargaPesadaDestino" />
+                                        <div class="col-lg-1">
+                                            <input type="checkbox" style="position: relative; top: 5px;" ng-model="entity.declaracionDeCalidad" disabled />
                                         </div>
+                                        <label class="col-lg-10 control-label" style="text-align: left;">Declaracion Calidad</label>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -478,15 +479,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="col-lg-6 control-label">P.Neto (Kgs)</label>
-                                        <div class="col-lg-6">
-                                            <input type="text" class="form-control" ng-value="entity.pesoBruto - entity.pesoTara" disabled />
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row">                                                                                                                               
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="col-lg-6 control-label">Kgs Est.</label>
@@ -511,6 +504,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="col-lg-6 control-label">P.Neto (Kgs)</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" ng-value="entity.pesoBruto - entity.pesoTara" disabled />
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-md-1" style="width: 9.5%;">
@@ -708,6 +709,10 @@
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                    <i class="fa fa-bolt"></i>
+                    <div ng-repeat="message in resultModal.messages">{{message}}</div>
                 </div>
             </div>
             <div class="modal-footer">

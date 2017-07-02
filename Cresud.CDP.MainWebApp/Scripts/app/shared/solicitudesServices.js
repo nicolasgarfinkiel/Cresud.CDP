@@ -24,6 +24,13 @@
                            url: '/Solicitudes/ReenviarAfip',
                            data: { id: id }
                        });
+                   },
+                   anular: function (id) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Solicitudes/Anular',
+                           data: { id: id }
+                       });
                    }
                }, baseService);
 

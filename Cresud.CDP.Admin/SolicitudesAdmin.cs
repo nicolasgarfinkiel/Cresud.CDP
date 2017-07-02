@@ -324,7 +324,7 @@ namespace Cresud.CDP.Admin
 
         #endregion
 
-        public Result ConfirmarArribo(int solicitudId, string consumoPropio, long establecimientoAfip)
+        public Result ConfirmarArribo(int solicitudId, string consumoPropio, long? establecimientoAfip)
         {
             var result = new Result { Messages = new List<string>() };
             var solicitudEdit = GetById(solicitudId);
@@ -458,6 +458,54 @@ namespace Cresud.CDP.Admin
 
             return mensaje;
 
+        }
+
+        public Result Anular(int id)
+        {
+            var result = new Result { Messages = new List<string>() };            
+            var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
+            var auth = CdpContext.AfipAuth.FirstOrDefault();
+
+            try
+            {
+                solicitud.EstadoEnSAP = (int)EstadoSap.PedidoAnulacion;
+                solicitud.ObservacionAfip = "Carta de porte ANULADA";
+
+                if (CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresaId == App.IdGrupoCresud)
+                {
+                    var wsResult = _afipAdmin.AnularCtg(long.Parse(solicitud.NumeroCartaDePorte), long.Parse(solicitud.Ctg), auth);
+                    var messages = wsResult.arrayErrores != null ? string.Join(", ", wsResult.arrayErrores.ToArray()) : string.Empty;
+
+                    if (String.IsNullOrEmpty(messages) && wsResult.datosResponse != null)
+                    {
+                                                                            
+                            solicitud.CodigoAnulacionAfip = wsResult.datosResponse.codigoOperacion;
+                            var fecha = wsResult.datosResponse.fechaHora.Substring(0, 10).Split('/');
+                            var fechaCancelacion = new DateTime(Convert.ToInt32(fecha[2]), Convert.ToInt32(fecha[1]), Convert.ToInt32(fecha[0]));
+                            solicitud.FechaAnulacionAfip = fechaCancelacion;
+                            solicitud.EstadoEnAFIP = (int)EstadoAfip.Anulada;
+                            solicitud.EstadoEnSAP = (int)EstadoSap.PedidoAnulacion;
+                            solicitud.ObservacionAfip = "Carta de porte ANULADA";                          
+                    }
+                    else if (!String.IsNullOrEmpty(messages))
+                    {
+                        solicitud.ObservacionAfip = messages.Trim();
+
+                        if (messages.Contains("La Carta de Porte fue Confirmada o Anulada con anterioridad"))
+                            solicitud.EstadoEnAFIP = (int)EstadoAfip.Anulada;                       
+
+                    }
+                }
+                             
+                CdpContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var norm = NormalizarMensajeErrorAfip(ex.Message);
+                throw new Exception(norm);
+            }
+
+            return result;
         }
     }
 }
