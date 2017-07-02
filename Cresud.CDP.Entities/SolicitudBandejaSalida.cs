@@ -15,7 +15,8 @@ namespace Cresud.CDP.Entities
         public string CodigoRespuestaEnvioSAP { get; set; }                
         public string TipoCarta { get; set; }        
         public string Ctg { get; set; }     
-        public string EstProcedencia { get; set; }     
+        public string EstProcedencia { get; set; }
+        public string EstDestino { get; set; }
         public string TitularCDP { get; set; }
         public string MensajeRespuestaEnvioSap { get; set; }        
     }

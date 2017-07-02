@@ -368,6 +368,7 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.NumeroCartaDePorte).HasColumnName("NumeroCartaDePorte");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.Ctg).HasColumnName("Ctg");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EstProcedencia).HasColumnName("EstProcedencia");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EstDestino).HasColumnName("EstDestino");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.ObservacionAfip).HasColumnName("ObservacionAfip");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.TipoCarta).HasColumnName("TipoCarta");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CodigoAnulacionAfip).HasColumnName("CodigoAnulacionAfip");

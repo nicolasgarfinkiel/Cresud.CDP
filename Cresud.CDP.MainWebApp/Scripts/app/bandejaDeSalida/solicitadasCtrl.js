@@ -32,15 +32,18 @@
                //#region Columns
 
                $scope.columnsArg = [                   
-                    { field: 'id', displayName: 'Id', width: 50 },
-                    { field: 'numeroCartaDePorte', displayName: 'Nro.Carta', width: 80 },
-                    { field: 'ctg', displayName: 'Ctg', width: 80 },
-                    { field: 'tipoCarta', displayName: 'Tipo' },
+                    { field: 'id', displayName: 'Id', width: 40 },
+                    { field: 'numeroCartaDePorte', displayName: 'Nro.Carta', width: 70 },
+                    { field: 'ctg', displayName: 'Ctg', width: 65 },
+                    { field: 'tipoCarta', displayName: 'Tipo', width: 140 },
                     { field: 'titularCDP', displayName: 'Titular' },
-                    { field: 'estProcedencia', displayName: 'Est.Procedencia' },
+                    { field: 'estProcedencia', displayName: 'Procedencia' },
+                    { field: 'estDestino', displayName: 'Destino' },
                     { field: 'asd', displayName: 'Afip', cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>', width: 38 },
                     { field: 'asd', displayName: 'SAP', cellTemplate: '<div  style="text-align: center; position: relative;top: 2px;" ng-bind-html="getSapImg(row.entity)"></div>', width: 38 },
-                    { field: 'observacionAfip', displayName: 'Observaciones AFIP' },                                        
+                    { field: 'observacionAfip', displayName: 'Observaciones AFIP', width: 120 },
+                    { field: 'fechaDeEmision', displayName: 'Fecha', width: 70 },
+                    { field: 'createdBy', displayName: 'Usuario Creación', width: 110 },
                     { field: 'cuit', displayName: '', width: 25, cellTemplate:
                              '<div class="ng-grid-icon-container"><span compile="getMantenimientoImg(row.entity)"></span></div>'
                     },

@@ -4054,3 +4054,7 @@ fieldset legend {
 .ng-grid-icon-container img {
     margin: 0 3px 0 3px;
 }
+
+.small-font {
+    font-size: 7.5pt;    
+}

@@ -73,6 +73,16 @@ Date.now = Date.now || function () { return +new Date; };
 
     $(function () {
 
+        setTimeout(function () {
+            $('#menu-collapse').click();
+        }, 300);
+
+        $(window).resize(function () {
+            setTimeout(function () {
+                $(window).trigger('resize');
+            }, 500);
+        });
+
         jQuery.browser = {};
 
         jQuery.browser.msie = false;

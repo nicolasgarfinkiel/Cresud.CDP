@@ -25,7 +25,7 @@
     
     <mvcSiteMapNode   title="Reporting"                             controller="Reports"                  action="Index"           Class="fa fa-bookmark-o"      roles="Reportes" >
       <mvcSiteMapNode title="Exportar CDP"                          controller="Reportes"                 action="Index"                                         roles="Reportes"/>
-      <mvcSiteMapNode title="CDP Emitidas"                          controller="Reportes"                 action="Index"           aroute="emitidas"             roles="Reportes"/>
+      <!--<mvcSiteMapNode title="CDP Emitidas"                          controller="Reportes"                 action="Index"           aroute="emitidas"             roles="Reportes"/>-->
       <mvcSiteMapNode title="CDP Recibidas"                         controller="Reportes"                 action="Index"           aroute="recibidas"            roles="Reportes"/>
       <mvcSiteMapNode title="Actividad"                             controller="Reportes"                 action="Index"           aroute="actividad"            roles="Reportes"/>       
     </mvcSiteMapNode>
