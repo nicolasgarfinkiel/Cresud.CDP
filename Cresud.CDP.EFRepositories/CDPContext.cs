@@ -258,6 +258,11 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<Solicitud>().Property(t => t.EstablecimientoDestinoCambioId).HasColumnName("IdEstablecimientoDestinoCambio");
             modelBuilder.Entity<Solicitud>().Property(t => t.ClienteDestinatarioCambioId).HasColumnName("IdClienteDestinatarioCambio");
             modelBuilder.Entity<Solicitud>().Property(t => t.ChoferTransportistaId).HasColumnName("IdChoferTransportista");
+
+            modelBuilder.Entity<Solicitud>().Property(t => t.ClienteMercadoTerminoId).HasColumnName("IdClienteMercadoTermino");
+            modelBuilder.Entity<Solicitud>().Property(t => t.ClienteCorredorVendedorId).HasColumnName("IdClienteCorredorVendedor");
+            modelBuilder.Entity<Solicitud>().Property(t => t.ProveedorIntermediarioFleteId).HasColumnName("IdProveedorIntermediarioFlete");
+
             modelBuilder.Entity<Solicitud>().Property(t => t.PHumedad).HasColumnName("PHumedad");
             modelBuilder.Entity<Solicitud>().Property(t => t.POtros).HasColumnName("POtros");
             modelBuilder.Entity<Solicitud>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
@@ -356,6 +361,13 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudReport>().Property(t => t.ClientePagadorIdSapOrganizacionDeVenta).HasColumnName("ClientePagadorIdSapOrganizacionDeVenta");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.MensajeRespuestaEnvioSap).HasColumnName("MensajeRespuestaEnvioSap");
             modelBuilder.Entity<SolicitudReport>().Property(t => t.EmpresaProveedorTitularSapId).HasColumnName("EmpresaProveedorTitularSap_Id");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ClienteMercadoTermino).HasColumnName("ClienteMercadoTermino");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ClienteMercadoTerminoCuit).HasColumnName("ClienteMercadoTerminoCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ClienteCorredorVendedor).HasColumnName("ClienteCorredorVendedor");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ClienteCorredorVendedorCuit).HasColumnName("ClienteCorredorVendedorCuit");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ProveedorIntermediarioFlete).HasColumnName("ProveedorIntermediarioFlete");
+            modelBuilder.Entity<SolicitudReport>().Property(t => t.ProveedorIntermediarioFleteCuit).HasColumnName("ProveedorIntermediarioFleteCuit");
+
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.Enabled);
             modelBuilder.Entity<SolicitudReport>().Ignore(t => t.DeletedBy);
             modelBuilder.Entity<SolicitudReport>().ToTable("vReporteCDP");

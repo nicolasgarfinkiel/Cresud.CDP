@@ -132,6 +132,26 @@ namespace Cresud.CDP.Admin
                 CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
             }
 
+            if (entity.ClienteMercadoTerminoId > 0)
+            {
+                var clienteId = entity.ClienteMercadoTerminoId.Value.ToString();
+                dto.ClienteMercadoTermino = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
+                CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
+            }
+
+            if (entity.ClienteCorredorVendedorId > 0)
+            {
+                var clienteId = entity.ClienteCorredorVendedorId.Value.ToString();
+                dto.ClienteCorredorVendedor = Mapper.Map<Entities.Cliente, Dtos.Cliente>(
+                CdpContext.Clientes.FirstOrDefault(e => string.Equals(e.Id, clienteId)));
+            }
+
+            if (entity.ProveedorIntermediarioFleteId > 0)
+            {
+                dto.ProveedorIntermediarioFlete = Mapper.Map<Entities.Proveedor, Dtos.Proveedor>(
+                CdpContext.Proveedores.FirstOrDefault(e => e.Id == entity.ProveedorIntermediarioFleteId.Value));
+            }
+                    
             return dto;
         }
 
@@ -251,6 +271,10 @@ namespace Cresud.CDP.Admin
             entity.SinContrato = dto.SinContrato;
             entity.TarifaReal = dto.TarifaReal;
             entity.TarifaReferencia = dto.TarifaReferencia;
+
+            entity.ClienteMercadoTerminoId = dto.ClienteMercadoTerminoId;
+            entity.ClienteCorredorVendedorId = dto.ClienteCorredorVendedorId;
+            entity.ProveedorIntermediarioFleteId = dto.ProveedorIntermediarioFleteId;
 
             if (dto.Enviar)
             {

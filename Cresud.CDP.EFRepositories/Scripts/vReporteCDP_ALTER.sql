@@ -1,15 +1,8 @@
 USE [CartaDePorte]
 GO
 
-IF OBJECT_ID('[dbo].[vReporteCDP]', 'V') IS NOT NULL
-    DROP VIEW [dbo].[vReporteCDP]
-GO
-
-
-
-CREATE VIEW [dbo].[vReporteCDP]  
+ALTER VIEW [dbo].[vReporteCDP]  
 AS
-
 
 Select Distinct 
 Sol.IdSolicitud, 
@@ -99,7 +92,15 @@ EstDestino.EstablecimientoAfip as EstDestinoEstablecimientoAfip,
 EstDestino.Localidad as EstDestinoLocalidad,
 EmpresaClientePagadorFlete.IdSapOrganizacionDeVenta as ClientePagadorIdSapOrganizacionDeVenta,
 Sol.MensajeRespuestaEnvioSAP,
-EmpresaProveedorTitular.Sap_Id as EmpresaProveedorTitularSap_Id
+EmpresaProveedorTitular.Sap_Id as EmpresaProveedorTitularSap_Id,
+
+CteMercadoTermino.RazonSocial ClienteMercadoTermino,
+CteMercadoTermino.Cuit as ClienteMercadoTerminoCuit,
+CteCorredorVendedor.RazonSocial ClienteCorredorVendedor,
+CteCorredorVendedor.Cuit as ClienteCorredorVendedorCuit,
+ProvIntermediarioFlete.Nombre ProveedorIntermediarioFlete,
+ProvIntermediarioFlete.NumeroDocumento as ProveedorIntermediarioFleteCuit
+
 From [dbo].Solicitudes Sol
 Left Join [dbo].TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
 Left Join [dbo].Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
@@ -123,12 +124,11 @@ Left Join [dbo].Cliente CteDestinatarioCambio On Sol.IdClienteDestinatarioCambio
 Left Join [dbo].Empresa EmpresaClientePagadorFlete On empresaClientePagadorFlete.IdCliente = CtePagador.IdCliente
 Left Join [dbo].Empresa EmpresaProveedorTitular On EmpresaProveedorTitular.Sap_Id =ProvTitularCDP.Sap_Id
 
+Left Join [dbo].Cliente CteMercadoTermino On Sol.IdClienteMercadoTermino = CteMercadoTermino.IdCliente
+Left Join [dbo].Cliente CteCorredorVendedor On Sol.IdClienteCorredorVendedor = CteCorredorVendedor.IdCliente
+Left Join [dbo].Proveedor ProvIntermediarioFlete On Sol.IdProveedorIntermediarioFlete = ProvIntermediarioFlete.IdProveedor
+
 
 GO
 
-
-
-
-CREATE  INDEX Solicitud_INDEX  ON Solicitudes (IdEmpresa, EstadoEnAFIP, EstadoEnSAP, NumeroCartaDePorte, Ctg);  
-GO  
 

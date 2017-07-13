@@ -18,7 +18,11 @@
         public Establecimiento EstablecimientoDestinoCambio { get; set; }
         public Cliente ClientePagadorDelFlete { get; set; }
         public Cliente ClienteDestinatarioCambio { get; set; }
-        public Empresa EmpresaDestino { get; set; }        
+        public Empresa EmpresaDestino { get; set; }
+
+        public Cliente ClienteMercadoTermino { get; set; }
+        public Cliente ClienteCorredorVendedor { get; set; }
+        public Proveedor ProveedorIntermediarioFlete { get; set; }
 
         public bool Enviar { get; set; }
         public bool Manual { get; set; }
@@ -41,6 +45,9 @@
             EstablecimientoDestinoCambioId = null;
             ClientePagadorDelFleteId = null;
             ClienteDestinatarioCambioId = null;
+            ClienteMercadoTerminoId = null;
+            ClienteCorredorVendedorId = null;
+            ProveedorIntermediarioFleteId = null;
 
             if (ProveedorTitularCartaDePorte != null)
             {
@@ -122,6 +129,20 @@
                 ClienteDestinatarioCambioId = int.Parse(ClienteDestinatarioCambio.Id);
             }
 
+            if (ClienteMercadoTermino != null)
+            {
+                ClienteMercadoTerminoId = int.Parse(ClienteMercadoTermino.Id);
+            }
+
+            if (ClienteCorredorVendedor != null)
+            {
+                ClienteCorredorVendedorId = int.Parse(ClienteCorredorVendedor.Id);
+            }
+
+            if (ProveedorIntermediarioFlete != null)
+            {
+                ProveedorIntermediarioFleteId = ProveedorIntermediarioFlete.Id;
+            }             
         }
 
     }

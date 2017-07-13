@@ -18,7 +18,7 @@ namespace Cresud.CDP.Dtos
         public DateTime? FechaDeVencimiento { get; set; }
         public int? ClienteIntermediarioId { get; set; }
         public int? ClienteRemitenteComercialId { get; set; }
-        public int? ClienteCorredorId { get; set; }
+        public int? ClienteCorredorId { get; set; }        
         public int? ClienteEntregadorId { get; set; }
         public int? ClienteDestinatarioId { get; set; }
         public int? ClienteDestinoId { get; set; }
@@ -65,6 +65,10 @@ namespace Cresud.CDP.Dtos
         public decimal? POtros { get; set; }
         public int? TipoDeCartaId { get; set; }
         public decimal? PesoNeto { get; set; }
+
+        public int? ClienteMercadoTerminoId { get; set; }
+        public int? ClienteCorredorVendedorId { get; set; }
+        public int? ProveedorIntermediarioFleteId { get; set; }
     }
 }
 

@@ -61,6 +61,10 @@ namespace Cresud.CDP.Entities
         public decimal? POtros { get; set; }
         public int? TipoDeCartaId { get; set; }
 
+        public int? ClienteMercadoTerminoId { get; set; }
+        public int? ClienteCorredorVendedorId { get; set; }
+        public int? ProveedorIntermediarioFleteId { get; set; }
+
         public decimal? PesoNeto
         {
             get { return PesoBruto - PesoTara; }
@@ -106,6 +110,9 @@ namespace Cresud.CDP.Entities
             PHumedad = PHumedad ?? 0;
             POtros = POtros ?? 0;
             TipoDeCartaId = TipoDeCartaId ?? 0;
+
+            ClienteMercadoTerminoId = ClienteMercadoTerminoId ?? 0;
+            ClienteCorredorVendedorId = ClienteCorredorVendedorId ?? 0;        
         }
     }
 }

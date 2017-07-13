@@ -673,7 +673,8 @@ namespace Cresud.CDP.Admin
             var pdfAfipFolder = ConfigurationManager.AppSettings["RutaOriginalCartaDePorte"];
             var result = default(byte[]);
             var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            var esCresud = empresa.GrupoEmpresa.Id == App.IdGrupoCresud;            
+            var esCresud = empresa.GrupoEmpresa.Id == App.IdGrupoCresud;
+            var reporteV2 = esCresud && solicitud.CreateDate >= new DateTime(2017, 07, 3);
 
             var pdfTemplate = esCresud
                 ? string.Format("{0}{1}.pdf", pdfAfipFolder, solicitud.NumeroCartaDePorte)
@@ -697,7 +698,15 @@ namespace Cresud.CDP.Admin
                         contentByte.SetColorFill(BaseColor.BLACK);
                         contentByte.SetFontAndSize(baseFont, 9);
 
-                        SetPageContent(contentByte, solicitud, esCresud, i);                      
+                        if (reporteV2)
+                        {
+                            SetPageContentV2(contentByte, solicitud, i);                      
+                        }
+                        else
+                        {
+                            SetPageContent(contentByte, solicitud, esCresud, i);           
+                        }
+                        
                         contentByte.AddTemplate(importedPage, 0, 0);
 
                         #region FechaDeCarga
@@ -726,6 +735,119 @@ namespace Cresud.CDP.Admin
             }
 
             return result;
+        }
+
+        private void SetPageContentV2(PdfContentByte contentByte, SolicitudReport solicitud, int page)
+        {
+            var colNombre = 180;
+            var colCuit = 470;
+            var marca = "X";
+
+            AddText(contentByte, false, 9, solicitud.Ctg, 250, 753);           
+
+            AddText(contentByte, true, 7, solicitud.Intermediario, colNombre, 685);
+            AddText(contentByte, true, 10, solicitud.CteIntermediarioCuit, colCuit, 685);
+
+            //Remitente comercial
+            AddText(contentByte, true, 7, solicitud.CteRemitenteComecial, colNombre, 665);
+            AddText(contentByte, true, 10, solicitud.CteRemitenteComecialCuit, colCuit, 665);
+
+            //Corredor
+            AddText(contentByte, true, 7, solicitud.CteCorredor, colNombre, 645);
+            AddText(contentByte, true, 10, solicitud.CteCorredorCuit, colCuit, 645);
+
+            //Mercado a Termino
+            AddText(contentByte, true, 7, solicitud.ClienteMercadoTermino, colNombre, 625);
+            AddText(contentByte, true, 10, solicitud.ClienteMercadoTerminoCuit, colCuit, 625);
+
+            //Corredor vendedor
+            AddText(contentByte, true, 7, solicitud.ClienteCorredorVendedor, colNombre, 605);
+            AddText(contentByte, true, 10, solicitud.ClienteCorredorVendedorCuit, colCuit, 605);
+
+            //Representante/Entregador
+            AddText(contentByte, true, 7, solicitud.Entregador, colNombre, 585);
+            AddText(contentByte, true, 10, solicitud.CteEntregadorCuit, colCuit, 585);
+
+            //Destinatario
+            AddText(contentByte, true, 7, solicitud.Destinatario, colNombre, 565);
+            AddText(contentByte, true, 10, solicitud.CteDestinatarioCuit, colCuit, 565);
+
+            //Destino
+            AddText(contentByte, true, 7, solicitud.Destino, colNombre, 545);
+            AddText(contentByte, true, 10, solicitud.CteDestinoCuit, colCuit, 545);
+
+            //Intermediario del Flete
+            AddText(contentByte, true, 7, solicitud.ProveedorIntermediarioFlete, colNombre, 525);
+            AddText(contentByte, true, 10, solicitud.ProveedorIntermediarioFleteCuit, colCuit, 525);
+
+            //Transportista
+            AddText(contentByte, true, 7, solicitud.CTransportista, colNombre, 505);
+            AddText(contentByte, true, 10, solicitud.CTransportistaCuit, colCuit, 505);
+
+            //Chofer
+            AddText(contentByte, true, 7, solicitud.Chofer, colNombre, 485);
+            AddText(contentByte, true, 10, solicitud.ChoferCuit, colCuit, 485);
+
+            //Datos de los granos / Especies Transportados
+            var grano = CdpContext.Granos.SingleOrDefault(g => g.Id == solicitud.GranoId);
+            var granoEspecie = grano != null && grano.EspecieAfip != null ?
+                                 grano.EspecieAfip.Descripcion 
+                               : string.Empty;
+
+            AddText(contentByte, false, 8, granoEspecie, 130, 462);
+            AddText(contentByte, false, 8, grano != null ? grano.TipoGranoAfip.Descripcion : string.Empty, 255, 462);
+            AddText(contentByte, false, 8, solicitud.NumeroContrato ?? string.Empty, 495, 462);
+            AddText(contentByte, false, 8, solicitud.CosechaDescripcion, 355, 462);
+            AddText(contentByte, true, 10, solicitud.CargaPesadaDestino.HasValue && solicitud.CargaPesadaDestino.Value ? marca : string.Empty, 132, 428);
+            AddText(contentByte, false, 8, solicitud.KilogramosEstimados.HasValue ? solicitud.KilogramosEstimados.ToString() : string.Empty, 132, 408);
+
+            AddText(contentByte, true, 10, solicitud.ConformeCondicional.HasValue && solicitud.ConformeCondicional.Value == (int)ConformeCondicional.Conforme ? marca : string.Empty, 257, 426);
+            AddText(contentByte, true, 10, solicitud.ConformeCondicional.HasValue && solicitud.ConformeCondicional.Value == (int)ConformeCondicional.Condicional ? marca : string.Empty, 257, 408);
+            AddText(contentByte, false, 10, solicitud.PesoBruto.HasValue ? solicitud.PesoBruto.Value.ToString() : string.Empty, 355, 444);
+            AddText(contentByte, false, 10, solicitud.PesoTara.HasValue ? solicitud.PesoTara.Value.ToString() : string.Empty, 355, 425);
+            AddText(contentByte, false, 10, solicitud.PesoNeto.HasValue ? solicitud.PesoNeto.Value.ToString() : string.Empty, 355, 407);
+
+            GenerarTextoObservaciones(contentByte, false, 8, solicitud.Observaciones, 471, 429);
+
+            //PROCEDENCIA DE LA MERCADERÍA
+            var establecimiento = CdpContext.Establecimientos.SingleOrDefault(e => e.Id == solicitud.EstablecimientoProcedenciaId);
+
+            if (establecimiento != null)
+            {
+                var localidad = CdpContext.Localidades.SingleOrDefault(e => e.Id == establecimiento.LocalidadId);
+
+                AddText(contentByte, false, 9, establecimiento.Direccion, 120, 370);
+                AddText(contentByte, false, 9, establecimiento.Descripcion, 423, 395);
+                AddText(contentByte, false, 9, localidad.Descripcion, 423, 380);
+                AddText(contentByte, false, 9, establecimiento.Provincia.Descripcion, 423, 365);
+            }
+
+            //LUGAR DE DESTINO DE LOS GRANOS
+            establecimiento = CdpContext.Establecimientos.SingleOrDefault(e => e.Id == solicitud.EstablecimientoDestinoId);
+
+            if (establecimiento != null)
+            {
+                var localidad = CdpContext.Localidades.SingleOrDefault(e => e.Id == establecimiento.LocalidadId);
+
+                AddText(contentByte, false, 9, establecimiento.Direccion.ToLower(), 78, 331);
+                AddText(contentByte, false, 9, localidad.Descripcion, 415, 349);
+                AddText(contentByte, false, 9, establecimiento.Provincia.Descripcion, 415, 331);
+            }
+
+            //DATOS DEL TRANSPORTE
+            AddText(contentByte, false, 9, solicitud.PatenteCamion, 95, 295);
+            AddText(contentByte, false, 9, solicitud.PatenteAcoplado, 95, 278);
+            AddText(contentByte, false, 9, solicitud.KmRecorridos.HasValue ? solicitud.KmRecorridos.Value.ToString() : string.Empty, 95, 261);
+            //AddText(contentByte, false, 9, solicitud.EstadoFlete.HasValue && solicitud.EstadoFlete.Value == (int)EstadoFlete.FletePagado ? marca : string.Empty, 200, 295);//Flete Pag.            
+            //AddText(contentByte, false, 9, solicitud.EstadoFlete.HasValue && solicitud.EstadoFlete.Value == (int)EstadoFlete.FleteAPagar ? marca : string.Empty, 280, 295);//Flete a Pag            
+            AddText(contentByte, false, 9, solicitud.TarifaReferencia.HasValue ? solicitud.TarifaReferencia.Value.ToString() : string.Empty, 243, 278);//Tarifa de Referencia            
+            AddText(contentByte, false, 9, solicitud.TarifaReal.HasValue ? solicitud.TarifaReal.Value.ToString() : string.Empty, 243, 261);//Tarifa
+
+            //Pagador del Flete
+            if (page != 2)
+                AddText(contentByte, false, 9, solicitud.CtePagador, 350, 311);
+            else
+                AddText(contentByte, false, 9, solicitud.CtePagador, 252, 311);
         }
 
         private void SetPageContent(PdfContentByte contentByte, SolicitudReport solicitud, bool esCresud, int page)
