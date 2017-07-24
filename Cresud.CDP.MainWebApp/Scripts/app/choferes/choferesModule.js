@@ -80,7 +80,7 @@
 
                 var value = input[key];
                 var match;                
-                if (typeof value === "string" && (match = value.match(regexIso8601))) {                    
+                if (typeof value === "string" && value.length > 5 && (match = value.match(regexIso8601))) {
                     input[key] = moment(value).format('DD/MM/YYYY');
                 } else if (typeof value === "object") {
                     // Recurse into object
