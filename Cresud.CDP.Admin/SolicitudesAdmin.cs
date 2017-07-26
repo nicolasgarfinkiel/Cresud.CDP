@@ -355,6 +355,9 @@ namespace Cresud.CDP.Admin
             var solicitud = CdpContext.Solicitudes.Single(s => s.Id == solicitudId);
             var auth = CdpContext.AfipAuth.FirstOrDefault();
 
+
+            solicitud.UpdateDate = DateTime.Now;
+            solicitud.UpdatedBy = UsuarioLogged;
             var wsResult = _afipAdmin.ConfirmarArribo(solicitudEdit, auth, consumoPropio, establecimientoAfip);
 
             if (wsResult.arrayErrores.Length > 0)
@@ -389,6 +392,8 @@ namespace Cresud.CDP.Admin
             var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
             var solicitudEdit = GetById(id);
 
+            solicitud.UpdateDate = DateTime.Now;
+            solicitud.UpdatedBy = UsuarioLogged;
             solicitud.EstadoEnSAP = (int)_sapAdmin.PrefacturaSap(solicitudEdit, false, false);
             CdpContext.SaveChanges();
 
@@ -404,6 +409,8 @@ namespace Cresud.CDP.Admin
 
             try
             {
+                solicitud.UpdateDate = DateTime.Now;
+                solicitud.UpdatedBy = UsuarioLogged;
                 solicitud.EstadoEnAFIP = (int)EstadoAfip.Enviado;
 
                 var wsResult = _afipAdmin.SolicitarCtgInicial(solicitudEdit, auth);
@@ -492,8 +499,10 @@ namespace Cresud.CDP.Admin
 
             try
             {
+                solicitud.UpdateDate = DateTime.Now;
+                solicitud.UpdatedBy = UsuarioLogged;
                 solicitud.EstadoEnSAP = (int)EstadoSap.PedidoAnulacion;
-                solicitud.ObservacionAfip = "Carta de porte ANULADA";
+                solicitud.ObservacionAfip = "Carta de porte ANULADA";                
 
                 if (CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresaId == App.IdGrupoCresud)
                 {
@@ -521,6 +530,48 @@ namespace Cresud.CDP.Admin
                     }
                 }
                              
+                CdpContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var norm = NormalizarMensajeErrorAfip(ex.Message);
+                throw new Exception(norm);
+            }
+
+            return result;
+        }
+
+        public Result RegresarOrigen(int id)
+        {
+            var result = new Result { Messages = new List<string>() };
+            var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
+            var solicitudEdit = GetById(id);
+            var auth = CdpContext.AfipAuth.FirstOrDefault();
+            var testRegresoAOrigen = string.Equals(System.Configuration.ConfigurationSettings.AppSettings["testRegresoAOrigen"], "true");
+
+            try
+            {
+                solicitud.UpdateDate = DateTime.Now;
+                solicitud.UpdatedBy = UsuarioLogged;
+                solicitud.EstadoEnAFIP = (int)EstadoAfip.VueltaOrigen;
+                solicitud.ObservacionAfip = "Vuelta a Origen realizado";                                 
+                solicitud.EstadoEnSAP = (int)_sapAdmin.PrefacturaSap(solicitudEdit, false, false);
+
+                if (!testRegresoAOrigen)
+                {
+                    var wsResult = _afipAdmin.RegresarOrigenCtgRechazado(solicitudEdit, auth);
+                    var messages = wsResult.arrayErrores != null ? string.Join(", ", wsResult.arrayErrores.ToArray()) : string.Empty;
+
+                    if (wsResult.datosResponse == null || 
+                        string.IsNullOrEmpty(wsResult.datosResponse.fechaHora) || 
+                        !string.IsNullOrEmpty(messages))
+                    {
+                        solicitud.ObservacionAfip = messages.Trim();
+                        solicitud.EstadoEnAFIP = (int)EstadoAfip.SinProcesar;
+                        
+                    }                    
+                }
+
                 CdpContext.SaveChanges();
             }
             catch (Exception ex)

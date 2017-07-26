@@ -31,11 +31,16 @@ Sol.UsuarioCreacion,
 Sol.FechaModificacion, 
 Sol.UsuarioModificacion, 
 Sol.IdEmpresa,
-Sol.MensajeRespuestaEnvioSAP
+Sol.MensajeRespuestaEnvioSAP,
+EmpresaProveedorTitular.Sap_Id as EmpresaProveedorTitularSapId,
+CteDestinatario.RazonSocial Destinatario,
+(sol.PesoBruto - sol.PesoTara) as PesoNeto
 From [dbo].Solicitudes Sol
 Left Join [dbo].TipoDeCarta TC On Sol.IdTipoDeCarta = TC.IdTipoDeCarta
 Left Join [dbo].Proveedor ProvTitularCDP On Sol.idProveedorTitularCartaDePorte = ProvTitularCDP.IdProveedor
 Left Join [dbo].Establecimiento EstProcedencia On Sol.IdEstablecimientoProcedencia = EstProcedencia.IdEstablecimiento
 Left Join [dbo].Establecimiento EstDestino On Sol.IdEstablecimientoDestino = EstDestino.IdEstablecimiento
+Left Join [dbo].Empresa EmpresaProveedorTitular On EmpresaProveedorTitular.Sap_Id = ProvTitularCDP.Sap_Id
+Left Join [dbo].Cliente CteDestinatario On Sol.IdClienteDestinatario = CteDestinatario.IdCliente
 
 GO

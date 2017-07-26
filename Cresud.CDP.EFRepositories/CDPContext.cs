@@ -389,6 +389,10 @@ namespace Cresud.CDP.EFRepositories
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.TitularCDP).HasColumnName("TitularCDP");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.FechaDeEmision).HasColumnName("FechaDeEmision");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.FechaDeVencimiento).HasColumnName("FechaDeVencimiento");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.EmpresaProveedorTitularSapId).HasColumnName("EmpresaProveedorTitularSapId");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.Destinatario).HasColumnName("Destinatario");
+            modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.PesoNeto).HasColumnName("PesoNeto");
+
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CreateDate).HasColumnName("FechaCreacion");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.CreatedBy).HasColumnName("UsuarioCreacion");
             modelBuilder.Entity<SolicitudBandejaSalida>().Property(t => t.UpdateDate).HasColumnName("FechaModificacion");

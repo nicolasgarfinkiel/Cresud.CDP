@@ -23,7 +23,11 @@ namespace Cresud.CDP.Dtos
         public string EstProcedencia { get; set; }
         public string EstDestino { get; set; }
         public string TitularCDP { get; set; }
-        public string MensajeRespuestaEnvioSap { get; set; }        
+        public string MensajeRespuestaEnvioSap { get; set; }
+
+        public string EmpresaProveedorTitularSapId { get; set; }
+        public string Destinatario { get; set; }
+        public decimal? PesoNeto { get; set; }
     }
 }
 

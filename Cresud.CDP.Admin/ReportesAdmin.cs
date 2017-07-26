@@ -628,9 +628,9 @@ namespace Cresud.CDP.Admin
             };
         }
 
-        public PagedListResponse<Dtos.SolicitudReport> GetTrasladosRechazados(FilterBase filter)
+        public PagedListResponse<Dtos.SolicitudBandejaSalida> GetTrasladosRechazados(FilterBase filter)
         {
-            var query = CdpContext.SolicitudesReport
+            var query = CdpContext.SolicitudesBandejaSalida
                          .Where(s => s.EmpresaId == filter.EmpresaId &&
                              s.EstadoEnAFIP == 7 &&
                              s.EstadoEnSAP == -1 &&
@@ -638,10 +638,10 @@ namespace Cresud.CDP.Admin
                           ).OrderBy(s => s.Id)
                          .AsQueryable();
 
-            return new PagedListResponse<Dtos.SolicitudReport>
+            return new PagedListResponse<Dtos.SolicitudBandejaSalida>
             {
                 Count = query.Count(),
-                Data = Mapper.Map<IList<SolicitudReport>, IList<Dtos.SolicitudReport>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+                Data = Mapper.Map<IList<Entities.SolicitudBandejaSalida>, IList<Dtos.SolicitudBandejaSalida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
             };
         }
 

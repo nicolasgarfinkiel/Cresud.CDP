@@ -30,6 +30,12 @@
                             <span>{{selectedEntity.numeroCartaDePorte}}</span>
                         </div>
                     </div>
+                    <div class="row" style="">
+                        <label class="col-lg-4 control-label text-right font-bold">Titular carta de porte</label>
+                        <div class="col-lg-8">
+                            <span>{{selectedEntity.titularCDP}}</span>
+                        </div>
+                    </div>
                     <div class="row">
                         <label class="col-lg-4 control-label text-right font-bold">CTG</label>
                         <div class="col-lg-8">
@@ -47,18 +53,16 @@
                         <div class="col-lg-8">
                             <span>{{selectedEntity.estDestino}}</span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-lg-4 control-label text-right font-bold">Chofer</label>
-                        <div class="col-lg-8">
-                            <span>{{selectedEntity.chofer}}</span>
-                        </div>
-                    </div>
+                    </div>                 
                     <div class="row">
                         <label class="col-lg-4 control-label text-right font-bold">Fecha creación</label>
                         <div class="col-lg-8">
                             <span>{{selectedEntity.createDate}}</span>
                         </div>
+                    </div>
+                    <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                        <i class="fa fa-bolt"></i>
+                        <div ng-repeat="message in resultModal.messages">{{message}}</div>
                     </div>
 
                 </section>

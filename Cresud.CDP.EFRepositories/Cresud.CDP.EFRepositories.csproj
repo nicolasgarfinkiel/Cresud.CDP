@@ -59,7 +59,7 @@
   <ItemGroup>
     <Content Include="Scripts\SOLICITUDES_NumeroContrato_ALTER.sql" />
     <Content Include="Scripts\vGraficoItemCDP.sql" />
-    <Content Include="Scripts\vSolicitudBandejaSalida_CREATE.sql" />
+    <Content Include="Scripts\vSolicitudBandejaSalida.sql" />
     <Content Include="Scripts\vReporteCDP_ALTER.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

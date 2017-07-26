@@ -31,6 +31,13 @@
                            url: '/Solicitudes/Anular',
                            data: { id: id }
                        });
+                   },
+                   regresarOrigen: function (id) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Solicitudes/RegresarOrigen',
+                           data: { id: id }
+                       });
                    }
                }, baseService);
 

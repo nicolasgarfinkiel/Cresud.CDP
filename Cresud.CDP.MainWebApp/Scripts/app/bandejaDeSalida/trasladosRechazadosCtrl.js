@@ -2,8 +2,9 @@
        .controller('trasladosRechazadosCtrl', [
            '$scope',
            'bandejaDeSalidaService',
+           'solicitudesService',
            '$sce',
-           function ($scope, bandejaDeSalidaService, $sce) {
+           function ($scope, bandejaDeSalidaService, solicitudesService, $sce) {
                $scope.filter = {};
                $scope.imageSrc = 'content/images/';
 
@@ -33,7 +34,7 @@
                         { field: 'destinatario', displayName: 'Destinatario' },
                         { field: 'pesoNeto', displayName: 'Peso', width: 50 },
                         { field: 'estadoEnAFIP', displayName: 'AFIP', width: 40, cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>' },
-                        { field: 'CDD', displayName: 'CDD', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Cambio Destino y Destinatario" href="javascript:void(0)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
+                        //{ field: 'CDD', displayName: 'CDD', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Cambio Destino y Destinatario" href="javascript:void(0)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
                         { field: 'RAO', displayName: 'RaO', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Regresar a Origen" href="javascript:void(0)" ng-click="setRegresoOrigen(row.entity)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
                         { field: 'fecha', displayName: 'Ver', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="/solicitudes#/edit/{{row.entity.id}}"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
                    ],
@@ -103,8 +104,13 @@
                };
 
                $scope.confirmRegresoOrigen = function () {
-                   //TODO: llamar a AFIP. (responsabilidad de sposzalski)
-                   $('#regresoOrigenModal').modal('hide');
+                   solicitudesService.regresarOrigen($scope.selectedEntity.id).then(function (response) {
+                       $scope.resultModal = response.data;
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#regresoOrigenModal').modal('hide');
+                       location.reload();
+                   });                   
                };
 
                $scope.$watch('gridOptions.pagingOptions', function (newVal, oldVal) {

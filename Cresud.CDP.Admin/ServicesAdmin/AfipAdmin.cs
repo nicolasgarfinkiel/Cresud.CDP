@@ -172,6 +172,26 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             return service.anularCTG(request);
         }
 
+        public operacionCTGReturnType RegresarOrigenCtgRechazado(SolicitudEdit solicitu, AfipAuth auth)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
+
+            var request = new regresarAOrigenCTGRechazadoRequestType();
+            request.auth = new authType();
+            request.auth.token = auth.Token;
+            request.auth.sign = auth.Sign;
+            request.auth.cuitRepresentado = long.Parse(auth.CuitRepresentado);
+
+            request.datosRegresarAOrigenCTGRechazado = new datosRegresarAOrigenCTGRechazadoType();
+            request.datosRegresarAOrigenCTGRechazado.cartaPorte = Convert.ToInt64(solicitu.NumeroCartaDePorte);
+            request.datosRegresarAOrigenCTGRechazado.ctg = Convert.ToInt64(solicitu.Ctg);
+            request.datosRegresarAOrigenCTGRechazado.kmARecorrer = (uint)solicitu.KmRecorridos;
+
+            return service.regresarAOrigenCTGRechazado(request);
+        }
+        
+
         #region NetworkCredential
         public NetworkCredential NetWorkCredential
         {

@@ -203,7 +203,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
          [HttpPost]
         public ActionResult GetTrasladosRechazados(FilterBase filter)
         {
-            var response = new PagedListResponse<Dtos.SolicitudReport>();
+            var response = new PagedListResponse<Dtos.SolicitudBandejaSalida>();
 
             try
             {
