@@ -13,7 +13,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
     {
         public ActionResult Index()
         {
-            Membership.ValidateUser(WindowsIdentity.GetCurrent().Name, null);             
+        //    Membership.ValidateUser(WindowsIdentity.GetCurrent().Name, null);             
 
             return View();
         }

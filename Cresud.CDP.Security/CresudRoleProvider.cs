@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cresud.CDP.Dtos;
 
@@ -64,7 +65,7 @@ namespace Cresud.CDP.Security
         {
             if (CDPSession.Current.Usuario == null ||
                 CDPSession.Current.Usuario.CurrentEmpresa == null  ||
-                CDPSession.Current.Usuario.CurrentEmpresa.Roles == null ) return null;
+                CDPSession.Current.Usuario.CurrentEmpresa.Roles == null ) return new []{""}  ;
 
             return CDPSession.Current.Usuario.CurrentEmpresa.Roles.ToArray();
         }

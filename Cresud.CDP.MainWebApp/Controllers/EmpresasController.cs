@@ -18,6 +18,7 @@ namespace Cresud.CDP.MainWebApp.Controllers
         }    
 
         [ChildActionOnly]
+        [AllowAnonymous]
         public ActionResult EmpresasCurrentUser()
         {
             return PartialView();
