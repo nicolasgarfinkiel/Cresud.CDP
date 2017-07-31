@@ -8,7 +8,7 @@
            function ($scope, $timeout, bandejaDeSalidaService, solicitudesService,  $sce) {
                $scope.filter = {};
                $scope.columns = [];
-               $scope.imageSrc = 'content/images/';
+               $scope.imageSrc = '../content/images/';
                $scope.result = {hasErrors: false, messages: []};
 
                //#region Init

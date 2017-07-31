@@ -6,7 +6,7 @@
            '$sce',
            function ($scope, bandejaDeSalidaService, solicitudesService, $sce) {
                $scope.filter = {};
-               $scope.imageSrc = 'content/images/';
+               $scope.imageSrc = '../content/images/';
 
                //#region Init
 
