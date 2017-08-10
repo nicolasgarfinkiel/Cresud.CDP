@@ -38,6 +38,13 @@
                            url: '/Solicitudes/RegresarOrigen',
                            data: { id: id }
                        });
+                   },
+                   cambioDestinoDestinatario: function (solicitud) {
+                       return $http({
+                           method: 'POST',
+                           url: '/Solicitudes/CambioDestinoDestinatario',
+                           data: { solicitud: solicitud }
+                       });
                    }
                }, baseService);
 

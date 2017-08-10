@@ -3,14 +3,17 @@
            '$scope',
            'bandejaDeSalidaService',
            'solicitudesService',
+           'establecimientosService',
+           'generalService',
            '$sce',
-           function ($scope, bandejaDeSalidaService, solicitudesService, $sce) {
+           function ($scope, bandejaDeSalidaService, solicitudesService, establecimientosService, generalService, $sce) {
                $scope.filter = {};
                $scope.imageSrc = '../content/images/';
+               $scope.resultModal = { hasErrors: false, messages: [] };
 
                //#region Init
 
-               bandejaDeSalidaService.getDataListConfirmacionArribo().then(function (response) {
+               bandejaDeSalidaService.getDataListConfirmacionArribo().then(function (response) {                   
                    $scope.data = response.data.data;
                    $scope.filter.idGrupoEmpresa = $scope.data.usuario.currentEmpresa.grupoEmpresa.id;
                    $scope.filter.empresaId = $scope.data.usuario.currentEmpresa.id;
@@ -32,11 +35,11 @@
                         { field: 'estProcedencia', displayName: 'Establecimiento Procedencia' },
                         { field: 'estDestino', displayName: 'Establecimiento Destino' },
                         { field: 'destinatario', displayName: 'Destinatario' },
-                        { field: 'pesoNeto', displayName: 'Peso', width: 50 },
-                        { field: 'estadoEnAFIP', displayName: 'AFIP', width: 40, cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>' },
-                        //{ field: 'CDD', displayName: 'CDD', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Cambio Destino y Destinatario" href="javascript:void(0)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
-                        { field: 'RAO', displayName: 'RaO', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Regresar a Origen" href="javascript:void(0)" ng-click="setRegresoOrigen(row.entity)"><img style="width: 15px;" src="content/images/pencil2.png" /></a></div>' },
-                        { field: 'fecha', displayName: 'Ver', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="/solicitudes#/edit/{{row.entity.id}}"><img style="width: 15px;" src="content/images/magnify.gif" /></a></div>' }
+                        { field: 'pesoNeto', displayName: 'Peso', width: 90 },
+                        { field: 'estadoEnAFIP', displayName: 'AFIP', width: 60, cellTemplate: '<div style="text-align: center; position: relative;top: 2px;" ng-bind-html="getAfipImg(row.entity)"></div>' },
+                        { field: 'CDD', displayName: 'CDD', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Cambio Destino y Destinatario" href="javascript:void(0)" ng-click="setCdd(row.entity)"><img style="width: 15px;" src="../content/images/pencil2.png" /></a></div>' },
+                        { field: 'RAO', displayName: 'RaO', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Regresar a Origen" href="javascript:void(0)" ng-click="setRegresoOrigen(row.entity)"><img style="width: 15px;" src="../content/images/pencil2.png" /></a></div>' },
+                        { field: 'fecha', displayName: 'Ver', width: 50, cellTemplate: '<div class="ng-grid-icon-container"><a title="Abrir Solicitud" href="/solicitudes#/edit/{{row.entity.id}}"><img style="width: 15px;" src="../content/images/magnify.gif" /></a></div>' }
                    ],
                    showFooter: true,
                    enablePaging: true,
@@ -113,9 +116,91 @@
                    });                   
                };
 
+               $scope.setCdd = function (entity) {
+                   $scope.resultModal = { hasErrors: false, messages: [] };
+                   $scope.selectedEntity = entity;
+                   $('#cddModal').modal('show');
+               };
+
+               $scope.confirmCdd = function () {
+                   if (!$scope.isValidCdd()) return;
+                   
+                   $scope.selectedEntity.establecimientoDestinoCambioId = $scope.selectedEntity.establecimientoDestinoCambio.id;
+                   $scope.selectedEntity.clienteDestinatarioCambioId = $scope.selectedEntity.clienteDestinatarioCambio.id;
+
+                   solicitudesService.cambioDestinoDestinatario($scope.selectedEntity).then(function (response) {
+                       $scope.resultModal = response.data.result;
+                       if ($scope.resultModal.hasErrors) return;
+
+                       $('#cddModal').modal('hide');
+                       location.reload();
+                   });
+               };
+
+               $scope.isValidCdd = function() {
+                   $scope.resultModal = { hasErrors: false, messages: [] };                   
+
+                   if (!$scope.selectedEntity.establecimientoDestinoCambio) {
+                       $scope.resultModal.messages.push('Seleccione un destino');
+                   }
+
+                   if (!$scope.selectedEntity.clienteDestinatarioCambio) {
+                       $scope.resultModal.messages.push('Seleccione un destinatario');
+                   }
+
+                   $scope.resultModal.hasErrors = $scope.resultModal.messages.length;
+                   return !$scope.resultModal.hasErrors;
+               };
+               
                $scope.$watch('gridOptions.pagingOptions', function (newVal, oldVal) {
                    if (newVal == oldVal || newVal.currentPage == oldVal.currentPage) return;
                    $scope.find();
                }, true);
+
+               //#region Select UI
+
+               $scope.sources = {                  
+                   'establecimientoDestino': {
+                       service: establecimientosService,
+                       method: 'getByFilter',
+                       filter: { empresaId: $scope.filter.empresaId, destino: true, pageSize: 20, enabled: true },
+                   },
+                   'cliente': {
+                       service: generalService,
+                       method: 'getClientesByFilter',
+                       filter: { empresaId: $scope.filter.empresaId, filterCresud: $scope.esGrupoCresud, pageSize: 20 },
+                   }
+               };
+
+               $scope.selectList = [];
+               $scope.currentPage = 0;
+               $scope.pageCount = 0;
+
+               $scope.getSelectSource = function ($select, $event) {
+                   if ($scope.loading) return;
+
+                   var source = $scope.sources[$select.$element.attr('name')];
+
+                   if (!$event) {
+                       $scope.currentPage = 1;
+                       $scope.pageCount = 0;
+                       $scope.selectList = [];
+                   } else {
+                       $event.stopPropagation();
+                       $event.preventDefault();
+                       $scope.currentPage++;
+                   }
+
+                   source.filter.currentPage = $scope.currentPage;
+                   source.filter.empresaId = $scope.filter.empresaId;
+                   source.filter.multiColumnSearchText = $select.search;
+
+                   source.service[source.method](source.filter).then(function (response) {
+                       $scope.selectList = $scope.selectList.concat(response.data.data);
+                       $scope.pageCount = Math.ceil(response.data.count / 20);
+                   }, function () { throw 'Error on getSelectByFilter'; });
+               };
+
+               //#endregion
               
            }]);

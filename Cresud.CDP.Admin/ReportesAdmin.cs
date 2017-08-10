@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using Cresud.CDP.Admin.ServicesAdmin;
 using Cresud.CDP.Dtos;
 using Cresud.CDP.Dtos.Common;
 using Cresud.CDP.Entities;
@@ -21,6 +22,13 @@ namespace Cresud.CDP.Admin
 {
     public class ReportesAdmin : BaseAdmin<int, Entities.SolicitudReport, Dtos.SolicitudReport, FilterBase>
     {
+        private readonly AfipAdmin _afipAdmin;
+
+        public ReportesAdmin()
+        {
+            _afipAdmin = new AfipAdmin();            
+        }
+
         #region Base
 
         public override SolicitudReport ToEntity(Dtos.SolicitudReport dto)
@@ -630,19 +638,47 @@ namespace Cresud.CDP.Admin
 
         public PagedListResponse<Dtos.SolicitudBandejaSalida> GetTrasladosRechazados(FilterBase filter)
         {
-            var query = CdpContext.SolicitudesBandejaSalida
-                         .Where(s => s.EmpresaId == filter.EmpresaId &&
-                             s.EstadoEnAFIP == 7 &&
-                             s.EstadoEnSAP == -1 &&
-                             !string.IsNullOrEmpty(s.EmpresaProveedorTitularSapId)
-                          ).OrderBy(s => s.Id)
-                         .AsQueryable();
+            if (Environment.MachineName.ToUpper() == "WI7-SIS22N-ADM" || Environment.MachineName.ToUpper() == "SRV-MS10-ADM")
+            {
+                var query = CdpContext.SolicitudesBandejaSalida
+                             .Where(s => s.EmpresaId == filter.EmpresaId &&
+                                 //s.EstadoEnAFIP == 7 &&
+                                 //s.EstadoEnSAP == -1 &&
+                                 !string.IsNullOrEmpty(s.EmpresaProveedorTitularSapId)
+                              ).OrderBy(s => s.Id).AsQueryable();
+
+                return new PagedListResponse<Dtos.SolicitudBandejaSalida>
+                {
+                    Count = query.Count(),
+                    Data = Mapper.Map<IList<Entities.SolicitudBandejaSalida>, IList<Dtos.SolicitudBandejaSalida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
+                };    
+            }
+
+            var auth = CdpContext.AfipAuth.FirstOrDefault();
+            var resulRechazo = _afipAdmin.ConsultaCtg(auth, DateTime.Now.AddDays(-7));            
+
+            if (resulRechazo.arrayErrores.Any())
+            {
+               throw  new Exception("No esta disponible la consulta con AFIP, intente nuevamente mas tarde.");
+            }
+
+            var ctgs = resulRechazo.arrayDatosConsultarCTG.Where(e => string.Equals(e.estado, "Rechazado"))
+                      .Select(e => e.ctg.Replace(".", "")).ToList();
+
+            var solicitudes = CdpContext.SolicitudesBandejaSalida.Where(s => s.EmpresaId == filter.EmpresaId && ctgs.Contains(s.Ctg)).ToList();
+
+            solicitudes.Where(e => e.EstadoEnAFIP.HasValue && e.EstadoEnAFIP.Value != (int)EstadoAfip.Rechazado).ToList()
+                       .ForEach(e => { e.EstadoEnAFIP = (int)EstadoAfip.Rechazado; });
+
+            CdpContext.SaveChanges();
+
+            var data = solicitudes.Where(e => !string.IsNullOrEmpty(e.EmpresaProveedorTitularSapId)).OrderBy(e => e.Ctg).ToList();
 
             return new PagedListResponse<Dtos.SolicitudBandejaSalida>
             {
-                Count = query.Count(),
-                Data = Mapper.Map<IList<Entities.SolicitudBandejaSalida>, IList<Dtos.SolicitudBandejaSalida>>(query.Skip(filter.PageSize * (filter.CurrentPage - 1)).Take(filter.PageSize).ToList())
-            };
+                Count = data.Count(),
+                Data = Mapper.Map<IList<Entities.SolicitudBandejaSalida>, IList<Dtos.SolicitudBandejaSalida>>(data)
+            };   
         }
 
         public byte[] ReportePdf(int solicitudId)

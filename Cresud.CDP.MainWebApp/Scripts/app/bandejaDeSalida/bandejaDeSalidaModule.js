@@ -5,6 +5,7 @@
     'cresud.cdp.service.bandejaDeSalida',
     'cresud.cdp.service.solicitudes',
     'cresud.cdp.service.establecimientos',
+    'cresud.cdp.service.general',
     'cresud.cdp.service.base',                
     'ngRoute',
     'ngGrid',

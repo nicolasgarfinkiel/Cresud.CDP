@@ -9,7 +9,7 @@ using Empresa = Cresud.CDP.Entities.Empresa;
 
 namespace Cresud.CDP.MainWebApp.Controllers
 {
-    [Authorize(Roles = "Administracion")]
+    [Authorize]
     public class EmpresasController : BaseController<EmpresaAdmin, int, Empresa, Dtos.Empresa, FilterBase>
     {
         public ActionResult Index()

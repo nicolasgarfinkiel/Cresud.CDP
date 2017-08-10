@@ -151,7 +151,7 @@ namespace Cresud.CDP.Admin
                 dto.ProveedorIntermediarioFlete = Mapper.Map<Entities.Proveedor, Dtos.Proveedor>(
                 CdpContext.Proveedores.FirstOrDefault(e => e.Id == entity.ProveedorIntermediarioFleteId.Value));
             }
-                    
+
             return dto;
         }
 
@@ -378,7 +378,7 @@ namespace Cresud.CDP.Admin
             {
                 solicitud.CodigoAnulacionAfip = wsResult.datosResponse.codigoOperacion;
                 solicitud.ObservacionAfip = "CTG Confirmado Manual";
-                solicitud.EstadoEnAFIP = 5 ;
+                solicitud.EstadoEnAFIP = 5;
             }
 
             CdpContext.SaveChanges();
@@ -493,7 +493,7 @@ namespace Cresud.CDP.Admin
 
         public Result Anular(int id)
         {
-            var result = new Result { Messages = new List<string>() };            
+            var result = new Result { Messages = new List<string>() };
             var solicitud = CdpContext.Solicitudes.Single(s => s.Id == id);
             var auth = CdpContext.AfipAuth.FirstOrDefault();
 
@@ -502,7 +502,7 @@ namespace Cresud.CDP.Admin
                 solicitud.UpdateDate = DateTime.Now;
                 solicitud.UpdatedBy = UsuarioLogged;
                 solicitud.EstadoEnSAP = (int)EstadoSap.PedidoAnulacion;
-                solicitud.ObservacionAfip = "Carta de porte ANULADA";                
+                solicitud.ObservacionAfip = "Carta de porte ANULADA";
 
                 if (CDPSession.Current.Usuario.CurrentEmpresa.GrupoEmpresaId == App.IdGrupoCresud)
                 {
@@ -511,25 +511,25 @@ namespace Cresud.CDP.Admin
 
                     if (String.IsNullOrEmpty(messages) && wsResult.datosResponse != null)
                     {
-                                                                            
-                            solicitud.CodigoAnulacionAfip = wsResult.datosResponse.codigoOperacion;
-                            var fecha = wsResult.datosResponse.fechaHora.Substring(0, 10).Split('/');
-                            var fechaCancelacion = new DateTime(Convert.ToInt32(fecha[2]), Convert.ToInt32(fecha[1]), Convert.ToInt32(fecha[0]));
-                            solicitud.FechaAnulacionAfip = fechaCancelacion;
-                            solicitud.EstadoEnAFIP = (int)EstadoAfip.Anulada;
-                            solicitud.EstadoEnSAP = (int)EstadoSap.PedidoAnulacion;
-                            solicitud.ObservacionAfip = "Carta de porte ANULADA";                          
+
+                        solicitud.CodigoAnulacionAfip = wsResult.datosResponse.codigoOperacion;
+                        var fecha = wsResult.datosResponse.fechaHora.Substring(0, 10).Split('/');
+                        var fechaCancelacion = new DateTime(Convert.ToInt32(fecha[2]), Convert.ToInt32(fecha[1]), Convert.ToInt32(fecha[0]));
+                        solicitud.FechaAnulacionAfip = fechaCancelacion;
+                        solicitud.EstadoEnAFIP = (int)EstadoAfip.Anulada;
+                        solicitud.EstadoEnSAP = (int)EstadoSap.PedidoAnulacion;
+                        solicitud.ObservacionAfip = "Carta de porte ANULADA";
                     }
                     else if (!String.IsNullOrEmpty(messages))
                     {
                         solicitud.ObservacionAfip = messages.Trim();
 
                         if (messages.Contains("La Carta de Porte fue Confirmada o Anulada con anterioridad"))
-                            solicitud.EstadoEnAFIP = (int)EstadoAfip.Anulada;                       
+                            solicitud.EstadoEnAFIP = (int)EstadoAfip.Anulada;
 
                     }
                 }
-                             
+
                 CdpContext.SaveChanges();
             }
             catch (Exception ex)
@@ -554,7 +554,7 @@ namespace Cresud.CDP.Admin
                 solicitud.UpdateDate = DateTime.Now;
                 solicitud.UpdatedBy = UsuarioLogged;
                 solicitud.EstadoEnAFIP = (int)EstadoAfip.VueltaOrigen;
-                solicitud.ObservacionAfip = "Vuelta a Origen realizado";                                 
+                solicitud.ObservacionAfip = "Vuelta a Origen realizado";
                 solicitud.EstadoEnSAP = (int)_sapAdmin.PrefacturaSap(solicitudEdit, false, false);
 
                 if (!testRegresoAOrigen)
@@ -562,14 +562,14 @@ namespace Cresud.CDP.Admin
                     var wsResult = _afipAdmin.RegresarOrigenCtgRechazado(solicitudEdit, auth);
                     var messages = wsResult.arrayErrores != null ? string.Join(", ", wsResult.arrayErrores.ToArray()) : string.Empty;
 
-                    if (wsResult.datosResponse == null || 
-                        string.IsNullOrEmpty(wsResult.datosResponse.fechaHora) || 
+                    if (wsResult.datosResponse == null ||
+                        string.IsNullOrEmpty(wsResult.datosResponse.fechaHora) ||
                         !string.IsNullOrEmpty(messages))
                     {
                         solicitud.ObservacionAfip = messages.Trim();
                         solicitud.EstadoEnAFIP = (int)EstadoAfip.SinProcesar;
-                        
-                    }                    
+
+                    }
                 }
 
                 CdpContext.SaveChanges();
@@ -581,6 +581,53 @@ namespace Cresud.CDP.Admin
             }
 
             return result;
+        }
+
+        public void CambioDestinoDestinatario(Solicitud dto)
+        {
+            var solicitud = CdpContext.Solicitudes.Single(s => s.Id == dto.Id);
+            var solicitudEdit = GetById(dto.Id);
+            var auth = CdpContext.AfipAuth.FirstOrDefault();
+
+            try
+            {
+                solicitud.UpdateDate = DateTime.Now;
+                solicitud.UpdatedBy = UsuarioLogged;
+                solicitud.EstadoEnAFIP = (int)EstadoAfip.Enviado;
+                solicitud.EstablecimientoDestinoCambioId = dto.EstablecimientoDestinoCambioId;
+                solicitud.ClienteDestinatarioCambioId = dto.ClienteDestinatarioCambioId;
+
+                solicitudEdit.EstablecimientoDestinoCambio = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(CdpContext.Establecimientos.FirstOrDefault(e => e.Id == solicitud.EstablecimientoDestinoCambioId.Value));
+                var id = solicitudEdit.EstablecimientoDestinoCambio.InterlocutorDestinatarioId.ToString();
+                solicitudEdit.EstablecimientoDestinoCambio.InterlocutorDestinatario = Mapper.Map<Entities.Cliente, Dtos.Cliente>(CdpContext.Clientes.FirstOrDefault(e => e.Id == id));
+                id = dto.ClienteDestinatarioCambioId.ToString();
+                solicitudEdit.ClienteDestinatarioCambio = Mapper.Map<Entities.Cliente, Dtos.Cliente>(CdpContext.Clientes.FirstOrDefault(e => e.Id == id));
+                
+                var wsResult = _afipAdmin.CambiarDestinoDestinatarioCtgRechazado(solicitudEdit, auth);
+                var messages = wsResult.arrayErrores != null ? string.Join(", ", wsResult.arrayErrores.ToArray()) : string.Empty;
+
+                if (string.IsNullOrEmpty(messages))
+                {
+                    if (wsResult.datosResponse != null && !string.IsNullOrEmpty(wsResult.datosResponse.fechaHora))
+                    {
+                        solicitud.ObservacionAfip = "Cambio de Destino realizado";
+                        solicitud.EstadoEnAFIP = (int) EstadoAfip.CambioDestino;
+                    }
+                }
+                else
+                {
+                    solicitud.EstadoEnAFIP = (int)EstadoAfip.SinProcesar;
+                }
+
+                _sapAdmin.PrefacturaSap(solicitudEdit, true, false);
+               
+                CdpContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var norm = NormalizarMensajeErrorAfip(ex.Message);
+                throw new Exception(norm);
+            }
         }
     }
 }

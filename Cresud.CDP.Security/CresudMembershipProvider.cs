@@ -193,7 +193,7 @@ namespace Cresud.CDP.Security
         {
             if (CDPSession.Current.Usuario == null)
             {
-                username = @"IRSACORP\Sposzalski";
+                username = @"IRSACORP\peyherachar";
                 Init(username);
             }
 

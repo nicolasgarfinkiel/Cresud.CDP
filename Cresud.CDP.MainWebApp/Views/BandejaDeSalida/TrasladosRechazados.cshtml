@@ -74,3 +74,82 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal" id="cddModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 740px; position: relative;left: -200px;">
+            <div class="modal-body">
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        Cambio Destino y Destinatario
+                    </header>
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Número carta de porte</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;"><b>{{selectedEntity.numeroCartaDePorte}}</b></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Código trazabilidad de granos</label>
+                            <div class="col-lg-8">
+                                <span style="position:relative; top: 8px;">{{selectedEntity.ctg}}</span>
+                            </div>
+                        </div>                                                      
+                        <div class="form-group" >
+                            <label class="col-lg-4 control-label">Establecimiento destino</label>
+                            <div class="col-lg-8">
+                                <ui-select name="establecimientoDestino" ng-model="selectedEntity.establecimientoDestinoCambio" theme="select2" style="width: 100%;" append-to-body="true">
+                                    <ui-select-match allow-clear="true">{{$select.selected.descripcion}}. <b>Tipo Dirección:</b> {{$select.selected.direccion}}. <b>Localidad:</b> {{$select.selected.localidadDescripcion}}. <b>Provincia:</b> {{$select.selected.provinciaDescripcion}} </ui-select-match>
+                                    <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                        <div >{{item.descripcion}}</div>
+                                        <small>
+                                            <span ng-if="item.direccion">({{item.direccion}})</span>
+                                        </small>
+                                        <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                            <button class="btn btn-xs btn-info"
+                                                    style="width: 100%; margin-top: 5px;"
+                                                    ng-click="getSelectSource($select, $event);">
+                                                Siguiente
+                                            </button>
+                                        </div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Destinatario</label>
+                            <div class="col-lg-8">
+                                <ui-select name="cliente" ng-model="selectedEntity.clienteDestinatarioCambio" theme="select2" style="width: 100%;" append-to-body="true">
+                                    <ui-select-match allow-clear="true">{{$select.selected.razonSocial}}. <b>{{usuario.currentEmpresaLabelCuit}}:</b> {{$select.selected.cuit}}</ui-select-match>
+                                    <ui-select-choices refresh-on-active="true" refresh="getSelectSource($select)" refresh-delay="300" repeat="item in selectList | filter: $select.search">
+                                        <div>{{item.razonSocial}}</div>
+                                        <small>
+                                            <span>({{item.cuit}}. IdCliente: {{item.id}})</span>
+                                        </small>
+                                        <div ng-if="$index == $select.items.length-1 && currentPage < pageCount">
+                                            <button class="btn btn-xs btn-info"
+                                                    style="width: 100%; margin-top: 5px;"
+                                                    ng-click="getSelectSource($select, $event);">
+                                                Siguiente
+                                            </button>
+                                        </div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger" ng-if="resultModal.hasErrors">
+                            <i class="fa fa-bolt"></i>
+                            <div ng-repeat="message in resultModal.messages">{{message}}</div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="confirmCdd()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

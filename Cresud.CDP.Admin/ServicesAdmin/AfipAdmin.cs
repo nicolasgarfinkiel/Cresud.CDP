@@ -172,7 +172,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             return service.anularCTG(request);
         }
 
-        public operacionCTGReturnType RegresarOrigenCtgRechazado(SolicitudEdit solicitu, AfipAuth auth)
+        public operacionCTGReturnType RegresarOrigenCtgRechazado(SolicitudEdit solicitud, AfipAuth auth)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
             var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
@@ -184,11 +184,69 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             request.auth.cuitRepresentado = long.Parse(auth.CuitRepresentado);
 
             request.datosRegresarAOrigenCTGRechazado = new datosRegresarAOrigenCTGRechazadoType();
-            request.datosRegresarAOrigenCTGRechazado.cartaPorte = Convert.ToInt64(solicitu.NumeroCartaDePorte);
-            request.datosRegresarAOrigenCTGRechazado.ctg = Convert.ToInt64(solicitu.Ctg);
-            request.datosRegresarAOrigenCTGRechazado.kmARecorrer = (uint)solicitu.KmRecorridos;
+            request.datosRegresarAOrigenCTGRechazado.cartaPorte = Convert.ToInt64(solicitud.NumeroCartaDePorte);
+            request.datosRegresarAOrigenCTGRechazado.ctg = Convert.ToInt64(solicitud.Ctg);
+            request.datosRegresarAOrigenCTGRechazado.kmARecorrer = (uint)solicitud.KmRecorridos;
 
             return service.regresarAOrigenCTGRechazado(request);
+        }
+
+        public consultarCTGReturnType ConsultaCtg(AfipAuth auth, DateTime fechaDesde)
+        {
+            if (Environment.MachineName.ToUpper() == "WI7-SIS22N-ADM" || Environment.MachineName.ToUpper() == "SRV-MS10-ADM")
+            {
+                return new consultarCTGReturnType { arrayErrores = new string[0] };                                                
+            }
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
+
+            var request = new consultarCTGRequestType();
+            request.auth = new authType();
+            request.auth.token = auth.Token;
+            request.auth.sign = auth.Sign;
+            request.auth.cuitRepresentado = long.Parse(auth.CuitRepresentado);                                                             
+            request.consultarCTGDatos = new consultarCTGDatosType();
+            request.consultarCTGDatos.fechaEmisionDesde = fechaDesde.ToString("dd/MM/yyyy");
+
+            return service.consultarCTG(request);            
+        }
+
+        public operacionCTGReturnType CambiarDestinoDestinatarioCtgRechazado(SolicitudEdit solicitud, AfipAuth auth)
+        {
+            if (Environment.MachineName.ToUpper() == "WI7-SIS22N-ADM" || Environment.MachineName.ToUpper() == "SRV-MS10-ADM")
+            {              
+                var Response = new datosOperacionCTGResponseType();
+                var RetornarAfipHomo = new operacionCTGReturnType();
+
+                RetornarAfipHomo.datosResponse = Response;
+                RetornarAfipHomo.datosResponse.cartaPorte = Convert.ToInt64(solicitud.NumeroCartaDePorte);
+                RetornarAfipHomo.datosResponse.ctg = Convert.ToInt64(solicitud.Ctg);
+                RetornarAfipHomo.datosResponse.codigoOperacion = Convert.ToInt64("1234");
+                RetornarAfipHomo.datosResponse.fechaHora = DateTime.Now.ToString();
+                RetornarAfipHomo.arrayErrores = new string[0];
+
+                return RetornarAfipHomo;
+            }
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => { return true; };
+            var service = new CTGService_v30 { Proxy = WebProxy, Timeout = 3600000, Url = _ctgServiceUrl };
+
+            var request = new cambiarDestinoDestinatarioCTGRechazadoRequestType();
+            request.auth = new authType();
+            request.auth.token = auth.Token;
+            request.auth.sign = auth.Sign;
+            request.auth.cuitRepresentado = long.Parse(auth.CuitRepresentado);
+                                                           
+            request.datosCambiarDestinoDestinatarioCTGRechazado = new datosCambiarDestinoDestinatarioCTGRechazadoType();
+            request.datosCambiarDestinoDestinatarioCTGRechazado.cartaPorte = Convert.ToInt64(solicitud.NumeroCartaDePorte);
+            request.datosCambiarDestinoDestinatarioCTGRechazado.codigoLocalidadDestino = solicitud.EstablecimientoDestinoCambio.LocalidadId;
+            request.datosCambiarDestinoDestinatarioCTGRechazado.ctg = Convert.ToInt64(solicitud.Ctg);
+            request.datosCambiarDestinoDestinatarioCTGRechazado.cuitDestinatario = Convert.ToInt64(solicitud.ClienteDestinatarioCambio.Cuit);
+            request.datosCambiarDestinoDestinatarioCTGRechazado.cuitDestino = Convert.ToInt64(solicitud.EstablecimientoDestinoCambio.InterlocutorDestinatario.Cuit);
+            request.datosCambiarDestinoDestinatarioCTGRechazado.kmARecorrer = (uint)solicitud.KmRecorridos;
+
+            return service.cambiarDestinoDestinatarioCTGRechazado(request);
         }
         
 
@@ -211,5 +269,7 @@ namespace Cresud.CDP.Admin.ServicesAdmin
             }
         }
         #endregion      
+    
+       
     }
 }
