@@ -665,14 +665,15 @@ namespace Cresud.CDP.Admin
             var ctgs = resulRechazo.arrayDatosConsultarCTG.Where(e => string.Equals(e.estado, "Rechazado"))
                       .Select(e => e.ctg.Replace(".", "")).ToList();
 
-            var solicitudes = CdpContext.SolicitudesBandejaSalida.Where(s => s.EmpresaId == filter.EmpresaId && ctgs.Contains(s.Ctg)).ToList();
+            var solicitudesBandejaSalida = CdpContext.SolicitudesBandejaSalida.Where(s => s.EmpresaId == filter.EmpresaId && ctgs.Contains(s.Ctg)).ToList();
+            var solicitudes = CdpContext.Solicitudes.Where(s => s.EmpresaId == filter.EmpresaId && ctgs.Contains(s.Ctg)).ToList();
 
             solicitudes.Where(e => e.EstadoEnAFIP.HasValue && e.EstadoEnAFIP.Value != (int)EstadoAfip.Rechazado).ToList()
                        .ForEach(e => { e.EstadoEnAFIP = (int)EstadoAfip.Rechazado; });
 
             CdpContext.SaveChanges();
 
-            var data = solicitudes.Where(e => !string.IsNullOrEmpty(e.EmpresaProveedorTitularSapId)).OrderBy(e => e.Ctg).ToList();
+            var data = solicitudesBandejaSalida.Where(e => !string.IsNullOrEmpty(e.EmpresaProveedorTitularSapId)).OrderBy(e => e.Ctg).ToList();
 
             return new PagedListResponse<Dtos.SolicitudBandejaSalida>
             {
