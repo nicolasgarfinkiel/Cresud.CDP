@@ -105,14 +105,14 @@ namespace Cresud.CDP.Admin
             {
                 dto.EstablecimientoProcedencia = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
                 CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoProcedenciaId.Value));
-                dto.EstablecimientoProcedencia.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoProcedencia.LocalidadId)).Descripcion;
+                dto.EstablecimientoProcedencia.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoProcedencia.LocalidadId && e.ProvinciaId == dto.EstablecimientoProcedencia.ProvinciaId)).Descripcion;
             }
 
             if (entity.EstablecimientoDestinoId > 0)
             {
                 dto.EstablecimientoDestino = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
                 CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoDestinoId.Value));
-                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;
+                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId && e.ProvinciaId == dto.EstablecimientoDestino.ProvinciaId)).Descripcion;
 
                 dto.EmpresaDestino = new EmpresaAdmin().GetByClienteId(dto.EstablecimientoDestino.InterlocutorDestinatarioId);
             }
@@ -122,7 +122,7 @@ namespace Cresud.CDP.Admin
             {
                 dto.EstablecimientoDestino = Mapper.Map<Entities.Establecimiento, Dtos.Establecimiento>(
                 CdpContext.Establecimientos.FirstOrDefault(e => e.Id == entity.EstablecimientoDestinoCambioId.Value));
-                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId)).Descripcion;
+                dto.EstablecimientoDestino.LocalidadDescripcion = Mapper.Map<Entities.Localidad, Dtos.Localidad>(CdpContext.Localidades.Single(e => e.Id == dto.EstablecimientoDestino.LocalidadId && e.ProvinciaId == dto.EstablecimientoDestino.ProvinciaId)).Descripcion;
             }
 
             if (entity.ClientePagadorDelFleteId > 0)

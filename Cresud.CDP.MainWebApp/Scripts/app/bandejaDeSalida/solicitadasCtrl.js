@@ -195,7 +195,7 @@
                    if (!visualizar || (item.estadoEnAFIP == 3 && item.estadoEnSAP == 4)) return '';
 
                    var icon = item.observacionAfip && item.observacionAfip.indexOf('Reserva') == -1 ? 'cargaCartaDePorteReservada.png' : 'magnify.gif';
-                   var result = '<a title="Abrir Solicitud"  href="/solicitudes#/edit/' + item.id + '" ><img style="width: 15px;" src="' + $scope.imageSrc + icon + '" /></a>';
+                   var result = '<a title="Abrir Solicitud"  href="/solicitudes/Index#/edit/' + item.id + '" ><img style="width: 15px;" src="' + $scope.imageSrc + icon + '" /></a>';
 
                    return result;
                };
